@@ -1,0 +1,2597 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: TM Mobile API
+  description: "Текущая документация описывает правила доступа.<br/><br/>
+  Весь обмен данными происходит в формате `JSON`, поэтому обязательны следующие заголовки `Accept: application/json` и `Content-Type: application/json`.<br/><br/>
+  Сперва пожалуйста выполните запрос на получение токена доступа `/login`.<br/><br/>
+  Запросы в группе `Общие` не требуют авторизации. Все остальные запросы должны содержать заголовок авторизации `Authorization: Bearer {token}`.<br/><br/>"
+
+servers:
+  - url: https://tehnika-montazha.f-m.kiev.ua/api/mobile/v1/
+    description: Develop Test server
+
+security:
+  - Bearer: []
+
+components:
+  securitySchemes:
+    Bearer:
+      type: http
+      description: API токен который Вы можете сгенерировать выполнив запрос login (первый в списке)
+      scheme: bearer
+  parameters:
+    locale:
+      name: locale
+      description: "Языковая локаль на которой отдавать результаты и ошибки. Если не указано, будет использована дефолтная."
+      required: false
+      in: query
+      schema:
+        type: string
+        example: "en"
+    page:
+      name: page
+      description: "Номер страницы. Одна страница содержит 100 записей "
+      required: false
+      in: query
+      schema:
+        type: integer
+        example: 1
+  responses:
+    200:
+      description: Успешный ответ.
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - allOf:
+                  - title: Success
+                  - type: object
+                  - properties:
+                      status:
+                        $ref: "#/components/schemas/status"
+                      message:
+                        $ref: "#/components/schemas/message"
+                      content:
+                        $ref: "#/components/schemas/content"
+              - allOf:
+                  - title: Errors
+                  - type: object
+                  - properties:
+                      status:
+                        allOf:
+                          - $ref: "#/components/schemas/status"
+                          - example: error
+                      message:
+                        allOf:
+                          - $ref: "#/components/schemas/message"
+                          - example: 'Some data wrong'
+                      content:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            message:
+                              type: string
+                              example: "Error message"
+                            data:
+                              type: object
+                            errors:
+                              type: object
+          examples:
+            Success: {}
+            Error:
+              value:
+                status: error
+                message: 'Some data wrong'
+                content: [
+                  {
+                    message: "not imported",
+                    data: {},
+                    errors: {},
+                  }
+                ]
+    400:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            title: Sample
+            type: object
+            properties:
+              status:
+                allOf:
+                  - $ref: "#/components/schemas/status"
+                  - example: error
+              message:
+                allOf:
+                  - $ref: "#/components/schemas/message"
+                  - example: 'Some data wrong'
+              content:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: "not imported"
+                    data:
+                      type: object
+                    errors:
+                      type: object
+                    # $ref: "#/components/schemas/content"
+    401:
+      description: Unauthenticated. Может произойти при использовании неверного или просроченного токена.
+      content:
+        application/json:
+          schema:
+            title: Sample
+            type: object
+            properties:
+              status:
+                allOf:
+                  - $ref: "#/components/schemas/status"
+                  - example: error
+              message:
+                allOf:
+                  - $ref: "#/components/schemas/message"
+                  - example: 'Unauthenticated'
+              content:
+                allOf:
+                  - $ref: "#/components/schemas/content"
+    422:
+      description: Unprocesseble Content. Ошибки валидации входящих данных.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                allOf:
+                  - $ref: "#/components/schemas/status"
+                  - example: error
+              message:
+                allOf:
+                  - $ref: "#/components/schemas/message"
+                  - example: 'The given data was invalid.'
+              content:
+                allOf:
+                  - $ref: "#/components/schemas/content"
+
+
+
+  schemas:
+    status:
+      type: string
+      description: Флаг выполнения запроса
+      enum: [success, error]
+    message:
+      type: string
+      description: Вспомогательное сообщение
+      example: "Import success"
+    content:
+      type: object
+      description: Полезное содержимое ответа
+    ContentData:
+      type: object
+      properties:
+        data:
+          type: object
+          description: Полезное содержимое ответа
+      required:
+        - data
+    ContentSummary:
+      type: object
+      properties:
+        total_records:
+          type: integer
+          description: Bcего записей
+          example: 2
+        current_page:
+          type: integer
+          description: Номер текущей старницы
+          example: 1
+        per_page:
+          type: integer
+          description: Количество записей на страницах
+          example: 100
+        page_records:
+          type: integer
+          description: Количество записей на текущей странице
+          example: 2
+        total_pages:
+          type: integer
+          description: Всего страниц доступно
+          example: 1
+      required:
+        - total_records
+        - current_page
+        - per_page
+        - page_records
+        - total_pages
+
+paths:
+  /getLocale:
+    get:
+      security: []
+      tags:
+        - Общие
+      summary: Получение всех доступных языковых локалей -- Programmed
+      responses:
+        200:
+          description: Успешное получение токена
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: "#/components/schemas/status"
+                  message:
+                    type: string
+                    description: Вспомогательное сообщение
+                    example: ""
+                  content:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        lang:
+                          type: string
+                          description: "Код локали"
+                          example: "en"
+                        name:
+                          type: string
+                          description: "Название локали"
+                          example: "English"
+                        default:
+                          type: boolean
+                          description: "Флаг дефолтной локали 0/1"
+                          example: 1
+
+
+
+
+  /login:
+    post:
+      security: []
+      tags:
+        - Общие
+      parameters:
+        - $ref: '#/components/parameters/locale'
+      summary: Авторизация (получение токена) -- Programmed
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone:
+                  type: string
+                  example: "380123456789"
+                password:
+                  type: string
+                  example: "admin"
+      responses:
+        200:
+          description: Успешное получение токена
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: "#/components/schemas/status"
+                  message:
+                    type: string
+                    description: Вспомогательное сообщение
+                    example: New token created
+                  content:
+                    type: object
+                    properties:
+                      access_token:
+                        type: string
+                        example: "2|WHEwLgpLT1lGBfIMXgkya7n4uV2XlUE7AAJLTQvI"
+                      token_type:
+                        type: string
+                        example: "Bearer"
+        422:
+          $ref: '#/components/responses/422'
+
+
+
+
+  # Восстановление пароля (отправка SMS с кодом идентификации) -- Programmed
+  /setPasswordRecoverySendCode:
+    post:
+      security: []
+      tags:
+        - Общие
+      parameters:
+        - $ref: '#/components/parameters/locale'
+      summary: Восстановление пароля (отправка SMS с кодом идентификации) -- Programmed
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone:
+                  type: string
+                  example: "380978677357" # Номер телефона пользователя
+      responses:
+        200:
+          $ref: '#/components/responses/200'
+        422:
+          $ref: '#/components/responses/422'
+
+
+
+
+  # Восстановление пароля (подтверждение кода из SMS) -- Programmed
+  /setPasswordRecoveryConfirmCode:
+    post:
+      security: []
+      tags:
+        - Общие
+      parameters:
+        - $ref: '#/components/parameters/locale'
+      summary: Восстановление пароля (подтверждение кода из SMS) -- Programmed
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone:
+                  type: string
+                  example: "380978677357" # Номер телефона пользователя
+                code:
+                  type: string
+                  example: "123456" # Код подтверждения из SMS
+      responses:
+        200:
+          $ref: '#/components/responses/200'
+        422:
+          $ref: '#/components/responses/422'
+
+
+
+  # Регистрация пользователя -- Programmed
+  /register:
+    post:
+      summary: Регистрация пользователя -- Programmed
+      tags:
+        - Общие
+      parameters:
+        - $ref: '#/components/parameters/locale'
+      requestBody:
+        content:
+          application/json:
+            schema:      # Request body contents
+              type: object
+              properties:
+                "name":
+                  type: string
+                  description: "ФИО"
+                  example: "Тестов Тест"
+                "email":
+                  type: string
+                  description: "Email"
+                  example: "mail@mail"
+                "phone":
+                  type: string
+                  description: "Телефон"
+                  example: "380998887766"
+                "password":
+                  type: string
+                  description: "Пароль"
+                  example: "password"
+                "city_id":
+                  type: integer
+                  description: "ID Города"
+                  example: 265
+                "company_name":
+                  type: string
+                  description: "Название компании"
+                  example: "265486521"
+                "edrpou":
+                  type: string
+                  description: "Код ЕДРПОУ/ИНН"
+                  example: "265486521"
+                "nds":
+                  type: boolean
+                  description: "true/false плательщик НДС"
+                  example: false
+#      example:   {
+#        user: [
+#          {
+#            "fio": "Тестов Тест", # ФИО
+#            "email": "test@test.com", # E-mail пользователя
+#            "phone": "380978677357", # телефон
+#            "typepayment":"nal", #тип оплаты по умолчанию - нал/безнал , значение nal/beznal
+#            "town":"2610100000", #Город код КОАТУ
+#            "company_name": "name",  # Название контрагента
+#            "okpo": "594499556",  # код ЄДРПОУ
+#            "nds": false  # true/false плательщик НДС
+#          }
+#        ]
+#      }
+      responses:
+        200:
+          $ref: '#/components/responses/200'
+        401:
+          $ref: '#/components/responses/401'
+        422:
+          $ref: '#/components/responses/422'
+
+
+
+  # Поиск населенных пунктов -- Programmed
+  /searchCities:
+    get:
+      summary: Поиск населенных пунктов -- Programmed
+      description: "Без параметров отдает список областных центров"
+      tags:
+        - Общие
+      parameters:
+        - name: search
+          description: Строка поиска
+          in: query
+          schema:
+            type: string
+        - name: limit
+          description: Количество записей (max 100)
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      "id":
+                        type: integer
+                        description: "id на сайте и в приложении"
+                        example: 1
+                      "koatuu":
+                        type: string
+                        description: "Код KOATUU"
+                        example: "0120710100"
+                      "name":
+                        type: string
+                        description: "Название населенного пунтка"
+                        example: "Киев"
+                      "district":
+                        type: string
+                        description: "Название района"
+                        example: "Киев"
+                      "region":
+                        type: string
+                        description: "Название области"
+                        example: "Киев"
+
+
+
+  # Получение данных пользователя -- Programmed
+  /getUserData:
+    get:
+      tags:
+        - Работа с пользователями
+      summary: Получение данных пользователя -- Programmed
+      parameters:
+        - name: phone
+          description: Номер телефона (+380405555555)
+          required: true
+          in: query
+          schema:
+            type: string
+        - $ref: '#/components/parameters/locale'
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      "id_site":
+                        type: integer
+                        description: "id пользователя на сайте и в приложении"
+                        example: 1
+                      "id_1c":
+                        type: string
+                        description: "id пользователя в 1с"
+                        example: "1c5698"
+                      "fio":
+                        type: string
+                        description: "ФИО"
+                        example: "Тестов Тест"
+                      "phone":
+                        type: string
+                        description: "Телефон"
+                        example: "380998887766"
+                      "is_active":
+                        type: boolean
+                        description: "true/false активен или отключен"
+                        example: true
+                      "payment_type_id":
+                        type: integer
+                        description: "ID типа оплаты по умолчанию."
+                        example: 1
+
+        #     example: [
+#       {
+#        "id_site": 354551, # id пользователя на сайте и в приложении (unsigned int)
+#        "id_1c": "3809", #  id 1С пользователя
+#        "fio": "Тестов Тест", # ФИО
+#        "phone": "380978677357", # телефон
+#        "is_active": true, # true/false активен или отключен/
+#        "password": true, # true/false пароль установлен или не установлен/
+#       }
+#     ]
+        401:
+          $ref: '#/components/responses/401'
+        422:
+          $ref: '#/components/responses/422'
+
+
+
+
+  # Обновление данных текущего пользователя -- Programmed
+  /setUserData:
+    post:
+      summary: Обновление данных текущего пользователя -- Programmed
+      tags:
+        - Работа с пользователями
+      parameters:
+        - $ref: '#/components/parameters/locale'
+      requestBody:
+        content:
+          application/json:
+            schema:      # Request body contents
+              type: object
+              properties:
+                "name":
+                  type: string
+                  description: "ФИО"
+                  example: "Тестов Тест"
+                "email":
+                  type: string
+                  description: "Email"
+                  example: "mail@mail"
+                "phone":
+                  type: string
+                  description: "Телефон"
+                  example: "380998887766"
+                "payment_type_id":
+                  type: integer
+                  description: "тип оплаты по умолчанию. Один из доступных типов оплаты"
+                  example: 1
+#              example:   {
+#                user: [
+#                  {
+#                    "customer_id_1c": "12345r", #id пользователя в 1С
+#                    "fio": "Тестов Тест", # ФИО
+#                    "email": "test@test.com", # E-mail пользователя
+#                    "phone": "380978677357", # телефон
+#                    "typepayment":"nal", #тип оплаты по умолчанию - нал/безнал , значение nal/beznal
+#                    "town":"2610100000", #Город код КОАТУ
+#                    "company_name": "name",  # Название контрагента
+#                    "okpo": "594499556",  # код ЄДРПОУ
+#                    "nds": false  # true/false плательщик НДС
+#                  }
+#                ]
+#              }
+      responses:
+        200:
+          $ref: '#/components/responses/200'
+        401:
+          $ref: '#/components/responses/401'
+
+
+
+  # Сохранение личного пароля пользователя -- Programmed
+  /setUserPassword:
+    post:
+      tags:
+        - Работа с пользователями
+      summary: Сохранение личного пароля пользователя -- Programmed
+      parameters:
+        - $ref: '#/components/parameters/locale'
+      requestBody:
+        content:
+          application/json:
+            schema:      # Request body contents
+              type: object
+              properties:
+                "password":
+                  type: string
+                  description: "пароль пользователя"
+                  example: "password"
+#              example:   {
+#                password: [
+#                  {
+#                    "id_site": 354551, # id пользователя на сайте и в приложении (unsigned int)
+#                    "id_1c": "00354551rt", # id пользователя в 1С
+#                    "password": "12Rta123" # пароль пользователя
+#                  }
+#                ]
+#              }
+      responses:
+        200:
+          $ref: '#/components/responses/200'
+        401:
+          $ref: '#/components/responses/401'
+        422:
+          $ref: '#/components/responses/422'
+
+
+
+  # Получение типов оплаты доступных пользователю -- Programmed
+  /getUserPaymentTypesAvailable:
+    get:
+      tags:
+        - Работа с пользователями
+      summary: Получение типов оплаты доступных пользователю -- Programmed
+      parameters:
+        - $ref: '#/components/parameters/locale'
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        "id":
+                          type: integer
+                          description: "id на сайте и в приложении"
+                          example: 1
+                        "name":
+                          type: string
+                          description: "Название типа оплаты"
+                          example: "Касса"
+        401:
+          $ref: '#/components/responses/401'
+
+
+
+
+  # Импорт контрагентов -- Programmed
+  /getCounterparties:
+    get:
+      tags:
+        - Работа с контрагентами
+      summary: Импорт контрагентов -- Programmed
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      "id":
+                        type: integer
+                        description: "id на сайте и в приложении"
+                        example: 1
+                      "name":
+                        type: string
+                        description: "Название"
+                        example: "Trust and K"
+                      "phone":
+                        type: string
+                        description: "Телефон"
+                        example: "380123456789"
+                      "edrpou":
+                        type: string
+                        description: "Код ЕДРПОУ/ИНН"
+                        example: "265486521"
+                      "nds":
+                        type: boolean
+                        description: "true/false плательщик НДС"
+                        example: false
+                      "contracts":
+                        type: array
+                        description: "Список контрактов этого контрагента"
+                        example: [
+                          {
+                            "id": 129,
+                            "registry_no": "no_L9M_129",
+                            "counterparty_id": 906,
+                            "signing_at": "2021-01-27 02:02:42"
+                          },
+                        ]
+
+#                          - example : [
+#      {
+#        "id_site": 1, # id контрагента на сайте  (unsigned int)
+#        "id_1c": "1234rt", # id контрагента в 1С
+#        "parent_id_1c":"223234rt", # id родителя в 1С
+#        "customer_ids_site":"5,7,8", #/к какому пользователю принадлежит/
+#        "intermediate_counterparty_okpo":"5,6", #OKPO всех смежных контрагентов, без учета головного
+#        "delivery_address_ids_site":"5,6", # сайтовый идентификатор адреса из справочника доставки (через запятую, если несколько значений)
+#        "manager_id":"5", #Менеджер (ID Справочник менеджер)
+#        "region_manager_id":"6", #Менеджер региона (ID Справочник менеджер)
+#        "town":"2610100000", #Город код КОАТУ
+#        "phone": "380978677357", # телефон
+#        "company_name": "name",  # физ.лица входят в этот запрос, для физ. лиц пустое значение
+#        "okpo": "594499556",  # код ЄДРПОУ
+#        "nds": false,  # true/false плательщик НДС
+#        "typepayment":"nal", #тип оплаты по умолчанию - нал/безнал , значение nal/beznal
+#        "bonus": false, # true/false Бонус (вкл выкл )
+#        "updated_at": "2021-12-04T16:17:41.000000Z" # Метка обновления записи
+#      }
+#                          ]
+        401:
+          $ref: '#/components/responses/401'
+
+
+
+  # Импорт контрактов -- Programmed
+  /getContracts:
+    get:
+      tags:
+        - Работа с контрагентами
+      summary: Импорт контрактов -- Programmed
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      "id":
+                        type: integer
+                        description: "id на сайте и в приложении"
+                        example: 1
+                      "registry_no":
+                        type: string
+                        description: "Реестровый номер"
+                        example: "no_L9M_129"
+                      "counterparty_id":
+                        type: integer
+                        description: "Код ЕДРПОУ/ИНН контрагента к которому подключен контракт"
+                        example: 906
+                      "signing_at":
+                        type: string
+                        description: "Дата подписания документа"
+                        example: "2021-01-27 02:02:42"
+        401:
+          $ref: '#/components/responses/401'
+
+
+
+  #  Импорт заказов
+  /getOrdersRegistered:
+    get:
+      summary: Импорт заказов
+      tags:
+        - Работа с заказами
+      parameters:
+        - name: customer_id_1c
+          description: id пользователья в 1С (12345rt)
+          required: true
+          in: query
+          schema:
+            type: string
+        - $ref: '#/components/parameters/page'
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/ContentData'
+                          - example: [
+                  {
+                    "id_site": 1, # id заказа на сайте  (unsigned int)
+                    "id_1c": "201rt", # id заказа в 1С
+                    "customer_id_site": 6, # id пользователя на сайте  (unsigned int)
+                    "conterparty_okpo":"5", # окпо контрагента
+                    "total": 122901.62, # сумма заказа
+                    "total_quantity": 33, # количество товаров
+                    "bonus": 44.50,
+                    "driver_id_1c":"5", # id водителя из справочника
+                    "manager_id_1c":"5", # id менеджера из справочника
+                    "typepayment":"nal", #тип оплаты, значения - "nal" или "beznal"
+                    "date_registration": "2021.03.18", # дата создания заказа
+                    "date_delivery": "2021.03.18", # плановая дата отгрузки из 1С
+                    "status_id_1c": "1", # id статуса заказа
+                    "delivery_address_id_site": 5, # сайтовый идентификатор адреса из справочника доставки (unsigned int)
+                    "delivery_address_id_1c":"5", # 1С идентификатор адреса из справочника доставки
+                    "updated_at": "2021-12-04T16:17:41.000000Z", # Метка обновления записи
+                    "check": "test.com/test", # URL на счет по оплате
+                    "consignment_note": "test.com/test", # URL на расходную накладную
+                    "order_products": [ # товары заказа
+                      {
+                        "id_1c": "14160109010", # id товара в 1с
+                        "quantity": 5, # количество
+                        "price": 455.00, # цена за единицу
+                        "reserve": "",
+                        "options": [] # опции
+                      },
+                    ]
+                  },
+                          ]
+                      summary:
+                        $ref: '#/components/schemas/ContentSummary'
+
+
+
+  # Поиск заказов
+  /getSearchOrders:
+    get:
+      tags:
+        - Работа с заказами
+      summary: Поиск заказов
+      parameters:
+        - name: search_request
+          description: поисковый запрос, введенный пользователем
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/ContentData'
+                        example: [
+      {
+        "order_id_1c": "3809, 1234rt,1235rt" #  id 1С заказа
+        }
+        ]
+        401:
+          $ref: '#/components/responses/401'
+
+
+
+  # Экспорт заказов
+  /setOrdersRegistered:
+    post:
+      summary: Экспорт заказов
+      tags:
+        - Работа с заказами
+      requestBody:
+        content:
+          application/json:
+            schema:      # Request body contents
+              type: object
+              example:   {
+    "orders": [
+      {
+        "id_site": 1, # id заказа на сайте (unsigned int)
+        "id_1c": "201rt", # id заказа в 1С
+        "customer_id_site": 6, # id пользователя на сайте (unsigned int)
+        "counterparty_okpo/inn":"5", # окпо контрагента либо инн физ. лица
+        "fio":"Тестов Тест", # Ф.И.О. физ.лица
+        "total": 122901.62, # сумма заказа
+        "total_quantity": 33, # количество товаров
+        "bonus": 44.50,
+        "driver_id_1c":"5", # id водителя
+        "manager_id_1c":"5", # id менеджера из справочника
+        "date_registration": "2021.03.18", # дата создания заказа
+        "date_delivery": "2021.03.18", # плановая дата отгрузки из 1С
+        "type_payment":"nal", #тип оплаты, значения - "nal" или "beznal"
+        "status_id_1c": "1", # id статуса заказа
+        "delivery_address_id_site": 5, # сайтовый идентификатор адреса из справочника доставки (unsigned int)
+        "delivery_address_id_1c":"5", # 1С идентификатор адреса из справочника доставки
+        "products": [ # товары заказа
+          {
+            "id_1c": "14160109010", # id товара в 1с
+            "quantity": 5, # количество
+            "price": 455.00, # цена за единицу
+            "reserve": "5",
+            "options": [] # опции
+          },
+          {
+            "id_1c": "14160109010",
+            "quantity": 5,
+            "price": 455.00,
+            "reserve": "6",
+            "options": []
+          }
+        ]
+      }
+    ]
+              }
+      responses:
+        200:
+          $ref: '#/components/responses/200'
+        401:
+          $ref: '#/components/responses/401'
+
+
+
+  #  Импорт товаров Корзины
+  /getShopingCartProducts:
+    get:
+      summary: Импорт товаров Корзины
+      tags:
+        - Работа с заказами
+      parameters:
+        - name: customer_id_1c
+          description: id пользователья в 1С (12345rt)
+          required: true
+          in: query
+          schema:
+            type: string
+        - $ref: '#/components/parameters/page'
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/ContentData'
+                          - example: [
+                  {
+                    "products": [ # товары корзины
+                      {
+                        "id_1c": "14160109010rt", # id товара в 1с
+                        "quantity": 5, # количество
+                        "price": 455.00, # цена за единицу
+                        "reserve": "",
+                        "options": [] # опции
+                      },
+                      {
+                        "id_1c": "141601090154656rt", # id товара в 1с
+                        "quantity": 5, # количество
+                        "price": 455.00, # цена за единицу
+                        "reserve": "",
+                        "options": [] # опции
+                      }
+                     ]
+                    }
+                   ]
+                      summary:
+                        $ref: '#/components/schemas/ContentSummary'
+
+
+
+  # Экспорт заказов
+  /setShopingCartProducts:
+    post:
+      summary: Экспорт заказов
+      tags:
+        - Работа с заказами
+      requestBody:
+        content:
+          application/json:
+            schema:      # Request body contents
+              type: object
+              example:   {
+                "customer_id_1c": "12345rt", # id 1C пользователя
+                "products": [ # товары корзины
+                      {
+                        "id_1c": "14160109010rt", # id товара в 1с
+                        "quantity": 5, # количество
+                        "price": 455.00, # цена за единицу
+                        "reserve": "",
+                        "options": [] # опции
+                      },
+                      {
+                        "id_1c": "141601090154656rt", # id товара в 1с
+                        "quantity": 5, # количество
+                        "price": 455.00, # цена за единицу
+                        "reserve": "",
+                        "options": [] # опции
+                      }
+                     ]
+                    }
+      responses:
+        200:
+          $ref: '#/components/responses/200'
+        401:
+          $ref: '#/components/responses/401'
+
+
+
+  #  Экспорт товаров к рекомендованному заказу
+  /getProductsRecommendedOrder:
+    get:
+      summary: Экспорт товаров к рекомендованному заказу
+      tags:
+        - Работа с заказами
+      parameters:
+        - name: customer_id_1c
+          description: id пользователья в 1С (12345rt)
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/ContentData'
+                        example: [
+                  {
+                    "customer_id_site": "1234rt", # id пользователя в 1С
+                    "order_products": [ # товары заказа
+                      {
+                        "id_1c": "14160109010rt", # id товара в 1с
+                        "quantity": 5, # количество
+                        "price": 455.00, # цена за единицу
+                      },
+                      {
+                        "id_1c": "14160109010rt10", # id товара в 1с
+                        "quantity": 5, # количество
+                        "price": 455.00, # цена за единицу
+                      }
+                    ]
+                  }
+                ]
+        401:
+          $ref: '#/components/responses/401'
+
+
+
+  #  Импорт категорий
+  /getCategories:
+    get:
+      summary: Импорт категорий
+      tags:
+        - Работа с номенклатурой
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/ContentData'
+                        example: [
+                          {
+                "categories": [
+                  {
+                    "id_1c": "566", # id категории в 1С
+                    "name": {  # название категории
+                      "uk": "testName",
+                      "ru": "testName",
+                      "en": "testName",
+                    },
+                    "parent_id_1c": "70", # id родительськой категории
+                    "sort_order": 0 # порядок сортировки
+                  }
+                ]
+              }
+            ]
+        401:
+          $ref: '#/components/responses/401'
+
+
+
+# Получение товаров для каталога
+  /setCatalogProducts:
+    post:
+      tags:
+        - Работа с номенклатурой
+      summary: Получение товаров для каталога
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                category_id_1c: # перечень id 1C категорий
+                  type: string
+                  example: "12345rt, 12355rt,12366rt"
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/ContentData'
+                          - example: [
+      {
+        "products":[
+          {
+            "product_id_1c": "3809tt", #  id 1С товара
+            "picture_url": "test.com/test", # URL картинки
+            "name": { # название товара
+                      "uk": "test_name_ua",
+                      "ru": "test_name_ru",
+                      "en": "test_name_en"
+                    },
+            "status": "Новинка" # статус товара
+          }
+         ]
+        }
+       ]
+        401:
+          $ref: '#/components/responses/401'
+
+
+
+# Получение атрибутов и их значений
+  /setAttributes:
+    post:
+      tags:
+        - Работа с номенклатурой
+      summary: Получение атрибутов и их значений
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                products_id_1c: # перечень id 1C товаров
+                  type: string
+                  example: "12345rt, 12355rt,12366rt"
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/ContentData'
+                          - example: [
+      {
+        "attributes":[
+          {
+            "product_id_1c": "3809tt", #  id 1С товара
+            "id_1c": "attr-123", # id 1C атрибута
+            "name": { # название атрибута
+                      "uk": "name123",
+                      "ru": "name123",
+                      "en": "name123"
+                    },
+            "value": { # значение атрибута
+                       "uk": "value123",
+                       "ru": "value123",
+                       "en": "value123"
+                      },
+            "hidden": false # true/false - скрытый/нескрытый
+          }
+         ]
+        }
+       ]
+        401:
+          $ref: '#/components/responses/401'
+
+
+
+# Получение отсортированных товаров
+  /setSortingProducts:
+    post:
+      tags:
+        - Работа с номенклатурой
+      summary: Получение отсортированных товаров
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                attribut_id_1c: # id 1C атрибута
+                  type: string
+                  example: "12345rt"
+                value: # значение атрибута
+                  type: string
+                  example: "value123"
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/ContentData'
+                          - example: [
+      {
+        "products":[
+          {
+            "product_id_1c": "3809tt", #  id 1С товара
+            "picture_url": "test.com/test", # URL картинки
+            "name": { # название товара
+                      "uk": "test_name_ua",
+                      "ru": "test_name_ru",
+                      "en": "test_name_en"
+                    },
+            "status": "Новинка" # статус товара
+          }
+         ]
+        }
+       ]
+        401:
+          $ref: '#/components/responses/401'
+
+
+
+ # Импорт номенклатуры
+  /getProduct:
+    get:
+      summary: Импорт номенклатуры
+      tags:
+        - Работа с номенклатурой
+      parameters:
+        - name: product_id_1c
+          description: id товара в 1С (12345rt)
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: customer_id_1c
+          description: id пользователя в 1С (12345rt)
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/ContentData'
+                        example: [
+                          {
+      "product": [
+        {
+          "id_1c": "6174", # id товара в 1С
+          "name": { # название товара
+            "uk": "test_name_ua",
+            "ru": "test_name_ru",
+            "en": "test_name_en"
+          },
+          "description": { # описание товара
+            "uk": "description1",
+            "ru": "description2",
+            "en": "description3"
+          },
+          "attributes": [ # атрибуты товара
+            {
+              "id_1c":"attr-123",  # id атрибута
+              "name": { # название атрибута
+                "uk": "name123",
+                "ru": "name123",
+                "en": "name123",
+              },
+              "value": {  # значение атрибута
+                "uk": "value123",
+                "ru": "value123",
+                "en": "value123",
+                },
+              "hidden": false # true/false
+            },
+            {
+              "id_1c":"attr-124",  # id атрибута
+              "name": { # название атрибута
+                "uk": "name124",
+                "ru": "name124",
+                "en": "name124",
+              },
+              "value": {  # значение атрибута
+                "uk": "value124",
+                "ru": "value124",
+                "en": "value124",
+                },
+              "hidden": false # true/false
+            }
+          ],
+          "depth": 52.5, # глубина
+          "width": 30.5, # ширина
+          "height": 52.77, # высота
+          "weight": 22.5, # вес
+          "categories_id_1c": "12, 50, 20", # id категорий(и подкатегорий) товара в 1С
+          "image":"link", # ссылка на основную картинку
+          "price": 1566, # стоимость товара
+          "additional_images":"link1,link2...", # перечень дополнительных картинок, через запятую
+          #"сode_1с": "170547", #/код 1С/
+          "brand": "тест", #/Беренд/
+          "brand_search":"тест,тест", #/производитель из товара, очищенный от «лишних» символов/
+          #"id_site": 170547, #/идентификатор товара на сайте, тип возможно изменить/ (unsigned int)
+          "cat_number": "lpg5w test", #/каталожный номер (Артикул)/
+          "cat_number_search": "lpg5w test", #/каталожный номер поисковый из товара/
+          "measure": "шт", #/База единица измерения/
+          "multiplicity": 5, #/продаватьКратно/
+          "groups_id_1c": "1703, 1702", #/ID группы/
+          "deleted": false, # true/false /удален/
+          "sort_order": 65,
+          "availability": 1, # 0,1,2 (недоступний, доступний,мало)/
+          "imported":  0, #/импортирован 0-нет, 1-есть/
+          "recommended": true, # true/false, #/0-не рекомендован, 1-рекомендован/
+          "favorites": true, # true/false, #/0-не добавлен в Избранное, 1-добавлен в Избранное/
+          "comparison": true, # true/false, #/0-не добавлен в Сравнение, 1-добавлен в Сравнение/
+          "reviews":[ # отзывы о товаре
+            {
+              "review_id_1c":"sdggdsg123", # id 1C отзыва
+              "fio": "Тестов Тест", # Ф.И.О. пользователя
+              "date": "18.01.2022", # дата, когда был оставлен отзыв
+              "image": "test.com/test", # URL фото пользователя
+              "rating": 3, # кол-во звезд
+              "value": "Хороший товар" # текст отзыва
+            }
+          ],
+          "replacement_id": "555, 54, 54, 52, 63",  # ID категории
+          "accompanying_id": "555, 54, 54, 52, 63"  # ID категории
+        }
+       ]
+      }
+     ]
+        401:
+          $ref: '#/components/responses/401'
+
+
+
+  # Экспорт Отзыва о товаре, добавления в Избранного или Сравнение
+  /setProductsInfo:
+     post:
+        summary: Экспорт Отзыва о товаре, добавления в Избранного или Сравнение
+        tags:
+          - Работа с номенклатурой
+        requestBody:
+          content:
+            application/json:
+              schema:      # Request body contents
+                type: object
+                example:   {
+                  "products": [
+        {
+          "id_1c": "6174", # id товара в 1С
+          "favorites": true, # true/false, #/0-не добавлен в Избранное, 1-добавлен в Избранное/
+          "comparison": true, # true/false, #/0-не добавлен в Сравнение, 1-добавлен в Сравнение/
+          "review":
+            {
+              "customer_id_1c": "12345rt", # id 1C пользователя
+              "date": "18.01.2022", # дата, когда был оставлен отзыв
+              "images": "test.png, test2.png, test3.png", # файлы с картинками
+              "video": "test.mpeg4", # файл с видео
+              "rating": 3, # кол-во звезд
+              "value": "Хороший товар", # текст отзыва
+              "notify": true # true/false, #/0-не уведомлять при ответе, 1-уведомлять/
+            }
+           }
+          ]
+         }
+        responses:
+          200:
+            $ref: '#/components/responses/200'
+          401:
+            $ref: '#/components/responses/401'
+
+
+
+  # Поиск товаров
+  /getSearchProducts:
+    get:
+      tags:
+        - Работа с номенклатурой
+      summary: Поиск товаров
+      parameters:
+        - name: search_request
+          description: поисковый запрос, введенный пользователем
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/ContentData'
+                        example: [
+      {
+        "product_id_1c": "3809, 1234rt,1235rt" #  id 1С пользователя
+        }
+        ]
+        401:
+          $ref: '#/components/responses/401'
+
+
+
+  # Поиск товаров по штрихкоду
+  /getSearchProductsBarcode:
+    get:
+      tags:
+        - Работа с номенклатурой
+      summary: Поиск товаров по штрихкоду
+      parameters:
+        - name: search_request
+          description: цифро буквенные значения отсканированного штрихкода
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/ContentData'
+                        example: [
+      {
+        "product_id_1c": "3809, 1234rt,1235rt" #  id 1С пользователя
+        }
+        ]
+        401:
+          $ref: '#/components/responses/401'
+
+
+
+  #  Получение данных на Главнаю старницу
+  /getMainContent:
+    get:
+      summary: Получение данных на Главнаю старницу
+      tags:
+        - Данные страниц
+      parameters:
+        - name: customer_id_1c
+          description: id пользователя в 1С (12345rt), для получения перечня просмотренных товаров
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/ContentData'
+                        example: [
+                            {
+        "banners": {
+          "url": "test.com/test", # URL баннера на сервере
+          "title": "Тест", # заголовок банера
+          "description": "Тестовое описание", # текстовое описание
+          "id_1c": "6174rt" # id товара в 1С
+        },
+        "viewed_products": [ # просмотренные пользователем товары
+          {
+          "id_1c": "6174rt", # id товара в 1С
+          "date": "14.01.2021", # дата просмотра
+        },
+        {
+          "id_1c": "6175rt", # id товара в 1С
+          "date": "15.01.2021", # дата просмотра
+        }
+        ],
+        "novelties_id_1c": "6174rt, 6175rt, 6176rt" # id 1С новинок товаров
+                          }
+                        ]
+                      summary:
+                          $ref: '#/components/schemas/ContentSummary'
+
+
+
+   # Отправка просмотренных пользователем товаров
+  /setViewedProducts:
+    post:
+      summary: Отправка просмотренных пользователем товаров
+      tags:
+        - Данные страниц
+      requestBody:
+        content:
+          application/json:
+            schema:      # Request body contents
+              type: object
+              example:   {
+    "viewed_products": [ # просмотренные пользователем товары
+          {
+          "id_1c": "6174rt", # id товара в 1С
+          "date": "14.01.2021", # дата просмотра
+        },
+        {
+          "id_1c": "6175rt", # id товара в 1С
+          "date": "15.01.2021", # дата просмотра
+        }
+        ]
+              }
+      responses:
+        200:
+          $ref: '#/components/responses/200'
+        401:
+          $ref: '#/components/responses/401'
+
+
+
+  #  Получение данных в Мой Аккаунт
+  /getMyAccountContent:
+    get:
+      summary: Получение данных в Мой Аккаунт
+      tags:
+        - Данные страниц
+      parameters:
+        - name: customer_id_1c
+          description: id пользователья в 1С (12345rt)
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/ContentData'
+                        example: [
+                            {
+        "user": { # данные пользователя
+          "customer_id_1c": "12345rt", # id пользователя в 1С
+          "fio": "Тестов Тест", # Ф.И.О. пользователя
+          "email": "test@test.com", # E-mail пользователя
+          "phone": "380978677357", # Телефон пользователя
+          "typepayment":"nal", #тип оплаты по умолчанию - нал/безнал , значение nal/beznal
+          "town":"2610100000", #Город код КОАТУ
+          "company_name": "name",  # Название контрагента
+          "okpo": "594499556",  # код ЄДРПОУ
+          "nds": false  # true/false плательщик НДС
+        },
+        "debt": {
+          "id_1c":"2458/521rt",
+          "counterparty_id_1c": "12345rt", # ID 1C контрагента
+          "currency": "грн.", # валюта
+          "credit_limit": 20000, # кредитный лимит
+          "sum_debt_total": 10000, # общая сумма задолжености
+          "sum_prosrocheno": 20000, # просроченая сумма
+          "date": "25.05.2020" # дата договора
+        },
+        "bonus": {
+          "user_id_1c": "12345rt", # ID 1C пользователя
+          "period": "01.12.2021-01.01.2022", # период предоставления бонуса
+          "sum_spent": 20000, # потраченная сумма
+          "sum_accessible": 10000 # доступная сумма бонусов
+                  }
+                 }
+                ]
+        401:
+          $ref: '#/components/responses/401'
+
+
+
+  #  Получение данных в Мои Бонусы
+  /getMyBonusContent:
+    get:
+      summary: Получение данных в Мои Бонусы
+      tags:
+        - Данные страниц
+      parameters:
+        - name: customer_id_1c
+          description: id пользователья в 1С (12345rt)
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/ContentData'
+                        example: [
+                            {
+        "bonus": { # бонусы
+          "user_id_1c": "12345rt", # ID 1C пользователя
+          "period": "01.12.2021-01.01.2022", # период предоставления бонуса
+          "sum_accrued": 50000, # начисленная сумма
+          "sum_spent": 20000, # списанная сумма
+          "sum_accessible": 10000 # доступная сумма бонусов
+                  },
+          "discount": { # скидки
+          "user_id_1c": "12345rt", # ID 1C пользователя
+          "period": "01.12.2021-01.01.2022", # период предоставления бонуса
+          "categories": [ # категории, на которые распространяется скидка
+            {
+             "category_id_1c": "12345rt", # id категории в 1С
+             "sum_discount": 25 #процент скидки
+            },
+            {
+             "category_id_1c": "12346rt", # id категории в 1С
+             "sum_discount": 25 #процент скидки
+            }
+            ],
+          "products": [ # товары, на которые распространяется скидка
+            {
+             "product_id_1c": "12345rt", # id товара в 1С
+             "sum_discount": 25 #процент скидки
+            },
+            {
+             "product_id_1c": "12346rt", # id товара в 1С
+             "sum_discount": 25 #процент скидки
+            }
+            ],
+          "cashback": { # бонусы
+          "user_id_1c": "12345rt", # ID 1C пользователя
+          "sum_accrued": 50000, # начисленная сумма
+          "date": "31.01.2022" # дата, до которой нужно потратить
+                  }
+                 }
+                }
+               ]
+        401:
+          $ref: '#/components/responses/401'
+
+
+
+  #  Получение данных на страницу Контакты
+  /getContactsContent:
+    get:
+      summary: Получение данных на страницу Контакты
+      tags:
+        - Данные страниц
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/ContentData'
+                        example: [
+                            {
+        "departments": { # отделы
+          "id": "12345", # ID отдела на сайте
+          "name": { # название отдела
+            "uk": "testName",
+            "ru": "testName",
+            "en": "testName"
+          },
+          "managers": {
+            "fio": { # Ф.И.О. работника
+              "uk": "Тестов Тест",
+              "ru": "Тестов Тест",
+              "en": "Тестов Тест"
+            },
+            "position": { # должность
+              "uk": "Менеджер",
+              "ru": "Менеджер",
+              "en": "Менеджер"
+            }
+          },
+          "phones": "+38060606060,  +3806070707", # номера телефонов
+          "email": "test@test.com, test2@test.com", # E-mail адреса
+          "coordinates": { # координаты на карте
+            "latitude": "47.837778",
+            "longitude": "35.138333"
+          },
+          "address": { # адрес
+            "uk": "ул. Тестова, д.5",
+            "ru": "ул. Тестова, д.5",
+            "en": "ул. Тестова, д.5"
+          },
+          "schedule": "09:00 - 18:00" # график работы
+                 }
+                }
+               ]
+        401:
+          $ref: '#/components/responses/401'
+
+
+
+  #  Получение данных на страницу О компании
+  /getAboutUsContent:
+    get:
+      summary: Получение данных на страницу О компании
+      tags:
+        - Данные страниц
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/ContentData'
+                        example: [
+                            {
+        "name": { # заголовок
+            "uk": "О компании",
+            "ru": "О компании",
+            "en": "О компании"
+        },
+        "description": { # текстовое описание
+            "uk": "Описание",
+            "ru": "Описание",
+            "en": "Описание"
+        },
+        "brands": "test.com/logo, test.com/logo2, test.com/logo3" # URL логотипов брендов
+                 }
+               ]
+        401:
+          $ref: '#/components/responses/401'
+
+
+
+  #  Получение данных на страницу Доставка и оплата
+  /getShippingAndPaymentContent:
+    get:
+      summary: Получение данных на страницу Доставка и оплата
+      tags:
+        - Данные страниц
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/ContentData'
+                        example: [
+                            {
+        "name": { # заголовок
+            "uk": "Доставка и оплата",
+            "ru": "Доставка и оплата",
+            "en": "Доставка и оплата"
+        },
+        "shipping": { # информация по перевозке
+          "name": { #подзаголовок
+            "uk": "Перевозка",
+            "ru": "Перевозка",
+            "en": "Перевозка"
+          },
+          "icon_url": "test.com/test", # URL иконки
+          "description": { # текстовое описание
+            "uk": "Описание",
+            "ru": "Описание",
+            "en": "Описание"
+          }
+        },
+        "delivery": { # информация по доставке
+          "name": { #подзаголовок
+            "uk": "Доставка",
+            "ru": "Доставка",
+            "en": "Доставка"
+          },
+          "icon_url": "test.com/test", # URL иконки
+          "description": { # текстовое описание
+            "uk": "Описание",
+            "ru": "Описание",
+            "en": "Описание"
+          }
+        },
+        "pickup": { # информация по самовывозу
+          "name": { #подзаголовок
+            "uk": "Самовывоз",
+            "ru": "Самовывоз",
+            "en": "Самовывоз"
+          },
+          "icon_url": "test.com/test", # URL иконки
+          "description": { # текстовое описание
+            "uk": "Описание",
+            "ru": "Описание",
+            "en": "Описание"
+          }
+         }
+        }
+       ]
+        401:
+          $ref: '#/components/responses/401'
+
+
+
+  #  Получение данных на страницу Сравнение товаров
+  /getProductComparisonContent:
+    get:
+      summary: Получение данных на страницу Сравнение товаров
+      tags:
+        - Данные страниц
+      parameters:
+        - name: customer_id_1c
+          description: id пользователья в 1С (12345rt)
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/ContentData'
+                        example: [
+                            {
+         "product": [
+        {
+          "id_1c": "6174", # id товара в 1С
+          "name": { # название товара
+            "uk": "test_name_ua",
+            "ru": "test_name_ru",
+            "en": "test_name_en"
+          },
+          "description": { # описание товара
+            "uk": "description1",
+            "ru": "description2",
+            "en": "description3"
+          },
+          "attributes": [ # атрибуты товара
+            {
+              "id_1c":"attr-123",  # id атрибута
+              "name": { # название атрибута
+                "uk": "name123",
+                "ru": "name123",
+                "en": "name123",
+              },
+              "value": {  # значение атрибута
+                "uk": "value123",
+                "ru": "value123",
+                "en": "value123",
+                },
+              "hidden": false # true/false
+            },
+            {
+              "id_1c":"attr-124",  # id атрибута
+              "name": { # название атрибута
+                "uk": "name124",
+                "ru": "name124",
+                "en": "name124",
+              },
+              "value": {  # значение атрибута
+                "uk": "value124",
+                "ru": "value124",
+                "en": "value124",
+                },
+              "hidden": false # true/false
+            }
+          ],
+          "depth": 52.5, # глубина
+          "width": 30.5, # ширина
+          "height": 52.77, # высота
+          "weight": 22.5, # вес
+          "categories_id_1c": "12, 50, 20", # id категорий(и подкатегорий) товара в 1С
+          "image":"link", # ссылка на основную картинку
+          "price": 1566, # стоимость товара
+                  }
+                 ]
+                }
+               ]
+        401:
+          $ref: '#/components/responses/401'
+
+
+
+  #  Получение данных в Дебиторскую задолженность
+  /getDebtContent:
+    get:
+      summary: Получение данных в Дебиторскую задолженность
+      tags:
+        - Данные страниц
+      parameters:
+        - name: customer_id_1c
+          description: id пользователья в 1С (12345rt)
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/ContentData'
+                        example: [
+                            {
+        "debt": {
+          "id_1c":"2458/521rt",
+          "counterparty_id_1c": "12345rt", # ID 1C контрагента
+          "currency": "грн.", # валюта
+          "credit_limit": 20000, # кредитный лимит
+          "otsrochka_days": 15, # дней отстрочки
+          "sum_debt_total": 10000, # общая сумма задолжености
+          "sum_prosrocheno": 20000, # просроченая сумма
+          "days_prosrocheno": 20, # дней просрочено
+          "days_v_rezerve": 20, # дней в резерве
+          "date": "25.05.2020", # дата договора
+          "expected": 400 # ожидаемая сумма
+                  }
+                 }
+                ]
+        401:
+          $ref: '#/components/responses/401'
+
+
+
+  #  Запрос на скачивание баланса по дебиторке
+  /getDebtBalance:
+    get:
+      summary: Запрос на скачивание баланса по дебиторке
+      tags:
+        - Данные страниц
+      parameters:
+        - name: customer_id_1c
+          description: id пользователья в 1С (12345rt)
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/ContentData'
+                        example: [
+                            {
+        "debt_balance": "test.com/test" # URL на файл
+                 }
+                ]
+        401:
+          $ref: '#/components/responses/401'
+
+
+
+  # Создание чата
+  /setChatStart:
+    post:
+      summary: Создание чата
+      tags:
+        - Чат с менеджером
+      requestBody:
+        content:
+          application/json:
+            schema:      # Request body contents
+              type: object
+              example:   {
+    "chat": [ # просмотренные пользователем товары
+        {
+          "customer_id_1c": "6174rt", # id заказчика в 1С
+          "date": "14.01.2021, 13:01", # дата начала чата
+          "message": "Тестовое собщение" # сообщение заказчика
+        }
+          ]
+            }
+      responses:
+        200:
+          $ref: '#/components/responses/200'
+        401:
+          $ref: '#/components/responses/401'
+
+
+
+  #  Получение письма
+  /getMessage:
+    get:
+      summary: Получение письма
+      tags:
+        - Чат с менеджером
+      parameters:
+        - name: chat_id
+          description: id чата на сайте (12345rt)
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/ContentData'
+                        example: [
+                            {
+        "chat_id": 345, # id чата на сайте
+        "message": "Тестовое сообщение", # сообщение
+        "date": "14.01.2021, 13:01", # дата и время отправки сообщения
+        "status": true # true/false - статус переписки - активная/неактивная.
+                          }
+                        ]
+                      summary:
+                          $ref: '#/components/schemas/ContentSummary'
+
+
+
+  # Отправка сообщения
+  /setMessage:
+    post:
+      summary: Отправка сообщения
+      tags:
+        - Чат с менеджером
+      requestBody:
+        content:
+          application/json:
+            schema:      # Request body contents
+              type: object
+              example:   {
+    "message": [
+        {
+        "chat_id": 345, # id чата на сайте
+        "message": "Тестовое сообщение", # сообщение
+        "date": "14.01.2021, 13:01", # дата и время отправки сообщения
+        "status": true # true/false - статус переписки - активная/неактивная.
+        }
+          ]
+            }
+      responses:
+        200:
+          $ref: '#/components/responses/200'
+        401:
+          $ref: '#/components/responses/401'
+
+
+
+  # Экспорт документов
+  /setDocs:
+    post:
+      summary: Экспорт документов
+      tags:
+        - Работа с контрагентами
+      requestBody:
+        content:
+          application/json:
+            schema:      # Request body contents
+              type: object
+              example:   {
+    "docs": [
+      {
+        "customer_id_1c": "12345rt", # id 1C пользователя
+        "number":"55896", # Номер документа
+        "type": 1, # /1 - Акт рекламации, 2 - Возвратная накладная/
+        "date":"23.04.2021", # дата выявления неисправности
+        "response": "Response text...", # текстовое описание
+        "products":[
+          {
+            "id_1c":"test_sku", #Идентификатор товара
+            "quantity":2, # количество
+            "price_nds":550.00, # цена за единицу с НДС
+            "total_nds":1100.00, # сумма с НДС
+            "reason": "reason example..." #Строка, только для Акта рекламации или Возвратной накладной
+          }
+        ]
+      }
+    ]
+              }
+      responses:
+        200:
+          $ref: '#/components/responses/200'
+        401:
+          $ref: '#/components/responses/401'
+
+
+
+  # Импорт документов
+  /getDocs:
+    get:
+      summary: Импорт документов
+      tags:
+        - Работа с контрагентами
+      parameters:
+        - name: customer_id_1c
+          description: id пользователя в 1С (12345rt)
+          required: true
+          in: query
+          schema:
+            type: string
+        - $ref: '#/components/parameters/page'
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/ContentData'
+                        example: [
+      {
+        "orders": {
+        "id_1c": "454rt", # id заказа в 1С
+        "number": "55896", # номер заказа
+        "conterparty_okpo": "546567", # ОКПО контрагента
+        "date_registration": "2021.03.18", # дата заказа
+        "date_delivery": "2021.03.18", # дата доставки
+        "delivery_type_id_1c": "12345rt", # id 1C службы доставки
+        "order_products": [
+          {
+            "id_1c": "14160109010",
+            "quantity": 5,
+            "price": 455,
+            "docs": {
+              "id_1c": "454rt", # Идентификатор документа в 1С
+              "id_site": 5, # Идентификатор документа на сайте (unsigned int)
+              "number":"55896", # Номер документа
+              "type": 1, # /1 - Акт рекламации, 2 - Возвратная накладная/
+              "date":"23.04.2021", # дата выявления неисправности
+              "status_id":"1", # id статуса
+              "response": "Response text...",
+            }
+           }
+          ]
+         }
+        }
+       ]
+                      summary:
+                          $ref: '#/components/schemas/ContentSummary'
+
+
+
+  # Импорт справочника способов доставки
+  /getDeliveryTypes:
+    get:
+      summary: Импорт справочника способов доставки
+      tags:
+        - Работа с доставкой
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/ContentData'
+                        example: [
+                          {
+                "delivery_types":{
+                    "id_1c": "1", # id способа доставки в 1С
+                    "name": {  # название способа доставки
+                      "uk": "Нова пошта",
+                      "ru": "Нова пошта",
+                      "en": "Нова пошта",
+                    }
+                   }
+                  }
+                 ]
+        401:
+          $ref: '#/components/responses/401'
+
+
+
+  # Импорт адресов доставки
+  /getDeliveryAddresses:
+    get:
+      summary: Импорт адресов доставки
+      tags:
+        - Работа с доставкой
+      parameters:
+        - name: customer_id_1c
+          description: id пользователя в 1С (12345rt)
+          required: true
+          in: query
+          schema:
+            type: string
+        - $ref: '#/components/parameters/page'
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/ContentData'
+                        example: [
+                            {
+        "id_1c": "1", # id адреса в 1С
+        "id_site": 5, # id адреса на сайте (unsigned int)
+        "owner": {
+          "id_1c": "1", # id адресата в 1С (пользователя или контрагента)
+          "id_site": 1, # id адресата на сайте (пользователя или контрагента)
+          "is_counterparty": true # true/false - тип адресата.
+        },
+        "delivery_type_id_1c": "1", # id способа доставки в 1С
+        "city_code": "2610100000", #КОАТУУ населенного пункта
+        "street_type":"", #Тип улицы
+        "street_name":"", #Улица
+        "dom":"", #Дом
+        "korpus":"", #Корпус
+        "office":"", #Офис
+        "city_name":"", #Наименование населенного пункта
+        "city_guid":"", #ГУИД населенного пункта из АПИ Новой почты
+        "otdel_number":"", #Номер отделения Новой почты
+        "otdel_guid":"", # ГУИД номера отделения из АПИ Новой почты
+        "additional_data":"", # доп. данные
+        "updated_at": "2021-12-04T16:17:41.000000Z" # Метка обновления записи
+                          }
+                        ]
+                      summary:
+                          $ref: '#/components/schemas/ContentSummary'
+
+
+
+  # Импорт складов
+  /getStorages:
+    get:
+      summary: Импорт складов
+      tags:
+        - Работа с доставкой
+      parameters:
+        - $ref: '#/components/parameters/page'
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/status'
+                  message:
+                    allOf:
+                      - $ref: '#/components/schemas/message'
+                      - example: ""
+                  content:
+                    type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/ContentData'
+                        example: [
+                  {
+                    "id_1c": "1234rt", # id склада в 1С
+                    "name": {  # название склада
+                      "uk": "testName",
+                      "ru": "testName",
+                      "en": "testName",
+                    }
+                  }
+                ]
+                      summary:
+                          $ref: '#/components/schemas/ContentSummary'
+
+
