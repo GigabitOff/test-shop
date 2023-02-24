@@ -36,7 +36,9 @@ class PrintCartOrderLivewire extends Component
                     })
             ]);
         }
-        return view('livewire.forms.print-cart-order-livewire', compact('products'));
+        $totalCostWithSale = $products->sum('cartPrice');
+
+        return view('livewire.forms.print-cart-order-livewire', compact('products', 'totalCostWithSale'));
     }
 
     protected function expandProductStatus(Product $product)

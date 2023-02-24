@@ -24,10 +24,15 @@
 @endif
     <div class="lk-page__action">
         <div class="lk-page__action-btns">
-            <div class="button-outline ico_trash" @if($checkAll) onclick="@this.clearList()" @endif></div>
+            <div class="button-outline ico_trash"
+                @if($checkAll) onclick="@this.clearList()" @endif>
+            </div>
         </div>
-        <div class="lk-page__action-btns"><a class="button-circle ico_print" href="#m-print-cart-order"
-                                             data-bs-toggle="modal"></a></div>
+        <div class="lk-page__action-btns">
+            <a class="button-circle ico_print" href="#m-print-cart-order"
+            data-bs-toggle="modal">
+            </a>
+        </div>
     </div>
     <div class="lk-page__table">
         <div id="footable-content" class="footable-content" style="display: none;" data-table="{{ $table }}"></div>
@@ -35,54 +40,95 @@
                data-empty="@lang('custom::site.data_is_absent')"
                data-show-toggle="true" data-toggle-column="last">
         </table>
-    </div>
+
     <div class="lk-page__table-after">
-        <div>
-            <h5>@lang('custom::site.deferred_goods')</h5>
-        </div>
+        <div></div>
         <div>
             @include('livewire.includes.per-page-table', ['data_paginate' => $products])
         </div>
     </div>
+    </div>
+    <h5>@lang('custom::site.deferred_goods')</h5>
     @livewire('customer.cart.deferreds-goods',['cashbackUsed' => $cashbackUsed])
     <div class="lk-page__table-after">
-        <div class="ms-0"><label class="check fz12"><input class="check__input" wire:model="callback_off"
-                                                           type="checkbox"/><span class="check__box"></span><span
-                        class="check__txt">@lang('custom::site.Don call me back, Im sure of the order')</span></label>
+        <div class="ms-0">
+            <label class="check fz12">
+                <input class="check__input" wire:model="callback_off" type="checkbox"/>
+                <span class="check__box"></span>
+                <span class="check__txt">
+                    @lang('custom::site.Don call me back, Im sure of the order')
+                </span>
+            </label>
         </div>
     </div>
     <div class="lk-page__table-total">
         <ul class="table-total --row">
-            <li class="table-total__item"><span class="table-total__label">@lang('custom::site.total')
-                    ({{cart()->totalQuantity()}}  @lang('custom::site.products') )</span><span
-                        class="table-total__value">{{formatMoney(cart()->totalCost() - $cashbackUsed)}} @lang('custom::site.UAH')</span>
+            <li class="table-total__item">
+                <span class="table-total__label">
+                    @lang('custom::site.total')
+                    ({{cart()->totalQuantity()}}
+                    @lang('custom::site.products') )
+                </span>
+                <span class="table-total__value">
+                    {{formatMoney(cart()->totalCost() - $cashbackUsed)}}
+                    @lang('custom::site.UAH')
+                </span>
+                <span class="table-total__value-sm">
+                    {{formatMoney(cart()->totalCost() - $cashbackUsed)}}
+                    @lang('custom::site.UAH')
+                </span>
             </li>
-            <li class="table-total__item"><span class="table-total__label">@lang('custom::site.My bonuses')</span><span
-                        class="table-total__value">{{formatMoney( $cashbackUsed)}} @lang('custom::site.UAH')</span>
-
-                <div class="table-total__btn"><a class="button-outline" href="#m-bonus"
-                                                 data-bs-toggle="modal">@lang('custom::site.write off bonuses') </a>
+            <li class="table-total__item">
+                <div class="form-bonus">
+                    <div class="form-bonus__input">
+                        <input class="form-control" type="number" value="{{formatMoney( $cashbackUsed)}}">
+                        <span class="form-bonus__input-curency">
+                            @lang('custom::site.UAH')
+                        </span>
+                    </div>
+                    <button class="form-bonus__btn">
+                        @lang('custom::site.write off bonuses')
+                    </button>
                 </div>
             </li>
-            <li class="table-total__item"><span class="table-total__label">@lang('custom::site.final amount')</span>
-                <span class="table-total__value">{{formatMoney(cart()->totalCost() )}} @lang('custom::site.UAH')</span>
+            <li class="table-total__item">
+                <span class="table-total__label">
+                    @lang('custom::site.final amount')
+                </span>
+                <span class="table-total__value">
+                    {{formatMoney(cart()->totalCost() )}}
+                    @lang('custom::site.UAH')
+                </span>
             </li>
         </ul>
         @php($totalWeight = cart()->products()->map(fn($p)=>$p->cartQuantity * $p->weight)->sum())
         @php($size = cart()->products()->map(fn($p)=>$p->weight * $p->height * $p->length)->sum())
         <ul class="table-total-list">
             <li class="table-total-list__item">
-                <div class="table-total-list__label">@lang('custom::site.delivery date')</div>
-                <div class="table-total-list__content"><span>23.02.22</span></div>
-            </li>
-            <li class="table-total-list__item">
-                <div class="table-total-list__label">@lang('custom::site.Weight')</div>
+                <div class="table-total-list__label">
+                    @lang('custom::site.delivery date')
+                </div>
                 <div class="table-total-list__content">
-                    <span>{{formatMoney($totalWeight)}} @lang('custom::site.kg')</span></div>
+                    <span>23.02.22</span>
+                </div>
             </li>
             <li class="table-total-list__item">
-                <div class="table-total-list__label">@lang('custom::site.Size')</div>
-                <div class="table-total-list__content"><span>{{formatMoney($size)}}</span></div>
+                <div class="table-total-list__label">
+                    @lang('custom::site.Weight')
+                </div>
+                <div class="table-total-list__content">
+                    <span>{{formatMoney($totalWeight)}}
+                        @lang('custom::site.kg')
+                    </span>
+                </div>
+            </li>
+            <li class="table-total-list__item">
+                <div class="table-total-list__label">
+                    @lang('custom::site.Size')
+                </div>
+                <div class="table-total-list__content">
+                    <span>{{formatMoney($size)}}</span>
+                </div>
             </li>
         </ul>
     </div>

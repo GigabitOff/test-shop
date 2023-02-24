@@ -79,8 +79,14 @@
                     <dt>@lang('custom::site.total') ({{cart()->totalQuantity()}}
                         @lang('custom::site.products') )
                     </dt>
-                    <dd class="big">{{formatMoney(cart()->totalCost() )}}
-                        @lang('custom::site.UAH')</dd>
+                    <dd class="big">
+                        @if($printWithSale)
+                            {{$totalCostWithSale}}
+                        @else
+                            {{formatMoney(cart()->totalCost() )}}
+                        @endif
+                            @lang('custom::site.UAH')
+                    </dd>
                 </dl>
                 <button class="button-accent button-accent" type="button"
                     data-bs-dismiss="modal" onclick="window.printPopup();">
