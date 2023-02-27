@@ -29,7 +29,7 @@
                     <th data-breakpoints="xs" style="display: table-cell;">@lang('custom::site.quantity')</th>
                     <th data-breakpoints="xs" style="display: table-cell;">
                         @if($printWithSale)
-                            @lang('custom::site.Price')<br>
+                            @lang('custom::site.sum')<br>
                             @lang('custom::site.with_sale')
                         @else
                             @lang('custom::site.sum')<br>
@@ -61,9 +61,9 @@
                     <td style="display: table-cell;">
                         <span>
                             @if($printWithSale)
-                                {{formatMoney($product->cartPrice)}}
+                                {{formatMoney($product->sumPrice)}}
                             @else
-                                {{formatMoney($product->price_retail)}}
+                                {{formatMoney($product->sumRetail)}}
                             @endif
                         @lang('custom::site.UAH')</span>
                     </td>
@@ -83,7 +83,7 @@
                         @if($printWithSale)
                             {{$totalCostWithSale}}
                         @else
-                            {{formatMoney(cart()->totalCost() )}}
+                            {{$totalCostWithOutSale}}
                         @endif
                             @lang('custom::site.UAH')
                     </dd>
