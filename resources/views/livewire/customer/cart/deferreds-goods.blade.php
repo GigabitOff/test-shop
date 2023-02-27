@@ -5,12 +5,12 @@
             <tr class="footable-header">
                 <th>
                     <div class="d-flex align-items-center">
-                        {{--<label class="check js-select-all">--}}
+                        <label class="check js-select-all">
                             {{--<input class="check__input" onclick="Livewire.emit('eventCheckAllChangedCheckbox',--}}
                             {{--{{!$checkAll ? 'this.checked' : 0}})" @if($checkAll) checked @endif type="checkbox"/>--}}
                             {{--<span class="check__box"></span>--}}
                             {{--<span class="check__txt"></span>--}}
-                        {{--</label>--}}
+                        </label>
                             <span>@lang('custom::site.products')</span>
                     </div>
                 </th>
@@ -27,11 +27,12 @@
             <tr>
                 <td>
                     <div class="d-flex align-items-center">
-                        {{--<label class="check"><input class="check__input" @if($checkAll)--}}
+                        <label class="check">
+                        {{--<input class="check__input" @if($checkAll)--}}
                         {{--checked @endif type="checkbox"/>--}}
                             {{--<span class="check__box"></span>--}}
                             {{--<span class="check__txt"></span>--}}
-                        {{--</label>--}}
+                        </label>
 
                         <div class="table-product-card">
                             <div class="table-product-card__img">
