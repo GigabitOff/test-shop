@@ -135,7 +135,8 @@ class DeferredsGoods extends Component
            $product->each(function (Product $products) use ($productDeferreds) {
 
                $products->quantity = $this->quantity($productDeferreds, $products->id);
-               $products->cartCost = $products->price_init * $products->quantity;
+               $products->cartCost = $products->price * $products->quantity;
+               $products->cartPrice = $products->price;
                $this->expandProductAvailability($products);
 
            });

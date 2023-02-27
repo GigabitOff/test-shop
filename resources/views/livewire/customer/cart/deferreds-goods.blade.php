@@ -1,6 +1,6 @@
 <div>
     <div class="lk-page__table">
-        <table class="ftable" id="dererreds-list" data-paging-size="2" data-paging-container="#table-nav-2">
+        <table class="ftable" id="dererreds-list" data-paging-size="2" data-paging-container="#table-nav-2" style="width: 100%">
             <thead>
             <tr class="footable-header">
                 <th>
@@ -65,7 +65,7 @@
                     </div>
                 </td>
                 <td>
-                    <span class="big">{!! formatNbsp(formatMoney($product->price_init - $cashbackUsed) . ' ' . __('custom::site.UAH')) !!}</span>
+                    <span class="big">{!! formatNbsp(formatMoney($product->cartPrice - $cashbackUsed) . ' ' . __('custom::site.UAH')) !!}</span>
                     <span class="small">{!! formatNbsp(formatMoney($product->price_retail) . ' ' . __('custom::site.UAH')) !!}</span>
                 </td>
                 <td class="text-center">
