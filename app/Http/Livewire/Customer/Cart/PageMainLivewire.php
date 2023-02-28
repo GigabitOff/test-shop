@@ -317,6 +317,7 @@ class PageMainLivewire extends Component
             $this->recalculateCashbackToUse();
             $this->emit('eventCartChanged');
         }
+        $this->revalidateTable = true;
     }
 
     public function writeOffCashback()

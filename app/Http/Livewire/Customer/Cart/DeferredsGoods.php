@@ -115,8 +115,10 @@ class DeferredsGoods extends Component
 
         $productDeferreds = $this->deferredsProductsCurrentUser();
 
-        $product =  Product::query()->select('id','articul', 'price_init', 'slug',
-                                    'on_backorder','availability', 'price_retail')
+        $product =  Product::query()->select('id','articul', 'price_init', 'price_rrc',
+                                    'price_sale', 'price_sale_show', 'price_purchase',
+                                    'price_wholesale', 'price_retail', 'price_min_margin',
+                                    'slug', 'on_backorder','availability', 'price_retail')
                                     ->whereIn('id', $productDeferreds
                                     ->pluck('product_id'))
                                     ->with('images', 'translation')
