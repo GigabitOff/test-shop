@@ -25,10 +25,11 @@
             <td>
                 <div class="d-flex align-items-center">
                 @if($cartProduct->availability)
-                    <label class="check"><input class="check__input"
-                                                type="checkbox" @if($checkAll)
-                                                checked @endif /><span
-                                class="check__box"></span>
+                    <label class="check">
+                        <input class="check__input" type="checkbox"
+                        onclick="document.cartProduct.setCheck('{{$cartProduct->cartUuid}}', this.checked)"
+                        @if($cartProduct->cartChecked) checked @endif/>
+                        <span class="check__box"></span>
                         <span class="check__txt"></span>
                     </label>
                 @else
@@ -97,15 +98,15 @@
                     <div class="counter__btn minus"></div>
                     <div class="counter__field">
                         <input type="number" value="{{$cartProduct->cartQuantity}}" min="1"
-                               onchange="document.cartProduct.changeQuantity(this,
-                                       '{{$cartProduct->cartUuid}}')"/>
+                        onchange="document.cartProduct.changeQuantity(this,
+                        '{{$cartProduct->cartUuid}}')"/>
                     </div>
                     <div class="counter__btn plus"></div>
                 </div>
             </td>
             <td>
                 <span class="big">{!! formatNbsp(formatMoney($cartProduct->cartCost - $cashbackUsed) . ' ' . __('custom::site.UAH')) !!}</span>
-                <span class="small">{!! formatNbsp(formatMoney($cartProduct->cartQuantity * $cartProduct->price_retail) . ' ' . __('custom::site.UAH')) !!}</span>
+                <span class="small">{!! formatNbsp(formatMoney($cartProduct->totalPriceRetail) . ' ' . __('custom::site.UAH')) !!}</span>
             </td>
             <td class="text-end">
                 <button class="button-delete ico_trash" type="button"

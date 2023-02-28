@@ -66,15 +66,15 @@
             <li class="table-total__item">
                 <span class="table-total__label">
                     @lang('custom::site.total')
-                    ({{cart()->totalQuantity()}}
+                    ({{cart()->totalCartCheckedQuantity()}}
                     @lang('custom::site.products') )
                 </span>
                 <span class="table-total__value">
-                    {{formatMoney(cart()->totalCost() - $cashbackUsed)}}
+                    {{formatMoney(cart()->totalCartCheckedCost() - $cashbackUsed)}}
                     @lang('custom::site.UAH')
                 </span>
                 <span class="table-total__value-sm">
-                    {{formatMoney(cart()->totalCost() - $cashbackUsed)}}
+                    {{formatMoney($sumPriceRetail - $cashbackUsed)}}
                     @lang('custom::site.UAH')
                 </span>
             </li>
@@ -96,7 +96,7 @@
                     @lang('custom::site.final amount')
                 </span>
                 <span class="table-total__value">
-                    {{formatMoney(cart()->totalCost() )}}
+                    {{cart()->totalCartCheckedCost()}}
                     @lang('custom::site.UAH')
                 </span>
             </li>

@@ -112,6 +112,7 @@ class PageMainLivewire extends Component
             'productPriceUpdated' => $this->productPriceUpdated,
             'checkAll' => $checkAll,
             'cashbackUsed' => $this->cashbackUsed,
+            'sumPriceRetail' => $this->totalSumBySpecialPriceField($products, 'totalPriceRetail'),
             'table' => $table,
         ]);
     }
@@ -145,6 +146,13 @@ class PageMainLivewire extends Component
     public function updatedPaginators()
     {
         $this->revalidateTable = true;
+    }
+
+    /** Return total sum by fields */
+
+    protected function totalSumBySpecialPriceField($products,$field){
+
+        return $products->where('cartChecked', 1)->sum($field);
     }
 
     public function prepareProducts(bool $onlyChecked = false, bool $force = false)
@@ -197,6 +205,7 @@ class PageMainLivewire extends Component
     {
         $product->cartPrice = $product->price;
         $product->cartCost = $product->cartQuantity * $product->cartPrice;
+        $product->totalPriceRetail = $product->price_retail * $product->cartQuantity;
 
         if($product->price != $product->cartPriceAdded){
             $product->countChangedPrice =1;

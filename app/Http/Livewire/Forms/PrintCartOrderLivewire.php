@@ -47,9 +47,9 @@ class PrintCartOrderLivewire extends Component
 
     /** Return total sum by fields */
 
-    protected function totalSumBySpecialPriceField($products,$sum){
+    protected function totalSumBySpecialPriceField($products,$field){
 
-        return $products->sum($sum);
+        return $products->sum($field);
     }
 
     protected function expandProductStatus(Product $product)
