@@ -1,16 +1,10 @@
-<div>
-    <div class="lk-page__table">
+<div class="lk-page__table">
         <table class="ftable" id="dererreds-list" data-paging-size="2" data-paging-container="#table-nav-2" style="width: 100%">
             <thead>
             <tr class="footable-header">
                 <th>
                     <div class="d-flex align-items-center">
-                        <label class="check js-select-all">
-                            {{--<input class="check__input" onclick="Livewire.emit('eventCheckAllChangedCheckbox',--}}
-                            {{--{{!$checkAll ? 'this.checked' : 0}})" @if($checkAll) checked @endif type="checkbox"/>--}}
-                            {{--<span class="check__box"></span>--}}
-                            {{--<span class="check__txt"></span>--}}
-                        </label>
+                        <label class="check js-select-all"></label>
                             <span>@lang('custom::site.products')</span>
                     </div>
                 </th>
@@ -27,12 +21,7 @@
             <tr>
                 <td>
                     <div class="d-flex align-items-center">
-                        <label class="check">
-                        {{--<input class="check__input" @if($checkAll)--}}
-                        {{--checked @endif type="checkbox"/>--}}
-                            {{--<span class="check__box"></span>--}}
-                            {{--<span class="check__txt"></span>--}}
-                        </label>
+                        <label class="check"></label>
 
                         <div class="table-product-card">
                             <div class="table-product-card__img">
@@ -98,7 +87,6 @@
             @endforeach
             </tbody>
         </table>
-    </div>
     <div class="lk-page__table-after">
         <div></div>
         @include('livewire.includes.per-page-table', ['data_paginate' => $deferredsProducts])
