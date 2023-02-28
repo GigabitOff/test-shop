@@ -36,20 +36,20 @@ class PrintCartOrderLivewire extends Component
                     })
             ]);
         }
-        $totalCostWithSale = $this->totalSumBySpecialPriceField($products,'sumPrice');
 
-        $totalCostWithOutSale = $this->totalSumBySpecialPriceField($products,'sumRetail');
+        $totalSumPrice = $this->printWithSale ? 'sumPrice' : 'sumRetail';
 
+        $totalCost = $this->totalSumBySpecialPriceField($products,$totalSumPrice);
 
         return view('livewire.forms.print-cart-order-livewire',
-            compact('products', 'totalCostWithSale', 'totalCostWithOutSale' ));
+            compact('products', 'totalCost'));
     }
 
     /** Return total sum by fields */
 
     protected function totalSumBySpecialPriceField($products,$field){
 
-        return $products->sum($field);
+        return formatMoney($products->sum($field));
     }
 
     protected function expandProductStatus(Product $product)
@@ -83,6 +83,7 @@ class PrintCartOrderLivewire extends Component
             $this->products = $products
                 ->each(function (Product $product) {
                     $this->expandProductPrice($product);
+                    $this->expandSum($product);
                     $this->expandProductStatus($product);
                 });
         }
@@ -96,6 +97,19 @@ class PrintCartOrderLivewire extends Component
                               ? $product->price
                               : $product->price_init;
     }
+
+    /** added fields to the object product */
+
+    protected function expandSum(Product $product)
+    {
+
+        $product->sumPrice = formatMoney($product->cartPrice
+                             * $product->cartQuantity);
+
+        $product->sumRetail = formatMoney($product->price_retail
+                              * $product->cartQuantity);
+    }
+
     public function printWithSale()
     {
         $this->printWithSale = true;

@@ -80,12 +80,8 @@
                         @lang('custom::site.products') )
                     </dt>
                     <dd class="big">
-                        @if($printWithSale)
-                            {{$totalCostWithSale}}
-                        @else
-                            {{$totalCostWithOutSale}}
-                        @endif
-                            @lang('custom::site.UAH')
+                        {{$totalCost}}
+                        @lang('custom::site.UAH')
                     </dd>
                 </dl>
                 <button class="button-accent button-accent" type="button"
