@@ -60,6 +60,10 @@ class PageMainLivewire extends Component
     public function boot()
     {
         $this->customer = auth()->user();
+        
+        if(session()->has('perPage'))
+            $this->perPage = session('perPage');
+
     }
 
     public function mount()

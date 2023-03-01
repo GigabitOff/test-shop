@@ -49,6 +49,9 @@ class DeferredsGoods extends Component
 
     public function boot(){
         $this->user = auth()->user();
+
+        if(session()->has('perPage'))
+            $this->perPage = session('perPage');
     }
 
     /** Set deferreds product to cart  */
