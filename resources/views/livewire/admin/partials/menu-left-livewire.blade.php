@@ -314,6 +314,19 @@
             </li>
         @endif
 
+         <li class="sidebar-menu__item">
+            <x-admin.menu-link
+                class="sidebar-menu__link"
+                :link="route('admin.chats.index')"
+                :active="$this->route === 'admin.chats.*'"
+                :confirm="(isset($canselSaveButton))"
+            >
+                <i class="ico_menu13"></i>
+                <span>@lang('custom::admin.Chats')</span>
+
+            </x-admin.menu-link>
+            <button class="sidebar-menu__sound"></button>
+        </li>
         <li class="sidebar-menu__item">
             <a target="_blank" class="sidebar-menu__link" href="/swagger">
                 <i class="ico_menu14"></i>

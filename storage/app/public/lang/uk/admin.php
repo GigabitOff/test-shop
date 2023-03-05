@@ -872,10 +872,13 @@ return [
 
     /* Services */
     'Services' => 'Послуги',
+    'services' => 'Послуги',
     'service_creating' => 'Створення послуги',
     'service_editing' => 'Редагування послуги',
     'Services create' => 'Послуги створення.',
     'service_new' => 'Нова послуга',
+    'Service name' => 'Назва послуги',
+
     'icon_description' => 'Опис іконкі',
     'Date publicate' => 'Дата публікації',
     'Search categories' => 'Пошук категорії',
@@ -1174,7 +1177,35 @@ return [
     'contucts' => 'Підрозділи',
     'Spivrobitnik' => 'Співробітник',
     'Send data' => 'Відправити дані',
-    '' => '',
-    '' => '',
-    '' => '',
+    'article' => 'Артикул',
+    'hashtag' => 'Хештег',
+    'supplier_internal' => 'Поставщик (внутренний)',
+    'Date services from to' => 'Послуги від і до',
+    'Unit' => 'Одиниця виміру',
+    'Service time (average)' => 'Час послуги (середній)',
+    'Count product' => 'К-ть товару',
+    'Note' => 'Нотатки',
+
+    'message_subject' => 'Тема повідомлення',
+    'sender' => 'Адресант',
+    'status_message' => 'Статус<br>діалогу',
+    'last_message' => 'Останнє повідомлення',
+    'date' => 'Дата',
+    'closed' => 'Закрито',
+    'opened' => 'Відкрито',
+    'to_send' => 'Відправити',
+    'subject' => 'Тема',
+    'new_message' => 'Нове повідомлення',
+    'User message' => 'Отримувач',
+    
+    'services_price' => [
+        'price' => 'Ціна послуги',
+        'price_sale_sum' => 'Ціна продажу всього',
+        'price_products_sum' => 'Ціна продуктів всього',
+        'profit' => 'Маржа',
+        'price_profit_sum' => 'Маржа сума',
+    ],
+
+    'Chats' => 'Переписка',
+
 ];

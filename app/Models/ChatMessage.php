@@ -11,7 +11,7 @@ class ChatMessage extends Model
 
     protected $touches = ['chat'];
 
-    protected $fillable = ['owner_id', 'message'];
+    protected $fillable = ['owner_id', 'manager_id', 'message', 'viewed'];
 
     protected static function boot()
     {

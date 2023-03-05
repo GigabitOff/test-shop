@@ -49,7 +49,7 @@
         <div class="search__items">
             @if($result_search AND count($result_search)>0)
 
-            <table class="js-table js-table_new  footable footable-1 footable-paging footable-paging-right">
+            <table class="{{--js-table --}}js-table_new footable footable-1 footable-paging footable-paging-right">
                 <thead class="d-none">
                           <tr class="footable-header">
                             <td class="footable-first-visible" style="display: table-cell;">@lang('custom::admin.products.Product name')</td>
@@ -64,7 +64,7 @@
                 @foreach ($result_search as $key=>$item)
                 <tr>
                     <td style="display: table-cell;">
-                        <span>{{ $item->translate(session('lang')) ? $item->translate(session('lang'))->name : config('app.fallback_locale') }}</span>
+                        <span>{{ (!is_array($item) AND $item->translate(session('lang'))) ? $item->translate(session('lang'))->name : (is_array($item) ? $item['name'] : config('app.fallback_locale')) }}</span>
                     </td>
                     <td style="display: table-cell;">
                         <span class="title">@lang('custom::admin.products.Brand')</span><span>{{ $item->brand ? ($item->brand->translate(session('lang')) ? $item->brand->translate(session('lang'))->title : config('app.fallback_locale')) : config('app.fallback_locale') }}</span>
@@ -108,16 +108,11 @@
 
         });
 
-
-
         $('#id_search_action').on('keypress',function(e) {
             if(e.which == 13) {
                 @this.addProductToActionTmpPressEnter($('#id_search_action').val());
             }
         });
-
-
-
     });
 
     window.addEventListener('showSearchResults', () => {
@@ -168,7 +163,7 @@
               </div>
             </div>
           </div>
-              <table class="js-table js-table_new footable footable-1" >
+              <table class="{{--js-table--}} js-table_new footable footable-1" >
                 <thead>
                   <tr class="footable-header">
                     <th style="display: table-cell;" class="footable-first-visible">
@@ -183,6 +178,7 @@
                     <th style="display: table-cell;" class="text-center">@lang('custom::admin.products.Code')</th>
                     <th style="display: table-cell;" class="text-center">@lang('custom::admin.products.Addet')</th>
                     <th style="display: table-cell;" class="text-center ">@lang('custom::admin.products.Addet user')</th>
+                    <th style="display: table-cell;" class="text-center ">@lang('custom::admin.Count product')</th>
                     <th class="text-end w-1" style="display: table-cell;" data-breakpoints="xs"></th>
                   </tr>
                 </thead>
@@ -200,10 +196,12 @@
                     </div>
                     </td>
 
-                    <td style="display: table-cell;"><a  target="_blank" href="{{ route('admin.product.edit',$item['id']) }}">{{ (!is_array($item) AND $item->translate(session('lang'))) ? $item->translate(session('lang'))->name : config('app.fallback_locale') }}</a></td>
+                    <td style="display: table-cell;"><a  target="_blank" href="{{ route('admin.product.edit',$item['id']) }}">{{ (!is_array($item) AND $item->translate(session('lang'))) ? $item->translate(session('lang'))->name : (is_array($item) ? $item['name'] : config('app.fallback_locale')) }}</a></td>
                     <td style="display: table-cell;" class="text-center"><span>{{ isset($item['code_1c']) ? $item['code_1c']: '' }}</span></td>
                     <td style="display: table-cell;" class="text-center"><span>{{ (isset($item['created_at']) AND $item['created_at']  !== null) ? \Carbon\Carbon::parse($item['created_at'])->format('d.m.Y') : ''}}</span></td>
                     <td style="display: table-cell;" class="text-center"><span>{{ Auth::guard('admin')->user()->name}}</span></td>
+                    <td style="display: table-cell;" class="text-center"><span><input type="text" class="form-control" value="{{ isset($data[$item['id']]) ? $data[$item['id']]['product_count'] : ''}}" onchange="@this.set('data.{{$item['id']}}.product_count',this.value); setDataToServ();"></span>
+                    </td>
                     <td style="display: table-cell;" class="text-center footable-last-visible">
                       {{--<button class="button button-small button-icon ico_trash" type="button" onclick="@this.removeProductFromActionTmp({{ $item['id'] }})"></button>--}}
 
@@ -217,6 +215,19 @@
     </div>
     @endif
 
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        @this.sendDataToServiceEmit();
+    });
+
+    function setDataToServ() {
+        setTimeout(() => {
+        @this.sendDataToServiceEmit();
+
+        }, 500);
+    }
+    </script>
     {{--@if(isset($product_tmp) AND count($product_tmp)>0)
     <table class="js-table js-table_new footable footable-1" >
                 <thead>

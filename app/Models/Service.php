@@ -31,6 +31,8 @@ class Service extends Model implements TranslatableContract
         'meta_description',
         'seo_canonical',
         'search_tags',
+        'hashtag',
+        'note',
     ];
 
     protected $dates = [
@@ -49,16 +51,26 @@ class Service extends Model implements TranslatableContract
         'date_end',
         'status',
         'price',
+        'price_sale_sum',
+        'price_products_sum',
+        'profit',
+        'price_profit_sum',
         'show_calendar',
         'quantity',
         'age_limit',
         'abonement',
+        'counterparty_id',
+        'article',
+        'service_time',
+        'unit',
+        'product_with_service',
     ];
 
     public function products()
     {
-        return $this->belongsToMany(Product::class,'service_product');
+        return $this->belongsToMany(Product::class,'service_product')->withPivot('service_id', 'product_id','product_count');
     }
+
 
     public function getCategory()
     {
@@ -69,4 +81,13 @@ class Service extends Model implements TranslatableContract
         return $this->hasMany(Category::class, 'parent_id', 'category_id');
     }
 
+    public function counterparty()
+    {
+        return $this->belongsTo(Counterparty::class);
+    }
+
+    public function counterparties(): BelongsToMany
+    {
+        return $this->belongsToMany(Counterparty::class);
+    }
 }

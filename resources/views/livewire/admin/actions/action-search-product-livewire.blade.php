@@ -200,7 +200,7 @@
                     </div>
                     </td>
 
-                    <td style="display: table-cell;"><a  target="_blank" href="{{ route('admin.product.edit',$item['id']) }}">{{ (!is_array($item) AND $item->translate(session('lang'))) ? $item->translate(session('lang'))->name : config('app.fallback_locale') }}</a></td>
+                    <td style="display: table-cell;"><a  target="_blank" href="{{ route('admin.product.edit',$item['id']) }}">{{ (!is_array($item) AND $item->translate(session('lang'))) ? $item->translate(session('lang'))->name : (is_array($item) ? $item['name'] : config('app.fallback_locale')) }}</a></td>
                     <td style="display: table-cell;" class="text-center"><span>{{ isset($item['code_1c']) ? $item['code_1c']: '' }}</span></td>
                     <td style="display: table-cell;" class="text-center"><span>{{ (isset($item['created_at']) AND $item['created_at']  !== null) ? \Carbon\Carbon::parse($item['created_at'])->format('d.m.Y') : ''}}</span></td>
                     <td style="display: table-cell;" class="text-center"><span>{{ Auth::guard('admin')->user()->name}}</span></td>

@@ -64,10 +64,11 @@
                 @foreach ($result_search as $key=>$item)
                 <tr>
                     <td style="display: table-cell;">
-                        <span>{{ $item->translate(session('lang')) ? $item->translate(session('lang'))->name : config('app.fallback_locale') }}</span>
+
+                        <span>{{ (!is_array($item) AND $item->translate(session('lang'))) ? $item->translate(session('lang'))->name : (is_array($item) ? $item['name'] : config('app.fallback_locale')) }}</span>
                     </td>
                     <td style="display: table-cell;">
-                        <span class="title">@lang('custom::admin.products.Brand')</span><span>{{ $item->brand ? ($item->brand->translate(session('lang')) ? $item->brand->translate(session('lang'))->title : config('app.fallback_locale')) : config('app.fallback_locale') }}</span>
+                        <span class="title">@lang('custom::admin.products.Brand')</span><span>{{ $item->brand ? ($item->brand->translate(session('lang')) ? $item->brand->translate(session('lang'))->title : $item->brand->title) : (isset($item['brand']['title']) ? $item['brand']['title'] : config('app.fallback_locale')) }}</span>
                     </td>
                     <td style="display: table-cell;">
                         <button class="button-status status-1"><span class="circle"></span>
@@ -202,7 +203,7 @@
                         <span class="ms-2"><a class="accent" href="{{ route('admin.product.edit',$item['id']) }}">№ {{ isset($item['articul']) ? $item['articul']: '' }}</a></span>
                     </div>
                     </td>
-                    <td style="display: table-cell;"><a  target="_blank" href="{{ route('admin.product.edit',$item['id']) }}">{{ (!is_array($item) AND $item->translate(session('lang'))) ? $item->translate(session('lang'))->name : config('app.fallback_locale') }}</a></td>
+                    <td style="display: table-cell;"><a  target="_blank" href="{{ route('admin.product.edit',$item['id']) }}">{{ (!is_array($item) AND $item->translate(session('lang'))) ? $item->translate(session('lang'))->name : (is_array($item) ? $item['name'] : config('app.fallback_locale')) }}</a></td>
                     <td style="display: table-cell;" class="text-center"><span>{{ isset($item['code_1c']) ? $item['code_1c']: '' }}</span></td>
                     <td style="display: table-cell;" class="text-center"><span>{{ (isset($item['created_at']) AND $item['created_at']  !== null) ? \Carbon\Carbon::parse($item['created_at'])->format('d.m.Y') : ''}}</span></td>
                     <td style="display: table-cell;" class="text-center"><span>{{ Auth::guard('admin')->user()->name}}</span></td>

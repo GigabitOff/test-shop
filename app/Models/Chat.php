@@ -13,7 +13,7 @@ class Chat extends Model
     const SOURCE_VACANCY = 'vacancy';
     const SOURCE_PRIVATE = 'private';
 
-    protected $fillable = ['manager_id', 'customer_id', 'department_id', 'closed', 'fio', 'phone', 'source'];
+    protected $fillable = ['manager_id', 'customer_id', 'department_id','subject', 'closed', 'fio', 'phone', 'source', 'answer_manager', 'answer_owner'];
 
     public function messages()
     {
@@ -23,6 +23,11 @@ class Chat extends Model
     public function latestMessage()
     {
         return $this->messages()->latest();
+    }
+
+    public function latestViewed()
+    {
+        return $this->messages()->latest()->first()->viewed;
     }
 
     public function customer()

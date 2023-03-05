@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class AddColSubjectToChatsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::table('chats', function (Blueprint $table) {
+            $table->string('subject')->after('manager_id')->nullable();
+            $table->boolean('answer_manager')->after('manager_id')->default(false);
+            $table->boolean('answer_owner')->after('manager_id')->default(false);
+
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('chats', function (Blueprint $table) {
+            $table->dropColumn('subject');
+            //
+        });
+    }
+}

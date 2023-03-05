@@ -253,6 +253,10 @@ Route::get('/test-import', function(){
     return 'unknown type.';
 });
 
-
+/** Brand pages */
+Route::resource('/brands', BrandsController::class)
+    ->only(['index', 'show'])
+    ->names('brands');
+    
 Route::get('/{id}', [PageController::class, 'show'])->name('pages.show');
 

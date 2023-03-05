@@ -101,7 +101,7 @@
 
                                     <tr>
                                         <td style="display: table-cell;">
-                                            <span>{{ $item->translate(session('lang')) ? $item->translate(session('lang'))->name : config('app.fallback_locale') }}</span>
+                                            <span>{{ (!is_array($item) AND $item->translate(session('lang'))) ? $item->translate(session('lang'))->name : (is_array($item) ? $item['name'] : config('app.fallback_locale')) }}</span>
                                         </td>
                                         <td style="display: table-cell;"><span
                                                 class="title">@lang('custom::admin.products.Brand')</span><span>{{ $item->brand ? $item->brand->title : config('app.fallback_locale') }}</span>

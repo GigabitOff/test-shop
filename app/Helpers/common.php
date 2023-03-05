@@ -191,6 +191,27 @@ if (!function_exists('formatDateTime')) {
     }
 }
 
+if (!function_exists('formatDateTime')) {
+    /**
+     * Форматирует дату и время в указанном стиле.
+     * @param string|null $date
+     * @param string|null $format
+     * @return string
+     */
+    function formatDateTime(?string $date, ?string $format = null): string
+    {
+        if ($date) {
+            $format = $format ?? config('app.date_formats.date_time');
+            try {
+                return Carbon::parse($date)->format($format);
+            } catch (Exception $e) {
+            }
+        }
+
+        return '';
+    }
+}
+
 if (!function_exists('formatMoney')) {
     /**
      * Форматирует валюту в указанном стиле.

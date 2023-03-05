@@ -23,7 +23,10 @@ class ServiceTranslation extends Model
         'meta_description',
         'seo_canonical',
         'search_tags',
+        'hashtag',
+        'note',
     ];
+
 
     public $timestamps = false;
 }

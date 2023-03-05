@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\AdminBannerController;
 use App\Http\Controllers\Admin\AdminCatalogServiceController;
 use App\Http\Controllers\Admin\AdminBrandController;
 use App\Http\Controllers\Admin\AdminCatalogProductImportController;
+use App\Http\Controllers\Admin\AdminChatsController;
 use App\Http\Controllers\Admin\Contuct\AdminContuctController;
 use App\Http\Controllers\Admin\AdminShopController;
 use App\Http\Controllers\Admin\AdminJobController;
@@ -215,7 +216,6 @@ Route::group(['middleware' => 'isAdmin'], function () {
             ->names('category');
     });
 
-
     Route::group(['prefix' => 'bonus'], function () {
 
         /**Работа с Скидки бонуса */
@@ -255,6 +255,9 @@ Route::group(['middleware' => 'isAdmin'], function () {
             ->names('bonus');
     });
 
+
+    Route::get('/chats', [AdminChatsController::class, 'index'])->name('chats.index');
+    Route::get('/chats/{chat}', [AdminChatsController::class, 'show'])->name('chats.show');
 
     /** Роути для Меню */
     Route::get('/menu/create', [AdminMenuController::class, 'create'])->name('menu.create');
