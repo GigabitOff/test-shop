@@ -2,7 +2,7 @@
     <main class="page-main page-catalog">
         <x-breadcrumbs
             :list="$breadcrumbs"
-            currentName="{{$category->name ?? ''}}"
+            :currentName="$category->name ?? ''"
         />
         @if($banner)
             <section class="section-banner --mobile">

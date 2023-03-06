@@ -2,7 +2,7 @@
     <main class="page-main page-product">
         <x-breadcrumbs
             :list="$breadcrumbs"
-            currentName="{{$data->name}}"
+            :currentName="$data->name"
         />
         <section class="section-banner --mobile">
             <div class="container-xl">
