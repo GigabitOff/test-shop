@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             RolesSeeder::class,
             PaymentTypeSeeder::class,
             PaymentTypeAvailableSeeder::class,
+            BrandSeeder::class,
             UserSeeder::class,
             PageSeeder::class,
             PageLocationSeeder::class,

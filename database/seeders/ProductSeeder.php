@@ -56,7 +56,7 @@ class ProductSeeder extends Seeder
                     ];
                 }
             }
-            DB::table('category_product')->insert($category_product);
+            DB::table('category_product')->upsert($category_product, ['product_id', 'category_id']);
 
 //            $product_in_groups = [];
 //            foreach ($productIds as $productId) {

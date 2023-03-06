@@ -35,7 +35,7 @@ class UserSeeder extends Seeder
 
             User::factory()->count($chunk)->create()
                 ->each(function ($user) {
-                    $user->assignRole('customer');
+                    $user->assignRole('simple');
                 });
 
             $progress->advance($chunk);
@@ -122,6 +122,6 @@ class UserSeeder extends Seeder
             $user->assignRole('api_manager');
         }
 
-        
+
     }
 }
