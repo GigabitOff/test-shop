@@ -3,11 +3,13 @@
     :collapsed="$collapsed"
     :key="$key"
 >
+    @if($searchable)
     <div class="filter-drop-search search-item">
         <input class="js-filter-search" type="text" name="search"
                autocomplete="off"
                placeholder="@lang('custom::site.search')">
     </div>
+    @endif
     <ul class="filter-content-list">
         @foreach($list as $item)
             @if($item['label'] && $item['key'])
