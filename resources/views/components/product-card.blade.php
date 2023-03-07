@@ -70,9 +70,10 @@
                  onclick="Livewire.emit('eventToggleComparisons', {'product_id' : {{$product->id}} })">
                 <div class="ico_compare"></div>
             </div>
+            <?php   $productPriceField = App\Models\Product::getPriceField(null, $product->price_sale,  $product->price_wholesale); ?>
             <div class="product-card__price">
                 <del>{!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!}</del>
-                {!! formatNbsp(formatMoney($product->price) . ' ₴') !!}
+                {!! formatNbsp(formatMoney($product->$productPriceField) . ' ₴') !!}
             </div>
             <div class="product-card__grid">
                 <div class="product-card__counter">
