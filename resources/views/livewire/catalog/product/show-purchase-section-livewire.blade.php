@@ -53,8 +53,7 @@
         <div class="product-full__info-actions">
             <div class="product-full__info-actions-top">
                 <div class="product-full__price">
-                 <?php   $productPriceField = App\Models\Product::getPriceField(null, $product->price_sale,  $product->price_wholesale); ?>
-
+                 @php( $productPriceField = App\Models\Product::getPriceField(null, $product->price_sale,  $product->price_wholesale))
                     <div>
                         <span>@lang('custom::site.price product')</span>
                         <strong>{!! formatNbsp(formatMoney($product->$productPriceField)) !!}</strong>

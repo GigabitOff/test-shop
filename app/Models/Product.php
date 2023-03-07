@@ -416,8 +416,6 @@ class Product extends Model implements ImagesOwnerContract
         }
     }
 
-
-
     public function forCustomer(?User $customer = null): Product
     {
         $this->customer = $customer;
