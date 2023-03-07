@@ -384,39 +384,39 @@ class Product extends Model implements ImagesOwnerContract
      * @param  User|null  $user
      * @return string
      */
-    public function getPriceField(?User $user = null): string
+    public static function getPriceField(?User $user = null, $priceSale = null, $priceWholesale = null): string
     {
-
         $user = $user ?? auth()->user();
-        if (!$user){
-            //Not registered user
-            if (!empty($this->price_sale) && $this->price_sale != 0) {
-                return 'price_sale';
-            }else {
-                return 'price_rrc';
-            }
-        }
-        if ($user->is_customer_legal) {
-            //User legal entity
-            if (!empty($this->price_sale) && $this->price_sale != 0) {
-                return 'price_sale';
-            } else if (!empty($this->price_wholesale) && $this->price_wholesale != 0) {
-                return 'price_wholesale';
-            } else {
-                return 'price_rrc';
-            }
-        }else{
-            //User registered natural person
-            if (!empty($this->price_sale) && $this->price_sale != 0) {
-                return 'price_sale';
-            } else if (!empty($this->price_wholesale) && $this->price_wholesale != 0) {
-                return 'price_wholesale';
-            } else {
-                return 'price_rrc';
-            }
-        }
 
+        if (!$user) {
+            //Not registered user
+            if (!empty($priceSale) && $priceSale != 0) {
+                return 'price_sale';
+            } else {
+                return 'price_rrc';
+            }
+        } elseif ($user->is_customer_legal) {
+            //User legal entity
+            if (!empty($priceSale) && $priceSale != 0) {
+                return 'price_sale';
+            } elseif (!empty($priceWholesale) && $priceWholesale != 0) {
+                return 'price_wholesale';
+            } else {
+                return 'price_rrc';
+            }
+        } else {
+            //User registered natural person
+            if (!empty($priceSale) && $priceSale != 0) {
+                return 'price_sale';
+            } elseif (!empty($priceWholesale) && $priceWholesale != 0) {
+                return 'price_wholesale';
+            } else {
+                return 'price_rrc';
+            }
+        }
     }
+
+
 
     public function forCustomer(?User $customer = null): Product
     {
