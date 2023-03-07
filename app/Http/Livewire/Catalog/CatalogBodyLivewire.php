@@ -27,6 +27,8 @@ class CatalogBodyLivewire extends Component
     const ORDER_SALE = 'sale';
     const ORDER_MARKDOWN = 'markdown';
 
+    public int $perPageDefault = 15;
+    public int $perPageListItemsCount = 4;
 
     // Uploaded from parent
     public ?Category $category = null;

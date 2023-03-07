@@ -57,13 +57,13 @@
 
         <div class="drop --select"><input class="form-control drop-input drop-input-hide" type="text" autocomplete="off"
                                           placeholder="15">
-            <button class="form-control drop-button" type="button">{{session()->get('perPage', 15)}}</button>
+            <button class="form-control drop-button" type="button">{{$this->getPerPageValue()}}</button>
             <div class="drop-box">
                 <div class="drop-overflow">
                     <ul class="drop-list">
-                        @for ($i = 15; $i <= 60; $i+=15)
-                            <li class="drop-list-item" onclick="@this.setPerPage({{$i}})">{{$i}}</li>
-                        @endfor
+                        @foreach($perPageListItems as $perPageValue)
+                            <li class="drop-list-item" onclick="@this.setPerPage({{$perPageValue}})">{{$perPageValue}}</li>
+                        @endforeach
                     </ul>
                 </div>
             </div>
