@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+
 class Product extends Model implements ImagesOwnerContract
 {
     use HasFactory;
@@ -383,12 +384,38 @@ class Product extends Model implements ImagesOwnerContract
      * @param  User|null  $user
      * @return string
      */
-    public static function getPriceField(?User $user = null): string
+    public function getPriceField(?User $user = null): string
     {
+
         $user = $user ?? auth()->user();
-        return $user && $user->is_customer_legal
-            ? 'price_wholesale'
-            : 'price_retail';
+        if (!$user){
+            //Not registered user
+            if (!empty($this->price_sale) && $this->price_sale != 0) {
+                return 'price_sale';
+            }else {
+                return 'price_rrc';
+            }
+        }
+        if ($user->is_customer_legal) {
+            //User legal entity
+            if (!empty($this->price_sale) && $this->price_sale != 0) {
+                return 'price_sale';
+            } else if (!empty($this->price_wholesale) && $this->price_wholesale != 0) {
+                return 'price_wholesale';
+            } else {
+                return 'price_rrc';
+            }
+        }else{
+            //User registered natural person
+            if (!empty($this->price_sale) && $this->price_sale != 0) {
+                return 'price_sale';
+            } else if (!empty($this->price_wholesale) && $this->price_wholesale != 0) {
+                return 'price_wholesale';
+            } else {
+                return 'price_rrc';
+            }
+        }
+
     }
 
     public function forCustomer(?User $customer = null): Product
