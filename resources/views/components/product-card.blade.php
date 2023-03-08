@@ -65,6 +65,7 @@
             </div>
         </div>
         <div class="product-card__bottom">
+
             <div class="js-add-compare product-card__compare
                 @if(comparisons()->isExistProduct($product->id)) is-active @endif"
                  onclick="Livewire.emit('eventToggleComparisons', {'product_id' : {{$product->id}} })">
@@ -72,8 +73,8 @@
             </div>
             @php($productPriceField = App\Models\Product::getPriceField(null, $product->price_sale,  $product->price_wholesale))
             <div class="product-card__price">
-                <del>{!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!}</del>
-                {!! formatNbsp(formatMoney($product->$productPriceField) . ' ₴') !!}
+                <s style="text-decoration: line-through; color: grey; font-size: 17px;">{!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!}</s>&nbsp;
+               {!! formatNbsp(formatMoney($product->$productPriceField) . ' ₴') !!}
             </div>
             <div class="product-card__grid">
                 <div class="product-card__counter">

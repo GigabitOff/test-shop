@@ -56,8 +56,9 @@
                  @php( $productPriceField = App\Models\Product::getPriceField(null, $product->price_sale,  $product->price_wholesale))
                     <div>
                         <span>@lang('custom::site.price product')</span>
-                        <strong>{!! formatNbsp(formatMoney($product->$productPriceField)) !!}</strong>
-                        <small>@lang('custom::site.uah')</small>
+                        <strong>{!! formatNbsp(formatMoney($product->$productPriceField) . ' ₴') !!}</strong>
+
+                        <span> <s style="text-decoration: line-through; color: grey; font-size: 17px;">{!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!}</s>&nbsp;</span>
                     </div>
                     <div>
                         <a href="#m-question2" data-bs-toggle="modal">@lang('custom::site.ask_a_question')?</a>
