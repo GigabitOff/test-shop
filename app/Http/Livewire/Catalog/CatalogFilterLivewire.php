@@ -11,6 +11,7 @@ use App\Services\CategoryService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Livewire\Component;
 
@@ -171,13 +172,14 @@ class CatalogFilterLivewire extends Component
             })
             ->orderBy('filter_order')
             ->withTranslation()
-            ->select('id')
+            ->select('id', 'filter_order')
             ->get()
             ->keyBy('id')
             ->map(function ($cat) {
                 return [
                     'key' => $cat->id,
                     'label' => $cat->name,
+                    'order' => $cat->filter_order,
                     'checked' => in_array($cat->id, $this->filters['category_id'] ?? []),
                 ];
             })->toArray();
@@ -221,6 +223,7 @@ class CatalogFilterLivewire extends Component
                     ->exists();
             })
             ->keyBy(fn($el) => "#{$el['key']}")
+            ->sortBy('order')
             ->toArray();
     }
 
