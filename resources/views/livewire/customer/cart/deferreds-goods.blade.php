@@ -16,6 +16,9 @@
                 <th data-breakpoints="xs sm md"></th>
             </tr>
             </thead>
+
+
+
             <tbody>
             @foreach($deferredsProducts as $product)
             <tr>
@@ -53,9 +56,10 @@
                         <span>{{$product->availabilityText}}</span>
                     </div>
                 </td>
+                @php($productPriceField = App\Models\Product::getPriceField(null, $product->price_sale,  $product->price_wholesale))
                 <td>
-                    <span class="big">{!! formatNbsp(formatMoney($product->cartPrice - $cashbackUsed) . ' ' . __('custom::site.UAH')) !!}</span>
-                    <span class="small">{!! formatNbsp(formatMoney($product->price_retail) . ' ' . __('custom::site.UAH')) !!}</span>
+                    <span class="big">  {!! formatNbsp(formatMoney($product->$productPriceField) . ' ₴') !!}</span>
+                    <s style="text-decoration: line-through; color: grey; font-size: 17px;">{!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!}</s>&nbsp;
                 </td>
                 <td class="text-center">
                     <div class="counter">
@@ -68,8 +72,8 @@
                     </div>
                 </td>
                 <td>
-                    <span class="big">{!! formatNbsp(formatMoney($product->cartCost - $cashbackUsed) . ' ' . __('custom::site.UAH')) !!}</span>
-                    <span class="small">{!! formatNbsp(formatMoney($product->quantity * $product->price_retail) . ' ' . __('custom::site.UAH')) !!}</span>
+                    <span class="big">{!! formatNbsp(formatMoney($product->quantity * $product->price_retail) . ' ₴') !!}</span>
+                    <s style="text-decoration: line-through; color: grey; font-size: 17px;">{!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!}</s>&nbsp;
                 </td>
                 <td class="w-1 text-xl-end">
                     <button class="button-accent button-xsmall nowrap" type="button"
@@ -86,6 +90,9 @@
             </tr>
             @endforeach
             </tbody>
+
+
+
         </table>
     <div class="lk-page__table-after">
         <div></div>
