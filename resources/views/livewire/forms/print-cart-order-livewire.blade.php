@@ -54,18 +54,16 @@
                             <span>{{$product->statusText}}</span>
                         </div>
                     </td>
-
                     <td style="display: table-cell;">
                         <span>{{$product->cartQuantity}}</span>
                     </td>
                     <td style="display: table-cell;">
                         <span>
-                            @if($printWithSale)
-                                {{formatMoney($product->sumPrice)}}
+                          @if($printWithSale)
+                                {!! formatNbsp(formatMoney($product->sumPrice) . ' ₴') !!}
                             @else
-                                {{formatMoney($product->sumRetail)}}
+                            {!! formatNbsp(formatMoney($product->price_rrc * $product->cartQuantity) . ' ₴') !!}
                             @endif
-                        @lang('custom::site.UAH')</span>
                     </td>
                 </tr>
                 @endforeach
@@ -91,8 +89,6 @@
             </div>
         </div>
     </div>
-
-
 <script>
     window.printPopup = function () {
         /**
