@@ -128,7 +128,7 @@
                     <span class="check__box"></span>
                     <span class="check__txt">
                         @lang('custom::site.agreement_with')
-                        <a href="#">@lang('custom::site.privacy_policy')</a>
+                        <a href="{{route('polityka-konfidenciynosti')}}">@lang('custom::site.privacy_policy')</a>
                     </span>
                 </label>
                 @error('privacy_policy')
