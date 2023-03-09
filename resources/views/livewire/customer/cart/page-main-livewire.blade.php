@@ -132,6 +132,7 @@
             </li>
         </ul>
     </div>
+
     @livewire('customer.cart.meta-block-livewire')
 
 
