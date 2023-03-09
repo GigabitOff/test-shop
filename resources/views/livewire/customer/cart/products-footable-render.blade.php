@@ -92,7 +92,7 @@
             @php($productPriceField = App\Models\Product::getPriceField(null, $cartProduct->price_sale,  $cartProduct->price_wholesale))
             <td>
                 <span
-                    class="big">{!! formatNbsp(formatMoney($cartProduct->$productPriceField - $cashbackUsed) . ' ' . __('custom::site.UAH')) !!}</span>
+                    class="big">{!! formatNbsp(formatMoney($cartProduct->$productPriceField - $cashbackUsed) .  ' ₴') !!}</span>
                 <s style="text-decoration: line-through; color: grey; font-size: 17px;">{!! formatNbsp(formatMoney($cartProduct->price_rrc) . ' ₴') !!}</s>&nbsp;
 
             </td>
@@ -109,7 +109,7 @@
             </td>
             <td>
                 <span
-                    class="big">{!! formatNbsp(formatMoney($cartProduct->$productPriceField * $cartProduct->cartQuantity - $cashbackUsed) . ' ' . __('custom::site.UAH')) !!}</span>
+                    class="big">{!! formatNbsp(formatMoney($cartProduct->$productPriceField * $cartProduct->cartQuantity - $cashbackUsed) .  ' ₴')  !!}</span>
                 <s style="text-decoration: line-through; color: grey; font-size: 17px;">
                     {!! formatNbsp(formatMoney($cartProduct->price_rrc * $cartProduct->cartQuantity) . ' ₴') !!}
                 </s>&nbsp;
