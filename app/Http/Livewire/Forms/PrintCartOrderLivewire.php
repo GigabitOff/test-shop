@@ -103,11 +103,11 @@ class PrintCartOrderLivewire extends Component
     protected function expandSum(Product $product)
     {
 
-        $product->sumPrice = formatMoney($product->cartPrice
-                             * $product->cartQuantity);
+        $product->sumPrice = $product->cartPrice
+                             * $product->cartQuantity;
 
-        $product->sumRetail = formatMoney($product->price_retail
-                              * $product->cartQuantity);
+        $product->sumRetail = $product->price_retail
+                              * $product->cartQuantity;
     }
 
     public function printWithSale()
