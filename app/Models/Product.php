@@ -384,7 +384,7 @@ class Product extends Model implements ImagesOwnerContract
      * @param  User|null  $user
      * @return string
      */
-    public static function getPriceField(?User $user = null, $priceSale = null, $priceWholesale = null): string
+    public static function getPriceFieldWithParams(?User $user = null, $priceSale = null, $priceWholesale = null): string
     {
         $user = $user ?? auth()->user();
 
@@ -415,6 +415,16 @@ class Product extends Model implements ImagesOwnerContract
             }
         }
     }
+
+    public static function getPriceField(?User $user = null): string
+    {
+       $user = $user ?? auth()->user();
+        return $user && $user->is_customer_legal
+            ? 'price_wholesale'
+            : 'price_retail';
+    }
+
+
 
     public function forCustomer(?User $customer = null): Product
     {
