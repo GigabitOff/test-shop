@@ -308,6 +308,7 @@ class CatalogFilterLivewire extends Component
                     'order' => data_get($attr->settings, 'order', 0),
                     'collapsed' => !data_get($attr->settings, 'expanded_list', false),
                     'searchable' => (bool)data_get($attr->settings, 'search', false),
+                    'basic' => $attr->basic,
                     'type' => data_get($attr->settings, 'show_type', 'checkbox'),
                     'show_title' => $showTitle,
                     'label' => $showTitle ? $attr->name : '',
@@ -338,7 +339,10 @@ class CatalogFilterLivewire extends Component
                     $el['type'] = 'checkbox';
                 }
             })
-            ->sortBy->order
+            ->sortBy([
+                ['basic', 'desc'],
+                ['order', 'asc'],
+            ])
             ->values()
             ->toArray();
     }
