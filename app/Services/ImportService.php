@@ -21,6 +21,7 @@ use App\Models\PersonalOffer;
 use App\Models\PriceType;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\Chat;
 use App\Models\Warehouse;
 use App\Rules\DeliveryAddressOwnerRule;
 use App\Rules\PersonalOfferOwnerRule;
@@ -1445,6 +1446,7 @@ class ImportService
                 ->saveFromBase64($document, $invoice['file_name'], $invoice['file_content']);
         }
 
+
         return $errors ?? [];
     }
 
@@ -1781,6 +1783,87 @@ class ImportService
         return ($valid_date = strtotime($date ?? ''))
             ? date('Y-m-d H:i:s', $valid_date)
             : $default;
+    }
+
+
+    public function setUserChat(array $chats): array
+    {
+        $rules = [
+            'subject' => 'required',
+            'customer_id_1c' => 'required_without:id_1c|exists:users,id_1c',
+            'manager_id_1c' => 'required_without:id_1c|exists:users,id_1c',
+            //'id_1c' => 'required_without:id_site|exists:chats,id_1c',
+        ];
+
+        foreach ($chats as $chat) {
+           // return $chat ?? [];
+
+            $rules = $this->restrictIdRules($chat, $rules, 'customer_id_1c', 'manager_id_1c');
+            if ($fail = $this->validate($chat, $rules)) {
+                $errors[] = $fail;
+
+            }
+
+
+            if(isset($chat['id_1c'])){
+                $chat_res = Chat::where('id_1c',$chat['id_1c'])->first();
+                $user_fio = User::where('id_1c', $chat['customer_id_1c'])->first();
+                $manager = User::where('id_1c', $chat['manager_id_1c'])->first();
+            }
+
+            if (!$manager)
+            $manager['id'] = null;
+
+            if(!$chat_res){
+
+
+            DB::beginTransaction();
+
+                $chat_res = $user_fio->chats()->create([
+                'customer_id' => $user_fio['id'],
+                'manager_id' => $manager['id'],
+                'fio' => $user_fio->name,
+                'subject' => $chat['subject'],
+                'id_1c' => $chat['id_1c'],
+                'closed' => $chat['closed'],
+                //'answer_manager' => 1,
+                'from_api' => 1,
+                'source' => Chat::SOURCE_PRIVATE,
+            ]);
+            }else{
+              /*  $chat_res->fill([
+                'subject' => $chat['subject'],
+                'closed' => $chat['closed'],
+                //'answer_manager' => 1,
+                'from_api' => 1,
+                ])->save();
+                */
+            }
+            if($chat_res->closed == 0){
+            $message = $chat_res->messages()->create([
+                'owner_id' => $chat_res['customer_id'],
+                'message' => $chat['text'],
+            ]);
+            }else{
+                $errors[] = 'Чат закрито';
+
+                //dd($errors);
+            }
+            DB::commit();
+
+        }
+
+
+        if(isset($errors)){
+            $res['error'] = $errors;
+            return $res;
+
+        }else{
+            return $errors ?? [];
+            //$res['chat'] = $chat_res->toArray();
+            $res['message'] = $message->toArray();
+            return $res;
+        }
     }
 
 }

@@ -62,6 +62,6 @@ class Attribute extends Model
     /** ========== Scopes ========== */
     public function scopeOnlyBasic($query)
     {
-        return $query->where('basic', true);
+        return $query->where('basic', 1);
     }
 }

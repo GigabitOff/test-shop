@@ -157,7 +157,7 @@
                   <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-reviews" data-bs-dismiss="modal">Додати відгук</button></div>
                   <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-reviews-2" data-bs-dismiss="modal">Додати відгук 2</button></div>
                   <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-jobs" data-bs-dismiss="modal">Вакансія</button></div>
-                  <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-callback" data-bs-dismiss="modal">Зворотний дзвінок</button></div>
+                  <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-callback-livewire" data-bs-dismiss="modal">Зворотний дзвінок</button></div>
                   <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-group-products" data-bs-dismiss="modal">Сгрупований товар</button></div>
                   <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-bonus" data-bs-dismiss="modal">Списати бонуси</button></div>
                   <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-print-order" data-bs-dismiss="modal">Друк замовлення</button></div>
@@ -674,7 +674,7 @@
           </div>
         </div>
       </div>
-        <div class="modal fade" id="m-callback">
+    <div class="modal fade" id="m-callback-old">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <livewire:forms.feedback-to-lk-livewire/>

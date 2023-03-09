@@ -24,7 +24,7 @@
             </td>
 
             <td class="text-center">
-                <span class="icon-status ico_checkmark js-free mt-1 @if($mainCat == $item->id) is-active @endif"
+                <span id="active{{$item->id}}" class="icon-status ico_checkmark mt-1 js-fee @if($mainCat == $item->id) is-active @endif " onclick="showMainCat('active{{$item->id}}')"
                         @click="$wire.setMainCategory({{$item->id}})"
                     ></span>
             </td>

@@ -27,6 +27,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('getDocs', [ExportController::class, 'getDocs']);
     Route::get('getDeliveryAddresses', [ExportController::class, 'getDeliveryAddresses']);
     Route::get('getProductsReserve', [ExportController::class, 'getProductsReserve']);
+    Route::get('getChatMessage', [ExportController::class, 'getChatMessage']);
+
 
     Route::post('setAttributes', [ImportController::class, 'setAttributes']);
     Route::post('setBrands', [ImportController::class, 'setBrands']);
@@ -63,4 +65,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('setStorages', [ImportController::class, 'setStorages']);
 
     Route::post('setTransferred', [ImportController::class, 'setTransferred']);
+    Route::post('setUsersChat', [ImportController::class, 'setUsersChat']);
 });

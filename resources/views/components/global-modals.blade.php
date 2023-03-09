@@ -23,4 +23,8 @@
 {{--    // Вариант Dialog popup основанный на Livewire, более настраиваемый  --}}
     <x-modal-form id="m-dialog-message"><livewire:forms.dialog-message-livewire/></x-modal-form>
 
+
+    <x-modal-form id="m-callback">
+        <livewire:forms.feedback-test-livewire/>
+    </x-modal-form>
 </div>

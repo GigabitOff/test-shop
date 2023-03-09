@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Api\Mobile\V1\ChatResource;
 use App\Http\Resources\Api\V1\CounterpartyResource;
 use App\Http\Resources\Api\V1\CustomerResource;
 use App\Http\Resources\Api\V1\DeliveryAddressResource;
@@ -10,6 +11,8 @@ use App\Http\Resources\Api\V1\DocumentResource;
 use App\Http\Resources\Api\V1\OrderResource;
 use App\Http\Resources\Api\V1\ProductReserveResource;
 use App\Http\Resources\Api\V1\YourTechniqueResource;
+
+use App\Models\ChatMessage;
 use App\Models\Counterparty;
 use App\Models\DeliveryAddress;
 use App\Models\Document;
@@ -178,5 +181,21 @@ class ExportController extends Controller
                 ProductReserveResource::class
             )
         );
+    }
+
+    public function getChatMessage(Request $request)
+    {
+        $chat_id = $request->get('chat_id');
+
+        $query = ChatMessage::where('chat_id',$chat_id)->get();
+
+        return $this->success(
+                $query,
+                ChatResource::class
+            );
+        //dd($request);
+
+
+        //return $this->success([], 'Import success');
     }
 }

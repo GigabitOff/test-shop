@@ -339,4 +339,20 @@ class ImportController extends Controller
         return $this->success([], 'Import success');
     }
 
+    public function setUsersChat(Request $request): JsonResponse
+    {
+        $this->validate($request, ['chat' => 'required']);
+
+        //dd($request);
+        $res = $this->importService->setUserChat($request->chat);
+
+        if (isset($res['error'])) {
+            return $this->error('Some data wrong', 200, $res['error']);
+        } else {
+           // return $this->success([$res], 'Import success');
+        }
+
+        return $this->success([], 'Import success');
+    }
+
 }

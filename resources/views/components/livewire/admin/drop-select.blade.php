@@ -16,7 +16,7 @@
         <div class="drop-overflow">
             <ul class="drop-list">
                 @foreach($list as $key => $item)
-                    <li class="drop-list-item" wire:click="setDropValue('{{$model}}', '{{$key}}')">{{$item}}</li>
+                    <li class="drop-list-item" onclick="@this.setDropValue('{{$model}}', '{{$key}}')">{{$item}}</li>
                 @endforeach
             </ul>
         </div>

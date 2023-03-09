@@ -1197,7 +1197,9 @@ return [
     'subject' => 'Тема',
     'new_message' => 'Нове повідомлення',
     'User message' => 'Отримувач',
-    
+    'Close dialog' => 'Закрити діалог',
+    'Popup' =>'Попап',
+    'Popup add' => 'Додати попап',
     'services_price' => [
         'price' => 'Ціна послуги',
         'price_sale_sum' => 'Ціна продажу всього',

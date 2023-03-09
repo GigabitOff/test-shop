@@ -1,8 +1,7 @@
 <div>
-
     <div id="footable-content-categories"
          class="footable-content d-none {{$this->getFooClasses()}}">
-        @include('livewire.admin.catalog.product.includes.categories-footable-render')
+        @include('livewire.admin.catalog.product.includes.categories-footable-render',['setCheckedMainCat'=>$setCheckedMainCat])
     </div>
 
     <table wire:ignore id="footable-holder-categories"
@@ -87,9 +86,11 @@
     <script>
         window.addEventListener('DOMContentLoaded', event => {
             $(document).on('click', '.icon-status.ico_checkmark', function () {
-                $(this).closest('tbody').find('.icon-status.ico_checkmark').removeClass('is-active');
-                $(this).addClass('is-active');
+              //  $(this).closest('tbody').find('.icon-status.ico_checkmark').removeClass('is-active');
+               // $(this).addClass('is-active');
             });
         })
+
+
     </script>
 @endpush

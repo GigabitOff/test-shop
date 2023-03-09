@@ -174,3 +174,19 @@ document.addEventListener('DOMContentLoaded', function() {
     })
 
 });
+
+// Створення контексту Web Audio
+            var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+            // Завантаження аудіо-файлу
+            var audioElement = new Audio('/audio/newMessage.mp3');
+            var audioSrc = audioCtx.createMediaElementSource(audioElement);
+
+            // Створення відтворювача
+            var gainNode = audioCtx.createGain();
+            gainNode.gain.value = 1; // Гучність звуку (від 0 до 1)
+
+            // Підключення відтворювача до контексту Web Audio
+            audioSrc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+

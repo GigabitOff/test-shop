@@ -1,12 +1,21 @@
 <div class="container-large" wire:poll.keep-alive.1000s>
     <a class="page-back" href="{{ route('admin.chats.index')}}"><button class="button button-accent button-small button-icon ico_arrow-left" type="button"></button>@lang('custom::admin.Return to list')</a>
-          <h4 class="text-center text-lg-start">№ {{ $chat->id}} / {{isset($subject) ? $subject : $chat->subject }}</h4>
+    <div class="message-head">
+            <h4 class="text-center text-lg-start">№ {{ $chat->id}} / {{isset($subject) ? $subject : $chat->subject }}</h4>
+            @if($this->isChatOpen())
+          <a class="button" href="#" onclick="@this.setCloseItem({{$chat->id}});">@lang('custom::admin.Close dialog')</a>
+        @endif
+          </div>
+
           <div class="mt-3">
             <div class="messages-box">
               <div class="messages-list-box">
+
                     <ul class="messages-list">
+
                         @foreach($messageGroups as $group)
                             @php
+
                                 $self = null;
                                 $first = $group->first();
                                 if(!empty($customer) AND $first->owner)
@@ -32,7 +41,7 @@
                                         </div>
                                         <div class="messages-list__item-info">
 
-                                        {{formatDateTime($message->created_at,'d.m.Y h:m')}}
+                                        {{formatDateTime($message->created_at,'d.m.Y H:i')}}
                                          </div>
                                     @endforeach
 
@@ -42,7 +51,9 @@
                     </ul>
                 </div>
 
-                @if($this->isChatOpen())
+
+            </div>
+            @if($this->isChatOpen())
                     <div class="messages-form-box">
                         <textarea class="form-control"
                                   wire:model.defer="newText"
@@ -52,7 +63,6 @@
                                 type="button">@lang('custom::admin.to_send')</button>
                     </div>
                 @endif
-            </div>
           </div>
         </div>
 
@@ -110,6 +120,16 @@
             window.addEventListener('checkUnViewedMessages', () => setMessagesToViewed());
 
             //# sourceURL=customer_chat_show-content-section.js
+
+
         });
+
+        const messageTextarea = document.querySelector('.messages-form-box textarea.form-control');
+            messageTextarea.addEventListener('keypress', function(e){
+                if (e.key === 'Enter' && messageTextarea.value.trim() !== '') {
+                e.preventDefault();
+                @this.submitNewMessage();
+                }
+            });
     </script>
 @endpush

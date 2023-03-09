@@ -17,7 +17,7 @@
         <div class="drop-overflow">
             <ul class="drop-list">
                 @foreach($list as $key => $item)
-                    <li class="drop-list-item" wire:click="setFilterableSelect('{{$model}}', '{{$key}}', '{{$item}}')">{{$item}}</li>
+                    <li  @if($key != '#') class="drop-list-item" onclick="@this.setFilterableSelect('{{$model}}', '{{$key}}', '{{$item}}')" @else class="drop-list-item-noselect" @endif>{{$item}}</li>
                 @endforeach
             </ul>
         </div>

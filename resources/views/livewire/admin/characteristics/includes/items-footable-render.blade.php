@@ -3,7 +3,7 @@
     <tr>
         <th class="w-100">
             <div class="d-flex align-items-center">
-                <label class="check js-select-all">
+                <label class="check js-select-all js-select-all2">
                     <input class="check__input" type="checkbox"
                            id="check-row-all"
                            data-value="{{isset($selectedData['all'])}}"

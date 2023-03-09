@@ -86,6 +86,9 @@
             </div>
             </div>
 <div class="col-md-12" wire:ignore>
+    @livewire('admin.contucts.popup-contuct-item-livewire',['item_id'=>$item_id], key('user-contuct-item-livewire'))
+</div>
+<div class="col-md-12" wire:ignore>
     @livewire('admin.users.user-contuct-item-livewire',['item_id'=>$item_id], key('user-contuct-item-livewire'))
 </div>
 

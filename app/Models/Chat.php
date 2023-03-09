@@ -13,7 +13,20 @@ class Chat extends Model
     const SOURCE_VACANCY = 'vacancy';
     const SOURCE_PRIVATE = 'private';
 
-    protected $fillable = ['manager_id', 'customer_id', 'department_id','subject', 'closed', 'fio', 'phone', 'source', 'answer_manager', 'answer_owner'];
+    protected $fillable = [
+        'id_1c',
+        'manager_id',
+        'popup_id',
+        'customer_id',
+        'department_id',
+        'subject',
+        'closed',
+        'fio',
+        'phone',
+        'email',
+        'source',
+        'answer_manager',
+        'answer_owner'];
 
     public function messages()
     {

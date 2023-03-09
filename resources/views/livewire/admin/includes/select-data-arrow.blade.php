@@ -56,7 +56,7 @@
                         {{ isset($item_data['name_'.session('lang')]) ? $item_data['name_'.session('lang')] : $item_data['name_uk']}}
                         @if(isset($item_data['district_'.session('lang')]))({{$item_data['district_'.session('lang')]}})@endif
                     @else
-                        @if($item_data AND !is_array($item_data) AND $item_data->translate(session('lang')))
+                        @if($item_data AND !is_array($item_data)  AND !isset($no_translation) AND $item_data->translate(session('lang')))
                         {{ $item_data->translate(session('lang'))->name }}
                         @elseif(isset($item_data[session('lang')]['name']))
                             {{ $item_data[session('lang')]['name'] }}

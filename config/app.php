@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Europe/Kiev',
 
     /*
     |--------------------------------------------------------------------------
@@ -323,6 +323,7 @@ return [
 
     'date_formats' =>[
         'date' => 'd.m.Y',
+        'front' => 'd.m.Y',
         'date_time' => 'd-m-Y H:i:s',
         'datepicker' => 'dd.mm.yy',
     ],

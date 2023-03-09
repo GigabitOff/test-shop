@@ -6,7 +6,7 @@
              style="display: none">
             @include('livewire.admin.chats.includes.index-footable-render')
         </div>
-        <table wire:ignore id="footable-holder"
+        <table wire:ignore id="footable-holder" class="users-table table-td-small"
                data-empty="@lang('custom::site.data_is_absent')"
                data-show-toggle="true" data-toggle-column="last">
         </table>

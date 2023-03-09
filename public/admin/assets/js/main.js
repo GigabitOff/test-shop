@@ -5,9 +5,9 @@ jQuery(document).ready(function ($) {
   //$('.js-date').datepicker({autoClose: true,});
   //$('.js-date-multy').datepicker({autoClose: true, range: true, multipleDatesSeparator: ' - '});
   $('.js-select').niceSelect();
-  $('.js-color').inputmask({regex: '[0-9a-fA-F]{6}'});
   $('.js-phone').inputmask({"mask": "+38(999) 999-99-99"});
-  $('.js-phone-small').inputmask({"mask": "(999) 999-99-99"});
+  $('.js-color').inputmask({"mask": "999999"});
+    $('.js-phone-small').inputmask({ "mask": "(999) 999-99-99" });
 
   $('.dropify').dropify({
     messages: {
@@ -40,29 +40,6 @@ jQuery(document).ready(function ($) {
     else target.slideUp();
   });
 
-
-  if(document.querySelector('.js-select-w-drop')) {
-    const selectDrop = document.querySelector('.js-select-w-drop'),
-    selectDropItems = selectDrop.querySelectorAll('.drop-list-item'),
-    selectDropBox = selectDrop.closest('.form-group').nextElementSibling;
-
-    for (let selectDropItem of selectDropItems) {
-
-      selectDropItem.addEventListener('click', function(){
-        for (let selectDropItem of selectDropItems) {
-          selectDropItem.classList.remove('is-active');
-        }
-        this.classList.add('is-active');
-        const itemData = this.getAttribute('data-drop');
-        if(itemData == 1) {
-          selectDropBox.classList.add('is-active')
-        } else {
-          selectDropBox.classList.remove('is-active')
-        }
-      })
-
-    }
-  }
 
   /* ------------------------ Кнопки дейсвий в таблице ------------------------ */
 
@@ -117,7 +94,7 @@ jQuery(document).ready(function ($) {
     $(this).closest('.drop').addClass('_active');
   });
 
-  $(document).on('input', '.drop input:not(".js-free")', function(){
+  $(document).on('input', '.drop input', function(){
     let val = $(this).val();
     if( val.length >= 1 ) {
       $(this).closest('.drop').find('.drop-clear').addClass('_active');
@@ -139,9 +116,9 @@ jQuery(document).ready(function ($) {
   });
 
   $(document).on('click', '.drop-box .drop-list-item', function(){
-    let currentVal = $(this).html();
-    let regex      = /<\/?\w+[^>]*\/?>/g;
-   // let currentTxt = $(this).html().replace(regex, "");
+    //let currentVal = $(this).html();
+    //let regex      = /<\/?\w+[^>]*\/?>/g;
+    //let currentTxt = $(this).html().replace(regex, "");
     //$(this).closest('.drop').find('.form-control').val(currentTxt);
     //$(this).closest('.drop').find('.drop-button').html(currentVal);
     $(this).closest('.drop').find('.drop-clear').addClass('_active');
@@ -230,44 +207,10 @@ jQuery(document).ready(function ($) {
     ths.closest('.upload-file-block').find('.upload-file-block__box').append(unit);
   });
 
-  $('.upload-file-block.--partners input.upload-file-block__input').bind('change', function() {
-
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = today.getFullYear();
-
-    today = mm + '.' + dd + '.' + yyyy;
-
-    let ths  = $(this);
-    let size = parseInt(this.files[0].size / 1024);
-    let name = this.files[0].name;
-    let unit = `<div class="upload-unit --partners">
-                  <div class="upload-unit__label">
-                    <div class="upload-unit__info">
-                      <div class="upload-unit__box">
-                        <div>
-                          <img src="assets/img/pdf.svg" alt="pdf">
-                        </div>
-                        <div>
-                          <div class="upload-unit__title">${name}</div>
-                          <div class="upload-unit__date">${today}</div>
-                        </div>
-                      </div>
-                      <div class="upload-unit__trash"><i class="ico_close"></i></div>
-                    </div>
-                  </div>
-                </div>`;
-    ths.closest('.upload-file-block').find('.upload-file-block__btn').hide();
-    ths.closest('.upload-file-block').find('.upload-file-block__box').append(unit);
-  });
-
   $(document).on('click', '.upload-unit__trash', function(){
     let ths  = $(this);
-    ths.closest('.upload-file-block').find('.upload-file-block__btn').show();
     ths.closest('.upload-file-block').find('input.upload-file-block__input').val('');
     ths.closest('.upload-unit').remove();
-
   });
   /* ----------------------------- Таблица Footable ---------------------------- */
 
@@ -290,9 +233,7 @@ jQuery(document).ready(function ($) {
    // FooTable.get('.js-table').pageSize(newSize);
   });
 
-  // js-free добавлено что бы исключить влияние обработчика
-  // т.к. он жестко привязан к стилевым классам
-  $(document).on('click', 'table button.ico_trash:not(".js-free")', function(){
+  $(document).on('click', 'table button.ico_trash', function(){
     $(this).closest('tr').remove();
   });
   // Dynamic Adapt v.1
@@ -456,7 +397,36 @@ jQuery(document).ready(function ($) {
 
   const da = new DynamicAdapt("max");
   da.init();
+  $(document).on('input', '.search__controls > input, .tagger-new > input', function(){
+    let textLenght = $(this).val().length;
+    if (textLenght >= 1) {
+      //$(this).closest('.search').addClass('is-active');
+      //$('.search__drop').show();
+      //$('.search__overlay').addClass('is-show');
+      $('body').addClass('no-scroll');
+    } else {
+      //$('.search__drop').hide();
+      //$('.search').removeClass('is-active');
+      //$('.search__overlay').removeClass('is-show');
+      $('body').removeClass('no-scroll');
+    }
+  });
 
+  $(document).on('click', '.search__close, .search__btn button', function(){
+    $('.search__drop').hide();
+    $('.search__overlay').removeClass('is-show');
+    $('.search').removeClass('is-active');
+  });
+
+  $(document).on('click', function (e) {
+    if (!$(e.target).closest(".search").length) {
+      $('.search__drop').hide();
+      $('.search__overlay').removeClass('is-show');
+      $('.search').removeClass('is-active');
+      $('body').removeClass('no-scroll');
+    }
+    e.stopPropagation();
+  });
 
   // $(document).on('click', '.search__items button.ico_plus', function(){
   //   $('.search__result').addClass('is-show');
@@ -497,184 +467,6 @@ jQuery(document).ready(function ($) {
     $('.page-sidebar__btn').removeClass('is-active');
     $('.page-sidebar__drop').removeClass('is-active');
     $('.page-wrapper').removeClass('is-show-menu');
-  });
-  if(document.querySelector('.order-history__more')) {
-      const orderDropdowns = document.querySelectorAll('.order-history__more');
-      for (const orderDropdown of orderDropdowns) {
-          orderDropdown.addEventListener('click', function(){
-              this.classList.toggle('active');
-              var panel = this.previousSibling;
-              if (panel.style.maxHeight){
-                  panel.style.maxHeight = null;
-              } else {
-                  panel.style.maxHeight = panel.scrollHeight + "px";
-              }
-          })
-      }
-  }
-  /* --------------------- Проверка на совпадение паролей --------------------- */
-  $("._pass-2").blur(function() {
-    let pass1 = $(this).closest('._pass-form').find("._pass-1").val();
-    let pass2 = $(this).closest('._pass-form').find("._pass-2").val();
-    if (pass1 !== pass2) {
-      $(this).closest('._pass-form').addClass('is-invalid');
-      $("._pass-2").addClass('is-invalid');
-    } else {
-      $(this).closest('._pass-form').removeClass('is-invalid');
-      $("._pass-2").removeClass('is-invalid');
-    }
-  });
-
-  /* ------------------------ Проверка сложности пароля ----------------------- */
-  $("._pass._pass-1").keyup(function() {
-    var pass = $("._pass._pass-1").val();
-    check(pass);
-  });
-  function check(pass) {
-    var protect = 0;
-    // Проверка на кол-во символов
-    if(pass.length >= 8) { protect++; }
-    // Проверка на наличие символов a,s,d,f ... x,y,z
-    var small = "([a-z]+)";
-    if(pass.match(small)) { protect++; }
-    // Проверка на наличие символов A,B,C,D ... X,Y,Z
-    var big = "([A-Z]+)";
-    if(pass.match(big)) { protect++; }
-    // Проверка на наличие символов 1,2,3,4,5 ... 0
-    var numb = "([0-9]+)";
-    if(pass.match(numb)) { protect++; }
-    //  Проверка на наличие символов !@#$
-    var vv = /\W/;
-    if(pass.match(vv)) { protect++; }
-    // Добавление классов
-    if(protect >= 1) {
-      $("._password-quality > li.one").addClass('_active');
-      $('._password-quality').addClass('easy');
-      $('._password-quality-title').addClass('easy');
-    } else {
-      $("._password-quality > li.one").removeClass('_active');
-      $('._password-quality').removeClass('easy');
-      $('._password-quality-title').removeClass('easy');
-    }
-    if(protect >= 2) {
-      $("._password-quality > li.two").addClass('_active');
-      $('._password-quality').removeClass('easy');
-      $('._password-quality-title').removeClass('easy');
-      $('._password-quality').addClass('normal');
-      $('._password-quality-title').addClass('normal');
-    } else {
-      $("._password-quality > li.two").removeClass('_active');
-      $('._password-quality').removeClass('normal');
-      $('._password-quality-title').removeClass('normal');
-    }
-    if(protect >= 3) {
-      $("._password-quality > li.three").addClass('_active');
-      $('._password-quality').removeClass('normal');
-      $('._password-quality-title').removeClass('normal');
-      $('._password-quality').addClass('good');
-      $('._password-quality-title').addClass('good');
-    } else {
-      $("._password-quality > li.three").removeClass('_active');
-      $('._password-quality').removeClass('good');
-      $('._password-quality-title').removeClass('good');
-    }
-    if(protect >= 4) {
-      $("._password-quality > li.four").addClass('_active');
-    } else {
-      $("._password-quality > li.four").removeClass('_active');
-    }
-    if(protect >= 5) {
-      $("._password-quality > li.five").addClass('_active');
-    } else {
-      $("._password-quality > li.five").removeClass('_active');
-    }
-  }
-  $(document).on('click', '.js-clear-date', function () {
-    $(this).closest('.js-date-group').find('input').val('');
-  });
-  $(document).on('click', '.custome-accordion-button', function () {
-    let $accordion_item = $(this).closest('.custome-accordion-item');
-    let $accordion_item_box = $accordion_item.find('.custome-accordion-content');
-    $accordion_item.toggleClass('--open');
-    $accordion_item_box.slideToggle();
-  });
-  $(document).on('click', '.js-remove-item', function () {
-    $(this).closest('.custome-accordion-item').remove();
-  });
-  $(document).on('click', '.js-accordion-add-item', function () {
-    let $box = $(this).closest('.js-accordion-add-subdivision');
-    let $accordion = $box.find('.custome-accordion');
-    let $accordion_item = $accordion.find('.custome-accordion-item:last');
-    let $accordion_item_id = parseInt($accordion_item.data('id')) + 1;
-    let $accordion_item_clone = $accordion_item.clone();
-    $accordion_item.removeClass('--open').find('.custome-accordion-content').slideToggle();
-    $accordion_item_clone.attr('data-id', $accordion_item_id);
-    $accordion_item_clone.find('.custome-accordion-button > span').text($accordion_item_id);
-    $accordion.append($accordion_item_clone);
-  });
-  $('.select-option-box').find('.select-option-item').hide();
-  $(document).on('click', '.js-show-select-option', function () {
-    const box = $(this).closest('.form-group').prev('.select-option-box');
-
-    if (box.find('.select-option-item').hasClass('is-active')) {
-      let item = box.find('.select-option-item.is-active').clone();
-      box.append(item.removeClass('is-active').addClass('--new'));
-    } else {
-      box.find('.select-option-item').addClass('is-active');
-      box.find('.select-option-item').slideDown();
-    }
-  });
-  $(document).on('click', '.js-toggle-dropdown', function () {
-      $(this).closest('.custome-table__dropdown').toggleClass('is-show');
-      $(this).closest('.custome-table__dropdown-title').next('.custome-table__dropdown-content').slideToggle();
-      $(document).trigger('toggle-dropdown.toggled', [this]);
-  });
-  $(document).on('click', '.js-show-person-box', function () {
-    const box = $(this).closest('.person-box');
-
-    if (box.find('.person-box__body').hasClass('is-active')) {
-      let item = box.find('.person-box__body').clone();
-      box.append(item.addClass('--new'));
-    } else {
-      box.find('.person-box__body').addClass('is-active');
-      box.find('.person-box__body').slideDown();
-    }
-  });
-  $(document).on('click', '.js-hide-person-box', function () {
-    const box = $(this).closest('.person-box');
-    box.find('.person-box__body.--new').remove();
-    box.find('.person-box__body').removeClass('is-active').slideUp();
-    box.find('.person-box__body').find('input[type="text"]').val('');
-  });
-  $(document).on('input', '.search__controls > input, .search__controls .tagger-new > input', function () {
-    let textLenght = $(this).val().length;
-
-    if (textLenght >= 1) {
-      $(this).closest('.search').addClass('is-active');
-      $(this).closest('.search').find('.search__drop').addClass('is-show');
-      $('.search__overlay').addClass('is-show');
-      $('body').addClass('no-scroll');
-    } else {
-      $('.search').removeClass('is-active');
-      $(this).closest('.search').find('.search__drop').removeClass('is-show');
-      $('.search__overlay').removeClass('is-show');
-      $('body').removeClass('no-scroll');
-    }
-  });
-  $(document).on('click', '.search__close, .search__btn button', function () {
-    $('.search__drop').removeClass('is-show');
-    $('.search__overlay').removeClass('is-show');
-    $('.search').removeClass('is-active');
-  });
-  $(document).on('click', function (e) {
-    if (!$(e.target).closest(".search").length) {
-      $('.search__drop').removeClass('is-show');
-      $('.search__overlay').removeClass('is-show');
-      $('.search').removeClass('is-active');
-      $('body').removeClass('no-scroll');
-    }
-
-    e.stopPropagation();
   });
   $(document).on('input', '.sidebar-search input', function () {
     let textLenght = $(this).val().length;
@@ -819,7 +611,7 @@ jQuery(document).ready(function ($) {
     $(this).toggleClass('is-active');
     $('body').toggleClass('page-is-blocked');
   });
-  $(document).on('click', '.icon-status.ico_checkmark:not(".js-free")', function () {
+  $(document).on('click', '.icon-status.ico_checkmark', function () {
     $(this).toggleClass('is-active');
   }); // Example starter JavaScript for disabling form submissions if there are invalid fields
 
@@ -844,22 +636,15 @@ jQuery(document).ready(function ($) {
     $('.login-form-on').slideToggle();
     $('.login-form-off').slideToggle();
   });
-  $(document).on('click', '.search-select-list li', function () {
+  $(document).on('click', '.coutry-number-list li', function () {
     let numb = $(this).attr('data-coutry-number');
     $('.js-phone-country').text(numb);
-    let serchItems = document.querySelectorAll('.search-select-list li');
-
-    for (const serchItem of serchItems) {
-      serchItem.classList.remove('is-selected');
-    }
-
-    $(this).addClass('is-selected');
   });
-  $(document).on('click', '.js-add-characteristic', function () {
+ /* $(document).on('click', '.js-add-characteristic', function () {
     let btnBox = $(this).closest('.page-save');
     cloneEl = btnBox.prev().clone();
     btnBox.prepend(cloneEl);
-  });
+  });*/
   /* ------------------------- Показать/Скрыть пароль ------------------------- */
 
   $(document).on('click', '.show-password', function () {
@@ -875,15 +660,15 @@ jQuery(document).ready(function ($) {
 
     return false;
   });
-  $(document).on('click', 'table .js-select-all', function () {
+  $(document).on('click', 'table .js-select-all2', function () {
     let $table = $(this).closest('table');
     let $checkboxs = $table.find('tbody td:first-child input[type="checkbox"]');
 
     if ($(this).find('input[type="checkbox"]').prop('checked')) {
       $checkboxs.prop("checked", true);
     } else {
-      $checkboxs.prop("checked", false);
-    }
+      //$checkboxs.prop("checked", false);
+   }
   });
   $(document).on('click', '.id-adress', function () {
     if ($(this).hasClass('--locked')) {
@@ -897,9 +682,9 @@ jQuery(document).ready(function ($) {
     $(this).addClass('active');
   });
   $(document).on('click', '.uploads-item__del', function () {
-    $(this).closest('.uploads-item').parent().remove();
-    let uploadItemsCount = $('.uploads-grid > *').length;
-    if (uploadItemsCount <= 1) $('.uploads-main-img').hide();
+  //  $(this).closest('.uploads-item').parent().remove();
+  //  let uploadItemsCount = $('.uploads-grid > *').length;
+  //  if (uploadItemsCount <= 1) $('.uploads-main-img').hide();
   });
   $(document).on('click', '.uploads-item__btn', function () {
     let bg = $(this).closest('.uploads-item').attr('style');
@@ -932,9 +717,20 @@ jQuery(document).ready(function ($) {
   $(document).on('click', '.js-change', function () {
     $(this).toggleClass('is-active');
   });
-  // $('input[type="number"]').on('input', function () {
-  //   $(this).val($(this).val().replace(/[A-Za-zА-Яа-яЁё]/, ''));
-  // });
+  $('input[type="number"]').on('input', function () {
+    $(this).val($(this).val().replace(/[A-Za-zА-Яа-яЁё]/, ''));
+  });
+/*  var logo = {
+    container: document.getElementById('logo_animate'),
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    rendererSettings: {
+      progressiveLoad: false,
+      preserveAspectRatio: 'xMidYMid slice'
+    },
+    path: 'assets/js/animated/logo.json'
+  };*/
   $(document).on('click', '.table-banner-row input[type="checkbox"]', function () {
     let $actionBtn = $(this).closest('.table-banner-row').find('.js-change-btn');
 
@@ -961,26 +757,9 @@ jQuery(document).ready(function ($) {
   $(document).on('click', '.lang-list a', function () {
     $('.lang-list a').removeClass('is-active');
     $(this).addClass('is-active');
-  }); // var logo = {
-  //   container: document.getElementById('logo_animate'),
-  //   renderer: 'svg',
-  //   loop: true,
-  //   autoplay: true,
-  //   rendererSettings: { progressiveLoad:false, preserveAspectRatio: 'xMidYMid slice' },
-  //   path: 'assets/js/animated/logo.json',
-  // };
-  // var logo_anim;
-  // logo_anim = lottie.loadAnimation(logo);
-
-  var params = {
-    container: document.getElementById('logo_animate'),
-    renderer: 'svg',
-    loop: true,
-    autoplay: true,
-    path: '/assets/js/logo_animate.json'
-  };
-  var anim;
-  anim = lottie.loadAnimation(params);
+  });
+  //var logo_anim;
+  //logo_anim = lottie.loadAnimation(logo);
   $(document).on('focus', '.js-date-popap', function () {
     var myModal = new bootstrap.Modal(document.getElementById('m-select-date'));
     myModal.show();
@@ -1021,86 +800,38 @@ jQuery(document).ready(function ($) {
     $(this).closest('.js-dropdown-select').find('.dropdown-toggle > span').text($(this).find('.dropdown-select-item__txt').text());
   });
   $(document).on('click', '.copy-item .ico_plus', function () {
-    //let block = $(this).closest('.copy-block'); // let item = $(this).closest('.copy-item');
+   // let block = $(this).closest('.copy-block'); // let item = $(this).closest('.copy-item');
     // block.append(item.clone());
 
    // let item = $(this).closest('.copy-item').clone();
-   // let btn = item[0].querySelector('.ico_plus');
-   // btn.classList.remove('ico_plus');
-    //btn.classList.add('ico_close');
    // block.append(item.addClass('--new'));
    // $('.js-phone').inputmask({
    //   "mask": "+38(999) 999-99-99"
    // });
   });
-  $(document).on('click', '.copy-item .ico_close', function () {
-    //let block = $(this).closest('.copy-block');
-    //let item = $(this).closest('.copy-item').remove();
-  });
   $(document).on('click', '.select-products-item .ico_remove', function () {
     $(this).closest('.select-products-item').remove();
   });
 
-  if (document.querySelector('.copy-section__btn')) {
-    const copyBtns = document.querySelectorAll('.copy-section__btn');
+    $(document).on('keyup', '.js-password', function () {
+    var reg = /[а-яА-ЯёЁ]/g;
 
-    for (const copyBtn of copyBtns) {
-      copyBtn.addEventListener('click', function () {
-        const copyCont = this.closest('.copy-section'),
-              copyItem = copyCont.querySelector('.copy-section__item').cloneNode(true),
-              copyBtnCont = this.closest('.form-group');
-        copyCont.insertBefore(copyItem, copyBtnCont);
-      });
+    if (this.value.search(reg) != -1) {
+      $('.js-cirilick').addClass('is-show');
+    } else {
+      $('.js-cirilick').removeClass('is-show');
     }
-  }
-
-  if (document.getElementById("wheelPicker")) {
-    const wheelPicker = new iro.ColorPicker("#wheelPickerHolder", {
-      width: 250,
-      color: '#D4014C',
-      display: 'grid',
-      margin: 0,
-      handleRadius: 15,
-      layout: [{
-        component: iro.ui.Wheel
-      }, {
-        component: iro.ui.Slider,
-        options: {
-          sliderType: 'saturation',
-          handleRadius: 12
-        }
-      }, {
-        component: iro.ui.Slider,
-        options: {
-          sliderType: 'value',
-          handleRadius: 12
-        }
-      }]
-    });
-    window.wheelColorPicker = wheelPicker;
-    const colorInput = document.querySelector('.select-color-input');
-    colorInput.addEventListener('change', function () {
-      wheelPicker.color.hexString = this.value;
-    });
-    wheelPicker.on('color:change', function (color) {
-      // if the first color changed
-      if (color.index === 0) {
-        // log the color index and hex value
-        const previweColor = document.querySelector('.select-color-previve');
-        const previweColorInner = document.querySelector('.select-color-previve__inner');
-        const selectedColor = color.hexString;
-        colorInput.value = selectedColor.toUpperCase();
-        previweColor.style.background = selectedColor;
-        previweColorInner.style.background = selectedColor;
-      }
-    });
-
-    if (document.querySelector('.color-button')) {
-      const selectColorButton = document.querySelector('.button-select-color'),
-            colorHolder = document.querySelector('.color-button');
-      selectColorButton.addEventListener('click', function () {
-        colorHolder.innerHTML = wheelPicker.color.hexString.toUpperCase();
-      });
+  });
+  $('.js-password').capsChecker({
+    capson: function (e, isOn) {
+      $('.js-capslock').addClass('is-show');
+    },
+    capsoff: function (e, isOn) {
+      $('.js-capslock').removeClass('is-show');
     }
-  }
+  });
+
+ $(document).on('click', '.js-clear-date', function () {
+        $(this).closest('.js-date-group').find('input').val('');
+    });
 });

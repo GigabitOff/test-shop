@@ -2,7 +2,7 @@
 
 
     <ul class="sidebar-menu">
-        <li class="sidebar-menu__item">
+        <li class="sidebar-menu__item"  wire:ignore>
             @php
                 $subPages = ['settings.show', 'settings.index', 'menu.index'];
                 $onSubpage = collect($subPages)
@@ -51,7 +51,7 @@
             </div>
         </li>
 
-        <li class="sidebar-menu__item">
+        <li class="sidebar-menu__item"  wire:ignore>
             @php
                 $subPages = ['pages.*', 'services.*', 'jobs.*', 'vacancies.*', 'actions.*', 'news.*', 'brands.*', 'reviews.*'];
                 $onSubpage = collect($subPages)
@@ -67,7 +67,7 @@
                 <span>@lang('custom::admin.Pages')</span>
             </x-admin.menu-link>
         </li>
-        <li class="sidebar-menu__item">
+        <li class="sidebar-menu__item"  wire:ignore>
             <a class="sidebar-menu__link @if($this->route == 'admin.shop_cities.*' OR $this->route === 'admin.shops.*' OR $this->route === 'admin.contucts.*')is-active @endif" href="#!"><i class="ico_menu15"></i><span>@lang('custom::admin.Company structure')</span></a>
                   <div class="sidebar-menu__dropdown">
                     <ul>
@@ -84,7 +84,7 @@
                     </ul>
                   </div>
                 </li>
-        <li class="sidebar-menu__item">
+        <li class="sidebar-menu__item"  wire:ignore>
             @php
                 $subPages = ['filters.index', 'filters.seo_filters'];
                 $onSubpage = collect($subPages)
@@ -148,7 +148,7 @@
             </x-admin.menu-link>
         </li>
 
-        <li class="sidebar-menu__item">
+        <li class="sidebar-menu__item"  wire:ignore>
             @php
                 $subPages = ['product.*', 'catalog.services.*', 'product-imports.*'];
                 $onSubpage = collect($subPages)
@@ -209,7 +209,7 @@
             </x-admin.menu-link>
         </li>
 
-        <li class="sidebar-menu__item">
+        <li class="sidebar-menu__item"  wire:ignore>
             @php
                 $subPages = ['bonus.marketing.*', 'bonus.personal.*', 'bonus.bonus.*', 'bonus.discount.*', 'bonus.cashback.*'];
                 $onSubpage = collect($subPages)
@@ -314,7 +314,7 @@
             </li>
         @endif
 
-         <li class="sidebar-menu__item">
+         <li class="sidebar-menu__item" >
             <x-admin.menu-link
                 class="sidebar-menu__link"
                 :link="route('admin.chats.index')"
@@ -325,7 +325,7 @@
                 <span>@lang('custom::admin.Chats')</span>
 
             </x-admin.menu-link>
-            <button class="sidebar-menu__sound"></button>
+            <button class="sidebar-menu__sound @if(session('playAudio') ===false)--mute @endif" wire:poll.keep-alive="checkChatsMessage" onclick="@this.stopStartAudioMessage()"></button>
         </li>
         <li class="sidebar-menu__item">
             <a target="_blank" class="sidebar-menu__link" href="/swagger">
@@ -352,6 +352,7 @@
                 @endif
 
             });
+
 
         });
 
@@ -381,6 +382,21 @@
                 })
             }
         }
+
+        function startAudioMessage() {
+            var audio = new Audio('/audio/newMessage.mp3');
+            audio.play();
+
+
+
+          //  audioElement.play();
+        }
+
+        window.addEventListener('startAudioMessage', () => {
+
+            startAudioMessage();
+
+        });
 
     </script>
 

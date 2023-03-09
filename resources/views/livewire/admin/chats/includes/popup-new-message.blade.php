@@ -49,8 +49,8 @@
                 <div class="is-invalid">{{$message}}</div>
                 @enderror
             </div>
-            <div class="mt-5">
-                <button class="button button-secondary button-lg button-block" type="submit">
+            <div class="form-group">
+                <button class="button w-100" type="submit">
                     @lang('custom::site.save')
                 </button>
             </div>

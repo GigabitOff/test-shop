@@ -62,8 +62,14 @@ class Contuct extends Model implements TranslatableContract
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'user_contuct');
+        return $this->belongsToMany(User::class, 'user_contuct')->withPivot('send_mail');
     }
+
+    public function popups(): BelongsToMany
+    {
+        return $this->belongsToMany(Popup::class, 'popup_contucts');
+    }
+
 
     public function shop()
     {

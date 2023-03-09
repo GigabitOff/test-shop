@@ -13714,6 +13714,8 @@ table.footable tbody td > span.social-item::before,
 }
 
 .message {
+  display: block;
+  width: 100%;
   color: #000;
 }
 
@@ -13880,6 +13882,14 @@ table.footable tbody td > span.social-item::before,
 .messages-form-box textarea {
   margin-bottom: 30px;
   margin-bottom: 20px;
+}
+
+.messeges .info-small {
+  display: block;
+}
+
+.messeges .users-table {
+  max-width: 100%;
 }
 
 .orders-filter {
@@ -18377,6 +18387,12 @@ main.page-main.--instructions {
     width: 25% !important;
   }
 
+  .message-name,
+  .message-theme {
+    min-width: 100px;
+    max-width: 120px;
+  }
+
   table.manager-table.footable thead tr th {
     border-bottom: 1px solid #E1E3EA;
   }
@@ -18466,6 +18482,12 @@ main.page-main.--instructions {
   }
 }
 
+@media only screen and (min-width: 1400px) {
+  .message {
+    min-width: 400px;
+  }
+}
+
 @media only screen and (min-width: 1500px) {
   .orders-filter .input-group {
     position: relative;
@@ -18482,6 +18504,10 @@ main.page-main.--instructions {
   .activity-filters {
     -ms-grid-columns: 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .message {
+    min-width: 600px;
   }
 }
 

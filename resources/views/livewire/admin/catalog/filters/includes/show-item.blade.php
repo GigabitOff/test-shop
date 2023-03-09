@@ -38,7 +38,7 @@
                         <input class="check__input" type="checkbox" @if(isset($selectedData[$item->id])) checked="checked" @endif onclick="@this.selectDataItem('{{ $item->id }}')" ><span class="check__box"></span>
                     </label>
                 <a href="{{ route('admin.filters.edit',$item->id) }}">
-                    {{ $item->translate(session('lang'), true)->title ?: $item->name }}
+                    {{ (is_object($item->translate(session('lang'), true)) AND isset($item->translate(session('lang'), true)->title)) ? $item->translate(session('lang'), true)->title : $item->name }}
                 </a>
             </div>
             </td>

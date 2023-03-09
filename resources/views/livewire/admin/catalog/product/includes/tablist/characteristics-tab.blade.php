@@ -9,7 +9,6 @@
     <div class="is-invalid d-block my-2">{{$message}}</div>
 @enderror
 
-
 <livewire:admin.catalog.product.category-selector-livewire :product="$dataItem" />
 
 <div class="form-group mt-3"><span>@lang('custom::admin.Mandatory characteristics')</span></div>
@@ -99,7 +98,15 @@
 
 <div class="form-group mt-4 mb-4"><button class="button" type="button" onclick="@this.addTmpCharacteristic()">@lang('custom::admin.Add a characteristic')</button></div>
 {{--<div class="form-group mt-4 mb-4"><button class="button" type="button" onclick="@this.SaveCharacteristic()">@lang('custom::admin.Save characteristic')</button></div>--}}
+<script>
+     function showMainCat(params) {
 
+        $('#'+params).toggleClass('is-active');
+              //  $('#'+params).addClass('is-active');
+
+            //$().addClass('is-active');
+        }
+</script>
 
 
 

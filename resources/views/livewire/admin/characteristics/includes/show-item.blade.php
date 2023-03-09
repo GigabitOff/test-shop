@@ -16,7 +16,7 @@
 
     <div id="footable-content"
          class="footable-content d-none {{$this->getFooClasses()}}">
-        @include('livewire.admin.characteristics.includes.items-footable-render')
+        @include('livewire.admin.characteristics.includes.items-footable-render',['selectedData'=>$selectedData])
     </div>
 
     {{--    // Блок кнопок должен быть непосредственно перед таблицей--}}
@@ -66,5 +66,7 @@
 
         </div>
     </div>
+
+     @include('livewire.admin.includes.scripts_data',['hideFoot'=>true,'on_click'=>'dellAllData()','key'=>'All', 'title'=>''])
 
 </div>

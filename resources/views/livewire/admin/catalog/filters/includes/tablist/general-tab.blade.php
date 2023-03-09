@@ -12,7 +12,6 @@
                 'placeholder'=>__('custom::admin.Category for filter'),
                 'index'=>'category_id',
                 'show_name' => true,
-                'searchSelectDataArrow' => true,
                 'title_select' => (isset($data['category_id']) AND isset($select_data['category_id'][$data['category_id']]['input'])) ? $select_data['category_id'][$data['category_id']]['input'] : null,
                 'drop_list'=>'drop-list'])
                   @error('category')

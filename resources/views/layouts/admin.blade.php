@@ -51,6 +51,41 @@
             color: red;
 
         }
+
+        .drop .drop-list-item-noselect {
+  -webkit-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  display: block;
+  display: block;
+  position: relative;
+  position: relative;
+  padding: 5px 15px;
+  border-bottom: 1px solid #F7F8FB;
+  color: #000;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s linear;
+}
+
+.drop .drop-list-item-noselect:hover {
+  background: #F7F8FB;
+}
+
+.drop .drop-list-item-noselect a {
+  -webkit-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  display: block;
+  display: block;
+  position: relative;
+  color: #000;
+  font-size: 14px;
+  transition: all 0.3s linear;
+}
+
+.drop .drop-list-item-noselect a:hover {
+  color: #628EFF;
+  text-decoration: none;
+}
     </style>
     @livewireStyles
 
