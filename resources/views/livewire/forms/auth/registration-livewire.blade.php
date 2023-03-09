@@ -56,7 +56,7 @@
                 <label class="check">
                     <input class="_hide-checkbox check__input"
                            id="fr_legal-entity"
-                           wire:model.defer="legal_entity"
+                           wire:model="legal_entity"
                            type="checkbox">
                     <span class="check__box"></span>
                     <span class="check__txt">@lang('custom::site.legal_entity')</span>
@@ -136,27 +136,28 @@
                 @enderror
             </div>
 
-            <div class="form-group">
-                <button class="button-accent w-100"
-                        {{--                        onclick="@this.set('phoneRaw', $(this).closest('form').find('input[name=phone]').val())"--}}
-                        onclick="document.registrationForm.submitClick()"
-                        type="submit">@lang('custom::site.send_password')</button>
-
-                <div class="login-btns-group">
-                    <button class="ico_google"
-                            onclick="document.registrationForm.showNeedCredentialsMessage()"
-                            type="button">Google
-                    </button>
-                    <button class="ico_apple"
-                            onclick="document.registrationForm.showNeedCredentialsMessage()"
-                            type="button">Apple Id
-                    </button>
-                    <button class="ico_bank"
-                            onclick="document.registrationForm.showNeedCredentialsMessage()"
-                            type="button">Банк id
-                    </button>
+            @if(!$legal_entity)
+                <div class="form-group">
+                    <button class="button-accent w-100"
+                            {{--                        onclick="@this.set('phoneRaw', $(this).closest('form').find('input[name=phone]').val())"--}}
+                            onclick="document.registrationForm.submitClick()"
+                            type="submit">@lang('custom::site.send_password')</button>
+                    <div class="login-btns-group">
+                        <button class="ico_google"
+                                onclick="document.registrationForm.showNeedCredentialsMessage()"
+                                type="button">Google
+                        </button>
+                        <button class="ico_apple"
+                                onclick="document.registrationForm.showNeedCredentialsMessage()"
+                                type="button">Apple Id
+                        </button>
+                        <button class="ico_bank"
+                                onclick="document.registrationForm.showNeedCredentialsMessage()"
+                                type="button">Банк id
+                        </button>
+                    </div>
                 </div>
-            </div>
+            @endif
         </form>
     </div>
 </div>
