@@ -89,7 +89,6 @@ class CategoryService
         $list = $category
             ? $this
                 ->getCategoryParents($category, $withCurrent)
-                ->take(2)
                 ->load('translations')
                 ->each(fn(Category $cat) => $cat->routeLink = route('catalog.show', $cat->slug))
                 ->map(function (Category $cat) {
