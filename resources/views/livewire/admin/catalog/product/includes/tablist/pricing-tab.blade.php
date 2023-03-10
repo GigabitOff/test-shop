@@ -4,10 +4,10 @@
             <span>@lang('custom::admin.products.price_rrp'), @lang('custom::admin.products.UAH')</span>
         </div>
         <input type="number"
-               class="form-control @error('data.price_rrp') is-invalid @enderror"
+               class="form-control @error('data.price_rrc') is-invalid @enderror"
                onclick="this.select();"
                placeholder="@lang('custom::admin.products.price_rrp')"
-               wire:model.lazy="data.price_rrp" >
+               wire:model.lazy="data.price_rrc" >
     </div>
     @error('data.price_retail')
         <div class="is-invalid d-block">{{ $message }}</div>
