@@ -5,6 +5,7 @@
     @guest
 {{--   // Модальные окна для гостей  --}}
         <x-modal-form id="m-login"><livewire:forms.auth.login-livewire/></x-modal-form>
+        <x-modal-form id="m-otp-login"><livewire:forms.auth.otp-login-livewire/></x-modal-form>
         <x-modal-form id="m-registration"><livewire:forms.auth.registration-livewire/></x-modal-form>
         <x-modal-form id="m-password-recovery"><livewire:forms.auth.password-recovery-livewire/></x-modal-form>
 

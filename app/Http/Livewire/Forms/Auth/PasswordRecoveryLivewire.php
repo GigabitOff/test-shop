@@ -3,7 +3,8 @@
 namespace App\Http\Livewire\Forms\Auth;
 
 use App\Models\User;
-use App\Services\UsersService;
+use App\Services\OtpService;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class PasswordRecoveryLivewire extends Component
@@ -27,9 +28,16 @@ class PasswordRecoveryLivewire extends Component
         'eventSetTargetPhone',
     ];
 
-    public function updatedPhoneRaw($value)
+    protected array $rules = [
+        'phone' => 'required|exists:users,phone',
+        'code' => 'required|digits:6',
+    ];
+
+    protected OtpService $otpService;
+
+    public function boot()
     {
-        $this->phone = preg_replace('/\D/', '', $value);
+        $this->otpService = app()->make(OtpService::class);
     }
 
     public function render()
@@ -39,9 +47,17 @@ class PasswordRecoveryLivewire extends Component
         ]);
     }
 
-    public function submit(UsersService $service)
+    public function updatedPhoneRaw($value)
     {
-        $this->validate();
+        $this->phone = preg_replace('/\D/', '', $value);
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    public function submit()
+    {
+        $this->validateOnly('phone');
 
         /** @var User $user */
         $user = User::query()->where('phone', $this->phone)->first();
@@ -49,46 +65,32 @@ class PasswordRecoveryLivewire extends Component
         if ($this->isRecoveryMode()) {
 
             $this->reset(['code']);
-            $this->password = stringDigit(6);
-
-            $service->sendRecoveryCode($user, $this->password);
-            $user->setOption('show_password_change', true, true);
-
+            $this->sendCode(true);
+            $user->setOption('query_password_change_after_login', true, true);
             $this->setModeVerification();
 
         } elseif ($this->isVerificationMode()) {
+            $this->validateOnly('code');
 
-            $service->setPasswordFromRecoveryCode($user);
+            if (!$this->otpService->validate($user->phone, $this->code)) {
+                throw ValidationException::withMessages([
+                    'code' => __('custom::site.password_entered_fail'),
+                ]);
+            }
 
-            $this->showSuccessModal();
+            if(!$this->userRoleAllowed($user)) {
+                return;
+            }
+
+            auth()->login($user);
+
+            $this->otpService->markCodeAsUsed($user->phone, $this->code);
 
             $this->emitSelf('eventRestoreForm');
+
+            $this->redirect(url()->previous());
+            $this->shouldSkipRender = false;
         }
-
-    }
-
-    protected function showSuccessModal()
-    {
-        $this->emit('eventShowDialogMessage', [
-            'title' => __('custom::site.password_recovery'),
-            'message' => __('custom::site.password_recovery_success'),
-            'buttons' => [
-                [
-                    'text' => __('custom::site.to_login_form'),
-                    'actions' => [
-                        [
-                            'type' => 'sendEvent',
-                            'target' => 'eventSetLoginPhone',
-                            'payload' => $this->phone,
-                        ],
-                        [
-                            'type' => 'showModal',
-                            'target' => 'm-login',
-                        ]
-                    ]
-                ]
-            ]
-        ]);
     }
 
     /** ========== Event handlers ========== */
@@ -116,27 +118,6 @@ class PasswordRecoveryLivewire extends Component
                 'modalId' => 'm-password-recovery',
             ]);
         }
-    }
-
-    public function rules(): array
-    {
-        switch (true) {
-            case $this->isVerificationMode():
-                return [
-                    'code' => "in:{$this->password}",
-                ];
-            default:
-                return [
-                    'phone' => 'required|bail|min:12|exists:users,phone',
-                ];
-        }
-    }
-
-    public function messages(): array
-    {
-        return [
-            'code.in' => __('custom::site.password_entered_fail'),
-        ];
     }
 
     public function restoreForm()
@@ -184,4 +165,26 @@ class PasswordRecoveryLivewire extends Component
         return $this->mode === self::MODE_VERIFICATION;
     }
 
+    public function sendCode($silently = false)
+    {
+        $valid = $this->validateOnly('phone');
+        $code = $this->otpService->generate($valid['phone']);
+
+        smsSend($this->phone, sprintf(__('custom::site.otp_code_sms'), $code),  'otp login');
+
+        if(!$silently){
+            session()->flash('otp_code_resent', __('custom::site.otp_code_resent'));
+        }
+    }
+
+    private function userRoleAllowed(User $user): bool
+    {
+        $denyRoles = config('app.deny_roles.site', []);
+
+        if ($denyRoles && $user->hasAnyRole($denyRoles)) {
+            return false;
+        }
+
+        return true;
+    }
 }

@@ -3,7 +3,6 @@
         <h5 class="modal-title">{{__('custom::site.password_change')}}
             <small>{{__('custom::site.on_project_domain')}}</small></h5>
         <button class="btn-close" type="button"
-                wire:click="clearAutoShow"
                 data-bs-dismiss="modal"></button>
     </div>
     <div class="modal-body">
@@ -58,11 +57,6 @@
                 $('#m-change-password').modal('show');
             }, 2000);
             @endif
-
-            $('#m-change-password').on('hide.bs.modal', function (e) {
-                @this.
-                clearAutoShow();
-            })
         });
 
         //# sourceURL=modal-password-change.js
