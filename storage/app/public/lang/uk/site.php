@@ -777,6 +777,7 @@ return [
     'open_jobs' => 'Відкриті вакансії',
     'edit_user' => 'Редагування користувача',
     'about_advatages_main_title' => 'Трохи статистики, щоб пізнати нас краще',
+
     'our_partners' => 'Наші партнери',
     'add' => 'Додати',
     'Related users' => "Пов'язані користувачі, телефон",
@@ -789,4 +790,10 @@ return [
     'otp_code_sms' => 'Вітаємо. Ваш код %s',
     'otp_code_login' => 'Використати код',
     'otp_code_resend' => 'Відправити повторно',
+
+    'email' => 'E-mail',
+    'our_partners' => 'Наші партнери',
+    'Chat id' => 'Чат id',
+    'Popup' => 'Попап',
+
 ];
