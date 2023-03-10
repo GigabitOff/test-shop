@@ -299,7 +299,17 @@
                 <span>@lang('custom::admin.Counterparties')</span>
             </x-admin.menu-link>
         </li>
-
+        <li class="sidebar-menu__item">
+            <x-admin.menu-link
+                class="sidebar-menu__link"
+                :link="route('admin.orders.index')"
+                :active="$this->route === 'admin.orders.*'"
+                :confirm="(isset($canselSaveButton))"
+            >
+                <i class="ico_menu16"></i>
+                <span>@lang('custom::admin.Orders')</span>
+            </x-admin.menu-link>
+        </li>
         @if($instruction)
             <li class="sidebar-menu__item">
                 <x-admin.menu-link
@@ -396,6 +406,7 @@
 
             startAudioMessage();
 
+            @this.emit('reloadChatsIndex');
         });
 
     </script>

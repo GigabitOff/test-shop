@@ -53,6 +53,11 @@ class Chat extends Model
         return $this->belongsTo(User::class, 'manager_id');
     }
 
+    public function popup()
+    {
+        return $this->belongsTo(Popup::class, 'popup_id');
+    }
+
     public function department()
     {
         return $this->belongsTo(Contuct::class);

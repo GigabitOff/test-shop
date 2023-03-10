@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\AdminNewsController;
 use App\Http\Controllers\Admin\AdminBannerController;
 use App\Http\Controllers\Admin\AdminCatalogServiceController;
 use App\Http\Controllers\Admin\AdminBrandController;
+use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Admin\AdminCatalogProductImportController;
 use App\Http\Controllers\Admin\AdminChatsController;
 use App\Http\Controllers\Admin\Contuct\AdminContuctController;
@@ -266,6 +267,11 @@ Route::group(['middleware' => 'isAdmin'], function () {
         ->names('menu');
     /**End Роути для Меню */
 
+    /** Робота із замовленнями */
+    Route::get('/orders/create', [AdminOrderController::class, 'create'])->name('orders.create');
+    Route::resource('/orders', AdminOrderController::class)
+        ->only(['index', 'show', 'edit'])
+        ->names('orders');
 
     // vendor/ckfinder/ckfinder-laravel-package/src/routes.php
 });
