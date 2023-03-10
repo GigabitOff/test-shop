@@ -89,11 +89,15 @@
                     <span>{{$cartProduct->availabilityText}}</span>
                 </div>
             </td>
-            @php($productPriceField = App\Models\Product::getPriceField(null, $cartProduct->price_sale,  $cartProduct->price_wholesale))
+            @php($productPriceField = App\Models\Product:: getPriceFieldWithParams(null, $cartProduct->price_sale,  $cartProduct->price_wholesale))
             <td>
                 <span
                     class="big">{!! formatNbsp(formatMoney($cartProduct->$productPriceField - $cashbackUsed) .  ' ₴') !!}</span>
-                <s style="text-decoration: line-through; color: grey; font-size: 17px;">{!! formatNbsp(formatMoney($cartProduct->price_rrc) . ' ₴') !!}</s>&nbsp;
+                @if ($cartProduct->price_sale != 0 or $cartProduct->price_wholesale != 0)
+                    <span>
+                          <s style="text-decoration: line-through; color: grey; font-size: 17px;">{!! formatNbsp(formatMoney($cartProduct->price_rrc) . ' ₴') !!}</s>&nbsp;
+                    </span>
+                @endif
 
             </td>
             <td class="text-center">
@@ -110,10 +114,13 @@
             <td>
                 <span
                     class="big">{!! formatNbsp(formatMoney($cartProduct->$productPriceField * $cartProduct->cartQuantity - $cashbackUsed) .  ' ₴')  !!}</span>
-                <s style="text-decoration: line-through; color: grey; font-size: 17px;">
+                @if ($cartProduct->price_sale != 0 or $cartProduct->price_wholesale != 0)
+                    <span>
+                           <s style="text-decoration: line-through; color: grey; font-size: 17px;">
                     {!! formatNbsp(formatMoney($cartProduct->price_rrc * $cartProduct->cartQuantity) . ' ₴') !!}
                 </s>&nbsp;
-
+                    </span>
+                @endif
             </td>
             <td class="text-end">
                 <button class="button-delete ico_trash" type="button"

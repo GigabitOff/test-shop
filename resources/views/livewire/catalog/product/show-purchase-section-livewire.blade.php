@@ -53,12 +53,16 @@
         <div class="product-full__info-actions">
             <div class="product-full__info-actions-top">
                 <div class="product-full__price">
-                 @php( $productPriceField = App\Models\Product::getPriceField(null, $product->price_sale,  $product->price_wholesale))
+
+                    @php( $productPriceField = App\Models\Product:: getPriceFieldWithParams(null, $product->price_sale,  $product->price_wholesale))
                     <div>
                         <span>@lang('custom::site.price product')</span>
                         <strong>{!! formatNbsp(formatMoney($product->$productPriceField) . ' ₴') !!}</strong>
-
-                        <span> <s style="text-decoration: line-through; color: grey; font-size: 17px;">{!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!}</s>&nbsp;</span>
+                        @if ($product->price_sale != 0 or $product->price_wholesale != 0)
+                            <span>
+                                  <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </s>&nbsp;
+                           </span>
+                        @endif
                     </div>
                     <div>
                         <a href="#m-question2" data-bs-toggle="modal">@lang('custom::site.ask_a_question')?</a>
@@ -68,7 +72,7 @@
                 <div class="product-full__btns-group">
                     <div class="product-full__counter @if(!$product->can_be_sold) d-none @endif">
                         <div class="counter">
-                            <div class="counter__btn minus"></div>
+                        <div class="counter__btn minus"></div>
                             <div class="counter__field">
                                 <input class="input-col js-numeric" type="number"
                                        min="{{$product->multiplicity}}"

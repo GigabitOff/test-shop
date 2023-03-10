@@ -5,16 +5,16 @@
                 <span class="product-card__label {{$product->availabilityCss}}">
                   {{$product->availabilityText}}
                 </span>
-{{--                <div class="product-card__badge product-card__badge-new">--}}
-{{--                    <div class="product-card__badge-button ico_star"></div>--}}
-{{--                    <div class="product-card__badge-dropdown">--}}
-{{--                        <div class="product-card__badge-icon ico_star"></div>--}}
-{{--                        <div class="product-card__badge-title">Новинка</div>--}}
-{{--                        <div class="product-card__badge-content">--}}
-{{--                            <p>There are many variations of passages lorem Ipsum available, but the majority alteration in some form, by injected humour randomised words which don't look even believable. </p>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
+                {{--                <div class="product-card__badge product-card__badge-new">--}}
+                {{--                    <div class="product-card__badge-button ico_star"></div>--}}
+                {{--                    <div class="product-card__badge-dropdown">--}}
+                {{--                        <div class="product-card__badge-icon ico_star"></div>--}}
+                {{--                        <div class="product-card__badge-title">Новинка</div>--}}
+                {{--                        <div class="product-card__badge-content">--}}
+                {{--                            <p>There are many variations of passages lorem Ipsum available, but the majority alteration in some form, by injected humour randomised words which don't look even believable. </p>--}}
+                {{--                        </div>--}}
+                {{--                    </div>--}}
+                {{--                </div>--}}
             </div>
             <span class="product-card__brand">
                 @if($product->brandImageUrl)
@@ -54,9 +54,9 @@
                 <ul>
                     @foreach($product->cardAttrVariations as $variation)
                         @continue($loop->iteration > 3)
-                            <a href="{{ route('products.show', [$variation->slug])}}#specification">
-                                <li><span>{{$variation->cardAttrValue }}</span></li>
-                            </a>
+                        <a href="{{ route('products.show', [$variation->slug])}}#specification">
+                            <li><span>{{$variation->cardAttrValue }}</span></li>
+                        </a>
                     @endforeach
                     @if($product->cardAttrVariations->count() > 3)
                         <li>+{{$product->cardAttrVariations->count() - 3}}</li>
@@ -72,10 +72,12 @@
             </div>
             @php($productPriceField = App\Models\Product::getPriceFieldWithParams(null, $product->price_sale,  $product->price_wholesale))
             <div class="product-card__price">
-
-                <s style="text-decoration: line-through; color: grey; font-size: 17px;">{!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!}</s>&nbsp;
-                <span class="big">  {!! formatNbsp(formatMoney($product->$productPriceField) . ' ₴') !!}</span>
-
+                @if ($product->price_sale != 0 or $product->price_wholesale != 0)
+                    <span>
+                            <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </s>&nbsp;
+                    </span>
+                @endif
+                <span class="big">  {!! formatNbsp(formatMoney($product->{$productPriceField}) . ' ₴') !!}</span>
             </div>
             <div class="product-card__grid">
                 <div class="product-card__counter">

@@ -59,7 +59,11 @@
                 @php($productPriceField = App\Models\Product:: getPriceFieldWithParams(null, $product->price_sale,  $product->price_wholesale))
                 <td>
                     <span class="big">  {!! formatNbsp(formatMoney($product->$productPriceField) . ' ₴') !!}</span>
-                    <s style="text-decoration: line-through; color: grey; font-size: 17px;">{!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!}</s>&nbsp;
+                    @if ($product->price_sale != 0 or $product->price_wholesale != 0)
+                        <span>
+                                  <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </s>&nbsp;
+                           </span>
+                    @endif
                 </td>
                 <td class="text-center">
                     <div class="counter">
@@ -73,8 +77,14 @@
                 </td>
                 <td>
                     <span
-                        class="big">{!! formatNbsp(formatMoney($product->quantity * $product->price_retail) . ' ₴') !!}</span>
-                    <s style="text-decoration: line-through; color: grey; font-size: 17px;">{!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!}</s>&nbsp;
+                        class="big">{!! formatNbsp(formatMoney($product->quantity * $product->price_rrc) . ' ₴') !!}</span>
+                    @if ($product->price_sale != 0 or $product->price_wholesale != 0)
+                        <span>
+                           <s style="text-decoration: line-through; color: grey; font-size: 17px;">
+                    {!! formatNbsp(formatMoney($product->price_rrc * $product->cartQuantity) . ' ₴') !!}
+                </s>&nbsp;
+                    </span>
+                    @endif
                 </td>
                 <td class="w-1 text-xl-end">
                     <button class="button-accent button-xsmall nowrap" type="button"
