@@ -92,7 +92,12 @@
         @endforeach
         </tbody>
     </table>
-            @include('livewire.includes.per-page-table', ['data_paginate' => $deferredsProducts, 'param' => 2])
+    <div class="lk-page__table-after">
+        <div></div>
+        <div>
+            @include('livewire.includes.per-page-table-duble', ['data_paginate' => $deferredsProducts, 'param' => 2])
+        </div>
+    </div>
 </div>
 @push('custom-scripts')
     <script>
