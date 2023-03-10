@@ -8,8 +8,10 @@ use App\Models\Counterparty;
 use App\Models\CounterpartyType;
 use App\Models\User;
 use App\Rules\EdrpouInnRule;
+use App\Services\OtpService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Livewire\Component;
 
 class RegistrationLivewire extends Component
@@ -42,6 +44,13 @@ class RegistrationLivewire extends Component
     protected $listeners = [
         'eventConfirmEmailSkip'
     ];
+
+    protected OtpService $otpService;
+
+    public function boot()
+    {
+        $this->otpService = app()->make(OtpService::class);
+    }
 
     public function mount()
     {
@@ -134,8 +143,6 @@ class RegistrationLivewire extends Component
                 $counterparty->save();
             }
 
-            $password = stringDigit(6);
-
             if ($this->do_registration_complete) {
                 $user = auth()->user();
                 $validated['email'] = $this->email;
@@ -149,7 +156,7 @@ class RegistrationLivewire extends Component
             $user->phone = $validated['phone'];
             $user->city_id = str_replace('#', '', $validated['filterableCityId']);
             $user->lang = app()->getLocale();
-            $user->password = bcrypt($password);
+            $user->password = bcrypt(Str::random(16));
 
             $user->save();
             $user->syncRoles(['simple']);
@@ -167,7 +174,8 @@ class RegistrationLivewire extends Component
                 $counterparty->save();
             }
 
-            smsSend($user->phone, sprintf(__('custom::site.new_password_sms'), $password), 'user registration');
+            $code = $this->otpService->generate($user->phone);
+            smsSend($user->phone, sprintf(__('custom::site.otp_code_sms'), $code), 'user registration');
 
             DB::commit();
 
@@ -223,7 +231,7 @@ class RegistrationLivewire extends Component
                         ],
                         [
                             'type' => 'showModal',
-                            'target' => 'm-login',
+                            'target' => 'm-otp-login',
                         ]
                     ]
                 ]

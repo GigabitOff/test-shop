@@ -12,6 +12,12 @@
                 <p>{!! $this->getPromptMessage() !!}</p>
             </div>
 
+            @if(session()->has('otp_code_resent'))
+                <div class="alert alert-warning" role="alert">
+                    {{ session()->pull('otp_code_resent') }}
+                </div>
+            @endif
+
             <div class="form-group @if($this->isRecoveryMode()) __show @endif">
                 <input class="form-control js-phone @error('phone') is-invalid @enderror"
                        placeholder="@lang('custom::site.phone')"
@@ -32,9 +38,13 @@
                        placeholder="@lang('custom::site.password')"
                        wire:model.defer="code"
                        autocomplete="new-password"
-                       required type="password"><span></span>
+                       required type="text"><span></span>
                 <div class="password-control"></div>
                 <div class="invalid-feedback">@error('code'){{$message}}@enderror</div>
+
+                <div class="links-group">
+                    <a href="javascript:void(0);" wire:click="sendCode">@lang('custom::site.otp_code_resend')</a>
+                </div>
             </div>
 
             <div class="form-group @if($this->isRecoveryMode()) __show @endif">
