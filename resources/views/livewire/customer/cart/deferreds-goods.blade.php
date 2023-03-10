@@ -30,12 +30,12 @@
                             <div class="table-product-card__img">
                                 @if($product->imagefullUrl)
                                     <img src="{{fallbackProductImageUrl($product->imagefullUrl)}}"
-                                    alt="{{$product->name}}">
+                                         alt="{{$product->name}}">
                                 @elseif($product->images->isNotEmpty())
                                     @foreach($product->images as $key_image => $image)
                                         @if($key_image == 0 )
                                             <img src="{{\Storage::disk('public')->url($image->url)}}"
-                                            alt="{{$product->name}}">
+                                                 alt="{{$product->name}}">
                                         @endif
                                     @endforeach
                                 @else
@@ -45,7 +45,7 @@
                             <div class="table-product-card__desc">
                                 <span class="table-product-card__art">№{{$product->articul}}</span>
                                 <a class="table-product-card__title" href="{{route('products.show', $product->slug)}}">
-                                {{$product->name}}</a>
+                                    {{$product->name}}</a>
                             </div>
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                         <span>{{$product->availabilityText}}</span>
                     </div>
                 </td>
-                @php($productPriceField = App\Models\Product::getPriceField(null, $product->price_sale,  $product->price_wholesale))
+                @php($productPriceField = App\Models\Product:: getPriceFieldWithParams(null, $product->price_sale,  $product->price_wholesale))
                 <td>
                     <span class="big">  {!! formatNbsp(formatMoney($product->$productPriceField) . ' ₴') !!}</span>
                     <s style="text-decoration: line-through; color: grey; font-size: 17px;">{!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!}</s>&nbsp;
@@ -66,60 +66,54 @@
                         <div class="counter__btn minus"></div>
                         <div class="counter__field">
                             <input type="number" value="{{$product->quantity}}" min="1"
-                            onchange="document.deferredsProduct.setChangeQuantity(this, '{{$product->id}}')"/>
+                                   onchange="document.deferredsProduct.setChangeQuantity(this, '{{$product->id}}')"/>
                         </div>
                         <div class="counter__btn plus"></div>
                     </div>
                 </td>
                 <td>
-                    <span class="big">{!! formatNbsp(formatMoney($product->quantity * $product->price_retail) . ' ₴') !!}</span>
+                    <span
+                        class="big">{!! formatNbsp(formatMoney($product->quantity * $product->price_retail) . ' ₴') !!}</span>
                     <s style="text-decoration: line-through; color: grey; font-size: 17px;">{!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!}</s>&nbsp;
                 </td>
                 <td class="w-1 text-xl-end">
                     <button class="button-accent button-xsmall nowrap" type="button"
-                        onclick="Livewire.emit('eventAddBusket', {{$product->id}},
+                            onclick="Livewire.emit('eventAddBusket', {{$product->id}},
                         {{$product->quantity}})">@lang('custom::site.add to busket')
                     </button>
                 </td>
                 <td class="text-end footable-last-visible">
                     <button class="button-delete ico_trash"
-                        onclick="Livewire.emit('eventDeleteGoods',
+                            onclick="Livewire.emit('eventDeleteGoods',
                         {{$product->id}})" type="button">
                     </button>
                 </td>
             </tr>
-            @endforeach
-            </tbody>
-
-
-
-        </table>
-    <div class="lk-page__table-after">
-        <div></div>
-        @include('livewire.includes.per-page-table', ['data_paginate' => $deferredsProducts])
-    </div>
+        @endforeach
+        </tbody>
+    </table>
+            @include('livewire.includes.per-page-table', ['data_paginate' => $deferredsProducts, 'param' => 2])
 </div>
 @push('custom-scripts')
-<script>
+    <script>
 
-    window.addEventListener('refreshDerredsGoodsList', (event) => {
-        $('#dererreds-list').footable();
-    });
+        window.addEventListener('refreshDerredsGoodsList', (event) => {
+            $('#dererreds-list').footable();
+        });
 
-    document.deferredsProduct = {
-        setChangeQuantity: function (input, productId) {
-            const $input = $(input);
-            const max = $input.attr('data-max');
-            const value = $input.val();
+        document.deferredsProduct = {
+            setChangeQuantity: function (input, productId) {
+                const $input = $(input);
+                const max = $input.attr('data-max');
+                const value = $input.val();
 
-            if (max !== undefined && value > max) {
-                $input.val(max);
-            }
+                if (max !== undefined && value > max) {
+                    $input.val(max);
+                }
 
             @this.changeQuantity(productId, value);
+            }
         }
-    }
-
-    //# sourceURL=customer.documents.index-page-main-livewire.js
-</script>
+        //# sourceURL=customer.documents.index-page-main-livewire.js
+    </script>
 @endpush

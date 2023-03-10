@@ -40,11 +40,10 @@
                data-empty="@lang('custom::site.data_is_absent')"
                data-show-toggle="true" data-toggle-column="last">
         </table>
-
     <div class="lk-page__table-after">
         <div></div>
         <div>
-            @include('livewire.includes.per-page-table', ['data_paginate' => $products])
+            @include('livewire.includes.per-page-table', ['data_paginate' => $products, 'param' => 1])
         </div>
     </div>
     </div>
