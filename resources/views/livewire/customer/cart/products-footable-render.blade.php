@@ -89,11 +89,11 @@
                     <span>{{$cartProduct->availabilityText}}</span>
                 </div>
             </td>
-            @php($productPriceField = App\Models\Product:: getPriceFieldWithParams(null, $cartProduct->price_sale,  $cartProduct->price_wholesale))
+            @php($productPriceField = App\Models\Product:: getPriceFieldWithParams(null, $cartProduct->price_sale,  $cartProduct->price_wholesale, $cartProduct->price_sale_show))
             <td>
                 <span
                     class="big">{!! formatNbsp(formatMoney($cartProduct->$productPriceField - $cashbackUsed) .  ' ₴') !!}</span>
-                @if ($cartProduct->price_sale != 0 or $cartProduct->price_wholesale != 0)
+                @if ($cartProduct->price_wholesale != 0 and $cartProduct->price_sale_show != 0 or $cartProduct->price_sale != 0 and $cartProduct->price_sale_show == 0)
                     <span>
                           <s style="text-decoration: line-through; color: grey; font-size: 17px;">{!! formatNbsp(formatMoney($cartProduct->price_rrc) . ' ₴') !!}</s>&nbsp;
                     </span>

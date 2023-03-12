@@ -139,7 +139,7 @@ class PageMainLivewire extends Component
 
         $currentPage = Paginator::resolveCurrentPage($pageName);
 
-        // проверяем выход за пределы пагинации, что бы не попасть на пустую страницу
+        // Сheck for going beyond the pagination so as not to get to an empty page
         $lastPage = max((int)ceil($data->count() / $perPageD), 1);
 
         if ($currentPage > $lastPage) {

@@ -384,20 +384,20 @@ class Product extends Model implements ImagesOwnerContract
      * @param  User|null  $user
      * @return string
      */
-    public static function getPriceFieldWithParams(?User $user = null, $priceSale = null, $priceWholesale = null): string
+    public static function getPriceFieldWithParams(?User $user = null, $priceSale = null, $priceWholesale = null, $priceSaleShow = null): string
     {
         $user = $user ?? auth()->user();
 
         if (!$user) {
             //Not registered user
-            if (!empty($priceSale) && $priceSale != 0) {
+            if (!empty($priceSale) && $priceSale != 0 && $priceSaleShow != 0) {
                 return 'price_sale';
             } else {
                 return 'price_rrc';
             }
         } elseif ($user->is_customer_legal) {
             //User legal entity
-            if (!empty($priceSale) && $priceSale != 0) {
+            if (!empty($priceSale) && $priceSale != 0 && $priceSaleShow != 0) {
                 return 'price_sale';
             } elseif (!empty($priceWholesale) && $priceWholesale != 0) {
                 return 'price_wholesale';
@@ -406,7 +406,7 @@ class Product extends Model implements ImagesOwnerContract
             }
         } else {
             //User registered natural person
-            if (!empty($priceSale) && $priceSale != 0) {
+            if (!empty($priceSale) && $priceSale != 0 && $priceSaleShow != 0) {
                 return 'price_sale';
             } elseif (!empty($priceWholesale) && $priceWholesale != 0) {
                 return 'price_wholesale';
@@ -420,8 +420,8 @@ class Product extends Model implements ImagesOwnerContract
     {
        $user = $user ?? auth()->user();
         return $user && $user->is_customer_legal
-            ? 'price_wholesale'
-            : 'price_retail';
+            ? 'price_sale'
+            : 'price_rrc';
     }
 
 
