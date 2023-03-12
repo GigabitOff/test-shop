@@ -36,15 +36,14 @@ class DeferredsGoods extends Component
 
             $this->emit('eventRefreshPage');
             $this->emit('eventRefreshPrintCart');
-
         }
         $checkAll = $this->deferredsProductsCurrentUser()->where('checked', true)
             ->get()->map->checked->count();
-
         $this->dispatchBrowserEvent('refreshDerredsGoodsList');
 
         return view('livewire.customer.cart.deferreds-goods',
                         ['deferredsProducts' => $this->deferredsProducts(), 'checkAll'=> $checkAll]);
+
     }
 
     public function boot(){
@@ -129,6 +128,8 @@ class DeferredsGoods extends Component
 
         $this->addAttributeToProductDeferreds($product,$productDeferreds);
 
+
+
         return $product;
 
     }
@@ -145,6 +146,7 @@ class DeferredsGoods extends Component
                $this->expandProductAvailability($products);
 
            });
+
     }
 
     /** Get product by current user */

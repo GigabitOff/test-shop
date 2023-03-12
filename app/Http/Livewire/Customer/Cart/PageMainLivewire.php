@@ -30,9 +30,8 @@ class PageMainLivewire extends Component
         expandProductAvailability as traitExpandProductAvailability;
     }
 
-    protected string $perPageKey = 'cartPerPage';
-    protected int $perPage = 3;
-
+    protected string $perPageKey = 'cartPerPageD';
+    protected int $perPageD = 10;
     public bool $callback_off = false;
     public float $cashbackAvailable = 0;
     public float $cashbackToUse = 0;
@@ -57,12 +56,13 @@ class PageMainLivewire extends Component
         'eventRefreshPage'
     ];
 
+
     public function boot()
     {
         $this->customer = auth()->user();
-        
-        if(session()->has('perPage'))
-            $this->perPage = session('perPage');
+
+        if (session()->has('perPageD'))
+            $this->perPageD = session('perPageD');
 
     }
 
@@ -80,9 +80,9 @@ class PageMainLivewire extends Component
         $checkedCount = $products->filter->cartChecked->count();
         $checkAll = $checkedCount && ($checkedCount === $products->count());
         $countChangedPrice = $products->filter->countChangedPrice->count();
-        if($countChangedPrice) {
+        if ($countChangedPrice) {
             $this->productPriceUpdated = $this->productPriceUpdated($products
-                                              ->where('countChangedPrice', 1));
+                ->where('countChangedPrice', 1));
         }
 
         $this->dispatchBrowserEvent('updateCheckAllCheckbox', ['checkAll' => $checkAll]);
@@ -102,7 +102,9 @@ class PageMainLivewire extends Component
                     })
             ]);
         }
-        $paginate = $this->makeAttributePaginator($products, 'cartPerPage', $this->perPage);
+
+        $paginate = $this->makeAttributePaginator($products, 'cartPerPageD', $this->perPageD);
+
 
         $table = view('livewire.customer.cart.products-footable-render', [
             'products' => $paginate,
@@ -112,39 +114,42 @@ class PageMainLivewire extends Component
 
         return view('livewire.customer.cart.page-main-livewire', [
             'products' => $paginate,
-            'countChangedPrice'=> $countChangedPrice,
+            'countChangedPrice' => $countChangedPrice,
             'productPriceUpdated' => $this->productPriceUpdated,
             'checkAll' => $checkAll,
             'cashbackUsed' => $this->cashbackUsed,
             'sumPriceRetail' => $this->totalSumBySpecialPriceField($products, 'totalPriceRetail'),
-            'table' => $table,
+            'table' => $table
         ]);
     }
 
     public function setPerPage($value)
     {
-        session()->put('perPage', $value);
-        $this->perPage = $value;
+
+            session()->put('perPageD', $value);
+            $this->perPageD = $value;
+
         $this->resetPage();
         $this->revalidateTable = true;
     }
 
-    protected function makeAttributePaginator(Collection $data, string $pageName, int $perPage): LengthAwarePaginator
+
+    protected function makeAttributePaginator(Collection $data, string $pageName, int $perPageD): LengthAwarePaginator
     {
 
         $currentPage = Paginator::resolveCurrentPage($pageName);
 
         // проверяем выход за пределы пагинации, что бы не попасть на пустую страницу
-        $lastPage = max((int) ceil($data->count() / $perPage), 1);
+        $lastPage = max((int)ceil($data->count() / $perPageD), 1);
 
-        if ($currentPage > $lastPage){
+        if ($currentPage > $lastPage) {
             $currentPage = $lastPage;
             $this->setPage($lastPage, $pageName);
         }
 
-        $slice = $data->slice($perPage * ($currentPage - 1), $perPage);
+        $slice = $data->slice($perPageD * ($currentPage - 1), $perPageD);
 
-        return new LengthAwarePaginator($slice, $data->count(), $perPage, $currentPage, ['pageName'=>$pageName]);
+        return new LengthAwarePaginator($slice, $data->count(), $perPageD, $currentPage, ['pageName' => $pageName]);
     }
 
     public function updatedPaginators()
@@ -154,7 +159,8 @@ class PageMainLivewire extends Component
 
     /** Return total sum by fields */
 
-    protected function totalSumBySpecialPriceField($products,$field){
+    protected function totalSumBySpecialPriceField($products, $field)
+    {
 
         return $products->where('cartChecked', 1)->sum($field);
     }
@@ -211,8 +217,8 @@ class PageMainLivewire extends Component
         $product->cartCost = $product->cartQuantity * $product->cartPrice;
         $product->totalPriceRetail = $product->price_retail * $product->cartQuantity;
 
-        if($product->price != $product->cartPriceAdded){
-            $product->countChangedPrice =1;
+        if ($product->price != $product->cartPriceAdded) {
+            $product->countChangedPrice = 1;
             cart()->setPriceAdded($product->id, $product->price);
         }
     }
@@ -255,21 +261,24 @@ class PageMainLivewire extends Component
         }
     }
 
-    protected function productPriceUpdated($products){
+    protected function productPriceUpdated($products)
+    {
 
-        return    $products->map(function($p1){
+        return $products->map(function ($p1) {
 
-                        return [
-                            'slug' => $p1->slug,
-                            'price' => $this->roundedPrice($p1->price),
-                            'name' => $p1->name,
-                            'oldPrice' => $this->roundedPrice($p1->cartPriceAdded)
-                        ];
-                  });
+            return [
+                'slug' => $p1->slug,
+                'price' => $this->roundedPrice($p1->price),
+                'name' => $p1->name,
+                'oldPrice' => $this->roundedPrice($p1->cartPriceAdded)
+            ];
+        });
     }
+
     /** Return an integer with 2 decimal places */
 
-    protected function roundedPrice($price){
+    protected function roundedPrice($price)
+    {
 
         return number_format($price, 2);
     }
@@ -413,7 +422,7 @@ class PageMainLivewire extends Component
 //                    && $contract = Contract::find($payload['contractId'])) {
 //                    $delivery->owner()->associate($contract);
 //                } else {
-                    $delivery->owner()->associate($this->customer);
+                $delivery->owner()->associate($this->customer);
 //                }
                 $delivery->save();
                 $payload['deliveryId'] = $delivery->id;
@@ -458,11 +467,11 @@ class PageMainLivewire extends Component
 //                    'state' => 'success'
 //                ]);
 //            } else {
-                $this->dispatchBrowserEvent('flashMessage', [
-                    'title' => __('custom::site.order'),
-                    'message' => __('custom::site.order_confirmed_thanks'),
-                    'state' => 'success'
-                ]);
+            $this->dispatchBrowserEvent('flashMessage', [
+                'title' => __('custom::site.order'),
+                'message' => __('custom::site.order_confirmed_thanks'),
+                'state' => 'success'
+            ]);
 //            }
 
             $this->recalculateCashbackToUse();
@@ -481,7 +490,8 @@ class PageMainLivewire extends Component
         }
     }
 
-    public function eventRefreshPage(){
+    public function eventRefreshPage()
+    {
         $this->dispatchBrowserEvent('updateFooData');
     }
 
@@ -530,7 +540,7 @@ class PageMainLivewire extends Component
         $cartInvalidated = false;
         cart()->products()
             ->filter->cartUniq
-            ->each(function ($product) use(&$cartInvalidated){
+            ->each(function ($product) use (&$cartInvalidated) {
                 $offer = $product->getValidPersonalOffer();
                 if (!$offer || $offer->pivot->quantity <= 0) {
                     cart()->addProduct($product->id, $product->cartQuantity);

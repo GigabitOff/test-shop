@@ -105,7 +105,7 @@
     <div class="lk-page__table-after">
         <div></div>
         <div>
-            @include('livewire.includes.per-page-table-duble', ['data_paginate' => $deferredsProducts, 'param' => 2])
+            @include('livewire.includes.per-page-table-duble', ['data_paginate' => $deferredsProducts])
         </div>
     </div>
 </div>

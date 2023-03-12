@@ -43,11 +43,13 @@
     <div class="lk-page__table-after">
         <div></div>
         <div>
-            @include('livewire.includes.per-page-table', ['data_paginate' => $products, 'param' => 1])
+            @include('livewire.includes.per-page-table', ['data_paginate' => $products])
         </div>
     </div>
     </div>
+
     <h5>@lang('custom::site.deferred_goods')</h5>
+
     @livewire('customer.cart.deferreds-goods',['cashbackUsed' => $cashbackUsed])
     <div class="lk-page__table-after">
         <div class="ms-0">

@@ -1,13 +1,15 @@
-<div class="table-nav" @if($data_paginate->total() < 10 && $param == 1 || $data_paginate->total() == 0) style="display:none;" @endif>
+@php
+    $pageSizes = [10, 20, 50];
+@endphp
+<div class="table-nav" @if($data_paginate->total() < 10 ) style="display:none;" @endif>
     <div class="drop --arrow js-page-size">
-        <button class="form-control drop-button" type="button">{{ session()->get('perPage', 3) }}</button>
+        <button class="form-control drop-button" type="button">{{ session()->get('perPageD', 10) }}</button>
         <div class="drop-box">
             <div class="drop-overflow">
                 <ul class="drop-list">
-                    @for($i = 1; $i <= 3; $i++)
-                        @php($value = $i == 1 ? 10 : ($i == 2 ? 20 : 50))
-                        <li class="drop-list-item" onclick="@this.setPerPage({{ $value }})" data-page-size="{{ $value }}">{{ $value }}</li>
-                    @endfor
+                    @foreach ($pageSizes as $pageSize)
+                        <li class="drop-list-item" onclick="@this.setPerPage({{ $pageSize }})" data-page-size="{{ $pageSize }}">{{ $pageSize }}</li>
+                    @endforeach
                 </ul>
             </div>
         </div>
@@ -18,6 +20,5 @@
         @endif
     </div>
 </div>
-
 
 
