@@ -58,10 +58,12 @@
                     <div>
                         <span>@lang('custom::site.price product')</span>
                         <strong>{!! formatNbsp(formatMoney($product->$productPriceField) . ' ₴') !!}</strong>
-                        @if ($product->price_wholesale != 0 and $product->price_sale_show != 0 or $product->price_sale != 0 and $product->price_sale_show == 0)
+                        @if ( $product->price_wholesale != 0 and $product->price_sale_show == 0 or $product->price_sale != 0 and $product->price_sale_show != 0)
                             <span>
+                                 @if (Auth::check() || $product->price_sale_show != 0)
                                   <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </s>&nbsp;
-                           </span>
+                                 @endif
+                            </span>
                         @endif
                     </div>
                     <div>

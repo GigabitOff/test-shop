@@ -59,10 +59,12 @@
                 @php($productPriceField = App\Models\Product:: getPriceFieldWithParams(null, $product->price_sale,  $product->price_wholesale,$product->price_sale_show))
                 <td>
                     <span class="big">  {!! formatNbsp(formatMoney($product->$productPriceField) . ' ₴') !!}</span>
-                    @if ($product->price_wholesale != 0 and $product->price_sale_show != 0 or $product->price_sale != 0 and $product->price_sale_show == 0)
+                    @if ($product->price_wholesale != 0 and $product->price_sale_show == 0 or $product->price_sale != 0 and $product->price_sale_show != 0)
                         <span>
-                                  <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </s>&nbsp;
-                           </span>
+                            @if (Auth::check() || $product->price_sale_show != 0)
+                            <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </s>&nbsp;
+                            @endif
+                        </span>
                     @endif
                 </td>
                 <td class="text-center">
