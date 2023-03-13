@@ -108,9 +108,9 @@
                 </div>
                 <div class="product-card__btn">
                     @if($product->can_be_sold)
-
+                        <?php $price = $product->price ?? 0;  ?>
                         <a class="button-outline button-small"
-                           onclick="Livewire.emit('eventCartAddProduct', {'product_id' : {{$product->id}}, 'show_notification':1, 'price_added' : {{$product->price}}, 'quantity': $(this).closest('.product-card__bottom').find('.counter input')[0].value})"
+                           onclick="Livewire.emit('eventCartAddProduct', {'product_id': {{$product->id}}, 'show_notification':1, 'price_added': {{$price}}, 'quantity': $(this).closest('.product-card__bottom').find('.counter input')[0].value})"
                            href="javascript:void(0);">
                             @lang('custom::site.Buy')
                         </a>

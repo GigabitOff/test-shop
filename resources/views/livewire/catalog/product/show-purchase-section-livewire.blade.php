@@ -99,8 +99,11 @@
                     </div>
                     <div class="product-full__bay">
                         @if($product->can_be_sold)
+                                <?php
+                                $price = $product->price ?? 0; // if $product->price is null or undefined, set $price to 0
+                                ?>
                             <button class="button-accent" type="button"
-                                    onclick="Livewire.emit('eventCartAddProduct', {'product_id' : {{$product->id}}, 'show_notification':1, 'price_added':  {{$product->price}}, 'quantity': $(this).closest('.product-full__btns-group').find('.counter input').get(0).value})"
+                                    onclick="Livewire.emit('eventCartAddProduct', {'product_id' : {{$product->id}}, 'show_notification':1, 'price_added': {{$price}}, 'quantity': $(this).closest('.product-full__btns-group').find('.counter input').get(0).value})"
                                     href="javascript:void(0);">
                                 @lang('custom::site.Buy')
                             </button>
