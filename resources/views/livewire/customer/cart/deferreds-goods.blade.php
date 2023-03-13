@@ -56,6 +56,7 @@
                         <span>{{$product->availabilityText}}</span>
                     </div>
                 </td>
+                {{-- Block for determining the type and type of prices in accordance with the type of user.--}}
                 @php($productPriceField = App\Models\Product:: getPriceFieldWithParams(null, $product->price_sale,  $product->price_wholesale,$product->price_sale_show))
                 <td>
                     <span class="big">  {!! formatNbsp(formatMoney($product->$productPriceField) . ' ₴') !!}</span>

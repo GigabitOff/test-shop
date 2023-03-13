@@ -89,14 +89,24 @@
                     <span>{{$cartProduct->availabilityText}}</span>
                 </div>
             </td>
+            {{-- Block for determining the type and type of prices in accordance with the type of user.--}}
             @php($productPriceField = App\Models\Product:: getPriceFieldWithParams(null, $cartProduct->price_sale,  $cartProduct->price_wholesale, $cartProduct->price_sale_show))
             <td>
                 <span
                     class="big">{!! formatNbsp(formatMoney($cartProduct->$productPriceField - $cashbackUsed) .  ' ₴') !!}</span>
                 @if ($cartProduct->price_wholesale != 0 and $cartProduct->price_sale_show == 0 or $cartProduct->price_sale != 0 and $cartProduct->price_sale_show != 0)
                     <span>
-                         @if (Auth::check() || $cartProduct->price_sale_show != 0)
-                          <s style="text-decoration: line-through; color: grey; font-size: 17px;">{!! formatNbsp(formatMoney($cartProduct->price_rrc) . ' ₴') !!}</s>&nbsp;
+                        @if (Auth::check())
+                             <?php $user = $user ?? auth()->user(); ?>
+                            @if ($user->is_customer_legal and $cartProduct->price_sale_show != 0)
+                                <span style="color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($cartProduct->price_rrc) . ' ₴') !!} </span>
+                            @else
+                                <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($cartProduct->price_rrc) . ' ₴') !!} </s>
+                            @endif
+                        @else
+                            @if ($cartProduct->price_sale_show != 0)
+                                <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($cartProduct->price_rrc) . ' ₴') !!} </s>
+                            @endif
                         @endif
                     </span>
                 @endif
