@@ -392,7 +392,7 @@ class Product extends Model implements ImagesOwnerContract
             //Not registered user
             if (!empty($priceSale) && $priceSale != 0 && $priceSaleShow != 0) {
                 return 'price_sale';
-            } else {
+            }  else {
                 return 'price_rrc';
             }
         } elseif ($user->is_customer_legal) {

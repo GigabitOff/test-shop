@@ -3,8 +3,8 @@
 @endphp
 <div class="product-full-box --info">
     <div class="product-full__labels">
-        <span class="product-full-label {{$product->availabilityCss}}">
-          {{$product->availabilityText}}
+        {{--        <span class="product-full-label {{$product->availabilityCss}}">--}}
+        {{$product->availabilityText}}
         </span>
         @if($product->new)
             <span class="product-full-label new">
@@ -56,13 +56,24 @@
 
                     @php( $productPriceField = App\Models\Product:: getPriceFieldWithParams(null, $product->price_sale,  $product->price_wholesale, $product->price_sale_show))
                     <div>
+
                         <span>@lang('custom::site.price product')</span>
                         <strong>{!! formatNbsp(formatMoney($product->$productPriceField) . ' ₴') !!}</strong>
                         @if ( $product->price_wholesale != 0 and $product->price_sale_show == 0 or $product->price_sale != 0 and $product->price_sale_show != 0)
                             <span>
-                                 @if (Auth::check() || $product->price_sale_show != 0)
-                                  <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </s>&nbsp;
-                                 @endif
+                                @if (Auth::check())
+                                    <?php $user = $user ?? auth()->user(); ?>
+                                    @if ($user->is_customer_legal and $product->price_sale_show != 0)
+                                        <span style="color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </span>
+                                    @else
+                                        <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </s>
+                                    @endif
+                                @else
+                                    @if ($product->price_sale_show != 0)
+                                    <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </s>
+
+                                    @endif
+                                @endif
                             </span>
                         @endif
                     </div>
@@ -74,7 +85,7 @@
                 <div class="product-full__btns-group">
                     <div class="product-full__counter @if(!$product->can_be_sold) d-none @endif">
                         <div class="counter">
-                        <div class="counter__btn minus"></div>
+                            <div class="counter__btn minus"></div>
                             <div class="counter__field">
                                 <input class="input-col js-numeric" type="number"
                                        min="{{$product->multiplicity}}"
