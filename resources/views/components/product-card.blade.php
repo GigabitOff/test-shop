@@ -77,7 +77,7 @@
                     <span>
                         @if (Auth::check())
                             <?php $user = $user ?? auth()->user(); ?>
-                            @if ($user->is_customer_legal and $product->price_sale_show != 0)
+                            @if ($user->is_customer_legal and $product->price_sale_show == 0)
                                 <span style="color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </span>
                             @else
                                 <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </s>
@@ -108,6 +108,7 @@
                 </div>
                 <div class="product-card__btn">
                     @if($product->can_be_sold)
+
                         <a class="button-outline button-small"
                            onclick="Livewire.emit('eventCartAddProduct', {'product_id' : {{$product->id}}, 'show_notification':1, 'price_added' : {{$product->price}}, 'quantity': $(this).closest('.product-card__bottom').find('.counter input')[0].value})"
                            href="javascript:void(0);">

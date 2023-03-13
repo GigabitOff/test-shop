@@ -64,7 +64,7 @@
                         <span>
                             @if (Auth::check())
                                 <?php $user = $user ?? auth()->user(); ?>
-                                @if ($user->is_customer_legal and $product->price_sale_show != 0)
+                                @if ($user->is_customer_legal and $product->price_sale_show == 0)
                                     <span style="color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </span>
                                 @else
                                     <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </s>
@@ -114,6 +114,7 @@
         @endforeach
         </tbody>
     </table>
+
     <div class="lk-page__table-after">
         <div></div>
         <div>
