@@ -93,9 +93,9 @@
             <td>
                 <span
                     class="big">{!! formatNbsp(formatMoney($cartProduct->$productPriceField - $cashbackUsed) .  ' ₴') !!}</span>
-                @if ($product->price_wholesale != 0 and $product->price_sale_show == 0 or $product->price_sale != 0 and $product->price_sale_show != 0)
+                @if ($cartProduct->price_wholesale != 0 and $cartProduct->price_sale_show == 0 or $cartProduct->price_sale != 0 and $cartProduct->price_sale_show != 0)
                     <span>
-                         @if (Auth::check() || $product->price_sale_show != 0)
+                         @if (Auth::check() || $cartProduct->price_sale_show != 0)
                           <s style="text-decoration: line-through; color: grey; font-size: 17px;">{!! formatNbsp(formatMoney($cartProduct->price_rrc) . ' ₴') !!}</s>&nbsp;
                         @endif
                     </span>
