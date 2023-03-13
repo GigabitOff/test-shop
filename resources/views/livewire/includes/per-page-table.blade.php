@@ -15,8 +15,8 @@
         </div>
     </div>
     <div id="">
-        @if ($data_paginate->hasPages())
-            {{ $data_paginate->links() }}
+        @if($data_paginate->hasPages())
+            {{ $data_paginate->appends(['scroll_position' => session('scroll_position', 0)])->links() }}
         @endif
     </div>
 </div>
