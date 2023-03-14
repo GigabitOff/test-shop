@@ -215,8 +215,7 @@ class PageMainLivewire extends Component
     {
         $product->cartPrice = $product->price;
         $product->cartCost = $product->cartQuantity * $product->cartPrice;
-        $product->totalPriceRetail = $product->price_retail * $product->cartQuantity;
-
+        $product->totalPriceRetail = $product->price_rrc * $product->cartQuantity;
         if ($product->price != $product->cartPriceAdded) {
             $product->countChangedPrice = 1;
             cart()->setPriceAdded($product->id, $product->price);
