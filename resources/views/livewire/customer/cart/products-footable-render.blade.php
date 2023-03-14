@@ -123,13 +123,21 @@
                 </div>
             </td>
             <td>
-                <span
-                    class="big">{!! formatNbsp(formatMoney($cartProduct->$productPriceField * $cartProduct->cartQuantity - $cashbackUsed) .  ' ₴')  !!}</span>
-                @if ($cartProduct->price_sale != 0 or $cartProduct->price_wholesale != 0)
+                <span class="big">{!! formatNbsp(formatMoney(($cartProduct->$productPriceField - $cashbackUsed) * $cartProduct->cartQuantity) .  ' ₴') !!}</span>
+                @if ($cartProduct->price_wholesale != 0 and $cartProduct->price_sale_show == 0 or $cartProduct->price_sale != 0 and $cartProduct->price_sale_show != 0)
                     <span>
-                           <s style="text-decoration: line-through; color: grey; font-size: 17px;">
-                    {!! formatNbsp(formatMoney($cartProduct->price_rrc * $cartProduct->cartQuantity) . ' ₴') !!}
-                </s>&nbsp;
+                       @if (Auth::check())
+                            <?php $user = $user ?? auth()->user(); ?>
+                            @if ($user->is_customer_legal and $cartProduct->price_sale_show == 0)
+                                <span style="color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($cartProduct->price_rrc * $cartProduct->cartQuantity) . ' ₴') !!} </span>
+                            @else
+                                <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($cartProduct->price_rrc * $cartProduct->cartQuantity) . ' ₴') !!} </s>
+                            @endif
+                        @else
+                            @if ($cartProduct->price_sale_show != 0)
+                                <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($cartProduct->price_rrc * $cartProduct->cartQuantity) . ' ₴') !!} </s>
+                            @endif
+                        @endif
                     </span>
                 @endif
             </td>

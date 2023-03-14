@@ -88,14 +88,22 @@
                     </div>
                 </td>
                 <td>
-                    <span
-                        class="big">{!! formatNbsp(formatMoney($product->quantity * $product->price_rrc) . ' ₴') !!}</span>
-                    @if ($product->price_sale != 0 or $product->price_wholesale != 0)
+                    <span class="big">{!! formatNbsp(formatMoney($product->quantity * $product->$productPriceField) . ' ₴') !!}</span>
+                    @if ($product->price_wholesale != 0 and $product->price_sale_show == 0 or $product->price_sale != 0 and $product->price_sale_show != 0)
                         <span>
-                           <s style="text-decoration: line-through; color: grey; font-size: 17px;">
-                    {!! formatNbsp(formatMoney($product->price_rrc * $product->cartQuantity) . ' ₴') !!}
-                </s>&nbsp;
-                    </span>
+            @if (Auth::check())
+                                    <?php $user = $user ?? auth()->user(); ?>
+                                @if ($user->is_customer_legal and $product->price_sale_show == 0)
+                                    <span style="color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc * $product->cartQuantity) . ' ₴') !!} </span>
+                                @else
+                                    <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc * $product->cartQuantity) . ' ₴') !!} </s>
+                                @endif
+                            @else
+                                @if ($product->price_sale_show != 0)
+                                    <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc * $product->cartQuantity) . ' ₴') !!} </s>
+                                @endif
+                            @endif
+        </span>
                     @endif
                 </td>
                 <td class="w-1 text-xl-end">
