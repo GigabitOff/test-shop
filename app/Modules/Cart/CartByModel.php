@@ -28,10 +28,17 @@ class CartByModel implements CartContract
                 $el->cartUuid = $el->pivot->uuid;
                 $el->cartUniq = $el->pivot->uniq;
                 $el->cartQuantity = $el->pivot->quantity;
-                $el->cartCost = $el->price * $el->cartQuantity;
                 $el->cartChecked = $el->pivot->checked;
                 $el->cartPriceAdded = $el->pivot->price_added;
+                if ($el->price_sale_show == 0 && $el->price_wholesale == 0) {
+                    $el->cartCost = $el->price_rrc;
+                } else if ($el->price_sale_show == 0) {
+                    $el->cartCost = $el->price_wholesale * $el->cartQuantity;
+                } else {
+                    $el->cartCost = $el->price_sale * $el->cartQuantity;
+                }
             });
+
     }
 
     public function productIds()
@@ -72,6 +79,7 @@ class CartByModel implements CartContract
 
     public function checkedProducts()
     {
+
         return $this->products()->filter->cartChecked;
     }
 
