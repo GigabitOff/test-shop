@@ -87,7 +87,12 @@ class CartByModel implements CartContract
 
     public function totalCartCheckedQuantity()
     {
-        return $this->checkedProducts()->map->cartQuantity->sum();
+        // Get all checked products
+        $checkedProducts = $this->checkedProducts();
+        // Get only unique products by "id" field
+        $uniqueProducts = $checkedProducts->unique('id');
+        // Return the count of unique products
+        return $uniqueProducts->count();
     }
 
     public function totalCartCheckedCost()
