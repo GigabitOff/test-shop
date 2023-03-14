@@ -176,6 +176,7 @@ class RegistrationLivewire extends Component
             }
 
             $this->showSuccessModal();
+            $this->resetForm();
         } catch (\Exception $e) {
             DB::rollBack();
             logger(__METHOD__ . $e->getMessage());
