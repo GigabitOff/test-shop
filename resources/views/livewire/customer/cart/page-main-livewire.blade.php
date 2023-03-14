@@ -65,11 +65,9 @@
     <div class="lk-page__table-total">
         <ul class="table-total --row">
             <li class="table-total__item">
-                <span class="table-total__label">
-                    @lang('custom::site.total')
-                    ({{cart()->totalCartCheckedQuantity()}}
-                    @lang('custom::site.products') )
-                </span>
+                @lang('custom::site.total')
+                ({{ cart()->totalCartCheckedQuantityCount() }}
+                @lang('custom::site.products') )
                 <span class="table-total__value">
                     {{formatMoney(cart()->totalCartCheckedCost() - $cashbackUsed)}}
                     @lang('custom::site.UAH')
