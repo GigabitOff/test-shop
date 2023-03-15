@@ -23,7 +23,7 @@
                     data-terms="{{$this->productAttributeIds($product)}}">
                     <div class="compare-item__item"><span
                             class="lbl">{{$name}}</span><span
-                            class="value">{{$this->productAttributeValuesLine($product, $id)}}</span></div>
+                            class="value" data-term-id="{{$this->productAttributeValuesId($product, $id)}}">{{$this->productAttributeValuesLine($product, $id)}}</span></div>
                 </li>
             @endforeach
         </ul>
@@ -43,7 +43,7 @@
         </div>
         @if($product->can_be_sold)
             <a class="button-outline button-small"
-               onclick="Livewire.emit('eventCartAddProduct', {'product_id' : {{$product->id}}, 'show_notification':1, 'price_added' : {{$product->price}}, 'quantity': $(this).closest('.compare-item__footer').find('.counter input').get(0).value})" href="javascript:void(0);">
+               onclick="Livewire.emit('eventCartAddProduct',{'product_id':{{$product->id}},'show_notification':1,'price_added':parseFloat('{{$product->price}}'),'quantity':$(this).closest('.compare-item__footer').find('.counter input').get(0).value})" href="javascript:void(0);">
                 @lang('custom::site.Buy')
             </a>
         @else
