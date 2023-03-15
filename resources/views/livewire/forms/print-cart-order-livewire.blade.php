@@ -58,12 +58,14 @@
                         <span>{{$product->cartQuantity}}</span>
                     </td>
                     <td style="display: table-cell;">
-                        @if($printWithSale && $product->price_wholesale != 0 && $product->price_sale_show == 0)
-                            {!! formatNbsp(formatMoney($product->price_wholesale * $product->cartQuantity) . ' ₴') !!}
-                        @elseif($printWithSale && $product->price_wholesale != 0 && $product->price_sale_show == 1)
-                            {!! formatNbsp(formatMoney($product->price_sale * $product->cartQuantity) . ' ₴') !!}
+                        @if($printWithSale && $product->price_wholesale != 0)
+                            @if($product->price_sale_show != 0)
+                                {!! formatNbsp(formatMoney($product->price_sale * $product->cartQuantity) . ' ₴шш') !!}
+                            @else
+                                {!! formatNbsp(formatMoney($product->price_rrc * $product->cartQuantity) . ' ₴гг') !!}
+                            @endif
                         @else
-                            {!! formatNbsp(formatMoney($product->price_rrc * $product->cartQuantity) . ' ₴') !!}
+                            {!! formatNbsp(formatMoney($product->price_rrc * $product->cartQuantity) . ' ₴нн') !!}
                         @endif
                     </td>
                 </tr>

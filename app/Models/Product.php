@@ -397,7 +397,7 @@ class Product extends Model implements ImagesOwnerContract
             }  else {
                 return 'price_rrc';
             }
-        } elseif ($user->is_customer_legal) {
+        } elseif (is_object($user) && $user->is_founder != 0) {
             //User legal entity
             if (!empty($priceSale) && $priceSale != 0 && $priceSaleShow != 0) {
                 return 'price_sale';
@@ -411,7 +411,7 @@ class Product extends Model implements ImagesOwnerContract
             if (!empty($priceSale) && $priceSale != 0 && $priceSaleShow != 0) {
                 return 'price_sale';
             } elseif (!empty($priceWholesale) && $priceWholesale != 0) {
-                return 'price_wholesale';
+                return 'price_rrc';
             } else {
                 return 'price_rrc';
             }
