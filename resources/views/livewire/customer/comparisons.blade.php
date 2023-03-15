@@ -1,13 +1,15 @@
 <x-app-layout body-classes="lk-compare" :title="__('custom::site.comparisons')">
-    <div class="lk-page">
-        <div class="container container-xl">
-            <div class="lk-page__box">
-                <div class="lk-page__sidebar">
-                    <!-- Виджет меню -->
-                    <livewire:widgets.cabinet.menu-widget :page_title="__('custom::site.comparisons')"/>
+    <main class="page-main lk-compare">
+        @include('livewire.customer.widget.lk-head-widget')
+        <div class="lk-page --compare">
+            <div class="container-xl">
+                <div class="lk-page__inner">
+                    <div class="lk-page__sidebar">
+                        <livewire:widgets.cabinet.menu-widget/>
+                    </div>
+                    <livewire:customer.comparisons.page-main-livewire/>
                 </div>
-                <livewire:customer.comparisons.page-main-livewire/>
             </div>
         </div>
-    </div>
+    </main>
 </x-app-layout>
