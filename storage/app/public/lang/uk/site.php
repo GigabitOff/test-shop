@@ -467,7 +467,7 @@ return [
     'type' => 'Тип',
     'quick_purchase' => 'Швидка покупка',
     'review' => 'Переглянути',
-    'comparisons' => 'Поріняння',
+    'comparisons' => 'Порівняння',
     'favorites' => 'Лист очікування',
     'to_favorites' => 'В очікуване',
     'favorite_actions' => [
