@@ -10,8 +10,27 @@
             </div>
             <div class="compare-item__info">
                 <div class="compare-item__title"><a href="{{route('products.show', $product->slug)}}">{{$product->name}}</a></div>
-                <div class="compare-item__price"><del>{!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!}</del>
-                    {!! formatNbsp(formatMoney($product->price) . ' ₴') !!}</div>
+                {{--  Block for determining the type and type of prices in accordance with the type of user.--}}
+                @php($productPriceField = App\Models\Product::getPriceFieldWithParams(null, $product->price_sale,  $product->price_wholesale , $product->price_sale_show))
+                <div class="compare-item__price">
+                    @if ($product->price_wholesale != 0 and $product->price_sale_show == 0 or $product->price_sale != 0 and $product->price_sale_show != 0)
+                        <span>
+                        @if (Auth::check())
+                                <?php $user = $user ?? auth()->user(); ?>
+                                @if ($user->is_customer_legal and $product->price_sale_show == 0)
+                                    <span style="color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </span>
+                                @else
+                                    <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </s>
+                                @endif
+                            @else
+                                @if ($product->price_sale_show != 0)
+                                    <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </s>
+                                @endif
+                            @endif
+                    </span>
+                    @endif
+                    <span class="big">  {!! formatNbsp(formatMoney($product->{$productPriceField}) . ' ₴') !!}</span>
+                </div>
             </div>
         </div>
     </div>
