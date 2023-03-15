@@ -101,15 +101,11 @@
             </li>
         </ul>
         @php($totalWeight = cart()->products()->map(fn($p)=>$p->cartQuantity * $p->weight)->sum())
-
         <?php   $size = cart()->products()
             ->map(fn($p) => $p->depth * $p->width * $p->height / 1000000000)
             ->sum();
         $totalSize = $size * cart()->totalCartCheckedQuantity();
         ?>
-
-
-
         <ul class="table-total-list">
             <li class="table-total-list__item">
               {{--  <div class="table-total-list__label">
@@ -119,7 +115,7 @@
                     <span>23.02.22</span>
                 </div>--}}
             </li>
-            @if(isset($totalWeight))
+            @if(cart()->totalCartCheckedQuantity() > 0 && isset($totalWeight))
                 <li class="table-total-list__item">
                     <div class="table-total-list__label">
                         @lang('custom::site.Weight')
@@ -136,15 +132,6 @@
                     </div>
                     <div class="table-total-list__content">
                         <span>{{number_format($totalSize, 5)}} м³</span>
-                    </div>
-                </li>
-            @else
-                <li class="table-total-list__item">
-                    <div class="table-total-list__label">
-                        @lang('custom::site.Size')
-                    </div>
-                    <div class="table-total-list__content">
-                        <span>0.00 м³</span>
                     </div>
                 </li>
             @endif
