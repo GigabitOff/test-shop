@@ -50,7 +50,7 @@ jQuery(document).ready(function ($) {
   
   $('.js-date').datepicker({autoClose: true,});
   $('.js-select').niceSelect();
-  // $('.js-phone').inputmask({"mask": "+38(999) 999-99-99"});
+  $('.js-phone').inputmask({"mask": "+38(999) 999-99-99"});
   // Кнопки дейсвий в таблице
   $(document).on('click', '.action-group-btn', function () {
     $('.action-group').removeClass('is-show');
