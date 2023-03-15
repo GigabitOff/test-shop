@@ -20,10 +20,10 @@
             @foreach($attrs as $id => $name)
                 <li class="filtered attribute-{{$id}}"
                     data-attribute="{{$id}}"
-                    data-terms="{{$this->productAttributeIds($product)}}">
+                    data-hash="{{$this->productAttributeValuesHash($product, $id)}}">
                     <div class="compare-item__item"><span
                             class="lbl">{{$name}}</span><span
-                            class="value" data-term-id="{{$this->productAttributeValuesId($product, $id)}}">{{$this->productAttributeValuesLine($product, $id)}}</span></div>
+                            class="value">{{$this->productAttributeValuesLine($product, $id)}}</span></div>
                 </li>
             @endforeach
         </ul>

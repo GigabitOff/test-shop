@@ -53,7 +53,7 @@
 
                 attributes.forEach(attribute=>{
                     const ids = $('.compare-item__list .filtered.attribute-' + attribute)
-                        .map((i, el)=>$(el).data('terms').includes(attribute))
+                        .map((i, el)=>$(el).data('hash'))
                         .toArray();
 
                     const unique = [...new Set(ids)];

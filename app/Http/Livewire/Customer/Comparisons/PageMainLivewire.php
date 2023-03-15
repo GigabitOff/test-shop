@@ -37,11 +37,20 @@ class PageMainLivewire extends Component
         return Str::limit($termsLine, 24);
     }
 
-    public function productAttributeValuesId($product, $attribute_id)
+    /**
+     * Generate CRC32 hash of the string
+     *
+     * @param $product
+     * @param $attribute_id
+     * @return string
+     */
+    public function productAttributeValuesHash($product, $attribute_id)
     {
-        return $product->attributeValues
-            ->where('attribute_id', $attribute_id)
-            ->map->id->join(',');
+        return dechex(crc32(
+            $product->attributeValues
+                ->where('attribute_id', $attribute_id)
+                ->map->name->join('')
+        ));
     }
 
     public function productAttributeIds($product)
