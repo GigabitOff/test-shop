@@ -39,6 +39,7 @@ class CartByModel implements CartContract
                 }
             });
 
+
     }
 
     public function productIds()
