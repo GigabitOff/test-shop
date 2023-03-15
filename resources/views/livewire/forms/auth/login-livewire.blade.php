@@ -30,7 +30,7 @@
                 </div>
                 <div class="links-group">
                     <a href="#m-password-recovery" data-bs-toggle="modal"
-                       data-bs-dismiss="modal">@lang('custom::site.Request password again')</a>
+                       data-bs-dismiss="modal">@lang('custom::site.password_recovery')</a>
                     <a href="#m-registration" data-bs-toggle="modal"
                        data-bs-dismiss="modal">@lang('custom::site.registration')</a>
                 </div>
