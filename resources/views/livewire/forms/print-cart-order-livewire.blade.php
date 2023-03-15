@@ -74,6 +74,7 @@
                 <tfoot></tfoot>
             </table>
         </div>
+
         <div class="form-group" id="mpo_footable-content">
             <div class="m-print-order__footer">
                 <dl class="table-total">

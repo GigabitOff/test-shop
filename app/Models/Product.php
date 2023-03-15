@@ -378,7 +378,6 @@ class Product extends Model implements ImagesOwnerContract
     }
 
     /** Service Functions */
-
     /**
      * Определяет поле с ценой в БД
      *
