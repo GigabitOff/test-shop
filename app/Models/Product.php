@@ -41,6 +41,7 @@ class Product extends Model implements ImagesOwnerContract
         'status_product',
         'comment',
         'shipping_payment',
+        'markdown_description',
         'seo_decription',
         'seo_url',
         'seo_h1',

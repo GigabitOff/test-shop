@@ -335,7 +335,7 @@
                 <span>@lang('custom::admin.Chats')</span>
 
             </x-admin.menu-link>
-            <button class="sidebar-menu__sound @if(session('playAudio') ===false)--mute @endif" wire:poll.keep-alive="checkChatsMessage" onclick="@this.stopStartAudioMessage()"></button>
+            <button class="sidebar-menu__sound @if(session('playAudio') ===false)--mute @endif" wire:poll.keep-alive="checkChatsMessage" onclick="@this.stopStartAudioMessage(); @if(session('playAudio') ===false) startAudioMessagePlayFirst(); @endif"></button>
         </li>
         <li class="sidebar-menu__item">
             <a target="_blank" class="sidebar-menu__link" href="/swagger">
@@ -393,14 +393,37 @@
             }
         }
 
+
+        function startAudioMessagePlayFirst() {
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            // запрашиваем доступ к устройству для записи звука
+            navigator.mediaDevices.getUserMedia({audio: false, video: false})
+                .then(function(stream) {
+                // доступ к устройству получен
+                // создаем AudioContext и источник аудио
+                var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                var source = audioCtx.createMediaStreamSource(stream);
+                // создаем динамик и подключаем к источнику аудио
+                var speaker = audioCtx.destination;
+                source.connect(speaker);
+                })
+                .catch(function(err) {
+                // доступ к устройству не получен
+                //console.log('Доступ к устройству для записи звука запрещен: ' + err);
+                });
+
+                startAudioMessage();
+            }
+        }
+
         function startAudioMessage() {
+
             var audio = new Audio('/audio/newMessage.mp3');
             audio.play();
 
-
-
-          //  audioElement.play();
         }
+
+
 
         window.addEventListener('startAudioMessage', () => {
 

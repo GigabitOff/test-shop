@@ -3,13 +3,13 @@
         <div class="input-group-text">
             <span>@lang('custom::admin.products.price_rrp'), @lang('custom::admin.products.UAH')</span>
         </div>
-        <input type="number"
+        <input type="text"
                class="form-control @error('data.price_rrc') is-invalid @enderror"
                onclick="this.select();"
                placeholder="@lang('custom::admin.products.price_rrp')"
                wire:model.lazy="data.price_rrc" >
     </div>
-    @error('data.price_retail')
+    @error('data.price_rrc')
         <div class="is-invalid d-block">{{ $message }}</div>
     @enderror
 </div>
@@ -19,7 +19,7 @@
         <div class="input-group-text">
             <span>@lang('custom::admin.products.price_wholesale'), @lang('custom::admin.products.UAH')</span>
         </div>
-        <input type="number"
+        <input type="text"
                class="form-control @error('data.price_wholesale') is-invalid @enderror"
                onclick="this.select();"
                placeholder="@lang('custom::admin.products.price_wholesale')"
@@ -35,7 +35,7 @@
         <div class="input-group-text">
             <span>@lang('custom::admin.products.Purchase price'), @lang('custom::admin.products.UAH')</span>
         </div>
-        <input type="number"
+        <input type="text"
                class="form-control @error('data.price_purchase') is-invalid @enderror"
                onclick="this.select();"
                placeholder="@lang('custom::admin.products.Purchase price')"

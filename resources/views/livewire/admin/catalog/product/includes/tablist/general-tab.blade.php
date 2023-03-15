@@ -292,11 +292,19 @@
                 :caption="__('custom::admin.products.markdown')"
                 wire:model="data.markdown" />
         </div>
+        @if($data['markdown'] == true OR $data['markdown'] === true)
+
+        <div class="form-group" style="max-height: 90px">
+            <textarea class="form-control" name="desc"
+            placeholder="Описание уценки" wire:model.lazy="data.{{ session('lang')}}.markdown_description">
+            </textarea>
+        </div>
+        @endif
         @if(isset($item_id))
-    <div wire:ignore>
         <h6>
             @lang('custom::admin.Related products')
         </h6>
+    <div wire:ignore>
         @livewire('admin.catalog.catalog-search-product-livewire', [
             'product_id'=>$item_id,
             'table_name'=>'product_accompanying',
@@ -306,6 +314,21 @@
 
     </div>
     @endif
+
+    <h6>
+            @lang('custom::admin.Comparison products')
+        </h6>
+    <div wire:ignore>
+        @livewire('admin.catalog.catalog-search-product-livewire', [
+            'product_id'=>$item_id,
+            'table_name'=>'product_comparison_products',
+            'target'=>'comparison',
+            'table_key_prod' => 'comparison_product_id',
+            'type_show'
+        ])
+
+    </div>
+
 
     <livewire:admin.forms.select-color-livewire />
 </div>

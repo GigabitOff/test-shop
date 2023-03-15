@@ -43,6 +43,11 @@ class Order extends Model
             ->withPivot('quantity', 'price', 'reserve', 'options');
     }
 
+    public function services(): BelongsToMany
+    {
+        return $this->belongsToMany(Service::class);
+    }
+
     public function customer(): BelongsTo
     {
         return $this->belongsTo(User::class);

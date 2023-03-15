@@ -13,18 +13,7 @@
             </span>
         </button>
     </li>
-    <li class="nav-item" role="presentation">
-        <button class="nav-link @if(isset($collapse_show) AND $collapse_show==='page-data')active @endif"  type="button" role="tab"  onclick="@this.selectTab('page-data')" >
-            <span @if($error_data_title) style=" color: red;" @endif>
-            @lang('custom::admin.Page data')
-            </span>
-        </button>
-    </li>
-    <li class="nav-item" role="presentation">
-        <button class="nav-link @if(isset($collapse_show) AND $collapse_show==='seo-data')active @endif"  type="button" role="tab"  onclick="@this.selectTab('seo-data')" >
-            @lang('custom::admin.SEO data')
-        </button>
-    </li>
+    
     </ul>
     <div class="product-info tab-content mt-4">
         <div class="tab-pane fade @if(isset($collapse_show) AND $collapse_show==='all-info')show active @endif" id="all-info" role="tabpanel">
@@ -32,12 +21,7 @@
             @include('livewire.admin.orders.includes.tablist.general-tab')
         </div>
         </div>
-        <div class="tab-pane fade @if(isset($collapse_show)  AND $collapse_show==='page-data')show active @endif" id="page-data" role="tabpanel" >
-            @include('livewire.admin.orders.includes.tablist.page-data')
-        </div>
-        <div class="tab-pane fade @if(isset($collapse_show)  AND $collapse_show==='seo-data')show active @endif" id="seo-data" role="tabpanel"  >
-        @include('livewire.admin.orders.includes.tablist.seo-data')
-    </div>
+
     </div>
 
     {{-- <div class="container">

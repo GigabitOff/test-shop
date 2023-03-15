@@ -18,8 +18,12 @@
 
                                 $self = null;
                                 $first = $group->first();
-                                if(!empty($customer) AND $first->owner)
+                                if(!empty($customer) AND $first->owner){
                                 $self = $first->owner->id === $customer->id;
+                                }elseif($first->manager_id === null){
+                                    $self = true;
+                                }
+
                             @endphp
                             <li class="messages-list__item @if($self) --user @else --maneger @endif">
                                 <div class="messages-list__item-avatar">

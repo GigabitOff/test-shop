@@ -17,23 +17,32 @@
                 </div>
             @endif
             <div class="form-group">
-                <input class="form-control" type="text" name="fio"
-                wire:model.defer="data.fio"
+                <input class="form-control  @error('data.fio') is-invalid @enderror" type="text" name="fio"
+                wire:model.lazy="data.fio"
                 placeholder="@lang('custom::site.fio')" required>
+                @error('data.fio')
+                <div class="invalid-feedback">{{$message}}</div>
+                @enderror
             </div>
                 <input class="form-control" type="hidden" name="fio"
                 wire:model.defer="data.popup_id"
                 placeholder="popup id" required>
             <div class="form-group">
-                <input class="form-control" type="text" name="email"
-                    wire:model.defer="data.email"
+                <input class="form-control @error('data.email') is-invalid @enderror" type="text" name="email"
+                    wire:model.lazy="data.email"
                     name="pemail-raw" placeholder="@lang('custom::site.email')" required>
+                @error('data.email')
+                <div class="invalid-feedback">{{$message}}</div>
+                @enderror
             </div>
             <div class="form-group">
-                <textarea class="form-control" type="text" name="message"
-                wire:model.defer="data.message"
+                <textarea class="form-control  @error('data.message') is-invalid @enderror" type="text" name="message"
+                wire:model.lazy="data.message"
                 placeholder="@lang('custom::site.your_question')" required>
                 </textarea>
+                @error('data.message')
+                <div class="invalid-feedback">{{$message}}</div>
+                @enderror
             </div>
             <div class="form-group">
                 <button class="button-accent button-accent w-100" type="submit"{{-- data-bs-dismiss="modal"--}}>@lang('custom::site.Send')</button>

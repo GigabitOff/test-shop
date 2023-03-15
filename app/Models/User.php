@@ -57,6 +57,7 @@ class User extends Authenticatable
         'customer_type',
         'admin_group_id',
         'blocked_ip_id',
+        'is_admin',
         'city_id',
         'manager_id',
         'counterparty_id',

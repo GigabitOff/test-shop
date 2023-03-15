@@ -201,8 +201,8 @@
                 @endif
                {{-- <div class="col-12 page-save"><button class="button" type="button">Добавить контрагента</button></div>--}}
                 <div class="col-12">
-                    <label class="check">
-                        <input class="check__input" type="checkbox" @if(isset($data['is_admin']) AND $data['is_admin']==1) checked @endif onclick="@this.changeDataItem('is_admin','{{(isset($data['is_admin']) AND $data['is_admin']==1) ? 0 : 1}}')" />
+                    <label class="check" onclick="@this.changeDataItem('is_admin','{{(isset($data['is_admin']) AND $data['is_admin']==1) ? 0 : 1}}')">
+                        <input class="check__input" type="checkbox" @if(isset($data['is_admin']) AND $data['is_admin']==1) checked @endif  wire:ignore.self />
                         <span class="check__box">@lang('custom::admin.Admin group')</span>
                     </label>
                 </div>
