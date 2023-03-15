@@ -16,9 +16,6 @@
                 <th data-breakpoints="xs sm md"></th>
             </tr>
             </thead>
-
-
-
             <tbody>
             @foreach($deferredsProducts as $product)
             <tr>
@@ -60,21 +57,17 @@
                 @php($productPriceField = App\Models\Product:: getPriceFieldWithParams(null, $product->price_sale,  $product->price_wholesale,$product->price_sale_show))
                 <td>
                     <span class="big">  {!! formatNbsp(formatMoney($product->$productPriceField) . ' ₴') !!}</span>
-                    @if ($product->price_wholesale != 0 and $product->price_sale_show == 0 or $product->price_sale != 0 and $product->price_sale_show != 0)
+                    @if ($product->price_sale_show != 0 and $product->price_wholesale == 0 or $product->price_sale_show == 0 and $product->price_wholesale != 0 or $product->price_sale_show != 0 and $product->price_wholesale != 0)
                         <span>
-                            @if (Auth::check())
                                 <?php $user = $user ?? auth()->user(); ?>
-                                @if ($user->is_customer_legal and $product->price_sale_show == 0)
+                                @if (is_object($user) && $user->is_founder != 0)
                                     <span style="color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </span>
-                                @else
+                                    @else
                                     <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </s>
                                 @endif
-                            @else
-                                @if ($product->price_sale_show != 0)
-                                    <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </s>
-                                @endif
-                            @endif
                         </span>
+                    @elseif($product->price_wholesale == 0 and $product->price_sale_show == 0 )
+                        <span style="color: grey; font-size: 17px;"></span>
                     @endif
                 </td>
                 <td class="text-center">
@@ -87,23 +80,21 @@
                         <div class="counter__btn plus"></div>
                     </div>
                 </td>
+                {{-- Block for determining the type and type of prices in accordance with the type of user.--}}
+                @php($productPriceField = App\Models\Product:: getPriceFieldWithParams(null, $product->price_sale,  $product->price_wholesale,$product->price_sale_show))
                 <td>
-                    <span class="big">{!! formatNbsp(formatMoney($product->quantity * $product->$productPriceField) . ' ₴') !!}</span>
+                    <span class="big">  {!! formatNbsp(formatMoney($product->$productPriceField * $product->quantity) . ' ₴') !!}</span>
                     @if ($product->price_wholesale != 0 and $product->price_sale_show == 0 or $product->price_sale != 0 and $product->price_sale_show != 0)
                         <span>
-                          @if (Auth::check())
-                                    <?php $user = $user ?? auth()->user(); ?>
-                                @if ($user->is_customer_legal and $product->price_sale_show == 0)
-                                    <span style="color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc * $product->cartQuantity) . ' ₴') !!} </span>
-                                @else
-                                    <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc * $product->cartQuantity) . ' ₴') !!} </s>
-                                @endif
+                            <?php $user = $user ?? auth()->user(); ?>
+                            @if ($user->is_founder != 0)
+                                <span style="color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc * $product->quantity) . ' ₴') !!} </span>
                             @else
-                                @if ($product->price_sale_show != 0)
-                                    <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc * $product->cartQuantity) . ' ₴') !!} </s>
-                                @endif
+                                <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc * $product->quantity) . ' ₴') !!} </s>
                             @endif
                         </span>
+                    @elseif($product->price_wholesale == 0 and $product->price_sale_show == 0 )
+                        <span style="color: grey; font-size: 17px;"></span>
                     @endif
                 </td>
                 <td class="w-1 text-xl-end">
