@@ -20,17 +20,10 @@
             @foreach($attrs as $id => $name)
                 <li class="filtered attribute-{{$id}}"
                     data-attribute="{{$id}}"
-<<<<<<< HEAD
-                    data-terms="{{$this->productAttributeIds($product)}}">
-                    <div class="compare-item__item"><span
-                            class="lbl">{{$name}}</span><span
-                            class="value" data-term-id="{{$this->productAttributeValuesId($product, $id)}}">{{$this->productAttributeValuesLine($product, $id)}}</span></div>
-=======
                     data-terms="{{$this->productAttributeIdsLine($product)}}">
                     <div class="compare-item__item"><span
                             class="lbl">{{$name}}</span><span
                             class="value">{{$this->productAttributeValuesLine($product, $id)}}</span></div>
->>>>>>> 46ce698 (SBGD-479: fix compare products page)
                 </li>
             @endforeach
         </ul>
@@ -50,11 +43,7 @@
         </div>
         @if($product->can_be_sold)
             <a class="button-outline button-small"
-<<<<<<< HEAD
-               onclick="Livewire.emit('eventCartAddProduct',{'product_id':{{$product->id}},'show_notification':1,'price_added':parseFloat('{{$product->price}}'),'quantity':$(this).closest('.compare-item__footer').find('.counter input').get(0).value})" href="javascript:void(0);">
-=======
                onclick="Livewire.emit('eventCartAddProduct', {'product_id' : {{$product->id}}, 'show_notification':1, 'price_added' : {{$product->price}}, 'quantity': $(this).closest('.compare-item__footer').find('.counter input').get(0).value})" href="javascript:void(0);">
->>>>>>> 46ce698 (SBGD-479: fix compare products page)
                 @lang('custom::site.Buy')
             </a>
         @else
