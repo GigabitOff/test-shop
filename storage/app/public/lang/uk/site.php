@@ -133,7 +133,7 @@ return [
     'My bonuses' => 'Мої бонуси',
     'write off bonuses' => 'Списати бонуси',
     'delivery date' => 'Дата поставки',
-    'Size'=> 'Розмір',
+    'Size'=> "Об'єм",
     'Payment method' => 'Спосіб оплати',
     'By card' => 'Картой',
     'Cash on delivery' => 'Наложеный платеж',
@@ -467,7 +467,7 @@ return [
     'type' => 'Тип',
     'quick_purchase' => 'Швидка покупка',
     'review' => 'Переглянути',
-    'comparisons' => 'Порівняння',
+    'comparisons' => 'Поріняння',
     'favorites' => 'Лист очікування',
     'to_favorites' => 'В очікуване',
     'favorite_actions' => [
@@ -780,13 +780,5 @@ return [
     'our_partners' => 'Наші партнери',
     'add' => 'Додати',
     'Related users' => "Пов'язані користувачі, телефон",
-    'upload_statut' => 'Завантажити статут',
-
-    /* OTP code */
-    'otp_code' => 'Код',
-    'otp_code_fail' => 'Неправильний код',
-    'otp_code_resent' => 'Код відправлений',
-    'otp_code_sms' => 'Вітаємо. Ваш код %s',
-    'otp_code_login' => 'Використати код',
-    'otp_code_resend' => 'Відправити повторно',
+    'upload_statut' => 'Завантажити статут'
 ];
