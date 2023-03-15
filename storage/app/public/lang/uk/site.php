@@ -780,5 +780,13 @@ return [
     'our_partners' => 'Наші партнери',
     'add' => 'Додати',
     'Related users' => "Пов'язані користувачі, телефон",
-    'upload_statut' => 'Завантажити статут'
+    'upload_statut' => 'Завантажити статут',
+
+    /* OTP code */
+    'otp_code' => 'Код',
+    'otp_code_fail' => 'Неправильний код',
+    'otp_code_resent' => 'Код відправлений',
+    'otp_code_sms' => 'Вітаємо. Ваш код %s',
+    'otp_code_login' => 'Використати код',
+    'otp_code_resend' => 'Відправити повторно',
 ];
