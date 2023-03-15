@@ -9,12 +9,12 @@ use App\Models\Popup;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Illuminate\Support\Facades\Mail;
-
+use Illuminate\Validation\Rule;
 class FeedbackTestLivewire extends Component
 {
 
     public $data,
-        $popup_id,
+        $popup_id=1,
         $emailSend,
         $popup;
     public ?int $departmentId = null;
@@ -22,17 +22,23 @@ class FeedbackTestLivewire extends Component
 
     protected array $rules = [
         'data.fio' => 'required',
-        'data.email' => 'required',
+        'data.email' => 'required|email',
         'data.message' => 'required',
 
     ];
 
     public function mount()
     {
-        $this->data['popup_id'] = 1;
+        $this->data['popup_id'] = $this->popup_id;
 
         if (!$this->emailSend)
         $this->emailSend = settingsData('main_email_for_send', true);
+    }
+
+     public function updated($field)
+    {
+        $this->validateOnly($field);
+
     }
 
     public function render()
@@ -52,8 +58,13 @@ class FeedbackTestLivewire extends Component
         $this->validate();
 
         $managers = $this->getManagers($this->popup_id);
+        $popup = Popup::where('id',$this->popup)->first();
         //dd($this->popup);
         $customer_id = null;
+
+        if(!$popup){
+            $this->popup_id = null;
+        }
 
         if(isset(auth()->user()->id))
         $customer_id = auth()->user()->id;
@@ -138,12 +149,12 @@ class FeedbackTestLivewire extends Component
 
                 //$this->data['user_id'] = $value['id'];
 
-                if(isset($value['email'])){
-                $manager['email'] = 'v.makarenko@fairtech.group';//$value['email'];
+               // if(isset($value['email'])){
+               // $manager['email'] = 'v.makarenko@fairtech.group';//$value['email'];
 
 
                 Mail::to($manager['email'])->send(new SendDataMail($data));
-                }
+                //}
 
                 //$this->data['id_users'][$value['id']] = $value['id'];
             }

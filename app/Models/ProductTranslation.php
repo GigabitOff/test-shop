@@ -26,6 +26,7 @@ class ProductTranslation extends Model
         'keywords',
         'comment',
         'state',
+        'markdown_description',
         'seo_decription',
         'seo_url',
         'seo_h1',

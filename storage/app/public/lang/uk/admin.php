@@ -1209,5 +1209,25 @@ return [
     ],
 
     'Chats' => 'Переписка',
+    'Orders' => 'Замовлення',
+    'orders' => 'Замовлення',
 
+    'time_order' => 'Час<br> замовлення',
+    'payment' => 'Оплата',
+    'summ' => 'Сумма',
+    'Сustomer' => 'Замовник',
+    'Filial' => 'Філіал',
+    'Review' => 'відгук',
+    'Main data order' => 'Основні дані',
+    'Delivery' => 'Доставка',
+    'Order change history' => 'Історія зміни замовлення',
+    'Comment to the order' => 'Коментар до замовлення',
+    'Payment state' => 'Статус оплати',
+    'payment_state' => [
+        '0' => 'Не оплачено',
+        '1' => 'Оплачено',
+    ],
+    'Comparison products' => 'Порівняння товарів',
+    '' => '',
+    '' => '',
 ];

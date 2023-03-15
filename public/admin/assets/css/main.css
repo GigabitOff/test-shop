@@ -13719,14 +13719,25 @@ table.footable tbody td > span.social-item::before,
   color: #000;
 }
 
+.message.--closed {
+  color: #878C98;
+}
+
+.message.--closed p {
+  margin-top: 0;
+  margin-bottom: 0;
+  color: #878C98;
+}
+
 .message.--new p {
   color: #000;
+  font-weight: 500;
 }
 
 .message p {
   margin-top: 0;
   margin-bottom: 0;
-  color: #878C98;
+  color: #000;
 }
 
 .message span {
@@ -14249,22 +14260,22 @@ table.footable tbody td .order-customer-phone {
   text-align: left;
 }
 
-.status-button-1 {
+.status-button-10 { /*viktor 1 */
   --status-color-light: #CDEFD4;
   --status-color: #57CA70;
 }
 
-.status-button-2 {
+.status-button-6 { /*viktor 2 */
   --status-color-light: #FFD3D3;
   --status-color: #FF6A6A;
 }
 
-.status-button-3 {
+.status-button-9 { /*viktor 3 */
   --status-color-light: #FEE5B4;
   --status-color: #FBA705;
 }
 
-.status-button-4 {
+.status-button-1 { /*viktor 4 */
   --status-color-light: #D0DEFF;
   --status-color: #628EFF;
 }
