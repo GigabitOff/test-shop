@@ -141,7 +141,7 @@ return [
     'type' => 'Тип',
     'quick_purchase' => 'Швидка покупка',
     'review' => 'Переглянути',
-    'comparisons' => 'Поріняння',
+    'comparisons' => 'Порівняння',
     'favorites' => 'Лист очікування',
     'cashback' => 'Бонуси',
     'cashback_used' => 'Списано Бонусів',
