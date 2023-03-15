@@ -43,22 +43,17 @@
     <script>
         document.comparisons = {
             viewAll: function(){
-                // $('.compare-sidebar .filter-all').addClass('active');
-                // $('.compare-sidebar .filter-difference').removeClass('active');
-                //
-                // $('.compare-sidebar__list .filtered').show();
-                // $('.compare-item__list .filtered').show();
+                $('.compare-sidebar__list .filtered').show();
+                $('.compare-item__list .filtered').show();
             },
             viewDifference: function (){
-                // $('.compare-sidebar .filter-all').removeClass('active');
-                // $('.compare-sidebar .filter-difference').addClass('active');
 
                 const attributes = $('.compare-sidebar__list .filtered')
                     .map((i,el)=>$(el).data('attribute')).toArray();
 
                 attributes.forEach(attribute=>{
                     const ids = $('.compare-item__list .filtered.attribute-' + attribute)
-                        .map((i, el)=>$(el).data('terms'))
+                        .map((i, el)=>$(el).data('terms').includes(attribute))
                         .toArray();
 
                     const unique = [...new Set(ids)];
