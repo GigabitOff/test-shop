@@ -41,10 +41,6 @@ class OtpLoginLivewire extends Component
         if ($this->otpService->validate($credentials['phone'], $credentials['code'])) {
             $user = User::where('phone', $credentials['phone'])->first();
 
-            if(!$this->userRoleAllowed($user)) {
-                return;
-            }
-
             auth()->login($user);
 
             $this->otpService->markCodeAsUsed($credentials['phone'], $credentials['code']);
