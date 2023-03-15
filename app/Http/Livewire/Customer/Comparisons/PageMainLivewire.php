@@ -37,14 +37,16 @@ class PageMainLivewire extends Component
         return Str::limit($termsLine, 24);
     }
 
+    public function productAttributeValuesId($product, $attribute_id)
+    {
+        return $product->attributeValues
+            ->where('attribute_id', $attribute_id)
+            ->map->id->join(',');
+    }
+
     public function productAttributeIds($product)
     {
         return $product->attributes->map->id;
-    }
-
-    public function productAttributeIdsLine($product)
-    {
-        return $product->attributes->map->id->join(',');
     }
 
     /** Service Functions */
