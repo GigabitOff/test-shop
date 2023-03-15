@@ -41,29 +41,6 @@
 
 @push('custom-scripts')
     <script>
-        const compareSlider2 = new Swiper('.js-compare-slider-2 .swiper', {
-            loop: false,
-            slidesPerView: 1,
-            observeParents: true,
-            observeSlideChildren: true,
-            observer: true,
-            speed: 500,
-            scrollbar: {
-                el: '.js-compare-slider-2 .swiper-scrollbar',
-                draggable: true,
-            },
-            breakpoints: {
-                767: {
-                    slidesPerView: 2,
-                },
-                1024: {
-                    slidesPerView: 3,
-                },
-                1599: {
-                    slidesPerView: 4,
-                },
-            },
-        });
         document.comparisons = {
             viewAll: function(){
                 // $('.compare-sidebar .filter-all').addClass('active');
