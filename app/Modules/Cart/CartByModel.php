@@ -26,7 +26,6 @@ class CartByModel implements CartContract
         return $this->cart->products
             ->each(function ($el) {
                 $el->cartUuid = $el->pivot->uuid;
-                $el->cartUniq = $el->pivot->uniq;
                 $el->cartQuantity = $el->pivot->quantity;
                 $el->cartChecked = $el->pivot->checked;
                 $el->cartPriceAdded = $el->pivot->price_added;
@@ -38,8 +37,6 @@ class CartByModel implements CartContract
                     $el->cartCost = $el->price_sale * $el->cartQuantity;
                 }
             });
-
-
     }
 
     public function productIds()

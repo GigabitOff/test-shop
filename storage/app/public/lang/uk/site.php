@@ -133,7 +133,7 @@ return [
     'My bonuses' => 'Мої бонуси',
     'write off bonuses' => 'Списати бонуси',
     'delivery date' => 'Дата поставки',
-    'Size'=> 'Розмір',
+    'Size'=> "Об'єм",
     'Payment method' => 'Спосіб оплати',
     'By card' => 'Картой',
     'Cash on delivery' => 'Наложеный платеж',
