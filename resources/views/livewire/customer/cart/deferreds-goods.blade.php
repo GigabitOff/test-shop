@@ -96,6 +96,7 @@
                     @elseif($product->price_wholesale == 0 and $product->price_sale_show == 0 )
                         <span style="color: grey; font-size: 17px;"></span>
                     @endif
+
                 </td>
                 <td class="w-1 text-xl-end">
                     <button class="button-accent button-xsmall nowrap" type="button"

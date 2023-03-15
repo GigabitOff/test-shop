@@ -94,6 +94,7 @@
                 @endif
                 <span class="big">  {!! formatNbsp(formatMoney($product->{$productPriceField}) . ' ₴') !!}</span>
             </div>
+
             <div class="product-card__grid">
                 <div class="product-card__counter">
                     <div class="counter">
