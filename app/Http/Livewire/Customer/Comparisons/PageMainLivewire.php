@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Customer\Comparisons;
 
 use App\Models\Attribute;
-use App\Models\Term;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Livewire\Component;
@@ -22,26 +21,25 @@ class PageMainLivewire extends Component
     {
         $products = $this->revalidateProducts();
         $attributes = $this->revalidateAttributes($products);
+
         return view(
             'livewire.customer.comparisons.page-main-livewire',
             compact('products', 'attributes')
         );
     }
 
-    public function productTermsLine($product, $attribute_id)
+    public function productAttributeValuesLine($product, $attribute_id)
     {
-        $termsLine = $product->terms
+        $termsLine = $product->attributeValues
             ->where('attribute_id', $attribute_id)
-            ->map->value->join(', ');
+            ->map->name->join(', ');
 
         return Str::limit($termsLine, 24);
     }
 
-    public function productAttributeTermIds($product, $attribute_id)
+    public function productAttributeIdsLine($product)
     {
-        return $product->terms
-            ->where('attribute_id', $attribute_id)
-            ->map->id->join(',');
+        return $product->attributes->map->id->join(',');
     }
 
     /** Service Functions */
@@ -49,14 +47,16 @@ class PageMainLivewire extends Component
     private function revalidateProducts()
     {
         return $this->customer
-            ->compareProducts()->withTerms()->get();
+            ->compareProducts()
+            ->with(['attributes', 'attributeValues'])
+            ->get();
     }
 
     private function revalidateAttributes($products)
     {
         $attributes = Attribute::query()
             ->withTranslation()
-            ->whereHas('products', fn($q)=>$q->whereIn('id', $products->pluck('id')))
+            ->whereHas('products', fn($q) => $q->whereIn('products.id', $products->pluck('id')))
             ->orderByTranslation('name')
             ->get()->keyBy('id')->map->name;
 
