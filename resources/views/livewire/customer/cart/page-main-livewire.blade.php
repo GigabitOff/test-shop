@@ -132,7 +132,7 @@
                     </div>
                 </li>
             @endif
-            @if(cart()->totalCartCheckedQuantityVolume() > 0 && $totalSize && !$hideSize)
+            @if(cart()->totalCartCheckedQuantity() > 0 && $totalSize && !$hideSize)
                 <li class="table-total-list__item">
                     <div class="table-total-list__label">
                         @lang('custom::site.Size')
