@@ -114,7 +114,6 @@
                     <span style="color: grey; font-size: 17px;"></span>
                 @endif
             </td>
-
             <td class="text-center">
                 <div class="counter">
                     <div class="counter__btn minus"></div>

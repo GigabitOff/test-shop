@@ -64,7 +64,6 @@
                 </ul>
             </div>
         </div>
-
         <div class="product-card__bottom">
             <div class="js-add-compare product-card__compare
                 @if(comparisons()->isExistProduct($product->id)) is-active @endif"

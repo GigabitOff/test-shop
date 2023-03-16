@@ -38,7 +38,6 @@
                     </th>
                 </tr>
                 </thead>
-
                 <tbody>
                 @foreach($products as $product)
                 <tr>
@@ -135,8 +134,6 @@
             newWin.print();
         }, 300);
     }
-
-
     //# sourceURL=print-order-livewire.js
 </script>
 </div>
