@@ -60,7 +60,7 @@ class PageMainLivewire extends Component
 
     /** Service Functions */
 
-    private function revalidateProducts()
+    protected function revalidateProducts()
     {
         return $this->customer
             ->compareProducts()
@@ -68,7 +68,7 @@ class PageMainLivewire extends Component
             ->get();
     }
 
-    private function revalidateAttributes($products)
+    protected function revalidateAttributes($products)
     {
         $attributes = Attribute::query()
             ->withTranslation()

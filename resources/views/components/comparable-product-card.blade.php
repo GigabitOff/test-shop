@@ -2,10 +2,17 @@
     <div class="compare-item__head">
         <div class="compare-item__box">
             <div class="compare-item__media">
+                @if($isActive)
                 <div class="compare-item__label {{$product->availabilityCss}}">{{$product->availabilityText}}</div>
+                @endif
                 <div class="compare-item__action">
+                @if($isActive)
                     <div class="btn-delete"
-                         onclick="Livewire.emit('eventRemoveComparisonsItem', {'product_id' : {{$product->id}} })"><span class="ico_trash"></span></div>
+                         onclick="Livewire.emit('eventRemoveComparisonsItem', {'product_id' : {{$product->id}} })"><span class="ico_trash"></span>
+                    </div>
+                    @else
+                        <div class="compare-item__label {{$product->availabilityCss}}">{{$product->availabilityText}}</div>
+                    @endif
                 </div><img src="{{$product->mainImageUrl}}" alt="{{$product->name}}"/>
             </div>
             <div class="compare-item__info">
@@ -47,6 +54,7 @@
             @endforeach
         </ul>
     </div>
+    @if($isActive)
     <div class="compare-item__footer">
         <div class="product-card__counter">
             <div class="counter">
@@ -80,4 +88,11 @@
             @endguest()
         @endif
     </div>
+    @else
+        <div class="swiper-nav --section-slider-nav">
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    @endif
 </div>
