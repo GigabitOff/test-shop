@@ -35,7 +35,7 @@ class CartByModel implements CartContract
                 if ($el->price_sale_show == 0 && $el->price_wholesale == 0) {
                     $el->cartCost = $el->price_rrc;
                 } else if ($el->price_sale_show == 0) {
-                    $el->cartCost = $el->price_wholesale * $el->cartQuantity;
+                    $el->cartCost = $el->price_rrc * $el->cartQuantity;
                 } else {
                     $el->cartCost = $el->price_sale * $el->cartQuantity;
                 }
@@ -118,6 +118,7 @@ class CartByModel implements CartContract
 
     public function totalCartCheckedCost()
     {
+
         return $this->checkedProducts()->map->cartCost->sum();
     }
 
