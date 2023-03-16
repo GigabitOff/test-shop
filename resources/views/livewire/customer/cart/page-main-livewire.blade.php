@@ -65,6 +65,7 @@
                 ({{ cart()->totalCartCheckedQuantityCount() }}
                 @lang('custom::site.products') )
                 <span class="table-total__value">
+                 {{--   <?php echo dd(cart()->totalCartCheckedCost()) ;?>--}}
                     {{formatMoney(cart()->totalCartCheckedCost() - $cashbackUsed)}}
                     @lang('custom::site.UAH')
                 </span>
