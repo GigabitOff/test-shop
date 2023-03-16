@@ -38,8 +38,13 @@
                         </li>
                     @endforeach
                 </ul>
+                @if($isThreeColumns)
+                    @include('livewire.catalog.product.product-atributes-livewire')
+                @endif
             </div>
-            @include('livewire.catalog.product.product-atributes-livewire')
+            @if(!$isThreeColumns)
+                @include('livewire.catalog.product.product-atributes-livewire')
+            @endif
         </div>
     </div>
 </div>

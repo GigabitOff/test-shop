@@ -57,23 +57,6 @@
                             <livewire:catalog.product.show-related-section-livewire :product="$data"/>
                             <livewire:widgets.catalog.review.review-show-livewire :product_id="$data->id"/>
                         </div>
-{{--                        <div class="col-xxl-7 col-xl-7">--}}
-{{--                            <div class="row g-5">--}}
-{{--                                @if($layout['isAttributesVisible'])--}}
-{{--                                @include('livewire.catalog.product.product-specification-livewire')--}}
-{{--                                @endif--}}
-{{--                                <div class="da m-xl-0"></div>--}}
-{{--                                @include('livewire.catalog.product.product-description-livewire')--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-
-{{--                        <div class="col-xxl-5 col-xl-5">--}}
-{{--                            <div class="row g-5">--}}
-{{--                                <livewire:catalog.product.show-related-section-livewire :product="$data"/>--}}
-
-{{--                                <livewire:widgets.catalog.review.review-show-livewire :product_id="$data->id"/>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
 
                     @endif
 
