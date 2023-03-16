@@ -75,7 +75,7 @@
                     <div class="counter">
                         <div class="counter__btn minus"></div>
                         <div class="counter__field">
-                            <input type="number" value="{{$product->quantity}}" min="1"
+                            <input type="number" value="{{$product->quantity}}" min="0"
                                    onchange="document.deferredsProduct.setChangeQuantity(this, '{{$product->id}}')"/>
                         </div>
                         <div class="counter__btn plus"></div>
@@ -138,7 +138,6 @@
                 if (max !== undefined && value > max) {
                     $input.val(max);
                 }
-
             @this.changeQuantity(productId, value);
             }
         }

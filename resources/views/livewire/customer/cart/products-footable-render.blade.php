@@ -119,9 +119,8 @@
                 <div class="counter">
                     <div class="counter__btn minus"></div>
                     <div class="counter__field">
-                        <input type="number" value="{{$cartProduct->cartQuantity}}" min="1"
-                               onchange="document.cartProduct.changeQuantity(this,
-            '{{$cartProduct->cartUuid}}')"/>
+                        <input type="number" value="{{$cartProduct->cartQuantity}}" min="0"
+                               onchange="document.cartProduct.changeQuantity(this, '{{$cartProduct->cartUuid}}')"/>
                     </div>
                     <div class="counter__btn plus"></div>
                 </div>
@@ -132,7 +131,7 @@
                     <span>
                           <?php $user = $user ?? auth()->user(); ?>
                         @if (is_object($user) && $user->is_founder != 0)
-                            <span style="color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($cartProduct->price_rrc) . ' ₴') !!} </span>
+                            <span style="color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($cartProduct->price_rrc * $cartProduct->cartQuantity) . ' ₴') !!} </span>
                         @else
                             @if (!is_object($user) and $cartProduct->price_sale_show != 0 and $cartProduct->price_sale != 0)
                                 <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($cartProduct->price_rrc * $cartProduct->cartQuantity) . ' ₴') !!} </s>
