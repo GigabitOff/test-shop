@@ -101,6 +101,7 @@
             </li>
         </ul>
         @php($totalWeight = cart()->products()->filter(fn($p) => $p->cartChecked)->map(fn($p) => $p->cartQuantity * $p->weight)->sum())
+
         <?php   $size = cart()->products() ->filter(fn($p) => $p->cartChecked)->map(fn($p) => $p->depth * $p->width * $p->height / 1000000000)->sum();
         $totalSize = $size * cart()->totalCartCheckedQuantity();
         ?>
@@ -114,7 +115,7 @@
                 </div>--}}
             </li>
 
-            @if(cart()->totalCartCheckedQuantity() > 0 && isset($totalWeight) && $totalWeight > 0)
+            @if(cart()->totalCartCheckedQuantity() > 0 && isset($totalWeight))
                 <li class="table-total-list__item">
                     <div class="table-total-list__label">
                         @lang('custom::site.Weight')

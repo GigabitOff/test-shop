@@ -92,6 +92,7 @@
             {{-- Block for determining the type and type of prices in accordance with the type of user.--}}
             @php($productPriceField = App\Models\Product:: getPriceFieldWithParams(null, $cartProduct->price_sale,  $cartProduct->price_wholesale, $cartProduct->price_sale_show))
             <td>
+
                 <span class="big">{!! formatNbsp(formatMoney($cartProduct->$productPriceField - $cashbackUsed) .  ' ₴') !!}</span>
                 @if ($cartProduct->price_sale_show != 0 and $cartProduct->price_wholesale == 0 or $cartProduct->price_sale_show == 0 and $cartProduct->price_wholesale != 0 or $cartProduct->price_sale_show != 0 and $cartProduct->price_wholesale != 0)
                     <span>

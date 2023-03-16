@@ -56,6 +56,7 @@
                     {{--  Block for determining the type and type of prices in accordance with the type of user.--}}
                     @php( $productPriceField = App\Models\Product:: getPriceFieldWithParams(null, $product->price_sale,  $product->price_wholesale, $product->price_sale_show))
                     <div>
+
                         <span>@lang('custom::site.price product')</span>
                         <strong>{!! formatNbsp(formatMoney($product->$productPriceField) . ' ₴') !!}</strong>
                         @if ($product->price_sale_show != 0 and $product->price_wholesale == 0 or $product->price_sale_show == 0 and $product->price_wholesale != 0 or $product->price_sale_show != 0 and $product->price_wholesale != 0)

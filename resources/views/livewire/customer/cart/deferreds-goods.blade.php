@@ -1,6 +1,7 @@
 <div class="lk-page__table">
         <table class="ftable" id="dererreds-list" data-paging-size="2" data-paging-container="#table-nav-2" style="width: 100%">
             <thead>
+
             <tr class="footable-header">
                 <th>
                     <div class="d-flex align-items-center">

@@ -387,6 +387,7 @@ class Product extends Model implements ImagesOwnerContract
     //  Block for determining the type and type of prices in accordance with the type of user.
     public static function getPriceFieldWithParams(?User $user = null, $priceSale = null, $priceWholesale = null, $priceSaleShow = null): string
     {
+
         $user = $user ?? auth()->user();
 
         if (!$user) {
