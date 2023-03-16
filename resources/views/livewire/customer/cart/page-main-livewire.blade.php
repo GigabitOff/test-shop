@@ -26,11 +26,14 @@
                 @if($checkAll) onclick="@this.clearList()" @endif>
             </div>
         </div>
+        <?php $user = $user ?? auth()->user(); ?>
+        @if (is_object($user) && $user->is_founder != 0)
         <div class="lk-page__action-btns">
             <a class="button-circle ico_print" href="#m-print-cart-order"
             data-bs-toggle="modal">
             </a>
         </div>
+        @endif
     </div>
     <div class="lk-page__table">
         <div id="footable-content" class="footable-content" style="display: none;" data-table="{{ $table }}"></div>

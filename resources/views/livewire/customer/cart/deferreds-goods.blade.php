@@ -4,7 +4,7 @@
             <tr class="footable-header">
                 <th>
                     <div class="d-flex align-items-center">
-                        <label class="check js-select-all"></label>
+                        {{--<label class="check js-select-all"></label>--}}
                             <span>@lang('custom::site.products')</span>
                     </div>
                 </th>
@@ -110,9 +110,6 @@
                     @elseif($product->price_wholesale == 0 and $product->price_sale_show == 0 )
                         <span style="color: grey; font-size: 17px;"></span>
                     @endif
-
-
-
                 </td>
                 <td class="w-1 text-xl-end">
                     <button class="button-accent button-xsmall nowrap" type="button"
