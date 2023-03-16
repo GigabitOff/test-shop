@@ -72,10 +72,13 @@
                     {{formatMoney(cart()->totalCartCheckedCost() - $cashbackUsed)}}
                     @lang('custom::site.UAH')
                 </span>
+                <?php $user = $user ?? auth()->user(); ?>
+                @if (is_object($user) && $user->is_founder != 0)
                 <span class="table-total__value-sm">
                     {{formatMoney($sumPriceRetail - $cashbackUsed)}}
                     @lang('custom::site.UAH')
                 </span>
+                @endif
             </li>
             <li class="table-total__item">
                 <div class="form-bonus">
