@@ -795,5 +795,7 @@ return [
     'our_partners' => 'Наші партнери',
     'Chat id' => 'Чат id',
     'Popup' => 'Попап',
+    'chat_open' => 'Відкрито',
+    'chat_close' => 'Закрито',
 
 ];
