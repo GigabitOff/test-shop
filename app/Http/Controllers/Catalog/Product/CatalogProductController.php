@@ -41,7 +41,7 @@ class CatalogProductController extends Controller
             ->firstOrFail();
 
         // set layout properties
-        $isVariationsVisible = !empty($data->vars_attrs);
+        $isVariationsVisible = !empty($data->vars_attrs) && !empty($data->vars_key);
         $isAttributesVisible = !empty($data->attributeValues->count());
         $isThreeColumns = !$isVariationsVisible && $isAttributesVisible;
 
