@@ -165,8 +165,15 @@
 @push('custom-scripts')
     <script>
         document.addEventListener('restoreRegistrationForm', () => {
+        });
+
+        document.addEventListener('restoreLegalEntityCheckbox', () => {
             $('#fr_legal-entity').trigger('change');
         });
+
+        $('#m-registration').on('hidden.bs.modal', function () {
+            Livewire.emit('registrationFormClosed');
+        })
 
         document.registrationForm = {
             showNeedCredentialsMessage: () => {

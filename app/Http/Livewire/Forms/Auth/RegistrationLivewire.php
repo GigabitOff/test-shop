@@ -42,8 +42,10 @@ class RegistrationLivewire extends Component
     public bool $do_registration_complete = false;
 
     protected $listeners = [
-        'eventConfirmEmailSkip'
+        'eventConfirmEmailSkip',
+        'registrationFormClosed' => 'resetForm',
     ];
+
 
     protected OtpService $otpService;
 
@@ -336,6 +338,10 @@ class RegistrationLivewire extends Component
 
     public function resetForm()
     {
+        if($this->legal_entity){
+            $this->dispatchBrowserEvent('restoreLegalEntityCheckbox');
+        }
+
         $this->reset([
             'phoneRaw',
             'phone',
