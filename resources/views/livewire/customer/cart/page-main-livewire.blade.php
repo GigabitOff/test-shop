@@ -145,7 +145,6 @@
         </ul>
     </div>
     @livewire('customer.cart.meta-block-livewire')
-
 @push('custom-scripts')
 <script>
     window.addEventListener('updateFooData', () => {
