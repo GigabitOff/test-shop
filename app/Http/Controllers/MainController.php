@@ -33,6 +33,8 @@ class MainController extends Controller
 //
 //        session()->regenerateToken();
 
+        session()->forget('password_hash_web');
+
         return redirect()->route('main');
     }
 
