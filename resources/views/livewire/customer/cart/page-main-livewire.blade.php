@@ -113,6 +113,7 @@
                     <span>23.02.22</span>
                 </div>--}}
             </li>
+
             @if(cart()->totalCartCheckedQuantity() > 0 && isset($totalWeight) && $totalWeight > 0)
                 <li class="table-total-list__item">
                     <div class="table-total-list__label">
