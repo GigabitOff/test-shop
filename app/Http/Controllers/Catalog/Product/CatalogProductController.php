@@ -50,6 +50,11 @@ class CatalogProductController extends Controller
         $isVariationsVisible = !empty($data->vars_attrs) && !empty($data->vars_key);
         $isAttributesVisible = !empty($data->attributeValues->count());
         $isThreeColumns = !$isVariationsVisible && $isAttributesVisible;
+        $layout = [
+            'isVariationsVisible' => $isVariationsVisible,
+            'isAttributesVisible' => $isAttributesVisible,
+            'isThreeColumns'      => $isThreeColumns,
+        ];
 
         $images = $data->images()->orderBy('main', 'desc')->get();
 
@@ -67,7 +72,7 @@ class CatalogProductController extends Controller
 
         $breadcrumbs = $service->makeCatalogBreadcrumbsList($category, true);
 
-        return view('catalog.product.show', compact('id', 'data', 'breadcrumbs', 'images', 'isThreeColumns'));
+        return view('catalog.product.show', compact('id', 'data', 'breadcrumbs', 'images', 'layout'));
     }
 
 }

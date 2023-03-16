@@ -1,5 +1,5 @@
 <div class="col-12">
-    @if(auth()->user() || $reviews->isNotEmpty())
+{{--    @if(auth()->user() || $reviews->isNotEmpty())--}}
     <div class="product-full-box --reviews">
         <div class="product-full-box__head">
             <div>
@@ -42,5 +42,5 @@
             </ul>
         </div>
     </div>
-    @endif
+{{--    @endif--}}
 </div>
