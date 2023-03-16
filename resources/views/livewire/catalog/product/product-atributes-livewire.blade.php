@@ -1,4 +1,6 @@
+@if(!$isThreeColumns)
 <div class="col-md-6">
+@endif
     <ul class="specification-list">
         @foreach(array_slice($attributes, ceil($countAttributes/2)) as $attr)
             <li>
@@ -15,4 +17,6 @@
             </li>
         @endforeach
     </ul>
+@if(!$isThreeColumns)
 </div>
+@endif

@@ -504,3 +504,18 @@ if (!function_exists('isColorCodeInvalid')) {
     }
 }
 
+if (!function_exists('flog')) {
+    function flog($var) {
+        $fn = function($var) {
+            ob_start();
+            print_r($var);
+            $v = ob_get_contents();
+            ob_end_clean();
+
+            return $v;
+        };
+        file_put_contents(storage_path('logs') . DIRECTORY_SEPARATOR . 'log-' . date('Y-m-d') . '.txt',
+            '+---+ ' . date('H:i:s d-m-Y') . ' +-----+' . PHP_EOL . $fn($var) . PHP_EOL . PHP_EOL,
+            FILE_APPEND);
+    }
+}

@@ -7,7 +7,6 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Services\CategoryService;
-use Illuminate\Database\Eloquent\Builder;
 
 class CatalogProductController extends Controller
 {
@@ -16,27 +15,35 @@ class CatalogProductController extends Controller
      */
     public function index()
     {
-
         return view('catalog.index');
-
     }
-
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      */
-    public function show($id,CategoryService $service, Request $request)
+    public function show($id, CategoryService $service, Request $request)
     {
         $data = Product::where('id', (int)$id)
-                ->orWhere('slug',$id)
-                ->with(['accompanying'=>function($q){
+            ->orWhere('slug', $id)
+            ->with([
+                'accompanying' => function ($q) {
                     $q->with('images', 'brands');
-                }])
-                ->with(['categories.translations', 'brand.images',
-                    'attributeValues.translations', 'attributeValues.attribute.translations'])
-                ->firstOrFail();
+                },
+            ])
+            ->with([
+                'categories.translations',
+                'brand.images',
+                'attributeValues.translations',
+                'attributeValues.attribute.translations',
+            ])
+            ->firstOrFail();
+
+        // set layout properties
+        $isVariationsVisible = !empty($data->vars_attrs);
+        $isAttributesVisible = !empty($data->attributeValues->count());
+        $isThreeColumns = !$isVariationsVisible && $isAttributesVisible;
 
         $images = $data->images()->orderBy('main', 'desc')->get();
 
@@ -54,8 +61,7 @@ class CatalogProductController extends Controller
 
         $breadcrumbs = $service->makeCatalogBreadcrumbsList($category, true);
 
-        return view('catalog.product.show', compact('id','data', 'breadcrumbs', 'images'));
-
+        return view('catalog.product.show', compact('id', 'data', 'breadcrumbs', 'images', 'isThreeColumns'));
     }
 
 }
