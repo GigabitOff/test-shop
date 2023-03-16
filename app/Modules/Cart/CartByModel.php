@@ -25,6 +25,7 @@ class CartByModel implements CartContract
 
     public function products()
 
+
     {
         return $this->cart->products
             ->each(function ($el) {
