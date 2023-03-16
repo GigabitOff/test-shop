@@ -108,7 +108,6 @@ class CartByModel implements CartContract
     {
         return $this->checkedProducts()->every(fn($p) => isset($p->weight) && $p->weight > 0);
     }
-
     public function totalCartCheckedQuantityCount()
     {
         // Get all checked products
@@ -116,8 +115,6 @@ class CartByModel implements CartContract
         // Return the count of unique products
         return $checkedProducts->count();
     }
-
-
 
     public function totalCartCheckedCost()
     {
