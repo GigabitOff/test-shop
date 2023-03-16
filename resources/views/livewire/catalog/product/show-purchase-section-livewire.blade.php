@@ -83,7 +83,6 @@
                         <a href="#m-price" data-bs-toggle="modal">@lang('custom::site.watch_price')</a>
                     </div>
                 </div>
-
                 <div class="product-full__btns-group">
                     <div class="product-full__counter @if(!$product->can_be_sold) d-none @endif">
                         <div class="counter">

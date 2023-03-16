@@ -5,9 +5,7 @@
         <div class="cart-info__ico"><i class="ico_discount"></i></div>
         <div class="cart-info__box">
             <h6 class="cart-info__title">@lang('custom::site.message_in_cart')</h6>
-
             <p class="cart-info__subtitle">{{$countChangedPrice}} @lang('custom::site.products_changed_price')</p>
-
             <p class="cart-info__text-info">@lang('custom::site.message_price_cart')</p>
             <ul class="cart-info__list">
                 @foreach ($productPriceUpdated as $productUpdated)
@@ -47,9 +45,7 @@
         </div>
     </div>
     </div>
-
     <h5>@lang('custom::site.deferred_goods')</h5>
-
     @livewire('customer.cart.deferreds-goods',['cashbackUsed' => $cashbackUsed])
     <div class="lk-page__table-after">
         <div class="ms-0">
@@ -113,7 +109,6 @@
                     <span>23.02.22</span>
                 </div>--}}
             </li>
-
             @if(cart()->totalCartCheckedQuantity() > 0 && isset($totalWeight) && $totalWeight > 0)
                 <li class="table-total-list__item">
                     <div class="table-total-list__label">
@@ -136,9 +131,7 @@
             @endif
         </ul>
     </div>
-
     @livewire('customer.cart.meta-block-livewire')
-
 
 @push('custom-scripts')
 <script>

@@ -13,7 +13,9 @@ class CartByModel implements CartContract
 
     public function __construct()
     {
+
         $this->cart = auth()->user()->cart()->firstOrCreate();
+
     }
 
     public function model()
