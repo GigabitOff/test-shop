@@ -33,6 +33,7 @@ class CartWidget extends Component
 
     public function checkChatsMessage()
     {
+        if(auth()->user()){
         $sendEmitReloadMessages = false;
         //if (session('playAudio') === true) {
             foreach (auth()->user()->chats as $key => $value) {
@@ -51,7 +52,8 @@ class CartWidget extends Component
 
             $sendEmitReloadMessages = false;
             }
-       // }
+            // }
+        }
     }
 
 }
