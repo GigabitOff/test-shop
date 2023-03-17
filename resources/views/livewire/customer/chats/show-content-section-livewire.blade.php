@@ -47,7 +47,7 @@
                 @if($this->isChatOpen())
                     <div class="messages-form-box">
                         <textarea class="form-control"
-                                  wire:model.lazy="newText"
+                                  wire:model="newText"
                                   placeholder="@lang('custom::site.new_message')"></textarea>
                         <button class="button-accent"
                                 wire:click="submitNewMessage"
