@@ -37,6 +37,10 @@
                 @empty
                     <div class="reviews-empty">
                         <p>@lang('custom::site.reviews_empty')</p>
+                        @guest
+                            <p>@lang('custom::site.login_to_make_review')</p>
+                            <a class="button-outline" href="#m-login" data-bs-toggle="modal">{{__('custom::site.authorize')}}</a>
+                        @endguest
                     </div>
                 @endforelse
             </ul>
