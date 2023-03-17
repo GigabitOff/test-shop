@@ -41,7 +41,7 @@
                 <a href="{{route('customer.chats.show', ['chat' => $chat->id])}}">
                 <div class="status --status-{{ $chat->closed==1 ? 1 : 0 }}">
                     <span class="circle"></span>
-                    <span>{{ ($chat->closed==1) ? __('custom::site.chat_open') : __('custom::site.chat_close') }}</span>
+                    <span>{{ ($chat->closed==1) ? __('custom::site.chat_close') : __('custom::site.chat_open') }}</span>
                 </div>
             </a>
 
