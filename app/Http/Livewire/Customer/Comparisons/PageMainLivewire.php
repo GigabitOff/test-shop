@@ -44,11 +44,6 @@ class PageMainLivewire extends Component
             ->map->id->join(',');
     }
 
-    public function productAttributeIds($product)
-    {
-        return $product->attributes->map->id;
-    }
-
     /** Service Functions */
 
     protected function revalidateProducts()
