@@ -252,6 +252,11 @@ class Product extends Model implements ImagesOwnerContract
         return $this->belongsToMany(Product::class, 'product_replacement', 'product_id', 'replacement_id');
     }
 
+    public function comparisonProducts()
+    {
+        return $this->belongsToMany(Product::class, 'product_comparison_products', 'product_id', 'comparison_product_id');
+    }
+
     public function accompanying()
     {
         return $this->belongsToMany(Product::class, 'product_accompanying', 'product_id', 'accompanying_id');

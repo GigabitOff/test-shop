@@ -61,13 +61,14 @@
                     @endif
 
                 </div>
+
+                @if(!empty($data->comparisonProducts->count()))
                 <div class="row g-5">
                     <div class="col-12">
-                        @if(auth()->user())
-                            <livewire:customer.comparisons.product-details-livewire/>
-                        @endif
+                        <livewire:customer.comparisons.product-details-livewire :products="$data->comparisonProducts"/>
                     </div>
                 </div>
+                @endif
 
             </div>
         </div>

@@ -53,11 +53,6 @@ class PageMainLivewire extends Component
         ));
     }
 
-    public function productAttributeIds($product)
-    {
-        return $product->attributes->map->id;
-    }
-
     /** Service Functions */
 
     protected function revalidateProducts()

@@ -26,7 +26,7 @@
                                 <div class="swiper-wrapper">
                                     @foreach($products as $product)
                                         <div class="swiper-slide">
-                                            <x-comparable-product-card :product="$product" :attrs="$attributes" :isActive="false" />
+                                            <x-compare-to-product-card :product="$product" :attrs="$attributes" />
                                         </div>
                                     @endforeach
                                 </div>
