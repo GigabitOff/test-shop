@@ -41,6 +41,8 @@ class CartWidget extends Component
                 if($message = $value->latestMessage()->first() AND $sendEmitReloadMessages === false AND $message->owner_id != auth()->user()->id)
                 $sendEmitReloadMessages = true;
             }
+
+            if(isset($message)){
             //$message = ChatMessage::latest()->first();
             if (!session()->exists('lastMessage') AND isset($message->id)) {
                 session()->put('lastMessage', $message->id);
@@ -51,6 +53,7 @@ class CartWidget extends Component
                 $this->dispatchBrowserEvent('startAudioMessage');
 
             $sendEmitReloadMessages = false;
+            }
             }
             // }
         }
