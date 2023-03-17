@@ -24,7 +24,9 @@ class IndexContentSectionLivewire extends Component
 
     protected $listeners = [
         'eventNewChatCreated',
+        'reloadChatsIndex' => 'reloadChatsIndex',
     ];
+
 
     public function boot()
     {
@@ -91,6 +93,11 @@ class IndexContentSectionLivewire extends Component
     public function isNeedRevalidateFootable(): bool
     {
         return $this->revalidateTable;
+    }
+
+    public function reloadChatsIndex()
+    {
+        $this->revalidateTable = true;
     }
 
 }

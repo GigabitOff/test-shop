@@ -11,6 +11,10 @@ class CartWidget extends Component
     protected $listeners = [
         'eventCartChanged',
     ];
+    public function mount()
+    {
+        $this->checkChatsMessage();
+    }
 
     public function render()
     {
@@ -29,18 +33,25 @@ class CartWidget extends Component
 
     public function checkChatsMessage()
     {
-        //dd();
-        if (session('playAudio') === true) {
-            $message = ChatMessage::latest()->first();
-            if (!session()->exists('lastMessage')) {
+        $sendEmitReloadMessages = false;
+        //if (session('playAudio') === true) {
+            foreach (auth()->user()->chats as $key => $value) {
+            # code...
+                if($message = $value->latestMessage()->first() AND $message->owner_id != auth()->user()->id)
+                $sendEmitReloadMessages = true;
+            }
+            //$message = ChatMessage::latest()->first();
+            if (!session()->exists('lastMessage') AND isset($message->id)) {
                 session()->put('lastMessage', $message->id);
             }
 
-            if (session('lastMessage') != $message->id and $message->owner_id != auth()->guard('admin')->user()->id) {
+            if (session('lastMessage') != $message->id and $message->owner_id != auth()->user()->id AND $sendEmitReloadMessages === true) {
                 session()->put('lastMessage', $message->id);
                 $this->dispatchBrowserEvent('startAudioMessage');
+
+            $sendEmitReloadMessages = false;
             }
-        }
+       // }
     }
 
 }

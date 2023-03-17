@@ -7,9 +7,11 @@ use App\Models\ChatMessage;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class ShowContentSectionLivewire extends Component
 {
+    use WithPagination;
 
     public Chat $chat;
 
@@ -18,6 +20,10 @@ class ShowContentSectionLivewire extends Component
     public int $newedQty = 0;
 
     protected ?User $customer;
+
+    protected $listeners = [
+        'reloadChatsIndex' => 'reloadChatsIndex',
+    ];
 
     public function boot()
     {
@@ -46,13 +52,18 @@ class ShowContentSectionLivewire extends Component
 
     public function submitNewMessage()
     {
+
         if ($this->newText) {
             $this->chat->messages()->create([
                 'owner_id' => $this->customer->id,
                 'message' => $this->newText,
             ]);
+
+        //dd($this->newText);
+
             $this->reset('newText');
         }
+
     }
 
     public function setViewed($ids)
@@ -108,5 +119,12 @@ class ShowContentSectionLivewire extends Component
     protected function isChatOpen(): bool
     {
         return !$this->isChatClosed();
+    }
+
+    public function reloadChatsIndex()
+    {
+        
+        $this->resetPage();
+       // $this->revalidateTable = true;
     }
 }

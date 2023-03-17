@@ -1,4 +1,4 @@
-<div class="shop-action-item --cart">
+<div class="shop-action-item --cart" wire:poll.keep-alive="checkChatsMessage">
 <a class="shop-action-item__link"
 
  @auth()
@@ -41,8 +41,10 @@
                 //console.log('Доступ к устройству для записи звука запрещен: ' + err);
                 });
 
-                startAudioMessage();
             }
+
+                startAudioMessage();
+
         }
 
         function startAudioMessage() {
@@ -56,10 +58,10 @@
 
         window.addEventListener('startAudioMessage', () => {
 
-            startAudioMessage();
+          //  startAudioMessage();
 
             @this.emit('reloadChatsIndex');
         });
-        
+
     </script>
 </div>
