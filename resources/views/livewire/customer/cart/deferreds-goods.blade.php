@@ -99,18 +99,18 @@
                              <?php $user = $user ?? auth()->user(); ?>
                             @if (is_object($user) && $user->is_founder != 0)
                                 @if ($product->price_sale_show == 0 and $product->price_wholesale != 0)
-                                    <span style="color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </span>
+                                    <span style="color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc * $product->quantity) . ' ₴') !!} </span>
                                 @else
-                                    <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc * $product->quantity) . ' ₴') !!} </s>
+                                    <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc * $product->quantity) . ' ₴nn') !!} </s>
                                 @endif
                             @else
                                 @if (!is_object($user) and $product->price_sale_show != 0 and $product->price_sale != 0)
-                                    <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc * $product->quantity) . ' ₴') !!} </s>
+                                    <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc * $product->quantity) . ' ₴mm') !!} </s>
                                 @else
                                     <s style="text-decoration: line-through; color: grey; font-size: 17px;"></s>
                                 @endif
                                 @if (is_object($user) and $product->price_sale_show != 0)
-                                    <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc * $product->quantity) . ' ₴') !!} </s>
+                                    <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc * $product->quantity) . ' ₴tyy') !!} </s>
                                 @endif
                             @endif
                         </span>
