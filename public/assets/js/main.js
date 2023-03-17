@@ -1824,11 +1824,11 @@ jQuery(document).ready(function ($) {
   /* ---------------------------- Tags в поле input --------------------------- */
 
   if ($('.js-tags')) {
-   /* tagger($('.js-tags'));
+    tagger($('.js-tags'));
     $('.js-tags').each(function () {
       let placeholder = $(this).attr('placeholder');
       $(this).closest('.tagger').find('.tagger-new > input').attr('placeholder', placeholder);
-    }); */
+    });
   }
 
   $(document).on('click', '.js-show-filter', function () {
