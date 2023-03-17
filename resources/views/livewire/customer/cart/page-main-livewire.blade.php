@@ -68,8 +68,15 @@
                 ({{ cart()->totalCartCheckedQuantityCount() }}
                 @lang('custom::site.products') )
                 <span class="table-total__value">
-                 {{--   <?php echo dd(cart()->totalCartCheckedCost()) ;?>--}}
-                    {{formatMoney(cart()->totalCartCheckedCost() - $cashbackUsed)}}
+                    @php
+                        // Get all checked products
+                        $checkedProducts = cart()->checkedProducts();
+                        // Calculate the total cost of checked products
+                        $totalCost = $checkedProducts->sum(function ($product) {
+                            return $product->cartCost * $product->cartQuantity;
+                        });
+                    @endphp
+                    {{ $totalCost }}
                     @lang('custom::site.UAH')
                 </span>
                 <?php $user = $user ?? auth()->user(); ?>
@@ -98,7 +105,7 @@
                     @lang('custom::site.final amount')
                 </span>
                 <span class="table-total__value">
-                    {{cart()->totalCartCheckedCost()}}
+                    {{ $totalCost }}
                     @lang('custom::site.UAH')
                 </span>
             </li>

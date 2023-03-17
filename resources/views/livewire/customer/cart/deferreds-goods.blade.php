@@ -22,7 +22,6 @@
                 <td>
                     <div class="d-flex align-items-center">
                         <label class="check"></label>
-
                         <div class="table-product-card">
                             <div class="table-product-card__img">
                                 @if($product->imagefullUrl)
