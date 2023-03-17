@@ -37,7 +37,7 @@ class CartWidget extends Component
         //if (session('playAudio') === true) {
             foreach (auth()->user()->chats as $key => $value) {
             # code...
-                if($message = $value->latestMessage()->first() AND $message->owner_id != auth()->user()->id)
+                if($message = $value->latestMessage()->first() AND $sendEmitReloadMessages === false AND $message->owner_id != auth()->user()->id)
                 $sendEmitReloadMessages = true;
             }
             //$message = ChatMessage::latest()->first();

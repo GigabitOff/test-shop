@@ -23,7 +23,7 @@
     <div class="shop-action-item__col">{{$quantity}}</div>
   </a>
 <script>
-        function startAudioMessagePlayFirst() {
+     /*   function startAudioMessagePlayFirst() {
             if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             // запрашиваем доступ к устройству для записи звука
             navigator.mediaDevices.getUserMedia({audio: false, video: false})
@@ -52,7 +52,7 @@
             var audio = new Audio('/audio/newMessage.mp3');
             audio.play();
 
-        }
+        }*/
 
 
 
