@@ -92,13 +92,16 @@
             {{-- Block for determining the type and type of prices in accordance with the type of user.--}}
             @php($productPriceField = App\Models\Product:: getPriceFieldWithParams(null, $cartProduct->price_sale,  $cartProduct->price_wholesale, $cartProduct->price_sale_show))
             <td>
-
                 <span class="big">{!! formatNbsp(formatMoney($cartProduct->$productPriceField - $cashbackUsed) .  ' ₴') !!}</span>
                 @if ($cartProduct->price_sale_show != 0 and $cartProduct->price_wholesale == 0 or $cartProduct->price_sale_show == 0 and $cartProduct->price_wholesale != 0 or $cartProduct->price_sale_show != 0 and $cartProduct->price_wholesale != 0)
                     <span>
                         <?php $user = $user ?? auth()->user(); ?>
                         @if (is_object($user) && $user->is_founder != 0)
-                            <span style="color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($cartProduct->price_rrc) . ' ₴') !!} </span>
+                            @if ($cartProduct->price_sale_show == 0 and $cartProduct->price_wholesale != 0)
+                                <span style="color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($cartProduct->price_rrc) . ' ₴') !!} </span>
+                            @else
+                                <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($cartProduct->price_rrc) . ' ₴') !!} </s>
+                            @endif
                         @else
                             @if (!is_object($user) and $cartProduct->price_sale_show != 0 and $cartProduct->price_sale != 0)
                                 <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($cartProduct->price_rrc ) . ' ₴') !!} </s>
@@ -130,7 +133,11 @@
                     <span>
                           <?php $user = $user ?? auth()->user(); ?>
                         @if (is_object($user) && $user->is_founder != 0)
-                            <span style="color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($cartProduct->price_rrc * $cartProduct->cartQuantity) . ' ₴') !!} </span>
+                            @if ($cartProduct->price_sale_show == 0 and $cartProduct->price_wholesale != 0)
+                                <span style="color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($cartProduct->price_rrc * $cartProduct->cartQuantity) . ' ₴') !!} </span>
+                            @else
+                                <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($cartProduct->price_rrc) . ' ₴') !!} </s>
+                            @endif
                         @else
                             @if (!is_object($user) and $cartProduct->price_sale_show != 0 and $cartProduct->price_sale != 0)
                                 <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($cartProduct->price_rrc * $cartProduct->cartQuantity) . ' ₴') !!} </s>

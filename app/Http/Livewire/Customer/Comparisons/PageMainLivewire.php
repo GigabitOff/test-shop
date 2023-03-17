@@ -53,14 +53,9 @@ class PageMainLivewire extends Component
         ));
     }
 
-    public function productAttributeIds($product)
-    {
-        return $product->attributes->map->id;
-    }
-
     /** Service Functions */
 
-    private function revalidateProducts()
+    protected function revalidateProducts()
     {
         return $this->customer
             ->compareProducts()
@@ -68,7 +63,7 @@ class PageMainLivewire extends Component
             ->get();
     }
 
-    private function revalidateAttributes($products)
+    protected function revalidateAttributes($products)
     {
         $attributes = Attribute::query()
             ->withTranslation()

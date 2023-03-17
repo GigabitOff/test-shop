@@ -26,11 +26,14 @@
                 @if($checkAll) onclick="@this.clearList()" @endif>
             </div>
         </div>
+        <?php $user = $user ?? auth()->user(); ?>
+        @if (is_object($user) && $user->is_founder != 0)
         <div class="lk-page__action-btns">
             <a class="button-circle ico_print" href="#m-print-cart-order"
             data-bs-toggle="modal">
             </a>
         </div>
+        @endif
     </div>
     <div class="lk-page__table">
         <div id="footable-content" class="footable-content" style="display: none;" data-table="{{ $table }}"></div>
@@ -65,14 +68,24 @@
                 ({{ cart()->totalCartCheckedQuantityCount() }}
                 @lang('custom::site.products') )
                 <span class="table-total__value">
-                 {{--   <?php echo dd(cart()->totalCartCheckedCost()) ;?>--}}
-                    {{formatMoney(cart()->totalCartCheckedCost() - $cashbackUsed)}}
+                    @php
+                        // Get all checked products
+                        $checkedProducts = cart()->checkedProducts();
+                        // Calculate the total cost of checked products
+                        $totalCost = $checkedProducts->sum(function ($product) {
+                            return $product->cartCost * $product->cartQuantity;
+                        });
+                    @endphp
+                    {{ $totalCost }}
                     @lang('custom::site.UAH')
                 </span>
+                <?php $user = $user ?? auth()->user(); ?>
+                @if (is_object($user) && $user->is_founder != 0)
                 <span class="table-total__value-sm">
                     {{formatMoney($sumPriceRetail - $cashbackUsed)}}
                     @lang('custom::site.UAH')
                 </span>
+                @endif
             </li>
             <li class="table-total__item">
                 <div class="form-bonus">
@@ -92,7 +105,7 @@
                     @lang('custom::site.final amount')
                 </span>
                 <span class="table-total__value">
-                    {{cart()->totalCartCheckedCost()}}
+                    {{ $totalCost }}
                     @lang('custom::site.UAH')
                 </span>
             </li>

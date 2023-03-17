@@ -28,6 +28,11 @@ class CatalogProductController extends Controller
         $data = Product::where('id', (int)$id)
             ->orWhere('slug', $id)
             ->with([
+                'comparisonProducts' => function ($q) {
+                    $q->with('attributeValues.translations');
+                },
+            ])
+            ->with([
                 'accompanying' => function ($q) {
                     $q->with('images', 'brands');
                 },
@@ -37,6 +42,7 @@ class CatalogProductController extends Controller
                 'brand.images',
                 'attributeValues.translations',
                 'attributeValues.attribute.translations',
+                'comparisonProducts',
             ])
             ->firstOrFail();
 
