@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Header;
 
 use Livewire\Component;
+use App\Models\ChatMessage;
 
 class CartWidget extends Component
 {
@@ -18,6 +19,7 @@ class CartWidget extends Component
             'quantity' => cart()->totalQuantity(),
             'cost' => cart()->totalCost(),
         ]);
+
     }
 
     public function eventCartChanged()
@@ -25,5 +27,20 @@ class CartWidget extends Component
         // просто переотрисовка
     }
 
+    public function checkChatsMessage()
+    {
+        //dd();
+        if (session('playAudio') === true) {
+            $message = ChatMessage::latest()->first();
+            if (!session()->exists('lastMessage')) {
+                session()->put('lastMessage', $message->id);
+            }
+
+            if (session('lastMessage') != $message->id and $message->owner_id != auth()->guard('admin')->user()->id) {
+                session()->put('lastMessage', $message->id);
+                $this->dispatchBrowserEvent('startAudioMessage');
+            }
+        }
+    }
 
 }

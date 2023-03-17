@@ -18,8 +18,8 @@ class CreateMailboxEmailsTable extends Migration
             $table->string('uid')->nullable();
             $table->foreignId('customer_id')->constrained('users')
                 ->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('popup_id')->constrained('popups')->nullable()
-                ->cascadeOnUpdate()->cascadeOnDelete();
+            //$table->foreignId('popup_id')->constrained('popups')->nullable()
+             //   ->cascadeOnUpdate()->cascadeOnDelete();
             $table->unsignedBigInteger('department_id')->nullable();
             $table->boolean('inout')->default(0);
             $table->longText('body')->nullable();
