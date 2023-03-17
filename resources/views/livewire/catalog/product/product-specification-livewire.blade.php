@@ -21,7 +21,7 @@
             ]);
             $countAttributes = count($attributes);
             @endphp
-            <div class="@if($isThreeColumns) col-md-12 @else col-md-6 @endif">
+            <div class="@if($layout['isThreeColumns']) col-md-12 @else col-md-6 @endif">
                 <ul class="specification-list">
                     @foreach(array_slice($attributes, 0, ceil($countAttributes/2)) as $attr)
                         <li>
@@ -38,11 +38,11 @@
                         </li>
                     @endforeach
                 </ul>
-                @if($isThreeColumns)
+                @if($layout['isThreeColumns'])
                     @include('livewire.catalog.product.product-atributes-livewire')
                 @endif
             </div>
-            @if(!$isThreeColumns)
+            @if(!$layout['isThreeColumns'])
                 @include('livewire.catalog.product.product-atributes-livewire')
             @endif
         </div>
