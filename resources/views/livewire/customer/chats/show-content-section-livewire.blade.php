@@ -47,7 +47,7 @@
                 @if($this->isChatOpen())
                     <div class="messages-form-box">
                         <textarea class="form-control"
-                                  wire:model.defer="newText"
+                                  wire:model.lazy="newText"
                                   placeholder="@lang('custom::site.new_message')"></textarea>
                         <button class="button-accent"
                                 wire:click="submitNewMessage"
@@ -123,7 +123,20 @@
 
             window.addEventListener('checkUnViewedMessages', () => setMessagesToViewed());
 
+
             //# sourceURL=customer_chat_show-content-section.js
+
+
         });
+
+        const messageTextarea = document.querySelector('.messages-form-box textarea.form-control');
+            messageTextarea.addEventListener('keypress', function(e){
+                if (e.key === 'Enter' && messageTextarea.value.trim() !== '') {
+                e.preventDefault();
+
+                @this.submitNewMessage();
+                }
+            });
+
     </script>
 @endpush

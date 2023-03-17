@@ -1,5 +1,5 @@
 <x-app-layout body-classes="lk-messages" :title="__('custom::site.messages')">
-    <main class="page-main lk-messages">
+    <main class="page-main manager-messages">
         @include('livewire.customer.widget.lk-head-widget')
         <div class="lk-page --messages">
             <div class="container-xl">

@@ -29,7 +29,7 @@
             <td>
                 <a href="{{route('customer.chats.show', ['chat' => $chat->id])}}">
 
-                <div class="message @if($chat->closed==1)--closed @endif">
+                <div class="message @if($chat->latestMessage()->first()->owner_id != $chat->customer_id) @endif @if($chat->closed==1)--closed @endif">
                     @if($chat->latestMessage()->first()->owner_id != $chat->customer_id)
                     <span class="new-messge-bage">NEW</span>
                     @endif
