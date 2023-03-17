@@ -29,7 +29,7 @@ trait WithPerPage
     {
         $props = array_keys(get_object_vars($this));
         if (!in_array('perPageDefault', $props)) {
-            $this->perPageDefault = 1;
+            $this->perPageDefault = 5;
         }
         if (!in_array('perPageKey', $props)) {
             $this->perPageKey = 'perPage';

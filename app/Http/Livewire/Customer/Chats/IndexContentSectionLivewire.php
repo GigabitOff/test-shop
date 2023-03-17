@@ -73,6 +73,7 @@ class IndexContentSectionLivewire extends Component
                     : '';
                 $chat->lastMessage = $this->tryUnpackMessage($chat->latestMessage()->first());
             });
+
         return $chats;
     }
     protected function tryUnpackMessage(ChatMessage $cm)
