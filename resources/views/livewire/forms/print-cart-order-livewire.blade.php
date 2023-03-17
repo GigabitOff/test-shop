@@ -4,6 +4,7 @@
             <small>@lang('custom::site.on_project_domain')</small>
         </h5><button class="btn-close" type="button" data-bs-dismiss="modal"></button>
     </div>
+
     <div class="modal-body">
         <div class="lk-modal__sort">
             <div class="lk-page__sort-items">
