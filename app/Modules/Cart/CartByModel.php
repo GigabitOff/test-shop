@@ -25,7 +25,6 @@ class CartByModel implements CartContract
 
     public function products()
 
-
     {
        return $this->cart->products
             ->each(function ($el) {
@@ -34,14 +33,18 @@ class CartByModel implements CartContract
                 $el->cartChecked = $el->pivot->checked;
                 $el->cartPriceAdded = $el->pivot->price_added;
                 $user = $user ?? auth()->user();
-                if ($el->price_sale_show != 0) {
-                    $el->cartCost = $el->price_sale;
-                } elseif ($el->price_wholesale != 0) {
-                    $el->cartCost = $el->price_wholesale;
-                } else {
-                    $el->cartCost = $el->price_rrc * $el->cartQuantity;
-                }
+                if (is_object($user) && $user->is_founder != 0) {
+                    if ($el->price_sale_show == 0 && $el->price_wholesale != 0) {
+                        $el->cartCost = $el->price_wholesale;
+                    }
+                    if ($el->price_sale_show != 0 ) {
+                        $el->cartCost = $el->price_sale;
+                    }
+                    if ($el->price_sale_show == 0 && $el->price_wholesale == 0) {
+                        $el->cartCost = $el->price_rrc;
+                    }
 
+                }
                 if (is_object($user) && $user->is_founder == 0) {
                     if ($el->price_sale_show == 0 && $el->price_wholesale == 0) {
                         $el->cartCost = $el->price_rrc;
@@ -51,11 +54,7 @@ class CartByModel implements CartContract
                         $el->cartCost = $el->price_sale * $el->cartQuantity;
                     }
                 }
-
-
             });
-
-
     }
 
     public function productIds()
@@ -148,7 +147,6 @@ class CartByModel implements CartContract
         if ($res) {
             $this->cart->refresh();
         }
-
         return $this;
     }
 
