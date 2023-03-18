@@ -71,10 +71,10 @@
                     <?php
                     $totalSum = 0;
                     foreach ($products as $product) {
-                        if ($product->cartChecked) {
-                            $totalSum += $product->cartQuantity * $product->cartCost;
-                        }
+                        $totalSum += $product->cartChecked ?
+                            ($user->is_founder != 0 ? $product->cartQuantity * $product->cartCost : $product->cartCost) : 0;
                     }
+
                     ?>
                     {{$totalSum}}
                     @lang('custom::site.UAH')
