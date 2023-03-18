@@ -136,7 +136,7 @@
                             @if ($cartProduct->price_sale_show == 0 and $cartProduct->price_wholesale != 0)
                                 <span style="color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($cartProduct->price_rrc * $cartProduct->cartQuantity) . ' ₴') !!} </span>
                             @else
-                                <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($cartProduct->price_rrc) . ' ₴') !!} </s>
+                                <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($cartProduct->price_rrc  * $cartProduct->cartQuantity) . ' ₴') !!} </s>
                             @endif
                         @else
                             @if (!is_object($user) and $cartProduct->price_sale_show != 0 and $cartProduct->price_sale != 0)
