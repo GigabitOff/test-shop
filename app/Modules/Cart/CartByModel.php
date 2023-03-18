@@ -147,7 +147,6 @@ class CartByModel implements CartContract
         if ($res) {
             $this->cart->refresh();
         }
-
         return $this;
     }
 

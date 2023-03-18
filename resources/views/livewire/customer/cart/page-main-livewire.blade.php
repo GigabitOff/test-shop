@@ -74,7 +74,6 @@
                         $totalSum += $product->cartChecked ?
                             ($user->is_founder != 0 ? $product->cartQuantity * $product->cartCost : $product->cartCost) : 0;
                     }
-
                     ?>
                     {{$totalSum}}
                     @lang('custom::site.UAH')
