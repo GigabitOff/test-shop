@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Forms;
 use Livewire\Component;
 use App\Models\Product;
 use Illuminate\Support\Collection;
+use stdClass;
 
 class PrintCartOrderLivewire extends Component
 {
@@ -20,7 +21,7 @@ class PrintCartOrderLivewire extends Component
     {
         $products = $this->revalidateProducts();
 
-        if ($this->updateFootableValues) {
+       if ($this->updateFootableValues) {
 
             $this->dispatchBrowserEvent('mpo_updateFooTableValues', [
                 'withSale' => $this->printWithSale,
@@ -30,8 +31,8 @@ class PrintCartOrderLivewire extends Component
                 'products' => $products->keyBy('id')
                     ->map(function ($p) {
                         return [
-                            'sumPrice' => formatMoney($p->cartPrice * $p->cartQuantity),
-                            'sumRetail' => formatMoney($p->price_retail * $p->cartQuantity),
+                            'sumPrice' => formatMoney($p->price_rrc * $p->cartQuantity),
+                            'sumRetail' => formatMoney($p->price_sale * $p->cartQuantity),
                         ];
                     })
             ]);
@@ -91,6 +92,7 @@ class PrintCartOrderLivewire extends Component
         return  $this->products;
 
     }
+
     protected function expandProductPrice(Product $product)
     {
         $product->cartPrice = $this->printWithSale
@@ -98,16 +100,24 @@ class PrintCartOrderLivewire extends Component
                               : $product->price_init;
     }
 
+
     /** added fields to the object product */
 
     protected function expandSum(Product $product)
     {
+        if ($product->price_sale_show == 0) {
+            if ($product->price_wholesale == 0) {
+                $product->cartPrice = $product->price_rrc;
+            } else {
+                $product->cartPrice = $product->price_wholesale;
+            }
+        }
+        $product->sumPrice = $product->cartPrice * $product->cartQuantity;
+        if ($product->price_sale_show != 0) {
+            $product->sumPrice = $product->cartPrice * $product->cartQuantity;
+        }
 
-        $product->sumPrice = $product->cartPrice
-                             * $product->cartQuantity;
-
-        $product->sumRetail = $product->price_retail
-                              * $product->cartQuantity;
+        $product->sumRetail = $product->price_rrc * $product->cartQuantity;
     }
 
     public function printWithSale()

@@ -88,6 +88,7 @@
                         @lang('custom::site.products') )
                     </dt>
                     <dd class="big">
+
                         {{$totalCost}}
                         @lang('custom::site.UAH')
                     </dd>
