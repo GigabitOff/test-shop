@@ -1,13 +1,21 @@
 <div class="order">
     <div class="row">
         <div class="col-md-5">
-            <div class="info-item">
+            <div class="info-item" wire:ignore>
                 <div class="info-item__label">Дата отправки</div>
-                    <div class="info-item__data">{{ formatDate($dataPage->date_registration,'d.m.Y H:i') }}</div>
+                   {{-- <div class="info-item__data">
+                        {{ formatDate($dataPage->departue_at,'d.m.Y') }}
+                    </div>--}}
+                <input id="data_departue_at" @error("data.departue_at") style='border: 1px solid red' @enderror type="text" class="js-date form-control" value="{{ isset($data['departue_at']) ? $data['departue_at'] : ''}}" />
+        @include('livewire.admin.includes.calendar-new-form',['formId'=>'data_departue_at','nameForm'=>'data.departue_at','date_start'=>'data.departue_at','single'=>'single','clear'=>false])
+        <input type="hidden" wire:model="data.departue_at">
                 </div>
-                <div class="info-item">
+                <div class="info-item"  wire:ignore>
                     <div class="info-item__label">Дата доставки</div>
-                    <div class="info-item__data">{{ formatDate($dataPage->date_delivery,'d.m.Y H:i') }}</div>
+                    {{--<div class="info-item__data">{{ formatDate($dataPage->date_delivery,'d.m.Y H:i') }}</div>--}}
+                    <input id="data_date_delivery" @error("data.date_delivery") style='border: 1px solid red' @enderror type="text" class="js-date form-control" value="{{ isset($data['date_delivery']) ? $data['date_delivery'] : ''}}" />
+        @include('livewire.admin.includes.calendar-new-form',['formId'=>'data_date_delivery','nameForm'=>'data.date_delivery','date_start'=>'data.date_delivery','single'=>'single','timePicker'=>true,'clear'=>false])
+        <input type="hidden" wire:model="data.date_delivery">
                 </div>
                 @if($dataPage->deliveryAddress)
                       <div class="info-item">

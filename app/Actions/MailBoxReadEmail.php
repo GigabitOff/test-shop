@@ -4,6 +4,7 @@ namespace App\Actions;
 
 use App\Models\MailboxEmail;
 use App\Models\User;
+use App\Models\Chat;
 use Webklex\IMAP\Facades\Client;
 
 /**
@@ -21,14 +22,21 @@ class MailBoxReadEmail
     public function __invoke()
     {
         //Обработка входящей почты
+        try {
+            
         $client = Client::account('default');
         $client->connect();
 
         $folder = $client->getFolder('INBOX');
         $messages = $folder->messages()->unseen()->get();
+        //dd($messages);
+
+            //code...
+
         foreach ($messages as $message) {
-            if ($customer = $this->extractRecipient($message)) {
-                $customer->mailboxEmails()->updateOrCreate(
+
+            if ($chat = $this->extractRecipient($message)) {
+               /* $customer->mailboxEmails()->updateOrCreate(
                     [
                         'uid' => $message->getUid(),
                     ],
@@ -38,9 +46,41 @@ class MailBoxReadEmail
                         'dispatch_at' => $message->getDate()
                     ]
                 );
+                */
+
+
+                if ($chat) {
+                    $owner_id = $chat->customer_id;
+                    $chat->messages()->create([
+                        'owner_id' => $owner_id,
+                        'manager_id' =>  null,
+                        'message' => $this->cleanHtmlBody($message->getHtmlBody()),
+                    ]);
+                }
+
+
+            }else{
+
+                $chat = Chat::find($message->getUid());
+
+                if($chat)
+                {
+                   $owner_id = $chat->customer_id;
+                    $chat->messages()->create([
+                    'owner_id' => $owner_id,
+                    'manager_id' =>  null,
+                    'message' => $this->cleanHtmlBody($message->getHtmlBody()),
+                ]);
+                }
+
             }
 
             $message->setFlag('seen');  // установка флага, что письмо прочитано
+
+
+        }
+        } catch (\Throwable $th) {
+
         }
     }
 
@@ -51,11 +91,12 @@ class MailBoxReadEmail
      * @param $message
      * @return User|null
      */
-    protected function extractRecipient($message): ?User
+    protected function extractRecipient($message): ?Chat
     {
         $subject = (string)$message->getSubject();
         if (preg_match('/#([\d]+)#/', $subject, $matches)) {
-            return User::find((int)($matches[1] ?? 0));
+            //dd($matches[1]);
+            return Chat::find((int)($matches[1] ?? 0));
         }
 
         return null;

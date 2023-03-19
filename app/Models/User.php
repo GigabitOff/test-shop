@@ -470,4 +470,9 @@ class User extends Authenticatable
     {
         return 9876;
     }
+
+    public function mailboxEmails(): HasMany
+    {
+        return $this->hasMany(MailboxEmail::class, 'customer_id', 'id');
+    }
 }

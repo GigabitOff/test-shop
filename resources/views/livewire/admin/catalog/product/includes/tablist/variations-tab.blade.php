@@ -27,6 +27,7 @@
     </div>
 @endif
 
+@if(!empty($varieties_column_array))
 
 @foreach ($varieties_column_array as $key => $item_column)
     @continue($key === 'color')
@@ -46,14 +47,15 @@
                 <input class="check__input card-attr cart-attr-{{$item_column}}" name="cart-attr"
                        wire:click="toggleCardAttribute('{{$item_column}}')"
                        onclick="document.variations.cardAttrChecked(this)"
-                       @if($data['card_attribute'] != $item_column) checked @endif
+                       @if(isset($data['card_attribute']) AND $data['card_attribute'] != $item_column) checked @endif
                        type="checkbox">
                 <span class="check__box"></span>
             </label>
         </div>
     </div>
 @endforeach
-
+@endif
+@if(!empty($basic_atribute_terms))
 @foreach ($basic_atribute_terms as $b_attr_item)
     @php($attrId = $b_attr_item['attribute_id'])
     <div class="row mb-3">
@@ -72,14 +74,14 @@
                 <input class="check__input card-attr cart-attr-{{$attrId}}" name="cart-attr"
                        wire:click="toggleCardAttribute('{{$attrId}}')"
                        onclick="document.variations.cardAttrChecked(this)"
-                       @if($data['card_attribute'] != $attrId) checked @endif
+                       @if(isset($data['card_attribute']) AND $data['card_attribute'] != $attrId) checked @endif
                        type="checkbox">
                 <span class="check__box"></span>
             </label>
         </div>
     </div>
 @endforeach
-
+@endif
 @push('custom-scripts')
     <script>
         // Из за того, что checkbox eye работает наоборот, то приходится
