@@ -163,6 +163,18 @@ class CartByModel implements CartContract
 
     public function addProduct($product_id, $quantity = 1, $uniq = null, $price_added = null): CartContract
     {
+        $user = $user ?? auth()->user();
+        $deferredProduct = DB::table('product_deferreds')
+            ->where('product_id', $product_id)
+            ->where('user_id', $user->id)
+            ->first();
+        if ($deferredProduct) {
+            $quantity += $deferredProduct->quantity;
+            DB::table('product_deferreds')
+                ->where('product_id', $product_id)
+                ->where('user_id', $user->id)
+                ->delete();
+        }
         if (Product::where('id', $product_id)->exists()) {
             $product = $this->cart->products()
                 ->where('product_id', $product_id)
@@ -184,6 +196,7 @@ class CartByModel implements CartContract
 
         return $this;
     }
+
 
     public function removeProducts($uuid): CartContract
     {
