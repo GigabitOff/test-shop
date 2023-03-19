@@ -11,7 +11,7 @@
                       </div>
                       <div class="info-item">
                         <div class="info-item__label">Дата и время</div>
-                        <div class="info-item__data">{{ formatDate($dataPage->created_at,'d.m.Y H:i') }}</div>
+                        <div class="info-item__data">{{ formatDate($dataPage->created_at,'d.m.Y H:i') }}</div> {{-- date_registration --}}
                       </div>
                       <div class="info-item">
                         <div class="info-item__label">Клиент</div>

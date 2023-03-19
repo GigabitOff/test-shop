@@ -13,9 +13,13 @@
             var from_date = '{{$date_start}}';
         @endif
 
-        function getLocale(){
+        function getLocale{{$formId}}(){
             return {
+                @if(isset($timePicker))
+                format: 'DD.MM.YYYY H:mm',
+                @else
                 format: 'DD.MM.YYYY',
+                @endif
                     daysOfWeek: [
                     "{{__('custom::admin.calendar.days_short.sun')}}",
                     "{{__('custom::admin.calendar.days_short.mon')}}",
@@ -104,7 +108,11 @@ setTimeout(() => {
             @else
             startDate: new Date(),
             @endif
-            locale: getLocale(),
+            @if(isset($timePicker))
+            timePicker: true,
+            timePicker24Hour: true,
+            @endif
+            locale: getLocale{{$formId}}(),
             singleDatePicker: true,
 
         }, function(start, end, label) {
@@ -164,7 +172,7 @@ setTimeout(() => {
         setTimeout(() => {
             $('.cancelBtn').text("{{__('custom::admin.Cansel')}}");
             $('.applyBtn').text("{{__('custom::admin.Applay')}}");
-            @if($clear ?? false)
+            @if($clear === true)
             $('#{{$formId}}').val('');
             @endif
         }, 700);

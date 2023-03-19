@@ -58,7 +58,7 @@
                wire:model.lazy="data.price_min_margin">
         <input class="form-control" type="text"
                disabled
-               value="{{$data['price_min_margin_value']}} @lang('custom::admin.products.UAH')">
+               value="{{isset($data['price_min_margin_value']) ? $data['price_min_margin_value']  : null }} @lang('custom::admin.products.UAH')">
     </div>
 </div>
 

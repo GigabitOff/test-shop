@@ -14,13 +14,13 @@
     @foreach($chats as $chat)
     <tr>
                   <td><a href="{{route('admin.chats.show', ['chat' => $chat->id])}}">{{$loop->iteration}}</a></td>
-                  <td> <span class="message-name">{{$chat->fio}}</span></td>
+                  <td> <span class="message-name">{{$chat->fio ? $chat->fio : $chat->customer->name}}</span></td>
                   <td> <span class="message-theme">{{$chat->subject}}</span></td>
-                  <td><a class="message @if($chat->closed==0 )--new @endif" href="{{route('admin.chats.show', ['chat' => $chat->id])}}">@if($chat->answer_manager==0 AND $chat->closed==0 )<span>Нове повідомлення</span>@endif<p>
+                  <td><a class="message @if($chat->latestMessageShow()->first()->owner_id != auth()->guard('admin')->user()->id AND $chat->closed==0 )--new @endif @if($chat->closed==1) --closed @endif" href="{{route('admin.chats.show', ['chat' => $chat->id])}}">@if($chat->latestMessageShow()->first()->owner_id != auth()->guard('admin')->user()->id AND $chat->closed==0 )<span>Нове повідомлення</span>@endif<p>
                       {!! $chat->lastMessage !!}</p>
                     </a></td>
                   <td>
-                    <div class="status-button status-button-{{$chat->closed==1 ? 6 :1}}"
+                    <div class="status-button status-button-{{ $chat->closed==1 ? 6 :10}}"
                        {{-- onclick="changeOwnerStatus({{$chat->id}});"--}}>{{$chat->closed==1 ? __('custom::admin.closed') : __('custom::admin.opened') }}</div>
                   </td>
 
