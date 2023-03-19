@@ -32,6 +32,7 @@
                                     </a>
                                 </div>
                             </div>
+
                             <div class="modal fade m-contacts" id="m-contacts{{ $item->id }}">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
@@ -48,10 +49,10 @@
                                                         <div class="swiper-slide">
                                                             <div class="contacts-user-card">
                                                                     <div class="contacts-user-card__box">
-                                                                        @if($item->getSelf)
-                                                                            <div class="contacts-user-card__avatar"><img src="{{ \Storage::disk('public')->url($item->getSelf->image) }}" alt="avatar"></div>
-                                                                            <div class="contacts-user-card__name">{{ $item->getSelf->title }}</div>
-                                                                            <div class="contacts-user-card__position">{{ $item->getSelf->posada }}</div>
+                                                                        @if($item->shop)
+                                                                            <div class="contacts-user-card__avatar"><img src="{{ \Storage::disk('public')->url($item->shop->image) }}" alt="avatar"></div>
+                                                                            <div class="contacts-user-card__name">{{ $item->shop->title }}</div>
+                                                                            <div class="contacts-user-card__position">{{ $item->shop->posada }}</div>
                                                                             <div class="contacts-user-card__line"></div>
                                                                             <div class="contacts-user-card__links">
                                                                                 @foreach (json_decode($item->phones,1) as $phone)
@@ -62,7 +63,7 @@
                                                                                 @endforeach
                                                                             </div>
                                                                             <div class="contacts-user-card__btn">
-                                                                                <button type="button" class="open_callback" data-department-id="{{$item->getSelf->parent_id}}">
+                                                                                <button type="button" class="open_callback" data-department-id="{{$item->shop->parent_id}}">
                                                                                     @lang('custom::site.write_to')
                                                                                 </button>
                                                                             </div>
@@ -103,11 +104,15 @@
         <script>
             $(document).ready(function() {
                 $('.open_callback').on("click", function() {
-                    $('#m-callback').modal('show');
+                    $('#m-callback-contuct').modal('show');
                     $('#niceSelect_departmentId').val($(this).attr('data-department-id'));
                     Livewire.emit('updatedDepartmentId', $(this).attr('data-department-id'));
                 });
             });
         </script>
     @endpush
+
+    <x-modal-form id="m-callback-contuct">
+        <livewire:forms.feedback-contuct-livewire/>
+    </x-modal-form>
 </x-app-layout>

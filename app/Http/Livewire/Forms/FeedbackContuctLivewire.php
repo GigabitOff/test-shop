@@ -10,13 +10,13 @@ use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
-class FeedbackTestLivewire extends Component
+class FeedbackContuctLivewire extends Component
 {
 
     public $data,
-        $popup_id=1,
+        $popup_id=3,
         $emailSend,
-        $subject = 'Повідомлення з попап',
+        $subject= 'Повідомлення з попап',
         $popup;
     public ?int $departmentId = null;
     public array $departmentList = [];
@@ -44,7 +44,7 @@ class FeedbackTestLivewire extends Component
 
     public function render()
     {
-        return view('livewire.forms.feedback-test-livewire');
+        return view('livewire.forms.feedback-contuct-livewire');
     }
 
 
@@ -63,7 +63,6 @@ class FeedbackTestLivewire extends Component
         //dd($this->popup);
         $customer_id = null;
 
-        $this->subject = 'Повідомлення з попап';
 
         if (!$popup) {
             $this->popup_id = null;
@@ -84,7 +83,7 @@ class FeedbackTestLivewire extends Component
                 'customer_id' => $customer_id,
                 'fio' => $this->data['fio'],
                 'answer_owner' => 1,
-                'subtitle' => $this->subject,
+                'subject' => $this->subject,
                 'popup_id' => $this->popup_id,
                 'email' => $this->data['email'],
             ]);
