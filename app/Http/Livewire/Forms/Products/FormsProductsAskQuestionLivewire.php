@@ -16,6 +16,7 @@ class FormsProductsAskQuestionLivewire extends Component
     public $data,
         $popup_id=2,
         $emailSend,
+        $subject = 'Повідомлення з попап',
         $product_data,
         $popup;
     public ?int $departmentId = null;
@@ -70,8 +71,13 @@ class FormsProductsAskQuestionLivewire extends Component
         //dd($this->popup);
         $customer_id = null;
 
-        if(!$popup){
+        $this->subject = 'Повідомлення з попап';
+
+        if (!$popup) {
             $this->popup_id = null;
+        } else {
+            $this->subject = $popup->name;
+            $this->popup_id = $this->popup;
         }
 
         if(isset(auth()->user()->id))
@@ -86,7 +92,7 @@ class FormsProductsAskQuestionLivewire extends Component
                 'customer_id' => $customer_id,
                 'fio' => $this->data['fio'],
                 'answer_owner' => 1,
-                'subtitle' => 'Повідомлення з попап',
+                'subtitle' => $this->subject,
                 'popup_id' => $this->popup_id,
                 'email' => $this->data['email'],
             ]);
@@ -145,7 +151,7 @@ class FormsProductsAskQuestionLivewire extends Component
         if($this->product_data)
         $data['product'] = $this->product_data->toArray();
         $data['name'] = $this->data['fio'];
-        $data['subject'] = 'Повідомлення з попап Продукт';
+        $data['subject'] = $this->subject;
 
     if (isset($managers) and count($managers) > 0) {
         //shopManagers
