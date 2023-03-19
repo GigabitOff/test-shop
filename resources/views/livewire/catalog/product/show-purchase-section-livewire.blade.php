@@ -171,6 +171,28 @@
             @endforeach
         </div>
     </div>
+
+    <div wire:ignore>
+        <div class="modal fade" id="m-question2">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Задати питання<small>test.f-m.kiev.ua</small></h5><button class="btn-close" type="button" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <form action="#!">
+                <div class="form-group"><input class="form-control" type="text" name="fio" placeholder="ПІБ" required></div>
+                <div class="form-group"><input class="js-phone form-control" type="text" name="phone" placeholder="Номер телефону" required></div>
+                <div class="form-group"><input class="form-control" type="text" name="email" placeholder="E-mail" required></div>
+                <div class="form-group"><textarea class="form-control" type="text" name="message" placeholder="Текст повідомлення" required></textarea></div>
+                <div class="form-group"><button class="button-accent w-100" type="button" data-bs-dismiss="modal">Надіслати</button></div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
 </div>
 @push('custom-scripts')
     <script>
