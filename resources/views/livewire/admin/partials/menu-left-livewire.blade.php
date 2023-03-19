@@ -427,7 +427,9 @@
 
         window.addEventListener('startAudioMessage', () => {
 
+            @if(session('playAudio') === true)
             startAudioMessage();
+            @endif
 
             @this.emit('reloadChatsIndex');
         });

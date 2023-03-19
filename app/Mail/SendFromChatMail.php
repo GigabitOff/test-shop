@@ -21,8 +21,12 @@ class SendFromChatMail extends Mailable
     public function __construct($data)
     {
         $this->data = $data;
-        $this->subject = str_replace('<span>','',$this->data['subject']);
-        $this->subject = str_replace('</span>','', $this->subject);
+        //$this->subject = str_replace('<span>','',$this->data['subject']);
+        //$this->subject = str_replace('</span>','', $this->subject);
+        $this->subject = $this->makeSubject();
+
+        //dd($this->subject);
+
     }
 
     /**
@@ -44,6 +48,17 @@ class SendFromChatMail extends Mailable
                 'as' => $this->data['files']->getClientOriginalName(),
             ]);
         }
+
+
         return $mail;
+    }
+
+    protected function makeSubject(): string
+    {
+        return sprintf(
+            '#%d# %s',
+            $this->data['userId'],
+            $this->data['name']
+        );
     }
 }

@@ -38,6 +38,11 @@ class Chat extends Model
         return $this->messages()->latest();
     }
 
+    public function latestMessageShow()
+    {
+        return $this->messages()->latest();
+    }
+
     public function latestViewed()
     {
         return $this->messages()->latest()->first()->viewed;
