@@ -84,7 +84,7 @@ class FeedbackTestLivewire extends Component
                 'customer_id' => $customer_id,
                 'fio' => $this->data['fio'],
                 'answer_owner' => 1,
-                'subtitle' => $this->subject,
+                'subject' => $this->subject,
                 'popup_id' => $this->popup_id,
                 'email' => $this->data['email'],
             ]);
