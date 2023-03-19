@@ -799,5 +799,6 @@ return [
     'Popup' => 'Попап',
     'chat_open' => 'Відкрито',
     'chat_close' => 'Закрито',
+    'text_message' => 'Текст повідомлення',
 
 ];
