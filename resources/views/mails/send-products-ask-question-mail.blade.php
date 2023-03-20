@@ -19,12 +19,6 @@
     @endif
 </table>
 <br>
-@if(isset($data['userId']))
-<p style="color:red">
-    ID: {{$data['userId']}}
-    @lang('custom::site.Message for email alert')
-</p>
-@endif
 <h3>Текст повідомлення</h3>
 <table class="head_data" width="100%">
     <tr>
