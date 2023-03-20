@@ -74,7 +74,6 @@ class FeedbackContuctLivewire extends Component
         if(isset(auth()->user()->id))
         $customer_id = auth()->user()->id;
 
-        $this->sendAllEmails($managers);
         try {
 
             DB::beginTransaction();
@@ -93,6 +92,9 @@ class FeedbackContuctLivewire extends Component
                 'message' => $this->data['message'],
             ]);
 
+            if (isset($chat['id']))
+            $this->data['userId'] = $chat['id'];
+
             DB::commit();
 
             $this->resetForm();
@@ -102,6 +104,9 @@ class FeedbackContuctLivewire extends Component
             logger(__METHOD__ . $e->getMessage());
             session()->flash('chat_message_fail', __('custom::site.send_message_error'));
         }
+
+        $this->sendAllEmails($managers);
+
     }
 
 

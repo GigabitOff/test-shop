@@ -16,6 +16,7 @@ class FormsProductsAskQuestionLivewire extends Component
     public $data,
         $popup_id=2,
         $emailSend,
+        $chat_id,
         $subject = 'Повідомлення з попап',
         $product_data,
         $popup;
@@ -76,14 +77,18 @@ class FormsProductsAskQuestionLivewire extends Component
         if (!$popup) {
             $this->popup_id = null;
         } else {
-            $this->subject = $popup->name;
+            if($this->product_data){
+                $this->subject = $popup->name .' №'. $this->product_data->id;
+            }else{
+                $this->subject = $popup->name;
+
+            }
             $this->popup_id = $this->popup;
         }
 
         if(isset(auth()->user()->id))
         $customer_id = auth()->user()->id;
 
-        $this->sendAllEmails($managers);
         try {
 
             DB::beginTransaction();
@@ -97,20 +102,31 @@ class FormsProductsAskQuestionLivewire extends Component
                 'email' => $this->data['email'],
             ]);
 
+            if (isset($chat['id']))
+            $this->data['userId'] = $chat['id'];
+
+            //dd($chat['id']);
             $chat->messages()->create([
                 'owner_id' => $customer_id,
                 'message' => $this->data['message'],
             ]);
 
+
+
+            $this->sendAllEmails($managers);
+
             DB::commit();
 
             $this->resetForm();
+
             session()->flash('chat_message_success', __('custom::site.send_message_success'));
         } catch (\Exception $e) {
             DB::rollBack();
             logger(__METHOD__ . $e->getMessage());
             session()->flash('chat_message_fail', __('custom::site.send_message_error'));
         }
+
+
     }
 
 
@@ -147,7 +163,9 @@ class FormsProductsAskQuestionLivewire extends Component
     }
 
     public function sendAllEmails($managers){
+        if($this->data['message'])
         $data['message'] = $this->data['message'];
+
         if($this->product_data)
         $data['product'] = $this->product_data->toArray();
         $data['name'] = $this->data['fio'];
@@ -167,7 +185,6 @@ class FormsProductsAskQuestionLivewire extends Component
 
                // if(isset($value['email'])){
                // $manager['email'] = 'v.makarenko@fairtech.group';//$value['email'];
-
 
                 Mail::to($manager['email'])->send(new SendProductsAskQuestionMail($data));
                 //}

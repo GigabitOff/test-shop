@@ -800,5 +800,5 @@ return [
     'chat_open' => 'Відкрито',
     'chat_close' => 'Закрито',
     'text_message' => 'Текст повідомлення',
-
+    'Message for email alert' =>'В темі листа вказувати ID повідомлення обовязково.'
 ];
