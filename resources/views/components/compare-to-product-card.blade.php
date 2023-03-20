@@ -43,6 +43,7 @@
             </div>
         </div>
     </div>
+
     <div class="compare-item__body">
         <ul class="compare-item__list">
             @foreach($attrs as $id => $name)
