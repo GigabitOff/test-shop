@@ -13330,6 +13330,18 @@ body.page-product .page-content {
   text-transform: uppercase;
 }
 
+.compare-item__label.not {
+  background: #B9BFC2;
+}
+
+.compare-item__label.for-order {
+  background: #FFAE00;
+}
+
+.compare-item__label.sale {
+  background: #FF5F72;
+}
+
 .compare-item__media {
   -webkit-box-pack: center;
   -ms-flex-pack: center;
@@ -25642,6 +25654,10 @@ table.table-w-inner .footable-toggle.fooicon-minus::before {
   }
 
   .product-card__label.not {
+    font-size: 9px;
+  }
+
+  .compare-item__label.not {
     font-size: 9px;
   }
 
