@@ -4,6 +4,11 @@
             <div class="compare-item__media">
                 <div class="compare-item__action">
                     <div class="compare-item__label {{$product->availabilityCss}}">{{$product->availabilityText}}</div>
+                    <div class="compare-item__brand">
+                        @if($product->brandImageUrl)
+                            <img src="{{$product->brandImageUrl}}" alt="brand photo">
+                        @endif
+                    </div>
                 </div><img src="{{$product->mainImageUrl}}" alt="{{$product->name}}"/>
             </div>
             <div class="compare-item__info">
