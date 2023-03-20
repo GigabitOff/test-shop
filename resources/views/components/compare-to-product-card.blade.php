@@ -55,9 +55,4 @@
             @endforeach
         </ul>
     </div>
-    <div class="swiper-nav --section-slider-nav">
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-pagination"></div>
-        <div class="swiper-button-next"></div>
-    </div>
 </div>
