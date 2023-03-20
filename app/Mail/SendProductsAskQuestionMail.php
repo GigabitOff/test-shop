@@ -21,7 +21,7 @@ class SendProductsAskQuestionMail extends Mailable
     public function __construct($data)
     {
         $this->data = $data;
-        $this->subject = str_replace('<span>','',$this->data['subject']);
+        $this->subject = $this->makeSubject(); //str_replace('<span>','',$this->data['subject']);
         $this->subject = str_replace('</span>','', $this->subject);
     }
 
@@ -45,5 +45,17 @@ class SendProductsAskQuestionMail extends Mailable
             ]);
         }
         return $mail;
+    }
+
+    protected function makeSubject(): string
+    {
+        if(!isset($this->data['userId']))
+        $this->data['userId']= null;
+        
+        return sprintf(
+            '#%d# %s',
+            $this->data['userId'],
+            $this->data['subject']
+        );
     }
 }
