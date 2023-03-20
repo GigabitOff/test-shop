@@ -1,4 +1,4 @@
-<div class="shop-action-item --cart" wire:poll.keep-alive="checkChatsMessage">
+<div class="shop-action-item --cart" >
 <a class="shop-action-item__link"
 
  @auth()
@@ -22,46 +22,5 @@
     <div class="shop-action-item__icon ico_cart"></div>
     <div class="shop-action-item__col">{{$quantity}}</div>
   </a>
-<script>
-     /*   function startAudioMessagePlayFirst() {
-            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            // запрашиваем доступ к устройству для записи звука
-            navigator.mediaDevices.getUserMedia({audio: false, video: false})
-                .then(function(stream) {
-                // доступ к устройству получен
-                // создаем AudioContext и источник аудио
-                var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                var source = audioCtx.createMediaStreamSource(stream);
-                // создаем динамик и подключаем к источнику аудио
-                var speaker = audioCtx.destination;
-                source.connect(speaker);
-                })
-                .catch(function(err) {
-                // доступ к устройству не получен
-                //console.log('Доступ к устройству для записи звука запрещен: ' + err);
-                });
 
-            }
-
-                startAudioMessage();
-
-        }
-
-        function startAudioMessage() {
-
-            var audio = new Audio('/audio/newMessage.mp3');
-            audio.play();
-
-        }*/
-
-
-
-        window.addEventListener('startAudioMessage', () => {
-
-          //  startAudioMessage();
-
-            @this.emit('reloadChatsIndex');
-        });
-
-    </script>
 </div>

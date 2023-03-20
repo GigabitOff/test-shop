@@ -33,6 +33,11 @@ class IndexContentSectionLivewire extends Component
         $this->customer = auth()->user();
     }
 
+    public function mount()
+    {
+        //$this->checkChatsMessage();
+    }
+
     public function render()
     {
         // ToDo: сделать автообновление списка чатов на периодическое получение новых
@@ -99,6 +104,34 @@ class IndexContentSectionLivewire extends Component
     public function reloadChatsIndex()
     {
         $this->revalidateTable = true;
+    }
+
+    public function checkChatsMessage()
+    {
+        if (auth()->user()) {
+            $sendEmitReloadMessages = false;
+            //if (session('playAudio') === true) {
+            foreach (auth()->user()->chats as $key => $value) {
+                # code...
+                if ($message = $value->latestMessage()->first() and $sendEmitReloadMessages === false and $message->owner_id != auth()->user()->id)
+                    $sendEmitReloadMessages = true;
+            }
+
+            if (isset($message)) {
+                //$message = ChatMessage::latest()->first();
+                if (!session()->exists('lastMessage') and isset($message->id)) {
+                    session()->put('lastMessage', $message->id);
+                }
+
+                if (session('lastMessage') != $message->id and $message->owner_id != auth()->user()->id and $sendEmitReloadMessages === true) {
+                    session()->put('lastMessage', $message->id);
+                    $this->dispatchBrowserEvent('startAudioMessage');
+
+                    $sendEmitReloadMessages = false;
+                }
+            }
+            // }
+        }
     }
 
 }
