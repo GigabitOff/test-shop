@@ -21,9 +21,9 @@ class SendFromChatMail extends Mailable
     public function __construct($data)
     {
         $this->data = $data;
-        //$this->subject = str_replace('<span>','',$this->data['subject']);
-        //$this->subject = str_replace('</span>','', $this->subject);
-        $this->subject = $this->makeSubject();
+        $this->subject = str_replace('<span>','',$this->data['subject']);
+        $this->subject = str_replace('</span>','', $this->subject);
+        //$this->subject = $this->makeSubject();
 
         //dd($this->subject);
 
