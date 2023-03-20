@@ -37,16 +37,14 @@ class PageMainLivewire extends Component
         return Str::limit($termsLine, 24);
     }
 
-    public function productAttributeValuesId($product, $attribute_id)
+    public function productAttributeIdsLine($product)
     {
-        return $product->attributeValues
-            ->where('attribute_id', $attribute_id)
-            ->map->id->join(',');
+        return $product->attributes->map->id->join(',');
     }
 
     /** Service Functions */
 
-    protected function revalidateProducts()
+    private function revalidateProducts()
     {
         return $this->customer
             ->compareProducts()
@@ -54,7 +52,7 @@ class PageMainLivewire extends Component
             ->get();
     }
 
-    protected function revalidateAttributes($products)
+    private function revalidateAttributes($products)
     {
         $attributes = Attribute::query()
             ->withTranslation()

@@ -56,30 +56,24 @@
                     {{--  Block for determining the type and type of prices in accordance with the type of user.--}}
                     @php( $productPriceField = App\Models\Product:: getPriceFieldWithParams(null, $product->price_sale,  $product->price_wholesale, $product->price_sale_show))
                     <div>
-
                         <span>@lang('custom::site.price product')</span>
                         <strong>{!! formatNbsp(formatMoney($product->$productPriceField) . ' ₴') !!}</strong>
-                        @if ($product->price_sale_show != 0 and $product->price_wholesale == 0 or $product->price_sale_show == 0 and $product->price_wholesale != 0 or $product->price_sale_show != 0 and $product->price_wholesale != 0)
-                        <span>
-                            <?php $user = $user ?? auth()->user(); ?>
-                            @if (is_object($user) && $user->is_founder != 0)
-                                @if ($product->price_sale_show == 0 and $product->price_wholesale != 0)
-                                    <span style="color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </span>
+                        @if ( $product->price_wholesale != 0 and $product->price_sale_show == 0 or $product->price_sale != 0 and $product->price_sale_show != 0)
+                            <span>
+                                @if (Auth::check())
+                                    <?php $user = $user ?? auth()->user(); ?>
+                                    @if ($user->is_customer_legal and $product->price_sale_show == 0)
+                                        <span style="color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </span>
+                                    @else
+                                        <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </s>
+                                    @endif
                                 @else
+                                    @if ($product->price_sale_show != 0)
                                     <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </s>
+
+                                    @endif
                                 @endif
-                            @else
-                                @if (!is_object($user) and $product->price_sale_show != 0 and $product->price_sale != 0)
-                                    <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴тт') !!} </s>
-                                @else
-                                    <s style="text-decoration: line-through; color: grey; font-size: 17px;"></s>
-                                @endif
-                                @if (is_object($user) and $product->price_sale_show != 0)
-                                    <s style="text-decoration: line-through; color: grey; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴ьь') !!} </s>
-                                @endif
-                            @endif
-                            @elseif($product->price_wholesale == 0 and $product->price_sale_show == 0 )
-                                <span style="color: grey; font-size: 17px;"></span>
+                            </span>
                         @endif
                     </div>
                     <div>
@@ -171,16 +165,8 @@
             @endforeach
         </div>
     </div>
-
-    <div wire:ignore>
-        <div class="modal fade" id="m-question2">
-        <div class="modal-dialog modal-dialog-centered">
-          @livewire('forms.products.forms-products-ask-question-livewire', ['product_data' => $product], key(time().'-'.$product->id))
-        </div>
-      </div>
-
-    </div>
 </div>
+
 @push('custom-scripts')
     <script>
         jQuery(document).ready(function ($) {
