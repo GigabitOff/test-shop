@@ -46,6 +46,7 @@
     <script>
         $('#m-quick-purchase2').on('show.bs.modal', function (e) {
             $('.invalid-feedback').hide();
+            $('.js-phone').inputmask({"mask": "+38(999) 999-99-99"});
         });
         $('#m-quick-purchase2').on('hidden.bs.modal', function () {
             Livewire.emit('fastOrderFormClosed');
