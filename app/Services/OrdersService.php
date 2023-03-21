@@ -80,7 +80,7 @@ class OrdersService
         $order->status_id = Order::ORDER_NEW_STATUS_ID;
         $order->total = $product_price * $product_quantity;
         $order->total_quantity = $product_quantity;
-        $order->fio = $customer->name;
+        $order->fio = $data['name'];
         $order->comment = $data['comment'] ?? '';
         $order->fast_order = true;
         $order->products()->attach($data['product_id'], [
