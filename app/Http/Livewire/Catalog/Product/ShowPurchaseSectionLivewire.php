@@ -16,11 +16,16 @@ class ShowPurchaseSectionLivewire extends Component
 
     public Product $product;
     public array $selectorAttributes = [];
+    public $quantity;
+    public $price;
 
     public function mount()
     {
         $this->prepareAttributesVariations($this->product);
         $this->evaluateSelectorAttributes($this->product);
+        $priceField = Product::getPriceFieldWithParams(null, $this->product->price_sale,  $this->product->price_wholesale, $this->product->price_sale_show);
+        $this->price = $this->product->$priceField;
+        $this->quantity = $this->product->multiplicity;
     }
 
     public function render()
@@ -29,6 +34,14 @@ class ShowPurchaseSectionLivewire extends Component
         $this->expandProductUniqColorVariations($this->product);
 
         return view('livewire.catalog.product.show-purchase-section-livewire');
+    }
+
+    public function updatedQuantity($value)
+    {
+        $this->quantity = $value;
+        session(['current_product_id' => $this->product->id]);
+        session(['current_product_quantity' => $value]);
+        session(['current_product_price' => $this->price]);
     }
 
     /**

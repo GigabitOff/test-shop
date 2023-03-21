@@ -5,7 +5,7 @@
     <div class="product-full__labels">
         {{--        <span class="product-full-label {{$product->availabilityCss}}">--}}
         {{$product->availabilityText}}
-        </span>
+{{--        </span>--}}
         @if($product->new)
             <span class="product-full-label new">
                 <i class="ico_star"></i>
@@ -54,10 +54,9 @@
             <div class="product-full__info-actions-top">
                 <div class="product-full__price">
                     {{--  Block for determining the type and type of prices in accordance with the type of user.--}}
-                    @php( $productPriceField = App\Models\Product:: getPriceFieldWithParams(null, $product->price_sale,  $product->price_wholesale, $product->price_sale_show))
                     <div>
                         <span>@lang('custom::site.price product')</span>
-                        <strong>{!! formatNbsp(formatMoney($product->$productPriceField) . ' ₴') !!}</strong>
+                        <strong>{!! formatNbsp(formatMoney($price) . ' ₴') !!}</strong>
                         @if ($product->price_sale_show != 0 and $product->price_wholesale == 0 or $product->price_sale_show == 0 and $product->price_wholesale != 0 or $product->price_sale_show != 0 and $product->price_wholesale != 0)
                         <span>
                             <?php $user = $user ?? auth()->user(); ?>
@@ -91,12 +90,14 @@
                         <div class="counter">
                             <div class="counter__btn minus"></div>
                             <div class="counter__field">
-                                <input class="input-col js-numeric" type="number"
+                                <input class="input-col js-numeric" type="number" name="quantity"
+                                       wire:model.defer="quantity"
+                                       onchange="@this.set('quantity', this.value)"
                                        min="{{$product->multiplicity}}"
                                        @if($product->maxStock)
                                            max="{{$product->maxStock}}"
                                        @endif
-                                       value="{{$product->multiplicity}}"/>
+                                       />
                             </div>
                             <div class="counter__btn plus"></div>
                         </div>
@@ -132,8 +133,13 @@
             </div>
             <div class="product-full__info-actions-bottom">
                 @if($product->can_be_sold)
-                    <a class="button-outline" href="#m-quick-purchase"
-                       data-bs-toggle="modal">@lang('custom::site.quick_purchase')</a>
+                    @guest
+                    <button class="button-outline" href="#m-quick-purchase"
+                       data-bs-toggle="modal" data-product-id="{{$product->id}}" data-price="{{$price}}"
+                       data-quantity="$('.product-full__counter').find('.counter input').get(0).value"
+                            onclick="console.log($(this).data('quantity'))"
+                    >@lang('custom::site.quick_purchase')</button>
+                    @endguest
                     @if($product->cut_out)
                         <a class="button-break" href="http://www.google.com" target="_blank">
                             <img src="/assets/img/button-break.svg"

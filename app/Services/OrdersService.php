@@ -64,6 +64,35 @@ class OrdersService
         return $order;
     }
 
+    /**
+     * Create fast order for currently visited product
+     *
+     * @return Order
+     * @throws \Throwable
+     */
+    public function createFastOrder(User $customer = null): Order
+    {
+        $customer = $customer ?? auth()->user();
+        // variables was set in ShowPurchaseSectionLivewire::updatedQuantity()
+        $product_id = session('current_product_id');
+        $product_price = session('current_product_price');
+        $product_quantity = session('current_product_quantity');
+
+        /** @var Order $order */
+        $order = $customer->orders()->create();
+        $order->status_id = Order::ORDER_NEW_STATUS_ID;
+        $order->total = $product_price * $product_quantity;
+        $order->total_quantity = $product_quantity;
+        $order->fast_order = true;
+        $order->products()->attach($product_id, [
+            'price' => $product_price,
+            'quantity' => $product_quantity,
+        ]);
+        $order->save();
+
+        return $order;
+    }
+
     public function replicateOrder(int $orderId): ?Order
     {
         if ($order = Order::query()->find($orderId)) {
