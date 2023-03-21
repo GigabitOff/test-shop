@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Catalog\Product;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Services\CategoryService;
@@ -50,10 +51,22 @@ class CatalogProductController extends Controller
         $isVariationsVisible = !empty($data->vars_attrs) && !empty($data->vars_key);
         $isAttributesVisible = !empty($data->attributeValues->count());
         $isThreeColumns = !$isVariationsVisible && $isAttributesVisible;
+        $isDescriptionVisible = !empty($data->technical_description);
+        $isAccompaynigVisible = !empty($data->accompanying->count());
+        $isReviewsVisible = !empty(Review::where(
+            [
+                'product_id' => $data->id ?? 0,
+                'status'     => 1,
+            ])
+            ->count()
+        );
         $layout = [
-            'isVariationsVisible' => $isVariationsVisible,
-            'isAttributesVisible' => $isAttributesVisible,
-            'isThreeColumns'      => $isThreeColumns,
+            'isVariationsVisible'  => $isVariationsVisible,
+            'isAttributesVisible'  => $isAttributesVisible,
+            'isAccompaynigVisible' => $isAccompaynigVisible,
+            'isDescriptionVisible' => $isDescriptionVisible,
+            'isReviewsVisible'     => $isReviewsVisible,
+            'isThreeColumns'       => $isThreeColumns,
         ];
 
         $images = $data->images()->orderBy('main', 'desc')->get();
