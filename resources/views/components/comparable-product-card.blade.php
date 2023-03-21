@@ -1,3 +1,4 @@
+
 <div class="compare-item">
     <div class="compare-item__head">
         <div class="compare-item__box">
