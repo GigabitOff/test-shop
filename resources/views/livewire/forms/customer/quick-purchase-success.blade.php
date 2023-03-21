@@ -5,7 +5,7 @@
     </div>
     <div class="modal-body">
         <div class="form-group">
-            <p class="message">
+            <p class="text-lead">
                 {{__('custom::site.info_messages.quick_purchase_success')}}
             </p>
         </div>
