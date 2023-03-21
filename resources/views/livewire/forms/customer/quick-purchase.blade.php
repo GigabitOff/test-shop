@@ -1,67 +1,42 @@
 <div class="modal-content" id="modal-quick-purchase-content" data-mode="{{$status}}">
     <div class="modal-header">
-        <h5 class="modal-title">@lang('custom::site.quick_purchase')<span>@lang('custom::site.on_project_domain')</span></h5>
-        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span
-                class="ico_close"></span></button>
+        <h5 class="modal-title">@lang('custom::site.quick_purchase')<small>@lang('custom::site.on_project_domain')</small></h5>
+        <button class="btn-close" type="button" data-bs-dismiss="modal"></button>
     </div>
     <div class="modal-body">
-        <form action="javascript:void(0);" wire:submit.prevent="submit">
+        <form wire:submit.prevent="submit">
             @if(session()->has('fail'))
                 <div class="alert alert-danger" role="alert">
                     {{ session('fail') }}
                 </div>
             @endif
             <div class="form-group">
-                <div class="form-control-wrap">
                     <input class="form-control" type="text"
                            wire:model.defer="name"
-                           placeholder="@lang('custom::site.fio')" name="fio"
-                           required><span></span>
-                </div>
+                           placeholder="@lang('custom::site.fio')" name="name"
+                           required>
             </div>
             <div class="form-group">
-                <div class="form-control-wrap">
                     <input class="js-phone form-control" type="text"
-                           wire:model.lazy="phone_raw"
+                           wire:model.defer="phone_raw"
+                           onchange="@this.set('phone_raw', this.value)"
                            name="phone" placeholder="@lang('custom::site.phone')"
-                           required><span></span></div>
+                           required>
                 @error('phone')
                 <div class="invalid-feedback" style="display:block;">
                     {{$message}}
                 </div>
                 @enderror
-                @if($proposeMsg)
-                <div class="invalid-feedback" style="display:block;">
-                    {{$proposeMsg}} @lang('custom::site.propose') <a href="javascript:void(0);" data-dismiss="modal" data-toggle="modal" data-target="#modal-login">@lang('custom::site.to_login')</a>
-                </div>
-                @endif
-                @if($invalidMsg)
-                <div class="invalid-feedback" style="display:block;">
-                    {{$invalidMsg}} @lang('custom::site.choose_another')
-                </div>
-                @endif
-                <script>
-                    $('#modal-quick-purchase-content .js-phone').mask("+38/999/ 999 99 99");
-                </script>
             </div>
             <div class="form-group">
-                <div class="form-control-wrap">
-                    <input class="form-control" type="text"
+                    <textarea class="form-control"
                            wire:model.defer="company"
+                           onchange="@this.set('company', this.value)"
                            placeholder="@lang('custom::site.company_name')" name="company"
-                    ><span></span></div>
+                    ></textarea>
             </div>
-            <div class="form-group" style="display: none;">
-                <div class="form-control-wrap">
-                    <input class="form-control" type="text"
-                           wire:model.defer="product_id"
-                           name="product_id"
-                    ><span></span></div>
-            </div>
-            <div class="mt-5">
-                <button class="button button-secondary button-block button-lg" type="submit">
-                    @lang('custom::site.to_order')
-                </button>
+            <div class="form-group">
+                <button class="button-outline w-100" type="submit">@lang('custom::site.to_order')</button>
             </div>
         </form>
     </div>
@@ -69,6 +44,9 @@
 
 @push('custom-scripts')
     <script>
+        $('#m-quick-purchase2').on('show.bs.modal', function (e) {
+            $('.invalid-feedback').hide();
+        });
         document.addEventListener('DOMContentLoaded', function () {
             // Возможность устанавливать фокус на элемент при обновлении livewire компонента
             // для этого корневого тега должен стоять аттрибут data-mode

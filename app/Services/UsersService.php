@@ -102,7 +102,7 @@ class UsersService
         $code = $code ?? stringDigit(6);
 
         $response = smsSend($user->phone, sprintf(__('custom::site.new_password_sms'), $code), 'password recovery');
-            
+
         if (false !== $response) {
             $user->recovery_code = $code;
             $user->save();
@@ -203,5 +203,28 @@ class UsersService
         }
 
         return true;
+    }
+
+    public function createUnregisteredCustomer(array $validated): User
+    {
+        try {
+            DB::beginTransaction();
+
+            $user = new User;
+            $user->name = $validated['name'];
+            $user->phone = $validated['phone'];
+            $user->password = bcrypt('password');
+
+            $user->save();
+
+            $user->assignRole('simple');
+
+            DB::commit();
+
+            return $user;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 }
