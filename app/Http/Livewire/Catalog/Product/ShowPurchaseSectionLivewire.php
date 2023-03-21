@@ -27,10 +27,12 @@ class ShowPurchaseSectionLivewire extends Component
         $priceField = Product::getPriceFieldWithParams(null, $this->product->price_sale,  $this->product->price_wholesale, $this->product->price_sale_show);
         $this->price = $this->product->$priceField;
         $this->quantity = $this->product->multiplicity;
-        session(['current_product_id' => $this->product->id]);
-        session(['current_product_quantity' => $this->quantity]);
-        session(['current_product_price' => $this->price]);
-        session(['quick_purchase_status' => QuickPurchase::STATUS_PURCHASE_FORM]);
+        session([
+            'current_product_id' => $this->product->id,
+            'current_product_quantity' => $this->quantity,
+            'current_product_price' => $this->price,
+            'quick_purchase_status' => QuickPurchase::STATUS_PURCHASE_FORM,
+        ]);
     }
 
     public function render()
