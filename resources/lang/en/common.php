@@ -206,7 +206,7 @@ return [
 
     'info_messages' => [
         'provider_auth_error' => 'Authentication error through the provider channel. Try another authentication type, registration or contact support.',
-        'quick_purchase_success' => 'We have received your order. The manager will contact you.',
+        'quick_purchase_success' => 'We have received your order and our manager will contact You shortly.',
         'quick_purchase_login_prompt' => 'Log in or register and get a discount.',
         'quick_purchase_registration_complete_prompt' => 'Complete registration to get purchase bonuses.',
         'do_complete_registration' => 'To receive bonuses for a registered user, you must complete registration and confirm your phone number.',
