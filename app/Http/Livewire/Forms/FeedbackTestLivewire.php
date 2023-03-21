@@ -7,6 +7,7 @@ use App\Models\Chat;
 use App\Models\Contuct;
 use App\Models\Popup;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
@@ -62,6 +63,11 @@ class FeedbackTestLivewire extends Component
         $popup = Popup::where('id',$this->popup)->first();
         //dd($this->popup);
         $customer_id = null;
+
+        $customer = $this->getCustomers();
+
+        if ($customer)
+        $customer_id = $customer->id;
 
         $this->subject = 'Повідомлення з попап';
 
@@ -136,6 +142,13 @@ class FeedbackTestLivewire extends Component
             }
         }
         return $managers;
+    }
+
+    public function getCustomers()
+    {
+        $data = User::where('email', $this->data['email'])
+        ->first();
+        return $data;
     }
 
     public function sendAllEmails($managers){
