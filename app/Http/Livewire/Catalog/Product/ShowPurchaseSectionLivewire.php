@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Catalog\Product;
 
+use App\Http\Livewire\Forms\Customer\QuickPurchase;
 use App\Models\Attribute;
 use App\Models\AttributeValue;
 use App\Models\Product;
@@ -26,6 +27,10 @@ class ShowPurchaseSectionLivewire extends Component
         $priceField = Product::getPriceFieldWithParams(null, $this->product->price_sale,  $this->product->price_wholesale, $this->product->price_sale_show);
         $this->price = $this->product->$priceField;
         $this->quantity = $this->product->multiplicity;
+        session(['current_product_id' => $this->product->id]);
+        session(['current_product_quantity' => $this->quantity]);
+        session(['current_product_price' => $this->price]);
+        session(['quick_purchase_status' => QuickPurchase::STATUS_PURCHASE_FORM]);
     }
 
     public function render()
@@ -39,9 +44,7 @@ class ShowPurchaseSectionLivewire extends Component
     public function updatedQuantity($value)
     {
         $this->quantity = $value;
-        session(['current_product_id' => $this->product->id]);
         session(['current_product_quantity' => $value]);
-        session(['current_product_price' => $this->price]);
     }
 
     /**
