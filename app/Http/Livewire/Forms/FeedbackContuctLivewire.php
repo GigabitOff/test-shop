@@ -6,6 +6,7 @@ use App\Mail\SendDataMail;
 use App\Models\Chat;
 use App\Models\Contuct;
 use App\Models\Popup;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Illuminate\Support\Facades\Mail;
@@ -59,9 +60,13 @@ class FeedbackContuctLivewire extends Component
         $this->validate();
 
         $managers = $this->getManagers($this->popup_id);
+        $customer = $this->getCustomers();
         $popup = Popup::where('id',$this->popup)->first();
         //dd($this->popup);
         $customer_id = null;
+
+        if($customer)
+        $customer_id = $customer->id;
 
 
         if (!$popup) {
@@ -140,6 +145,13 @@ class FeedbackContuctLivewire extends Component
             }
         }
         return $managers;
+    }
+
+    public function getCustomers()
+    {
+        $data = User::where('email',$this->data['email'])
+        ->first();
+        return $data;
     }
 
     public function sendAllEmails($managers){
