@@ -135,10 +135,7 @@
                 @if($product->can_be_sold)
                     @guest
                     <button class="button-outline" href="#m-quick-purchase"
-                       data-bs-toggle="modal" data-product-id="{{$product->id}}" data-price="{{$price}}"
-                       data-quantity="$('.product-full__counter').find('.counter input').get(0).value"
-                            onclick="console.log($(this).data('quantity'))"
-                    >@lang('custom::site.quick_purchase')</button>
+                       data-bs-toggle="modal">@lang('custom::site.quick_purchase')</button>
                     @endguest
                     @if($product->cut_out)
                         <a class="button-break" href="http://www.google.com" target="_blank">

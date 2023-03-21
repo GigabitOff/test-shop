@@ -30,9 +30,9 @@
             </div>
             <div class="form-group">
                     <textarea class="form-control"
-                           wire:model.defer="company"
-                           onchange="@this.set('company', this.value)"
-                           placeholder="@lang('custom::site.company_name')" name="company"
+                           wire:model.defer="comment"
+                           onchange="@this.set('comment', this.value)"
+                           placeholder="@lang('custom::site.Comment')" name="comment"
                     ></textarea>
             </div>
             <div class="form-group">
@@ -47,6 +47,10 @@
         $('#m-quick-purchase2').on('show.bs.modal', function (e) {
             $('.invalid-feedback').hide();
         });
+        $('#m-quick-purchase2').on('hidden.bs.modal', function () {
+            Livewire.emit('fastOrderFormClosed');
+        })
+
         document.addEventListener('DOMContentLoaded', function () {
             // Возможность устанавливать фокус на элемент при обновлении livewire компонента
             // для этого корневого тега должен стоять аттрибут data-mode
