@@ -263,9 +263,9 @@ class User extends Authenticatable
         return $this->hasMany(CustomerRecipient::class, 'customer_id');
     }
 
-    public function chats(): HasMany
+    public function chats()
     {
-        return $this->hasMany(Chat::class, 'customer_id');
+        return $this->hasMany(Chat::class,'customer_id');
     }
 
     public function managerSelfChats(): HasMany

@@ -9,6 +9,7 @@ use App\Models\Popup;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Illuminate\Support\Facades\Mail;
+use App\Models\User;
 use Illuminate\Validation\Rule;
 class FormsProductsAskQuestionLivewire extends Component
 {
@@ -26,6 +27,7 @@ class FormsProductsAskQuestionLivewire extends Component
     protected array $rules = [
         'data.fio' => 'required',
         'data.email' => 'required|email',
+        'data.phone' => 'required',
         'data.message' => 'required',
 
     ];
@@ -73,6 +75,11 @@ class FormsProductsAskQuestionLivewire extends Component
         $customer_id = null;
 
         $this->subject = 'Повідомлення з попап';
+
+        $customer = $this->getCustomers();
+
+        if ($customer)
+        $customer_id = $customer->id;
 
         if (!$popup) {
             $this->popup_id = null;
@@ -160,6 +167,14 @@ class FormsProductsAskQuestionLivewire extends Component
             }
         }
         return $managers;
+    }
+
+    public function getCustomers()
+    {
+        $data = User::where('email', $this->data['email'])
+        ->orWhere('phone', clearPhoneNumber($this->data['phone']))
+        ->first();
+        return $data;
     }
 
     public function sendAllEmails($managers){
