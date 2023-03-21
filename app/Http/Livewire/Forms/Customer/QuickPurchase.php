@@ -13,22 +13,22 @@ class QuickPurchase extends Component
     const STATUS_PURCHASE_FORM = 'purchase';
     const STATUS_SUCCESS_MSG = 'success';
 
-    public $phone_raw;
     public $name;
-    public $company;
-    public $product_id;
-
+    public $comment;
     public $phone = '';
-    public $phone2 = ''; // Требуется для вывода ошибок с доп html
-    public $invalidMsg = '';
-    public $proposeMsg = '';
+    public $phone_raw;
 
     public $status = self::STATUS_SHOW_PROMPT;
 
     protected $do_complete_registration = false;
 
+    protected $rules = [
+        'name'  => ['required'],
+        'phone' => ['required', 'digits:12'],
+    ];
+
     protected $listeners = [
-        'quick-purchase-modal.restore-form' => 'restoreForm',
+        'fastOrderFormClosed' => 'resetForm',
     ];
 
     public function boot()
@@ -38,7 +38,7 @@ class QuickPurchase extends Component
 
     public function mount()
     {
-        if (auth()->check() && !auth()->user()->isRegistrationCompleted()){
+        if (auth()->check() && !auth()->user()->isRegistrationCompleted()) {
             $this->do_complete_registration = true;
         }
     }
@@ -46,78 +46,61 @@ class QuickPurchase extends Component
     public function updatedPhoneRaw($value)
     {
         $this->phone = preg_replace('/[^\d]/', '', $value);
-        $this->selfPhoneValidation($value);
     }
 
     public function render()
     {
         switch ($this->status) {
             case self::STATUS_SHOW_PROMPT:
-                if ($this->do_complete_registration){
+                if ($this->do_complete_registration) {
                     return view('livewire.forms.customer.register-complete-prompt');
                 }
+
                 return view('livewire.forms.customer.login-prompt');
             case self::STATUS_PURCHASE_FORM:
                 return view('livewire.forms.customer.quick-purchase');
             case self::STATUS_SUCCESS_MSG:
                 return view('livewire.forms.customer.quick-purchase-success');
         }
+
         return '';
     }
 
     public function submit()
     {
         $this->validate();
-        if (! $this->selfPhoneValidation()){
-            return;
-        }
 
         try {
             DB::beginTransaction();
             $customer = User::where('phone', $this->phone)->first()
                 ?? app()->make(UsersService::class)
-                    ->CreateNewUnregisteredCustomer([
-                        'fio' => $this->name,
+                    ->createUnregisteredCustomer([
+                        'name'  => $this->name,
                         'phone' => $this->phone,
                     ]);
 
-            $order = orders()->createOrderFromCart($customer);
-            $order->fast_order = true;
-            $order->save();
+            $product_id = session('current_product_id', 0);
+            $product_price = session('current_product_price', 0);
+            $product_quantity = session('current_product_quantity', 1);
+
+            orders()->createFastOrder($customer, [
+                'product_id'       => $product_id,
+                'product_price'    => $product_price,
+                'product_quantity' => $product_quantity,
+                'comment'          => $this->comment,
+            ]);
 
             DB::commit();
 
             $this->status = self::STATUS_SUCCESS_MSG;
             $this->emit('eventFastOrderCreated');
 
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             DB::rollBack();
             logger(__METHOD__ . $e->getMessage());
             session()->flash('fail', __('custom::site.order_save_fail'));
         }
     }
-
-    protected function selfPhoneValidation(){
-        $this->invalidMsg = '';
-        $this->proposeMsg = '';
-        $this->validateOnly('phone');
-        $customer = User::where('phone', $this->phone)->first();
-        if($customer && !$customer->isCustomerUnregistered){
-            $this->proposeMsg = __('custom::site.user_phone_unique');
-        }
-        return empty($this->proposeMsg);
-    }
-
-    public function rules()
-    {
-        $rules = [
-            'name' => ['required'],
-            'phone' => ['required', 'digits:12'],
-        ];
-
-        return $rules;
-    }
-
 
     public function noNeedRegistration()
     {
@@ -125,9 +108,14 @@ class QuickPurchase extends Component
         session(['quick_purchase_status' => $this->status]);
     }
 
-    public function restoreForm()
+    public function resetForm()
     {
+        $this->reset([
+            'name',
+            'comment',
+            'phone',
+            'phone_raw',
+        ]);
         $this->status = self::STATUS_PURCHASE_FORM;
-        $this->product_id = null;
     }
 }
