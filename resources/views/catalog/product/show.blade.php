@@ -14,7 +14,7 @@
                 <div class="row g-5">
                     @includeFirst([
                         'livewire.catalog.product.layouts.variant-' . $layout['mode'],
-                        'livewire.catalog.product.layouts.variant-11111'
+                        'livewire.catalog.product.layouts.variant-01111'
                     ])
                 </div>
 
