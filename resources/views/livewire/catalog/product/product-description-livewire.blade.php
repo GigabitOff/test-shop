@@ -1,41 +1,41 @@
 @if($data->technical_description)
     <div class="col-12">
         <div class="product-full-box --technical-description">
-            <div class="row g-5">
-                <div class="col-xxl-9 col-xl-7 col-sm-8">
+            <div class="description-cont">
+                <div class="description-cont__left">
                     <div class="product-full-box__head">
                         <div class="product-full-box__title">@lang('custom::site.Technical description')</div>
                     </div>
-                    <div class="product-full-box__body --overflow">
-                        {!! $data->technical_description !!}
+                </div>
+            </div>
+            <div class="product-full-box__body --overflow">
+                {!! $data->technical_description !!}
+            </div>
+            @if($data->instructions->isNotEmpty())
+            <div class="description-cont__right">
+                <div class="px-md-4">
+                    <div class="product-full-box__head">
+                        <div class="product-full-box__title">@lang('custom::site.Instructions')</div>
+                    </div>
+                    <div class="product-full-box__body --overflow --instruction">
+                        <ul class="instructions">
+                            @foreach($data->instructions as $instruction)
+                                <li>
+                                    <a class="instructions__link"
+                                       href="{{\Storage::disk('public')->url($instruction->url)}}"
+                                       target="_blank">
+                                        <div class="instructions__img">
+                                            <img src="/assets/img/instructions.svg" alt="instructions">
+                                        </div>
+                                        {{$instruction->file_name}}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
-                @if($data->instructions->isNotEmpty())
-                    <div class="col-xxl-3 col-xl-5 col-sm-4">
-                        <div class="px-md-4">
-                            <div class="product-full-box__head">
-                                <div class="product-full-box__title">@lang('custom::site.Instructions')</div>
-                            </div>
-                            <div class="product-full-box__body --overflow --instruction">
-                                <ul class="instructions">
-                                    @foreach($data->instructions as $instruction)
-                                        <li>
-                                            <a class="instructions__link"
-                                               href="{{\Storage::disk('public')->url($instruction->url)}}"
-                                               target="_blank">
-                                                <div class="instructions__img">
-                                                    <img src="/assets/img/instructions.svg" alt="instructions">
-                                                </div>
-                                                {{$instruction->file_name}}
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                @endif
             </div>
+            @endif
         </div>
     </div>
 @endif

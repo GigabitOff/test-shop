@@ -41,13 +41,14 @@ class CatalogProductController extends Controller
             ])
             ->with([
                 'categories.translations',
+                'instructions',
                 'brand.images',
                 'attributeValues.translations',
                 'attributeValues.attribute.translations',
                 'comparisonProducts',
             ])
             ->firstOrFail();
-
+flog($data->instructions->count());
         $layoutDetector = new LayoutDetectorService();
         $mode = $layoutDetector->detectMode($data);
         $columns = $layoutDetector->countColumns($mode);
