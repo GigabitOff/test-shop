@@ -10,7 +10,6 @@ namespace App\Services;
 
 
 use App\Models\Product;
-use App\Models\Review;
 
 class LayoutDetectorService
 {
@@ -44,13 +43,6 @@ class LayoutDetectorService
         $mode ^= !empty($product->attributeValues->count()) ? self::ATTRIBUTES_VISIBLE : 0;
         $mode ^= !empty($product->technical_description) ? self::DESCRIPTION_VISIBLE : 0;
         $mode ^= !empty($product->accompanying->count()) ? self::ACCOMPANYING_VISIBLE : 0;
-        $mode ^= !empty(Review::where(
-            [
-                'product_id' => $product->id ?? 0,
-                'status'     => 1,
-            ])
-            ->count()
-        ) ? self::REVIEWS_VISIBLE : 0;
 
         return $mode;
     }
