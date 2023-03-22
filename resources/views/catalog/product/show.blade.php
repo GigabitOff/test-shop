@@ -6,70 +6,17 @@
         />
         <section class="section-banner --mobile">
             <div class="container-xl">
-                <x-pages.product.banner-top />
+                <x-pages.product.banner-top/>
             </div>
         </section>
-        <div class="page-content --product @if($layout['isThreeColumns']) --product-single @endif">
+        <div class="page-content --product @if($layout['columns']==3) --info-dependence-none @endif">
             <div class="container-xl">
                 <div class="row g-5">
-
-                    @if($layout['isThreeColumns'])
-
-                        <div class="col-xxl-4 col-lg-6">
-                            <livewire:catalog.product.show-gallery-section-livewire :product="$data"/>
-                        </div>
-
-                        <div class="col-xxl-4 col-lg-6">
-                            <livewire:catalog.product.show-purchase-section-livewire :product="$data"/>
-                        </div>
-
-                        <div class="col-xxl-4 col-lg-6">
-                            @include('livewire.catalog.product.product-specification-livewire')
-                        </div>
-
-                        <div class="product-info-grid">
-                            @include('livewire.catalog.product.product-description-livewire')
-                            <livewire:widgets.catalog.review.review-show-livewire :product_id="$data->id"/>
-                        </div>
-
-                    @else
-
-                        <div class="col-xxl-5 col-md-6">
-                            <livewire:catalog.product.show-gallery-section-livewire :product="$data"/>
-                        </div>
-
-                        <div class="col-xxl-7 col-md-6">
-                            <livewire:catalog.product.show-purchase-section-livewire :product="$data"/>
-                        </div>
-
-                        <div class="col-12 --product-visible-md">
-                            <div class="product-full-box --info-dependence"></div>
-                        </div>
-
-                        <div class="product-info-grid">
-                            @if($layout['isAttributesVisible'])
-                                @include('livewire.catalog.product.product-specification-livewire')
-                                <livewire:widgets.catalog.review.review-show-livewire :product_id="$data->id"/>
-                                @include('livewire.catalog.product.product-description-livewire')
-                                <livewire:catalog.product.show-related-section-livewire :product="$data"/>
-                            @else
-                                @include('livewire.catalog.product.product-description-livewire')
-                                <livewire:widgets.catalog.review.review-show-livewire :product_id="$data->id"/>
-                                <livewire:catalog.product.show-related-section-livewire :product="$data"/>
-                            @endif
-                        </div>
-
-                    @endif
-
+                    @includeFirst([
+                        'livewire.catalog.product.layouts.variant-' . $layout['mode'],
+                        'livewire.catalog.product.layouts.variant-11111'
+                    ])
                 </div>
-
-                @if(!empty($data->comparisonProducts->count()))
-                <div class="row g-5">
-                    <div class="col-12">
-                        <livewire:customer.comparisons.product-details-livewire :products="$data->comparisonProducts"/>
-                    </div>
-                </div>
-                @endif
 
             </div>
         </div>
