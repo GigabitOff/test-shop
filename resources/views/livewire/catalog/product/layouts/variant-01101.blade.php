@@ -1,3 +1,4 @@
+{{-- page-product-2.html --}}
 <div class="col-xxl-4 col-md-6">
     <livewire:catalog.product.show-gallery-section-livewire :product="$data"/>
 </div>

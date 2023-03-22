@@ -1,10 +1,11 @@
+{{-- page-product-10.html --}}
 <div class="col-xxl-4 col-md-6">
     <livewire:catalog.product.show-gallery-section-livewire :product="$data"/>
 </div>
 <div class="col-xxl-4 col-md-6">
     <livewire:catalog.product.show-purchase-section-livewire :product="$data"/>
 </div>
-<div class="col-xxl-4 col-md-6">
+<div class="col-xxl-4">
     @include('livewire.catalog.product.product-specification-livewire')
 </div>
 <div class="col-xxl-7 col-xl-6">

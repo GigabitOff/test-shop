@@ -59,6 +59,7 @@ class LayoutDetectorService
         if (in_array($mode, [
             self::MODE_2,
             self::MODE_3,
+            self::MODE_4,
             self::MODE_8,
         ])) {
             return 3;
