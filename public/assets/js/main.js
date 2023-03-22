@@ -1381,7 +1381,7 @@ jQuery(document).ready(function ($) {
     },
     breakpoints: {
       767: {
-        slidesPerView: 3,
+        slidesPerView: 'auto',
         spaceBetween: 50,
       },
     },
