@@ -30,6 +30,7 @@
             </div>
         </div>
     </div>
+    @if($images->isNotEmpty())
     <div class="product-gallery-thumb">
         <div class="js-product-thumb product-thumb-slider">
             <div class="swiper">
@@ -40,11 +41,10 @@
                                  alt="product-thumb"></div>
                     @endforeach
                 </div>
-                @if($images->isNotEmpty())
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-button-next"></div>
-                @endif
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
             </div>
         </div>
     </div>
+    @endif
 </div>
