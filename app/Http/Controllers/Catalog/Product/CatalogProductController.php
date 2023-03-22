@@ -54,7 +54,7 @@ class CatalogProductController extends Controller
         // The mode is a binary value string to search an appropriate product layout template,
         // E.g. layout variant 8 is mapped to blade template livewire.catalog.product.layouts.variant-10101
         $layout = [
-            'mode'    => sprintf('%b', $mode),
+            'mode'    => sprintf('%05b', $mode),
             'columns' => $columns,
         ];
 
