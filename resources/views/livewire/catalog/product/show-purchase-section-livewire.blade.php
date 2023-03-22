@@ -3,9 +3,9 @@
 @endphp
 <div class="product-full-box --info">
     <div class="product-full__labels">
-        {{--        <span class="product-full-label {{$product->availabilityCss}}">--}}
+        <span class="product-full-label {{$product->availabilityCss}}">
         {{$product->availabilityText}}
-{{--        </span>--}}
+        </span>
         @if($product->new)
             <span class="product-full-label new">
                 <i class="ico_star"></i>
@@ -58,11 +58,11 @@
                         <span>@lang('custom::site.price product')</span>
                         <strong>{!! formatNbsp(formatMoney($price) . ' ₴') !!}</strong>
                         @if ($product->price_sale_show != 0 and $product->price_wholesale == 0 or $product->price_sale_show == 0 and $product->price_wholesale != 0 or $product->price_sale_show != 0 and $product->price_wholesale != 0)
-                        <span>
+                        <span class="product__sub-price">
                             <?php $user = $user ?? auth()->user(); ?>
                             @if (is_object($user) && $user->is_founder != 0)
                                 @if ($product->price_sale_show == 0 and $product->price_wholesale != 0)
-                                    <span style="color: #6c757d; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </span>
+                                    <s style="color: #6c757d; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </s>
                                 @else
                                     <s style="text-decoration: line-through; color: #6c757d; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </s>
                                 @endif
@@ -77,7 +77,7 @@
                                 @endif
                             @endif
                             @elseif($product->price_wholesale == 0 and $product->price_sale_show == 0 )
-                                <span style="color: grey; font-size: 17px;"></span>
+                                <s style="color: grey; font-size: 17px;"></s>
                         @endif
                     </div>
                     <div>

@@ -1,4 +1,4 @@
-@if(!$layout['columns']==3)
+@if($layout['columns']!=3)
 <div class="col-md-6">
 @endif
     <ul class="specification-list">
@@ -17,6 +17,6 @@
             </li>
         @endforeach
     </ul>
-@if(!$layout['columns']==3)
+@if($layout['columns']!=3)
 </div>
 @endif

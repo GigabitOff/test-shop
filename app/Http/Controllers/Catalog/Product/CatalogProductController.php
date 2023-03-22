@@ -48,7 +48,7 @@ class CatalogProductController extends Controller
                 'comparisonProducts',
             ])
             ->firstOrFail();
-flog($data->instructions->count());
+
         $layoutDetector = new LayoutDetectorService();
         $mode = $layoutDetector->detectMode($data);
         $columns = $layoutDetector->countColumns($mode);

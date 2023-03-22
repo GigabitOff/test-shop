@@ -8,7 +8,6 @@
         <div class="row g-5">
             @php
             //add size and weight to attribute
-            $attributes = $data->attributeValues->toArray();
             if($data->weight)
             array_push($attributes,
             [ 'translations' => [ 0 => ["locale" => app()->getLocale(), "name" => $data->weight]],
@@ -42,7 +41,7 @@
                     @include('livewire.catalog.product.product-atributes-livewire')
                 @endif
             </div>
-            @if(!$layout['columns']==3)
+            @if($layout['columns']!=3)
                 @include('livewire.catalog.product.product-atributes-livewire')
             @endif
         </div>
