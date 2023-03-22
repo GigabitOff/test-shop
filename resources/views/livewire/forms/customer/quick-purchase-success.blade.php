@@ -5,17 +5,9 @@
     </div>
     <div class="modal-body">
         <div class="form-group">
-            <p class="message">
+            <p class="text-lead">
                 {{__('custom::site.info_messages.quick_purchase_success')}}
             </p>
-        </div>
-        <div class="mt-5">
-            <button class="button button-secondary button-block button-lg success-focusable"
-                    onkeyup="if(event.keyCode===13){event.target.click()}"
-                    data-bs-dismiss="modal"
-                    type="button">
-                {{__('custom::site.close')}}
-            </button>
         </div>
     </div>
 </div>

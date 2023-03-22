@@ -6,6 +6,8 @@ use App\Models\MailboxEmail;
 use App\Models\User;
 use App\Models\Chat;
 use Webklex\IMAP\Facades\Client;
+use App\Mail\SendFromChatMail;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * @url Help - https://www.php-imap.com/
@@ -23,7 +25,7 @@ class MailBoxReadEmail
     {
         //Обработка входящей почты
         try {
-            
+
         $client = Client::account('default');
         $client->connect();
 
@@ -48,15 +50,26 @@ class MailBoxReadEmail
                 );
                 */
 
+                $forSaveMessage = $message->getHtmlBody();
+
+                $messages = $forSaveMessage->search('UNSEEN');
+                $forSaveMessage = end($messages);
+
 
                 if ($chat) {
                     $owner_id = $chat->customer_id;
                     $chat->messages()->create([
                         'owner_id' => $owner_id,
                         'manager_id' =>  null,
-                        'message' => $this->cleanHtmlBody($message->getHtmlBody()),
+                        'message' => $this->cleanHtmlBody($forSaveMessage),
                     ]);
+
+                   // $chat['message_email'] = $forSaveMessage;
+
+                    $this->sendMailMeneger($chat, $forSaveMessage);
                 }
+
+
 
 
             }else{
@@ -101,6 +114,22 @@ class MailBoxReadEmail
 
         return null;
     }
+
+    protected function sendMailMeneger($data,$message_email=''){
+
+        $data['message'] = $message_email;
+        //$data['popup'] = @$this->chat->popup->name;
+        $data['name'] = @$data->customer->id;
+        $data['subject'] = 'Відповідь на лист: ' . $data->subject;
+
+
+        if($data->manager)
+        $email = $data->manager->email;
+        
+        if(isset($email))
+        $res = Mail::to($email)->send(new SendFromChatMail($data));
+    }
+
 
     protected function cleanHtmlBody($html): string
     {

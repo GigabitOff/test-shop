@@ -91,6 +91,7 @@ class FeedbackTestLivewire extends Component
                 'fio' => $this->data['fio'],
                 'answer_owner' => 1,
                 'subject' => $this->subject,
+                'subject' => 'Повідомлення з попап',
                 'popup_id' => $this->popup_id,
                 'email' => $this->data['email'],
             ]);

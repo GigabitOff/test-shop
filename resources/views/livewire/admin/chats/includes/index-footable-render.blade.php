@@ -14,7 +14,13 @@
     @foreach($chats as $chat)
     <tr>
                   <td><a href="{{route('admin.chats.show', ['chat' => $chat->id])}}">{{$loop->iteration}}</a></td>
-                  <td> <span class="message-name">{{$chat->fio ? $chat->fio : $chat->customer->name}}</span></td>
+                  <td> <span class="message-name">
+                    @if($chat->customer)
+                    <a href="{{ route('admin.users.edit', $chat->customer->id)}}" target="_blanck">{{ $chat->customer->name }}</a>
+                    @else
+                    {{$chat->fio ? $chat->fio : $chat->customer->name}}
+                    @endif
+                </span></td>
                   <td> <span class="message-theme">{{$chat->subject}}</span></td>
                   <td><a class="message @if($chat->latestMessageShow()->first()->owner_id != auth()->guard('admin')->user()->id AND $chat->closed==0 )--new @endif @if($chat->closed==1) --closed @endif" href="{{route('admin.chats.show', ['chat' => $chat->id])}}">@if($chat->latestMessageShow()->first()->owner_id != auth()->guard('admin')->user()->id AND $chat->closed==0 )<span>Нове повідомлення</span>@endif<p>
                       {!! $chat->lastMessage !!}</p>

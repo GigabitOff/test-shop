@@ -88,6 +88,7 @@ class QuickPurchase extends Component
                 'product_price'    => $product_price,
                 'product_quantity' => $product_quantity,
                 'comment'          => $this->comment,
+                'name'             => $this->name,
             ]);
 
             DB::commit();
