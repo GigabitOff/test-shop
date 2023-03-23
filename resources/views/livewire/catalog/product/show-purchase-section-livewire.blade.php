@@ -82,7 +82,11 @@
                     </div>
                     <div>
                         <a href="#m-question2" data-bs-toggle="modal">@lang('custom::site.ask_a_question')?</a>
+                        @guest
+                        <a href="#m-login" data-bs-toggle="modal">@lang('custom::site.watch_price')</a>
+                        @else
                         <a href="#m-price" data-bs-toggle="modal">@lang('custom::site.watch_price')</a>
+                        @endguest
                     </div>
                 </div>
                 <div class="product-full__btns-group">

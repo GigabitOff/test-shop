@@ -155,7 +155,8 @@
                   <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-price" data-bs-dismiss="modal">Стежити за ціною</button></div>
                   <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-price2" data-bs-dismiss="modal">Стежити за ціною 2</button></div>
                   <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-reviews" data-bs-dismiss="modal">Додати відгук</button></div>
-                  <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-reviews-2" data-bs-dismiss="modal">Додати відгук 2</button></div>
+                  <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-reviews2" data-bs-dismiss="modal">Додати відгук 2</button></div>
+                  <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-reviews3" data-bs-dismiss="modal">Додати відгук 3</button></div>
                   <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-jobs" data-bs-dismiss="modal">Вакансія</button></div>
                   <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-callback-livewire" data-bs-dismiss="modal">Зворотний дзвінок</button></div>
                   <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-group-products" data-bs-dismiss="modal">Сгрупований товар</button></div>
@@ -164,6 +165,13 @@
                   <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-complaint" data-bs-dismiss="modal">Акт рекламації</button></div>
                   <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-complaint-success" data-bs-dismiss="modal">Акт рекламації</button></div>
                   <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-new-message" data-bs-dismiss="modal">Написати повідомлення</button></div>
+                  <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-my-address" data-bs-dismiss="modal">Мої адреси</button></div>
+                  <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-my-address-inner" data-bs-dismiss="modal">Регдагувати мої адреси </button></div>
+                  <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-change-info" data-bs-dismiss="modal">Особисті дані</button></div>
+                  <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-reviews4" data-bs-dismiss="modal">Додати відгук 4</button></div>
+                  <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-reviews5" data-bs-dismiss="modal">Додати відгук 5</button></div>
+                  <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-cookie" data-bs-dismiss="modal">Cookie</button></div>
+                  <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-email" data-bs-dismiss="modal">Введіть свій E-mail</button></div>
                 </div>
               </div>
             </div>
@@ -321,6 +329,37 @@
           </div>
         </div>
       </div>
+        <div class="modal fade" id="m-reviews2">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Додати відгук<small>deks.ua</small></h5><button class="btn-close" type="button" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="#!">
+                            <div class="form-group"><input class="form-control" type="text" name="fio" placeholder="ПІБ" required></div>
+                            <div class="form-group"><input class="js-phone form-control" type="text" name="phone" placeholder="Номер телефону" required></div>
+                            <div class="form-group"><textarea class="form-control" type="text" name="message" placeholder="Відгук" required></textarea></div>
+                            <div class="form-group"><button class="button-accent w-100" data-bs-toggle="modal" data-bs-target="#m-reviews3" data-bs-dismiss="modal">Надіслати</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="m-reviews3">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Додати відгук<small>deks.ua</small></h5><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group mt-0">
+                            <p class="text-lead">Дякуємо, нам важлива ваша думка!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
       <div class="modal fade" id="m-jobs">
         <div class="modal-dialog modal-dialog-centered">
             @livewire('forms.jobs.form-job-livewire')
@@ -663,42 +702,546 @@
                 </div>
             </div>
         </div>
-{{--      <div class="modal fade m-new-message" id="m-new-message">--}}
-{{--        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">--}}
-{{--          <div class="modal-content">--}}
-{{--            <div class="modal-header">--}}
-{{--              <h5 class="modal-title">Написати повідомлення<small>test.f-m.kiev.ua</small></h5><button class="btn-close" type="button" data-bs-dismiss="modal"></button>--}}
-{{--            </div>--}}
-{{--            <div class="modal-body">--}}
-{{--              <form action="#!">--}}
-{{--                <div class="form-group">--}}
-{{--                  <div class="drop --select --arrow">--}}
-{{--                    <spav class="drop-clear"></spav><input class="form-control drop-input drop-input-hide" type="text" autocomplete="off" placeholder="Фінансова" /><button class="form-control drop-button" type="button">Фінансова</button>--}}
-{{--                    <div class="drop-box">--}}
-{{--                      <div class="drop-overflow">--}}
-{{--                        <ul class="drop-list">--}}
-{{--                          <li class="drop-list-item">Фінансова 1</li>--}}
-{{--                          <li class="drop-list-item">Фінансова 2</li>--}}
-{{--                          <li class="drop-list-item">Фінансова 3</li>--}}
-{{--                          <li class="drop-list-item">Фінансова 4</li>--}}
-{{--                          <li class="drop-list-item">Фінансова 5</li>--}}
-{{--                          <li class="drop-list-item">Фінансова 6</li>--}}
-{{--                          <li class="drop-list-item">Фінансова 7</li>--}}
-{{--                          <li class="drop-list-item">Фінансова 8</li>--}}
-{{--                          <li class="drop-list-item">Фінансова 9</li>--}}
-{{--                          <li class="drop-list-item">Фінансова 10</li>--}}
-{{--                        </ul>--}}
-{{--                      </div>--}}
-{{--                    </div>--}}
-{{--                  </div>--}}
-{{--                </div>--}}
-{{--                <div class="form-group"><textarea class="form-control" placeholder="Текст повідомлення"></textarea></div>--}}
-{{--                <div class="form-group"><button class="button-accent button-accent w-100" type="button" data-bs-dismiss="modal" data-bs-target="#m-complaint-success" data-bs-toggle="modal">Надіслати</button></div>--}}
-{{--              </form>--}}
-{{--            </div>--}}
-{{--          </div>--}}
-{{--        </div>--}}
-{{--      </div>--}}
+
+        <div class="modal fade m-new-message" id="m-new-message">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Написати повідомлення<small>deks.ua</small></h5><button class="btn-close" type="button" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="#!">
+                            <div class="form-group">
+                                <div class="drop --arrow"><span class="drop-clear"></span><input class="form-control drop-input" type="text" autocomplete="off" placeholder="Адресант" />
+                                    <div class="drop-box">
+                                        <div class="drop-overflow">
+                                            <ul class="drop-list">
+                                                <li class="drop-list-item">Адресант 1</li>
+                                                <li class="drop-list-item">Адресант 2</li>
+                                                <li class="drop-list-item">Адресант 3</li>
+                                                <li class="drop-list-item">Адресант 4</li>
+                                                <li class="drop-list-item">Адресант 5</li>
+                                                <li class="drop-list-item">Адресант 6</li>
+                                                <li class="drop-list-item">Адресант 7</li>
+                                                <li class="drop-list-item">Адресант 8</li>
+                                                <li class="drop-list-item">Адресант 9</li>
+                                                <li class="drop-list-item">Адресант 10</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="drop --arrow"><span class="drop-clear"></span><input class="form-control drop-input" type="text" autocomplete="off" placeholder="Тема повідомлення" />
+                                    <div class="drop-box">
+                                        <div class="drop-overflow">
+                                            <ul class="drop-list">
+                                                <li class="drop-list-item">Тема повідомлення 1</li>
+                                                <li class="drop-list-item">Тема повідомлення 2</li>
+                                                <li class="drop-list-item">Тема повідомлення 3</li>
+                                                <li class="drop-list-item">Тема повідомлення 4</li>
+                                                <li class="drop-list-item">Тема повідомлення 5</li>
+                                                <li class="drop-list-item">Тема повідомлення 6</li>
+                                                <li class="drop-list-item">Тема повідомлення 7</li>
+                                                <li class="drop-list-item">Тема повідомлення 8</li>
+                                                <li class="drop-list-item">Тема повідомлення 9</li>
+                                                <li class="drop-list-item">Тема повідомлення 10</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group"><textarea class="form-control" placeholder="Текст повідомлення"></textarea></div>
+                            <div class="form-group"><button class="button-accent button-accent w-100" type="button" data-bs-toggle="modal">Надіслати</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="m-my-address">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Мої адреси<small>deks.ua</small></h5><button class="btn-close" type="button" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="address-list">
+                            <div class="address-row">
+                                <div class="address-row__left">
+                                    <div class="address-row__data ico_location">м. Київ</div>
+                                    <div class="address-row__data">вул. Мостова 24/11</div>
+                                </div>
+                                <div class="address-row__btns"> <button class="button-table ico_edit" type="button" data-bs-toggle="modal" data-bs-target="#m-my-address-inner" data-bs-dismiss="modal"></button><button class="button-table ico_trash"></button></div>
+                            </div>
+                            <div class="address-row">
+                                <div class="address-row__left">
+                                    <div class="address-row__data ico_location">м. Київ</div>
+                                    <div class="address-row__data">вул. Мостова 24/11</div>
+                                </div>
+                                <div class="address-row__btns"> <button class="button-table ico_edit" type="button" data-bs-toggle="modal" data-bs-target="#m-my-address-inner" data-bs-dismiss="modal"></button><button class="button-table ico_trash"></button></div>
+                            </div>
+                            <div class="address-row">
+                                <div class="address-row__left">
+                                    <div class="address-row__data ico_location">м. Київ</div>
+                                    <div class="address-row__data">вул. Мостова 24/11</div>
+                                </div>
+                                <div class="address-row__btns"> <button class="button-table ico_edit" type="button" data-bs-toggle="modal" data-bs-target="#m-my-address-inner" data-bs-dismiss="modal"></button><button class="button-table ico_trash"></button></div>
+                            </div>
+                            <div class="address-row">
+                                <div class="address-row__left">
+                                    <div class="address-row__data ico_location">м. Київ</div>
+                                    <div class="address-row__data">вул. Мостова 24/11</div>
+                                </div>
+                                <div class="address-row__btns"> <button class="button-table ico_edit" type="button" data-bs-toggle="modal" data-bs-target="#m-my-address-inner" data-bs-dismiss="modal"></button><button class="button-table ico_trash"></button></div>
+                            </div>
+                            <div class="address-row">
+                                <div class="address-row__left">
+                                    <div class="address-row__data ico_location">м. Київ</div>
+                                    <div class="address-row__data">вул. Мостова 24/11</div>
+                                </div>
+                                <div class="address-row__btns"> <button class="button-table ico_edit" type="button" data-bs-toggle="modal" data-bs-target="#m-my-address-inner" data-bs-dismiss="modal"></button><button class="button-table ico_trash"></button></div>
+                            </div>
+                            <div class="address-row">
+                                <div class="address-row__left">
+                                    <div class="address-row__data ico_location">м. Київ</div>
+                                    <div class="address-row__data">вул. Мостова 24/11</div>
+                                </div>
+                                <div class="address-row__btns"> <button class="button-table ico_edit" type="button" data-bs-toggle="modal" data-bs-target="#m-my-address-inner" data-bs-dismiss="modal"></button><button class="button-table ico_trash"></button></div>
+                            </div>
+                        </div><button class="button button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-my-address-inner" data-bs-dismiss="modal">Додати адресу</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="m-my-address-inner">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Мої адреси<small>deks.ua</small></h5><button class="btn-close" type="button" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-droup">
+                            <p>Доставка кур'єром</p>
+                        </div>
+                        <div class="form-group">
+                            <div class="drop --select --arrow"><span class="drop-clear"></span><input class="form-control drop-input drop-input-hide" type="text" autocomplete="off" placeholder="Тип доставки" /><button class="form-control drop-button" type="button">Тип доставки</button>
+                                <div class="drop-box">
+                                    <div class="drop-overflow">
+                                        <ul class="drop-list">
+                                            <li class="drop-list-item">Тип доставки 1</li>
+                                            <li class="drop-list-item">Тип доставки 2</li>
+                                            <li class="drop-list-item">Тип доставки 3</li>
+                                            <li class="drop-list-item">Тип доставки 4</li>
+                                            <li class="drop-list-item">Тип доставки 5</li>
+                                            <li class="drop-list-item">Тип доставки 6</li>
+                                            <li class="drop-list-item">Тип доставки 7</li>
+                                            <li class="drop-list-item">Тип доставки 8</li>
+                                            <li class="drop-list-item">Тип доставки 9</li>
+                                            <li class="drop-list-item">Тип доставки 10</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="drop --arrow"><span class="drop-clear"></span><input class="form-control drop-input" type="text" autocomplete="off" placeholder="Виберіть місто" />
+                                <div class="drop-box">
+                                    <div class="drop-overflow">
+                                        <ul class="drop-list">
+                                            <li class="drop-list-item">Виберіть місто 1</li>
+                                            <li class="drop-list-item">Виберіть місто 2</li>
+                                            <li class="drop-list-item">Виберіть місто 3</li>
+                                            <li class="drop-list-item">Виберіть місто 4</li>
+                                            <li class="drop-list-item">Виберіть місто 5</li>
+                                            <li class="drop-list-item">Виберіть місто 6</li>
+                                            <li class="drop-list-item">Виберіть місто 7</li>
+                                            <li class="drop-list-item">Виберіть місто 8</li>
+                                            <li class="drop-list-item">Виберіть місто 9</li>
+                                            <li class="drop-list-item">Виберіть місто 10</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="Вулиця"></div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="Номер будинку"></div>
+                        <div class="form-group">
+                            <div class="drop --arrow"><span class="drop-clear"></span><input class="form-control drop-input" type="text" autocomplete="off" placeholder="Корпус" />
+                                <div class="drop-box">
+                                    <div class="drop-overflow">
+                                        <ul class="drop-list">
+                                            <li class="drop-list-item">Корпус 1</li>
+                                            <li class="drop-list-item">Корпус 2</li>
+                                            <li class="drop-list-item">Корпус 3</li>
+                                            <li class="drop-list-item">Корпус 4</li>
+                                            <li class="drop-list-item">Корпус 5</li>
+                                            <li class="drop-list-item">Корпус 6</li>
+                                            <li class="drop-list-item">Корпус 7</li>
+                                            <li class="drop-list-item">Корпус 8</li>
+                                            <li class="drop-list-item">Корпус 9</li>
+                                            <li class="drop-list-item">Корпус 10</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="drop --arrow"><span class="drop-clear"></span><input class="form-control drop-input" type="text" autocomplete="off" placeholder="Квартира" />
+                                <div class="drop-box">
+                                    <div class="drop-overflow">
+                                        <ul class="drop-list">
+                                            <li class="drop-list-item">Квартира 1</li>
+                                            <li class="drop-list-item">Квартира 2</li>
+                                            <li class="drop-list-item">Квартира 3</li>
+                                            <li class="drop-list-item">Квартира 4</li>
+                                            <li class="drop-list-item">Квартира 5</li>
+                                            <li class="drop-list-item">Квартира 6</li>
+                                            <li class="drop-list-item">Квартира 7</li>
+                                            <li class="drop-list-item">Квартира 8</li>
+                                            <li class="drop-list-item">Квартира 9</li>
+                                            <li class="drop-list-item">Квартира 10</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="Додаткова інформація"></div>
+                        <div class="form-group"></div>
+                        <div class="form-group">
+                            <div class="drop --search"><span class="drop-clear"></span><input class="form-control drop-input" type="text" autocomplete="off" placeholder="Вибір контрагенту" />
+                                <div class="drop-box">
+                                    <div class="drop-overflow">
+                                        <ul class="drop-list">
+                                            <li class="drop-list-item">Контрагент 1</li>
+                                            <li class="drop-list-item">Контрагент 2</li>
+                                            <li class="drop-list-item">Контрагент 3</li>
+                                            <li class="drop-list-item">Контрагент 4</li>
+                                            <li class="drop-list-item">Контрагент 5</li>
+                                            <li class="drop-list-item">Контрагент 6</li>
+                                            <li class="drop-list-item">Контрагент 7</li>
+                                            <li class="drop-list-item">Контрагент 8</li>
+                                            <li class="drop-list-item">Контрагент 9</li>
+                                            <li class="drop-list-item">Контрагент 10</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="drop --select --arrow"><span class="drop-clear"></span><input class="form-control drop-input drop-input-hide" type="text" autocomplete="off" placeholder="Вибір контракту" /><button class="form-control drop-button" type="button">Вибір контракту</button>
+                                <div class="drop-box">
+                                    <div class="drop-overflow">
+                                        <ul class="drop-list">
+                                            <li class="drop-list-item">Вибір контракту 1</li>
+                                            <li class="drop-list-item">Вибір контракту 2</li>
+                                            <li class="drop-list-item">Вибір контракту 3</li>
+                                            <li class="drop-list-item">Вибір контракту 4</li>
+                                            <li class="drop-list-item">Вибір контракту 5</li>
+                                            <li class="drop-list-item">Вибір контракту 6</li>
+                                            <li class="drop-list-item">Вибір контракту 7</li>
+                                            <li class="drop-list-item">Вибір контракту 8</li>
+                                            <li class="drop-list-item">Вибір контракту 9</li>
+                                            <li class="drop-list-item">Вибір контракту 10</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><button class="button button-accent w-100" type="button" data-bs-dismiss="modal">Додати</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="m-reviews4">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Додати відгук<small>deks.ua</small></h5><button class="btn-close" type="button" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="#!">
+                            <div class="form-group">
+                                <div class="m-review-head">
+                                    <div class="m-review-head__left">
+                                        <div class="m-review-head__label">Заказ</div>
+                                        <div class="m-review-head__number">№9600076456</div>
+                                    </div>
+                                    <div class="m-review-head__right"> <a class="button button-accent button-small" href="#">Подробнее</a></div>
+                                </div>
+                            </div>
+                            <div class="form-group"><textarea class="form-control" type="text" name="message" placeholder="Відгук" required></textarea></div>
+                            <div class="form-group">
+                                <div class="reviwes-rating">
+                                    <fieldset class="rating">
+                                        <legend class="rating__caption">Оцінка товару</legend>
+                                        <div class="rating__group"><input class="rating__input" id="modal-review-1" type="radio" name="modal-review" value="1" /><label class="rating__star" for="modal-review-1" aria-label="Ужасно"></label><input class="rating__input" id="modal-review-2" type="radio" name="modal-review" value="2" /><label class="rating__star" for="modal-review-2" aria-label="Сносно"></label><input class="rating__input" id="modal-review-3" type="radio" name="modal-review" value="3" /><label class="rating__star" for="modal-review-3" aria-label="Нормально"></label><input class="rating__input" id="modal-review-4" type="radio" name="modal-review" value="4" checked="" /><label class="rating__star" for="modal-review-4" aria-label="Хорошо"></label><input class="rating__input" id="modal-review-5" type="radio" name="modal-review" value="5" /><label class="rating__star" for="modal-review-5" aria-label="Отлично"></label></div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="form-group"><button class="button-accent w-100" data-bs-toggle="modal" data-bs-target="#m-reviews3" data-bs-dismiss="modal">Надіслати</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="m-reviews5">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Як нам стати краще?<small>deks.ua</small></h5><button class="btn-close" type="button" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="#!">
+                            <div class="form-group"><textarea class="form-control" type="text" name="message" placeholder="Залишити відповідь" required></textarea></div>
+                            <div class="form-group"><button class="button-accent w-100" data-bs-toggle="modal" data-bs-target="#m-reviews3" data-bs-dismiss="modal">Надіслати</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="m-cookie">
+            <div class="modal-dialog modal-dialog-centered modal-lg modal-cookie">
+                <div class="modal-content">
+                    <div class="modal-header"><a class="cookie-logo" href="index.html"><img src="assets/img/logo.svg" alt="deks"></a>
+                        <h5>Согласие на использование файлов Cookie</h5><button class="btn-close" type="button" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Согласие на использование файлов cookieМне не менее 16 лет, и я согласен с тем, что FairtechGroup и его партнеры могут использовать файлы cookie и обрабатывать данные о моем использовании в Интернете и информацию о продуктах, которые я заказал здесь, чтобы улучшить их предложения и предложить мне продукты FairtechGroup, которые соответствуют моим потребностям. FairtechGroupтакже может создать профиль использования для этих целей.</p>
+                        <p>Я даю согласие на то, чтобы FairtechGroup и партнеры обрабатывали данные об использовании онлайн и информацию о моих продуктах, заказанных здесь за пределами ЕС/ЕЭЗ, в так называемых небезопасных третьих странах. Поэтому FairtechGroup не может гарантировать соблюдение европейского уровня защиты данных для этой обработки данных.</p>
+                        <p>Я могу исключить цели, партнеров и обработку в небезопасных третьих странах из своего согласия в ⚙ настройках файлов cookie и в любое время с помощью ссылки «Файлы cookie» в нижнем колонтитуле каждого веб-сайта или отозвать это действие на будущее.</p>
+                        <p>Технически необходимые файлы cookie необходимы для работы нашего веб-сайта и поэтому используются всегда.</p><button class="cookie-settings js-cookie-btn-drop" type="button">Настроки</button>
+                        <div class="cookie-drop">
+                            <nav>
+                                <div class="nav nav-tabs cookie-tabs" role="tablist"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#cookie-services" type="button" role="tab" aria-selected="true">Сервисы и услуги</button><button class="nav-link" data-bs-toggle="tab" data-bs-target="#cookie-category" type="button" role="tab" aria-selected="false">Категории Cookie</button></div>
+                                <div class="tab-content">
+                                    <div class="tab-pane fade show active" id="cookie-services" role="tabpanel">
+                                        <div class="accordion cookie-accordion">
+                                            <div class="accordion-item">
+                                                <div class="accordion-header">
+                                                    <div class="accordion-button cookie-btn collapsed" data-bs-toggle="collapse" data-bs-target="#collapse-1">
+                                                        <h5 class="cookie-btn__title">Наименование</h5>
+                                                        <div class="cookie-btn__text">
+                                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy</p>
+                                                        </div>
+                                                    </div><label class="check-button"><input class="check-button__input" type="checkbox"><span class="check-button__box"></span></label>
+                                                </div>
+                                                <div class="accordion-collapse collapse" id="collapse-1">
+                                                    <div class="accordion-body">
+                                                        <div class="cookie-inner__text">
+                                                            <h6 class="cookie-inner__title">Наименование</h6>
+                                                            <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                                                            <h6 class="cookie-inner__title">Наименование</h6>
+                                                            <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                                                            <h6 class="cookie-inner__title">Наименование</h6>
+                                                            <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                                                        </div>
+                                                        <div class="cookie-inner__bottom">
+                                                            <h6 class="cookie-inner__title">История</h6>
+                                                            <div class="cookie-date-row">
+                                                                <div class="cookie-date__icon ico_checkmark"></div>
+                                                                <div class="cookie-date__status">Обновлено</div>
+                                                                <div class="cookie-date__info">23.03.23 23:00</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="accordion-item">
+                                                <div class="accordion-header">
+                                                    <div class="accordion-button cookie-btn collapsed" data-bs-toggle="collapse" data-bs-target="#collapse-2">
+                                                        <h5 class="cookie-btn__title">Наименование</h5>
+                                                        <div class="cookie-btn__text">
+                                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy</p>
+                                                        </div>
+                                                    </div><label class="check-button"><input class="check-button__input" type="checkbox"><span class="check-button__box"></span></label>
+                                                </div>
+                                                <div class="accordion-collapse collapse" id="collapse-2">
+                                                    <div class="accordion-body">
+                                                        <div class="cookie-inner__text">
+                                                            <h6 class="cookie-inner__title">Наименование</h6>
+                                                            <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                                                            <h6 class="cookie-inner__title">Наименование</h6>
+                                                            <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                                                            <h6 class="cookie-inner__title">Наименование</h6>
+                                                            <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                                                        </div>
+                                                        <div class="cookie-inner__bottom">
+                                                            <h6 class="cookie-inner__title">История</h6>
+                                                            <div class="cookie-date-row">
+                                                                <div class="cookie-date__icon ico_checkmark"></div>
+                                                                <div class="cookie-date__status">Обновлено</div>
+                                                                <div class="cookie-date__info">23.03.23 23:00</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="accordion-item">
+                                                <div class="accordion-header">
+                                                    <div class="accordion-button cookie-btn collapsed" data-bs-toggle="collapse" data-bs-target="#collapse-3">
+                                                        <h5 class="cookie-btn__title">Наименование</h5>
+                                                        <div class="cookie-btn__text">
+                                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy</p>
+                                                        </div>
+                                                    </div><label class="check-button"><input class="check-button__input" type="checkbox"><span class="check-button__box"></span></label>
+                                                </div>
+                                                <div class="accordion-collapse collapse" id="collapse-3">
+                                                    <div class="accordion-body">
+                                                        <div class="cookie-inner__text">
+                                                            <h6 class="cookie-inner__title">Наименование</h6>
+                                                            <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                                                            <h6 class="cookie-inner__title">Наименование</h6>
+                                                            <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                                                            <h6 class="cookie-inner__title">Наименование</h6>
+                                                            <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                                                        </div>
+                                                        <div class="cookie-inner__bottom">
+                                                            <h6 class="cookie-inner__title">История</h6>
+                                                            <div class="cookie-date-row">
+                                                                <div class="cookie-date__icon ico_checkmark"></div>
+                                                                <div class="cookie-date__status">Обновлено</div>
+                                                                <div class="cookie-date__info">23.03.23 23:00</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="cookie-category" role="tabpanel">
+                                        <div class="accordion cookie-accordion">
+                                            <div class="accordion-item">
+                                                <div class="accordion-header">
+                                                    <div class="accordion-button cookie-btn collapsed" data-bs-toggle="collapse" data-bs-target="#cookie-1">
+                                                        <h5 class="cookie-btn__title">Наименование</h5>
+                                                        <div class="cookie-btn__text">
+                                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy</p>
+                                                        </div>
+                                                    </div><label class="check-button"><input class="check-button__input" type="checkbox"><span class="check-button__box"></span></label>
+                                                </div>
+                                                <div class="accordion-collapse collapse" id="cookie-1">
+                                                    <div class="accordion-body">
+                                                        <div class="cookie-inner__text">
+                                                            <h6 class="cookie-inner__title">Наименование</h6>
+                                                            <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                                                            <h6 class="cookie-inner__title">Наименование</h6>
+                                                            <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                                                            <h6 class="cookie-inner__title">Наименование</h6>
+                                                            <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                                                        </div>
+                                                        <div class="cookie-inner__bottom">
+                                                            <h6 class="cookie-inner__title">История</h6>
+                                                            <div class="cookie-date-row">
+                                                                <div class="cookie-date__icon ico_checkmark"></div>
+                                                                <div class="cookie-date__status">Обновлено</div>
+                                                                <div class="cookie-date__info">23.03.23 23:00</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="accordion-item">
+                                                <div class="accordion-header">
+                                                    <div class="accordion-button cookie-btn collapsed" data-bs-toggle="collapse" data-bs-target="#cookie-2">
+                                                        <h5 class="cookie-btn__title">Наименование</h5>
+                                                        <div class="cookie-btn__text">
+                                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy</p>
+                                                        </div>
+                                                    </div><label class="check-button"><input class="check-button__input" type="checkbox"><span class="check-button__box"></span></label>
+                                                </div>
+                                                <div class="accordion-collapse collapse" id="cookie-2">
+                                                    <div class="accordion-body">
+                                                        <div class="cookie-category">
+                                                            <div class="cookie-category__text">Lorem Ipsum is simply dummy text of the printing and typesetting industry</div>
+                                                            <div class="cookie-category__tooltip">
+                                                                <div class="ico_info"></div>
+                                                            </div><label class="check-button"><input class="check-button__input" type="checkbox"><span class="check-button__box"></span></label>
+                                                        </div>
+                                                        <div class="cookie-category">
+                                                            <div class="cookie-category__text">Lorem Ipsum is simply dummy text of the printing and typesetting industry</div>
+                                                            <div class="cookie-category__tooltip">
+                                                                <div class="ico_info"></div>
+                                                            </div><label class="check-button"><input class="check-button__input" type="checkbox"><span class="check-button__box"></span></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="accordion-item">
+                                                <div class="accordion-header">
+                                                    <div class="accordion-button cookie-btn collapsed" data-bs-toggle="collapse" data-bs-target="#cookie-3">
+                                                        <h5 class="cookie-btn__title">Наименование</h5>
+                                                        <div class="cookie-btn__text">
+                                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy</p>
+                                                        </div>
+                                                    </div><label class="check-button"><input class="check-button__input" type="checkbox"><span class="check-button__box"></span></label>
+                                                </div>
+                                                <div class="accordion-collapse collapse" id="cookie-3">
+                                                    <div class="accordion-body">
+                                                        <div class="cookie-inner__text">
+                                                            <h6 class="cookie-inner__title">Наименование</h6>
+                                                            <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                                                            <h6 class="cookie-inner__title">Наименование</h6>
+                                                            <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                                                            <h6 class="cookie-inner__title">Наименование</h6>
+                                                            <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                                                        </div>
+                                                        <div class="cookie-inner__bottom">
+                                                            <h6 class="cookie-inner__title">История</h6>
+                                                            <div class="cookie-date-row">
+                                                                <div class="cookie-date__icon ico_checkmark"></div>
+                                                                <div class="cookie-date__status">Обновлено</div>
+                                                                <div class="cookie-date__info">23.03.23 23:00</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                        <div class="cookie-footer"><button class="button-accent" type="button" data-bs-dismiss="modal">Применить</button><button class="button-outline" type="button" data-bs-dismiss="modal">Отклонить</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="m-change-info">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Особисті дані<small>deks.ua</small></h5><button class="btn-close" type="button" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="_hide-box" action="#!">
+                            <div class="form-group"><input class="form-control" type="text" name="fio" placeholder="ПІБ" required></div>
+                            <div class="form-group"><input class="form-control" type="email" placeholder="E-mail" name="email" required></div>
+                            <div class="form-group"><input class="js-phone form-control" type="text" name="phone" placeholder="Номер телефону" required></div>
+                            <div class="form-group"><input class="form-control" type="text" placeholder="Посада"></div>
+                            <div class="form-group"><button class="button-accent w-100" type="button" data-bs-dismiss="modal">Зберегти</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="m-email">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Введіть свій E-mail<small>deks.ua</small></h5><button class="btn-close" type="button" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <p>Для відстеження вартості товару, введіть, будь ласка, E-mail, на який повинні надходити листи про зміни, та натисніть кнопку “Підтвердити”</p>
+                            </div>
+                            <div class="form-group"><input class="form-control" type="text" placeholder="E-mail"></div>
+                            <div class="form-group"><button class="button-accent w-100" type="submit">Підтвердити</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     @livewire('menu.page-header-menu-livewire')
