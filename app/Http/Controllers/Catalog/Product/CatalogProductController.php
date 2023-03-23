@@ -47,6 +47,11 @@ class CatalogProductController extends Controller
                 'attributeValues.attribute.translations',
                 'comparisonProducts',
             ])
+            ->with([
+                'translations' => function ($q) {
+                    $q->where('locale', session('lang') ?? config('app.fallback_locale'));
+                },
+            ])
             ->firstOrFail();
 
         $layoutDetector = new LayoutDetectorService();

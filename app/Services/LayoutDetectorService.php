@@ -13,12 +13,14 @@ use App\Models\Product;
 
 class LayoutDetectorService
 {
+    const NOTHING_VISIBLE = 0;
     const ATTRIBUTES_VISIBLE = 1;
     const VARIATIONS_VISIBLE = 2;
     const DESCRIPTION_VISIBLE = 4;
     const ACCOMPANYING_VISIBLE = 8;
 
     // The variant is a combination of visible blocks
+    const MODE_0 = self::NOTHING_VISIBLE;
     const MODE_1 = self::ATTRIBUTES_VISIBLE ^ self::VARIATIONS_VISIBLE ^ self::DESCRIPTION_VISIBLE ^ self::ACCOMPANYING_VISIBLE;
     const MODE_2 = self::ATTRIBUTES_VISIBLE ^ self::DESCRIPTION_VISIBLE ^ self::ACCOMPANYING_VISIBLE;
     const MODE_3 = self::VARIATIONS_VISIBLE ^ self::DESCRIPTION_VISIBLE ^ self::ACCOMPANYING_VISIBLE;
@@ -50,6 +52,7 @@ class LayoutDetectorService
     public function countColumns($mode): int
     {
         if (in_array($mode, [
+            self::MODE_0,
             self::MODE_2,
             self::MODE_3,
             self::MODE_4,
