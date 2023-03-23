@@ -1,17 +1,16 @@
 @if($data->technical_description)
-    <div class="col-12">
-        <div class="product-full-box --technical-description">
-            <div class="description-cont">
-                <div class="description-cont__left">
-                    <div class="product-full-box__head">
-                        <div class="product-full-box__title">@lang('custom::site.Technical description')</div>
-                    </div>
+    <div class="product-full-box --technical-description">
+        <div class="description-cont">
+            <div class="description-cont__left">
+                <div class="product-full-box__head">
+                    <div class="product-full-box__title">@lang('custom::site.Technical description')</div>
                 </div>
             </div>
-            <div class="product-full-box__body --overflow">
-                {!! $data->technical_description !!}
-            </div>
-            @if($data->instructions->isNotEmpty())
+        </div>
+        <div class="product-full-box__body --overflow">
+            {!! $data->technical_description !!}
+        </div>
+        @if($data->instructions->isNotEmpty())
             <div class="description-cont__right">
                 <div class="px-md-4">
                     <div class="product-full-box__head">
@@ -35,8 +34,7 @@
                     </div>
                 </div>
             </div>
-            @endif
-        </div>
+        @endif
     </div>
 @endif
 
