@@ -1,4 +1,13 @@
-<div class="product-gallery">
+@php
+if ($images->isEmpty() || count($images) == 1) {
+    $galleryCls = '--previewe-none';
+    $imgCls = 'js-product-full-single';
+} else {
+    $imgCls = 'js-product-full';
+    $galleryCls = '';
+}
+@endphp
+<div class="product-gallery {{$galleryCls}}">
     <div class="product-gallery-box">
         <div class="product-gallery__compare">
             <button class="js-add-compare ico_compare @if(comparisons()->isExistProduct($product->id)) is-active @endif"
@@ -9,9 +18,6 @@
                 <img src="{{$product->brandImageUrl}}" alt="logo-brand">
             @endif
         </div>
-        @php
-        $imgCls = ($images->isEmpty() || count($images) == 1) ? 'js-product-full-single' : 'js-product-full';
-        @endphp
         <div class="{{$imgCls}} product-full-slider">
             <div class="swiper">
                 <div class="swiper-wrapper">
