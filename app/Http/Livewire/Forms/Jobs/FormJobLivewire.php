@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Forms\Jobs;
 
 use App\DTO\ChatMessage\Vacancy as ChatMessageVacancy;
 use App\Models\Chat;
-use App\Models\Department;
+use App\Models\Popup;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -25,7 +25,9 @@ public string $phone = '';
 //public string $phoneFull = '';
 public string $text = '';
 public string $email = '';
-    public $file;
+    public $file,
+    $popup_id=5,
+    $subject;
 
 protected ?User $user = null;
 
@@ -70,13 +72,23 @@ protected array $rules = [
 
         $this->validate();
 
-        if (!$departmentId = Department::TYPE_GLOBAL) {
-//            $this->dispatchBrowserEvent('flashMessage', [
-//                'title' => __('custom::site.Complain'),
-//                'message' => __('custom::site.send_message_error'),
-//                'state' => 'danger'
-//            ]);
+        $managers = $this->getManagers($this->popup_id);
+        $customer = $this->getCustomers();
+        $popup = Popup::where('id', $this->popup_id)->first();
+        //dd($this->popup);
+        $customer_id = null;
+
+        if ($customer)
+        $customer_id = $customer->id;
+
+
+        if (!$popup) {
+            $this->popup_id = null;
+        } else {
+            $this->subject = $popup->name;
+            //$this->popup_id = $this->popup_id;
         }
+
 
         try {
             $path = $this->file
@@ -93,7 +105,7 @@ protected array $rules = [
                     'fio' => $this->fio,
                     'phone' => $this->phone,
                     'source' => Chat::SOURCE_VACANCY,
-                    'department_id' => $departmentId,
+                    'popup_id' => $this->popup_id,
                 ]);
 
             $cm = ChatMessageVacancy::from([

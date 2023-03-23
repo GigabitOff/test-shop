@@ -362,7 +362,7 @@
         </div>
       <div class="modal fade" id="m-jobs">
         <div class="modal-dialog modal-dialog-centered">
-            @livewire('forms.jobs.form-job-livewire')
+            @livewire('forms.jobs.forms-jobs-job-index-livewire')
         </div>
       </div>
         <div class="modal fade" id="modal-flash-info-message" tabindex="-1" aria-hidden="true">

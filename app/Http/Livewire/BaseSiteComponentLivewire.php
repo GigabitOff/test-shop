@@ -4,11 +4,11 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Page;
+use App\Models\Popup;
 use App\Models\City;
 use App\Models\Category;
 use App\Models\Language;
-use App\Models\Product;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -19,9 +19,12 @@ class BaseSiteComponentLivewire extends Component
         $perPage,
         $dataItemCount = 0,
         $data,
+        $popupData,
+        $popup_id,
         $search = '',
         $languages,
         $item_lang,
+        $subject = 'Повідомлення з попап',
         $search_product,
         $redirect;
 
@@ -34,7 +37,7 @@ class BaseSiteComponentLivewire extends Component
         $this->perPage = (session()->has('perPage') ? session('perPage') : 20);
 
     }
-    
+
     public function  getLang($collection = null)
     {
         if (!session()->has('perPage')) {
@@ -102,6 +105,51 @@ class BaseSiteComponentLivewire extends Component
                 $tmp[$key][$key_description] = $value[$key_description];
         }
         return $tmp;
+    }
+
+    public function getManagers($id)
+    {
+        $managers = null;
+
+        if ($this->popupData) {
+            $popup = $this->popupData;
+            $contucts = $popup->contucts;
+            if (count($contucts) > 0) {
+                foreach ($contucts as $key_c => $value_c) {
+                    if (count($value_c->users) > 0) {
+                        foreach ($value_c->users as $key_c => $value_c) {
+                            if ($value_c->pivot->send_mail == 1) {
+                                $managers[$value_c->id] = $value_c;
+                                //$managers[$value_c->id]['contuct'] = $value_c->id;
+                            }
+                        }
+                    }
+                    # code...
+                }
+            }
+        }
+        return $managers;
+    }
+
+    public function getCustomers()
+    {
+        $data = User::where('email', $this->data['email']);
+
+        if (isset($this->data['phone']))
+        $data = $data->orWhere('phone', clearPhoneNumber($this->data['phone']));
+
+        $data = $data->first();
+
+        return $data;
+    }
+
+    protected function resetForm()
+    {
+        $this->reset('data', 'popup');
+        $this->popup_id;
+
+        $this->resetValidation();
+        $this->dispatchBrowserEvent('reset_departmentId_toDefault');
     }
 
 }
