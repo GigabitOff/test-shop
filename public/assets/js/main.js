@@ -1358,6 +1358,20 @@ jQuery(document).ready(function ($) {
     },
   });
   
+  const productFullSingle = new Swiper('.js-product-full-single .swiper', {
+    slidesPerView: 1,
+    spaceBetween: 5,
+    rewind: true,
+    observeParents: true,
+    observeSlideChildren: true,
+    observer: true,
+    speed: 800,
+    navigation: {
+      nextEl: '.js-product-full-single .swiper-button-next',
+      prevEl: '.js-product-full-single .swiper-button-prev',
+    }
+  });
+  
   const relatedProducts = new Swiper('.js-related-products .swiper', {
     slidesPerView: 2,
     spaceBetween: 10,
