@@ -1,6 +1,6 @@
 @php
 if ($images->isEmpty() || count($images) == 1) {
-    $galleryCls = '--previewe-none';
+    $galleryCls = '--preview-none';
     $imgCls = 'js-product-full-single';
 } else {
     $imgCls = 'js-product-full';
