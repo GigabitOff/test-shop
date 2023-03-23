@@ -19,14 +19,32 @@
     @endif
 </table>
 <br>
-@if(isset($data['userId']))
+@if(isset($data['userId']) AND !isset($data['error']))
 <p style="color:red">
-    ID: {{$data['userId']}}
+    ID: #{{$data['userId']}}#
     @lang('custom::admin.Message for email alert')
 </p>
 @endif
 <h3>Текст повідомлення</h3>
 <table class="head_data" width="100%">
+    @if(isset($data['error']))
+    <tr>
+        <td width="200px">
+            @lang('custom::site.Chat id')
+        </td>
+        <td width="600px">
+            {{ $data['userId'] }}
+        </td>
+    </tr>
+    <tr>
+        <td width="200px">
+            @lang('custom::site.message')
+        </td>
+        <td width="600px">
+            {{ __('custom::admin.dialog closed, contact administrator again') }}
+        </td>
+    </tr>
+    @else
     @if(isset($data['id']))
     <tr>
         <td width="200px">
@@ -65,5 +83,6 @@
         </td>
     </tr>
     @endif
+@endif
 </table>
 @endcomponent

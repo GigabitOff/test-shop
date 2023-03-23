@@ -6,16 +6,17 @@ use App\Mail\SendDataMail;
 use App\Models\Chat;
 use App\Models\Contuct;
 use App\Models\Popup;
-use Illuminate\Support\Facades\DB;
 use App\Models\User;
-use Livewire\Component;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
-class FeedbackTestLivewire extends Component
+use App\Http\Livewire\BaseComponentLivewire;
+
+class FeedbackTestLivewire extends BaseComponentLivewire
 {
 
     public $data,
-        $popup_id=1,
+        $popup_id = 1,
         $emailSend,
         $subject = 'Повідомлення з попап',
         $popup;
@@ -34,13 +35,12 @@ class FeedbackTestLivewire extends Component
         $this->data['popup_id'] = $this->popup_id;
 
         if (!$this->emailSend)
-        $this->emailSend = settingsData('main_email_for_send', true);
+            $this->emailSend = settingsData('main_email_for_send', true);
     }
 
-     public function updated($field)
+    public function updated($field)
     {
         $this->validateOnly($field);
-
     }
 
     public function render()
@@ -60,26 +60,25 @@ class FeedbackTestLivewire extends Component
         $this->validate();
 
         $managers = $this->getManagers($this->popup_id);
-        $popup = Popup::where('id',$this->popup)->first();
+        $popup = Popup::where('id', $this->popup_id)->first();
         //dd($this->popup);
         $customer_id = null;
 
-        $customer = $this->getCustomers();
-
-        if ($customer)
-        $customer_id = $customer->id;
-
-        $this->subject = 'Повідомлення з попап';
 
         if (!$popup) {
             $this->popup_id = null;
         } else {
             $this->subject = $popup->name;
-            $this->popup_id = $this->popup;
+            //$this->popup_id = $this->popup;
         }
 
-        if(isset(auth()->user()->id))
-        $customer_id = auth()->user()->id;
+        if (isset(auth()->user()->id)){
+            $customer_id = auth()->user()->id;
+        }else{
+            $customer = $this->getCustomers();
+        }
+        if (isset($customer))
+        $customer_id = $customer->id;
 
         $this->sendAllEmails($managers);
         try {
@@ -91,7 +90,6 @@ class FeedbackTestLivewire extends Component
                 'fio' => $this->data['fio'],
                 'answer_owner' => 1,
                 'subject' => $this->subject,
-                'subject' => 'Повідомлення з попап',
                 'popup_id' => $this->popup_id,
                 'email' => $this->data['email'],
             ]);
@@ -126,14 +124,14 @@ class FeedbackTestLivewire extends Component
         $managers = null;
         $popup = Popup::find($id);
         $this->popup = $popup;
-        if($popup){
+        if ($popup) {
             $contucts = $popup->contucts;
-            if(count($contucts)>0){
+            if (count($contucts) > 0) {
                 foreach ($contucts as $key_c => $value_c) {
-                    if(count($value_c->users)>0){
+                    if (count($value_c->users) > 0) {
                         foreach ($value_c->users as $key_c => $value_c) {
-                            if($value_c->pivot->send_mail == 1){
-                            $managers[$value_c->id] = $value_c;
+                            if ($value_c->pivot->send_mail == 1) {
+                                $managers[$value_c->id] = $value_c;
                                 //$managers[$value_c->id]['contuct'] = $value_c->id;
                             }
                         }
@@ -145,43 +143,37 @@ class FeedbackTestLivewire extends Component
         return $managers;
     }
 
-    public function getCustomers()
+    public function sendAllEmails($managers)
     {
-        $data = User::where('email', $this->data['email'])
-        ->first();
-        return $data;
-    }
-
-    public function sendAllEmails($managers){
         $data['message'] = $this->data['message'];
         $data['name'] = $this->data['fio'];
-        $data['subject'] = $this->subject;
+        $data['subject'] = 'Повідомлення з попап';
 
-    if (isset($managers) and count($managers) > 0) {
-        //shopManagers
+        if (isset($managers) and count($managers) > 0) {
+            //shopManagers
 
-        foreach ($managers as $key => $value) {
-            # code...
-            $manager['email'] = $this->emailSend;
-
-
-            if (isset($value)) {
-
-                //$this->data['user_id'] = $value['id'];
-
-               // if(isset($value['email'])){
-               // $manager['email'] = 'v.makarenko@fairtech.group';//$value['email'];
+            foreach ($managers as $key => $value) {
+                # code...
+                $manager['email'] = $this->emailSend;
 
 
-                Mail::to($manager['email'])->send(new SendDataMail($data));
-                //}
+                if (isset($value)) {
 
-                //$this->data['id_users'][$value['id']] = $value['id'];
+                    //$this->data['user_id'] = $value['id'];
+
+                    // if(isset($value['email'])){
+                    // $manager['email'] = 'v.makarenko@fairtech.group';//$value['email'];
+
+
+                    Mail::to($manager['email'])->send(new SendDataMail($data));
+                    //}
+
+                    //$this->data['id_users'][$value['id']] = $value['id'];
+                }
             }
+        } else {
+            $item = Mail::to($this->emailSend)->send(new SendDataMail($data));
         }
-    } else {
-        $item = Mail::to($this->emailSend)->send(new SendDataMail($data));
-    }
     }
 
     protected function setDepartmentList(): array
@@ -200,5 +192,13 @@ class FeedbackTestLivewire extends Component
 
         $this->resetValidation();
         $this->dispatchBrowserEvent('reset_departmentId_toDefault');
+    }
+
+    public function getCustomers()
+    {
+        $data = User::where('email', $this->data['email'])
+        //->orWhere('phone', clearPhoneNumber($this->data['phone']))
+        ->first();
+        return $data;
     }
 }

@@ -344,7 +344,9 @@
             </a>
         </li>
     </ul>
-
+<div wire:poll.5750ms="updateChat">
+    </div>
+    <div wire:poll.150ms="checkChatsMessage"></div>
     <script>
         window.addEventListener('stopChangeStartSet', () => {
             @this.
@@ -427,11 +429,10 @@
 
         window.addEventListener('startAudioMessage', () => {
 
-            @if(session('playAudio') === true)
-            startAudioMessage();
-            @endif
 
-            @this.emit('reloadChatsIndex');
+            startAudioMessage();
+
+          //  @this.emit('reloadChatsIndex');
         });
 
     </script>

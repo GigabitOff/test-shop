@@ -1229,6 +1229,6 @@ return [
     ],
     'Comparison products' => 'Порівняння товарів',
     'Message for email alert' =>'В темі листа вказувати ID повідомлення обовязково.',
-    '' => '',
+    'dialog closed, contact administrator again' => 'Діалог закритий, зверніться повторно до адміністратора',
     '' => '',
 ];

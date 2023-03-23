@@ -55,10 +55,13 @@ class SendFromChatMail extends Mailable
 
     protected function makeSubject(): string
     {
-        return sprintf(
+        $re = '';
+        if(isset($this->data['re']))
+        $re = 'Re:';
+        return $re.sprintf(
             '#%d# %s',
             $this->data['userId'],
-            $this->data['name']
+            $this->data['subject']
         );
     }
 }

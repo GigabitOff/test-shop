@@ -38,6 +38,7 @@ class MailBoxReadEmail
         foreach ($messages as $message) {
 
             if ($chat = $this->extractRecipient($message)) {
+                //dd($chat);
                /* $customer->mailboxEmails()->updateOrCreate(
                     [
                         'uid' => $message->getUid(),
@@ -52,11 +53,12 @@ class MailBoxReadEmail
 
                 $forSaveMessage = $message->getHtmlBody();
 
-                $messages = $forSaveMessage->search('UNSEEN');
-                $forSaveMessage = end($messages);
+                    //$messages = $forSaveMessage->getLast();
+                    // $forSaveMessage = end($messages);
 
+                    $message->setFlag('seen');  // установка флага, что письмо прочитано
 
-                if ($chat) {
+                if ($chat AND $chat->closed == 0) {
                     $owner_id = $chat->customer_id;
                     $chat->messages()->create([
                         'owner_id' => $owner_id,
@@ -66,7 +68,15 @@ class MailBoxReadEmail
 
                    // $chat['message_email'] = $forSaveMessage;
 
-                    $this->sendMailMeneger($chat, $forSaveMessage);
+                    //$this->sendMailMeneger($chat, $forSaveMessage);
+                }else{
+                        $data['error'] = true;
+                    if(isset($chat->email)){
+                        $data['subject'] = $chat->subject;
+                        $data['userId'] = $chat->id;
+                        $res = Mail::to($chat->email)->send(new SendFromChatMail($data));
+                    }
+
                 }
 
 
@@ -88,11 +98,11 @@ class MailBoxReadEmail
 
             }
 
-            $message->setFlag('seen');  // установка флага, что письмо прочитано
 
 
         }
         } catch (\Throwable $th) {
+            logger(__METHOD__ . $th->getMessage());
 
         }
     }
@@ -117,32 +127,43 @@ class MailBoxReadEmail
 
     protected function sendMailMeneger($data,$message_email=''){
 
-        $data['message'] = $message_email;
-        //$data['popup'] = @$this->chat->popup->name;
-        $data['name'] = @$data->customer->id;
-        $data['subject'] = 'Відповідь на лист: ' . $data->subject;
+        try {
+
+            $data['message'] = $message_email;
+            //$data['popup'] = @$this->chat->popup->name;
+            $data['name'] = @$data->customer->id;
+            $data['subject'] = 'Відповідь на лист: ' . $data->subject;
 
 
-        if($data->manager)
-        $email = $data->manager->email;
-        
-        if(isset($email))
-        $res = Mail::to($email)->send(new SendFromChatMail($data));
+            if ($data->manager)
+                $email = $data->manager->email;
+
+            if (isset($email))
+                $res = Mail::to($email)->send(new SendFromChatMail($data));
+        } catch (\Throwable $th) {
+            logger(__METHOD__ . $th->getMessage());
+            //throw $th;
+        }
+
     }
 
 
     protected function cleanHtmlBody($html): string
     {
         // Добавляем пробел перед каждым тегом
-        $html = str_replace('<', ' <', $html);
+
+        $html_tmp = explode('From', $html)[0];
+        $html_tmp = explode('<br>', $html_tmp)[0];
+        $html = str_replace('<', ' <', $html_tmp);
 
         // Очищаем сообшение от цитат (копий исходного) и html тегов.
         $text = strip_tags(preg_replace('/<blockquote(.*)<\/blockquote>/ms', '', $html));
 
         // Заменяем 4-х байтовые символы символом U+FFFD (не удаляем, что бы избежать XSS)
         $text = preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $text);
-
+        $text = str_replace('&nbsp;', "", $text);
+        $text = preg_replace('/\s{2,}/', ' ', $text);
         // Удаляем лишние пробелы
-        return preg_replace('/\s{2,}/', ' ', $text);
+        return $text;
     }
 }

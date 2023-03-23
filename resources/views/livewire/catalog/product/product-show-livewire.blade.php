@@ -65,10 +65,7 @@
         <div class="product-full__info-actions-top">
           <div class="product-full__price">
             <div><span>@lang('custom::site.price product')</span><strong>{{$data->price_init}}<small>грн</small></strong></div>
-            <div>
-                <a href="#m-question2" data-bs-toggle="modal">Задати питання?</a>
-                <a href="#m-price" data-bs-toggle="modal">Стежити за ціной</a>
-            </div>
+            <div><a href="#m-question2" data-bs-toggle="modal">Задати питання?</a><a href="#m-price" data-bs-toggle="modal">Стежити за ціной</a></div>
           </div>
           <div class="product-full__btns-group">
             <div class="product-full__counter">
