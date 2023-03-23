@@ -28,6 +28,13 @@ class PageMainLivewire extends Component
         );
     }
 
+    public function productAttributeValuesId($product, $attribute_id)
+    {
+        $termsLine = $product->attributeValues
+            ->where('attribute_id', $attribute_id)
+            ->map->name->join(', ');
+    }
+
     public function productAttributeValuesLine($product, $attribute_id)
     {
         $termsLine = $product->attributeValues
@@ -35,6 +42,21 @@ class PageMainLivewire extends Component
             ->map->name->join(', ');
 
         return Str::limit($termsLine, 24);
+    }
+
+/**
+ * @param $product
+ * @param $attribute_id
+ * @param string
+ *
+ */
+    public function productAttributeValuesHash($product, $attribute_id)
+    {
+        return dechex(crc32(
+            $product->attributeValues
+                ->where('attribute_id', $attribute_id)
+                ->map->name->join('')
+        ));
     }
 
     public function productAttributeIdsLine($product)
