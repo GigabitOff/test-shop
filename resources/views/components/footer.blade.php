@@ -294,7 +294,7 @@
               <form action="#!">
                 <div class="form-group"><input class="form-control" type="text" name="fio" placeholder="ПІБ" required></div>
                 <div class="form-group"><input class="js-phone form-control" type="text" name="phone" placeholder="Номер телефону" required></div>
-                <div class="form-group"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-price2" data-bs-dismiss="modal">Надіслати</button></div>
+                <div class="form-group"><button class="button-accent w-100" type="button" data-bs-dismiss="modal">Надіслати</button></div>
               </form>
             </div>
           </div>
@@ -304,11 +304,11 @@
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Стежити за ціною<small>test.f-m.kiev.ua</small></h5><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+              <h5 class="modal-title">@lang('custom::site.watch_price')<small>@lang('custom::site.on_project_domain')</small></h5><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
               <div class="form-group mt-0">
-                <p class="text-lead">Дякуємо, як тільки ціна буде змінена, ви отримаєте повідомлення на вказаний вами номер.</p>
+                <p class="text-lead">@lang('custom::site.watch_price_success')</p>
               </div>
             </div>
           </div>
