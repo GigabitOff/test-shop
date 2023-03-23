@@ -43,7 +43,6 @@ class PageMainLivewire extends Component
 
         return Str::limit($termsLine, 24);
     }
-
 /**
  * @param $product
  * @param $attribute_id
