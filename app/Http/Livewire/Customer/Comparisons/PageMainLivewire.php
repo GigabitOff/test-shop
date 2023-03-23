@@ -49,6 +49,7 @@ class PageMainLivewire extends Component
  * @param string
  *
  */
+
     public function productAttributeValuesHash($product, $attribute_id)
     {
         return dechex(crc32(
