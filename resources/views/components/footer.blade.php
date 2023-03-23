@@ -1225,20 +1225,7 @@
         </div>
         <div class="modal fade" id="m-email">
             <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Введіть свій E-mail<small>deks.ua</small></h5><button class="btn-close" type="button" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="form-group">
-                                <p>Для відстеження вартості товару, введіть, будь ласка, E-mail, на який повинні надходити листи про зміни, та натисніть кнопку “Підтвердити”</p>
-                            </div>
-                            <div class="form-group"><input class="form-control" type="text" placeholder="E-mail"></div>
-                            <div class="form-group"><button class="button-accent w-100" type="submit">Підтвердити</button></div>
-                        </form>
-                    </div>
-                </div>
+                <livewire:forms.auth.set-email-livewire/>
             </div>
         </div>
 

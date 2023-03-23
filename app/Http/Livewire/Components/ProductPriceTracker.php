@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Components;
 
+use App\Models\ProductPriceTracking;
+use App\Models\User;
 use Livewire\Component;
 
 class ProductPriceTracker extends Component
@@ -10,7 +12,8 @@ class ProductPriceTracker extends Component
     public $user;
 
     public $listeners = [
-        'eventFollowPrice',
+        'eventFollowPrice' => 'followPrice',
+        'eventSaveTracking' => 'saveTracking',
     ];
 
     public function mount()
@@ -18,15 +21,18 @@ class ProductPriceTracker extends Component
         $this->user = auth()->user();
     }
 
-    public function eventFollowPrice($payload)
+    public function followPrice($payload)
     {
-        if (!$this->user) {
-            $this->dispatchBrowserEvent('loginBeforeSubscribeToFollowPrice', $payload['product_id']);
+        $product_id = $payload['product_id'];
+        /** @var User $user */
+        $user = auth()->user();
+        if (!$user) {
+            $this->dispatchBrowserEvent('loginBeforeSubscribeToFollowPrice', $product_id);
         } else {
-            if (empty($this->user->email)) {
-                $this->dispatchBrowserEvent('subscribeToFollowPrice', $payload['product_id']);
+            if (empty($user->email)) {
+                $this->emitTo('forms.auth.set-email-livewire', 'eventSetUserEmail', $user->id, $product_id );
             } else {
-                $this->dispatchBrowserEvent('successToFollowPrice');
+                $this->saveTracking($user->id, $product_id);
             }
         }
     }
@@ -34,5 +40,18 @@ class ProductPriceTracker extends Component
     public function render()
     {
         return view('livewire.components.product-price-tracker');
+    }
+
+    public function saveTracking($user_id, $product_id)
+    {
+        ProductPriceTracking::updateOrCreate(
+            [
+                'customer_id' => $user_id,
+                'product_id' => $product_id,
+            ], [
+                'product_id' => $product_id,
+            ]
+        );
+        $this->dispatchBrowserEvent('successToFollowPrice');
     }
 }
