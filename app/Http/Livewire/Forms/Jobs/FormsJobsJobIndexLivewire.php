@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Livewire\Forms\Products;
+namespace App\Http\Livewire\Forms\Jobs;
 
-use App\Mail\SendProductsAskQuestionMail;
+use App\Mail\SendFormsJobsJobIndexMail;
 use App\Models\Chat;
 use App\Models\Contuct;
 use App\Models\Popup;
@@ -10,17 +10,21 @@ use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Illuminate\Support\Facades\Mail;
 use App\Models\User;
-use Illuminate\Validation\Rule;
-class FormsProductsAskQuestionLivewire extends Component
+use Livewire\WithFileUploads;
+use App\Http\Livewire\BaseSiteComponentLivewire;
+
+class FormsJobsJobIndexLivewire extends BaseSiteComponentLivewire
 {
+    use WithFileUploads;
 
     public $data,
-        $popup_id=2,
+        $popup_id=5,
         $emailSend,
         $chat_id,
         $subject = 'Повідомлення з попап',
         $product_data,
         $popup;
+
     public ?int $departmentId = null;
     public array $departmentList = [];
 
@@ -35,6 +39,8 @@ class FormsProductsAskQuestionLivewire extends Component
     public function mount()
     {
         $this->data['popup_id'] = $this->popup_id;
+
+        $this->popupData = Popup::find($this->popup_id);
 
         if (!$this->emailSend)
         $this->emailSend = settingsData('main_email_for_send', true);
@@ -54,7 +60,7 @@ class FormsProductsAskQuestionLivewire extends Component
 
     public function render()
     {
-        return view('livewire.forms.products.forms-products-ask-question-livewire');
+        return view('livewire.forms.jobs.forms-jobs-job-index-livewire');
     }
 
 
@@ -70,11 +76,9 @@ class FormsProductsAskQuestionLivewire extends Component
         $this->validate();
 
         $managers = $this->getManagers($this->popup_id);
-        $popup = Popup::where('id',$this->popup)->first();
+        $popup = $this->popupData;
         //dd($this->popup);
         $customer_id = null;
-
-        $this->subject = 'Повідомлення з попап';
 
         $customer = $this->getCustomers();
 
@@ -84,13 +88,12 @@ class FormsProductsAskQuestionLivewire extends Component
         if (!$popup) {
             $this->popup_id = null;
         } else {
-            if($this->product_data){
-                $this->subject = $popup->name .' №'. $this->product_data->id;
+            if(isset($this->data['job'])){
+                $this->subject = $popup->name .' №'. $this->data['job']->id;
             }else{
                 $this->subject = $popup->name;
 
             }
-            $this->popup_id = $this->popup;
         }
 
         if(isset(auth()->user()->id))
@@ -103,7 +106,6 @@ class FormsProductsAskQuestionLivewire extends Component
             $chat = Chat::create([
                 'customer_id' => $customer_id,
                 'fio' => $this->data['fio'],
-                'answer_owner' => 1,
                 'subtitle' => $this->subject,
                 'popup_id' => $this->popup_id,
                 'email' => $this->data['email'],
@@ -182,6 +184,9 @@ class FormsProductsAskQuestionLivewire extends Component
         if($this->data['message'])
         $data['message'] = $this->data['message'];
 
+        if ($this->data['files'])
+        $data['files'] = $this->data['files'];
+
         if($this->product_data)
         $data['product'] = $this->product_data->toArray();
         $data['name'] = $this->data['fio'];
@@ -202,14 +207,14 @@ class FormsProductsAskQuestionLivewire extends Component
                // if(isset($value['email'])){
                // $manager['email'] = 'v.makarenko@fairtech.group';//$value['email'];
 
-                Mail::to($manager['email'])->send(new SendProductsAskQuestionMail($data));
+                Mail::to($manager['email'])->send(new SendFormsJobsJobIndexMail($data));
                 //}
 
                 //$this->data['id_users'][$value['id']] = $value['id'];
             }
         }
     } else {
-        $item = Mail::to($this->emailSend)->send(new SendProductsAskQuestionMail($data));
+        $item = Mail::to($this->emailSend)->send(new SendFormsJobsJobIndexMail($data));
     }
     }
 
@@ -224,10 +229,9 @@ class FormsProductsAskQuestionLivewire extends Component
 
     protected function resetForm()
     {
-        $this->reset('data', 'popup');
-        $this->popup_id;
+        $this->reset('data');
 
         $this->resetValidation();
-        $this->dispatchBrowserEvent('reset_departmentId_toDefault');
+        $this->dispatchBrowserEvent('resetForm');
     }
 }

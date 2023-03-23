@@ -8,16 +8,20 @@
     <div class="modal-body">
         <form wire:submit.prevent="submit" enctype="multipart/form-data">
         <div class="form-group"><input class="form-control" type="text"  wire:model.lazy="fio"
-                                       placeholder="@lang('custom::site.fio')" name="fio"
-                                       required>
+                    placeholder="@lang('custom::site.fio')" name="fio"
+                    required>
             @error('fio')
             <div class="invalid-feedback" style="display:block;">{{$message}}</div>
             @enderror
         </div>
-        <div class="form-group"><input class="js-phone-short form-control" type="text"
-                                       value="{{$phoneRaw}}"
-                                       onchange="@this.set('phoneRaw', this.value)"
-                                       name="phone" placeholder="@lang('custom::site.phone')" required>
+        <input class="form-control" type="hidden" name="fio"
+                wire:model.defer="data.popup_id"
+                placeholder="popup id" required>
+        <div class="form-group">
+            <input class="js-phone-short form-control" type="text"
+                value="{{$phoneRaw}}"
+                onchange="@this.set('phoneRaw', this.value)"
+                name="phone" placeholder="@lang('custom::site.phone')" required>
             @error('phone')
             <div class="invalid-feedback" style="display:block;">{{$message}}</div>
             @enderror
