@@ -9,7 +9,10 @@
                 <img src="{{$product->brandImageUrl}}" alt="logo-brand">
             @endif
         </div>
-        <div class="js-product-full product-full-slider">
+        @php
+        $imgCls = ($images->isEmpty() || count($images) == 1) ? 'js-product-full-single' : 'js-product-full';
+        @endphp
+        <div class="{{$imgCls}} product-full-slider">
             <div class="swiper">
                 <div class="swiper-wrapper">
                     @forelse($images as $key=>$image)
