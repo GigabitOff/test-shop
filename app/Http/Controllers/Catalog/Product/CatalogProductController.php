@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Catalog\Product;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\Review;
+use App\Models\ProductPriceTracking;
 use App\Services\LayoutDetectorService;
 use Illuminate\Http\Request;
 use App\Models\Product;
@@ -79,6 +79,17 @@ class CatalogProductController extends Controller
         $category = $category ?? $data->categories()->first();
 
         $breadcrumbs = $service->makeCatalogBreadcrumbsList($category, true);
+
+        $data->showPriceTracking = true;
+        if (auth()->user()) {
+            $tracker = ProductPriceTracking::where([
+                'customer_id' => auth()->user()->id,
+                'product_id' => $data->id,
+            ])->first();
+            if (!empty($tracker)) {
+                $data->showPriceTracking = false;
+            }
+        }
 
         return view('catalog.product.show', compact('id', 'data', 'breadcrumbs', 'images', 'layout'));
     }

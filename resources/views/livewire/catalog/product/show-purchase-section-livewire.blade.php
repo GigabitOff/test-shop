@@ -82,7 +82,9 @@
                     </div>
                     <div>
                         <a href="#m-question2" data-bs-toggle="modal">@lang('custom::site.ask_a_question')?</a>
+                        @if($product->showPriceTracking)
                         <livewire:components.product-price-tracker :product_id="$product->id" />
+                        @endif
                     </div>
                 </div>
                 <div class="product-full__btns-group">

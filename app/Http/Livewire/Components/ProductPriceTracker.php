@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Components;
 
+use App\Models\Product;
 use App\Models\ProductPriceTracking;
 use App\Models\User;
 use Livewire\Component;
