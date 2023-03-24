@@ -1,5 +1,5 @@
 <div class="modal fade" id="m-select-color" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-color-picker">
+    <div class="modal-dialog modal-dialog-centered modal-color-picker" wire:ignore>
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">@lang('custom::admin.color_selector')</h5>

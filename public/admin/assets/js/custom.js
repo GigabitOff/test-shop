@@ -188,5 +188,58 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Підключення відтворювача до контексту Web Audio
             audioSrc.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
+gainNode.connect(audioCtx.destination);
+
+
+ if (document.getElementById("wheelPicker")) {
+    const wheelPicker = new iro.ColorPicker("#wheelPicker", {
+      width: 250,
+      color: '#D4014C',
+      display: 'grid',
+      margin: 0,
+      handleRadius: 15,
+      layout: [{
+        component: iro.ui.Wheel
+      }, {
+        component: iro.ui.Slider,
+        options: {
+          sliderType: 'saturation',
+          handleRadius: 12
+        }
+      }, {
+        component: iro.ui.Slider,
+        options: {
+          sliderType: 'value',
+          handleRadius: 12
+        }
+      }]
+    });
+    const colorInput = document.querySelector('.select-color-input');
+    colorInput.addEventListener('change', function () {
+      wheelPicker.color.hexString = this.value;
+    });
+    wheelPicker.on('color:change', function (color) {
+      // if the first color changed
+      if (color.index === 0) {
+        // log the color index and hex value
+        const previweColor = document.querySelector('.select-color-previve');
+        const previweColorInner = document.querySelector('.select-color-previve__inner');
+        const selectedColor = color.hexString;
+        colorInput.value = selectedColor.toUpperCase();
+        previweColor.style.background = selectedColor;
+        previweColorInner.style.background = selectedColor;
+      }
+    });
+
+    if (document.querySelector('.color-button')) {
+      const selectColorButton = document.querySelector('.button-select-color'),
+            colorButton = document.querySelector('.color-button'),
+            colorPreviwe = colorButton.querySelector('.color-button__preview'),
+            colorHolder = colorButton.querySelector('.color-button__color');
+      selectColorButton.addEventListener('click', function () {
+        colorHolder.innerHTML = wheelPicker.color.hexString.toUpperCase();
+        colorPreviwe.style.background = wheelPicker.color.hexString;
+      });
+    }
+  }
 
