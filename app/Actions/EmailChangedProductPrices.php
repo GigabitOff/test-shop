@@ -13,19 +13,9 @@ class EmailChangedProductPrices
         $users = ProductPriceTracking::with('customer')->get()->pluck('customer', 'customer_id');
         foreach ($users as $user) {
             $products = new Collection();
-            foreach ($user->trackingProducts as &$trackingProduct) {
+            foreach ($user->trackingProducts as $trackingProduct) {
                 /** @var Product $product */
-                $product = $trackingProduct->product
-                    ->with([
-                        'categories.translations',
-                        'brand.images',
-                    ])
-                    ->with([
-                        'translations' => function ($q) {
-                            $q->where('locale', config('app.fallback_locale'));
-                        },
-                    ])
-                    ->firstOrFail();
+                $product = $trackingProduct->product;
                 $priceField = Product::getPriceFieldWithParams($user, $product->price_sale, $product->price_wholesale,
                     $product->price_sale_show);
                 if (!empty($product->$priceField) && $trackingProduct->product_price != $product->$priceField) {

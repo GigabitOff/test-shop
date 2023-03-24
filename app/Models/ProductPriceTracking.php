@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ProductPriceTracking extends Model
@@ -18,7 +17,20 @@ class ProductPriceTracking extends Model
 
     public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class)
+            ->with([
+                'translations' => function ($q) {
+                    $q->where('locale', config('app.fallback_locale'));
+                },
+            ])
+            ->with([
+                'categories.translations' => function ($q) {
+                    $q->where('locale', config('app.fallback_locale'));
+                },
+            ])
+            ->with([
+                'brand.images',
+            ]);
     }
 
     public function customer()
