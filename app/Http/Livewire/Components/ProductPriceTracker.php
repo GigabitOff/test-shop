@@ -33,9 +33,9 @@ class ProductPriceTracker extends Component
             $this->dispatchBrowserEvent('loginBeforeSubscribeToFollowPrice');
         } else {
             if (empty($user->email)) {
-                $this->emitTo('forms.auth.set-email-livewire', 'eventSetUserEmail', $user->id, $product_id);
+                $this->emitTo('forms.auth.set-email-livewire', 'eventSetUserEmail', $user->id, $product_id, $price);
             } else {
-                $this->saveTracking($user->id, $product_id, $price);
+                $this->saveTracking($user->id, $product_id, $price, true);
             }
         }
     }
@@ -45,7 +45,7 @@ class ProductPriceTracker extends Component
         return view('livewire.components.product-price-tracker');
     }
 
-    public function saveTracking($user_id, $product_id, $price)
+    public function saveTracking($user_id, $product_id, $price, $clearSession = false)
     {
         ProductPriceTracking::updateOrCreate(
             [
@@ -55,7 +55,9 @@ class ProductPriceTracker extends Component
                 'product_price' => $price,
             ]
         );
-        session(['followPriceProductId' => 0]);
+        if ($clearSession) {
+            session(['followPriceProductId' => 0]);
+        }
         $this->dispatchBrowserEvent('successToFollowPrice');
     }
 }

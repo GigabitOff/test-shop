@@ -10,6 +10,7 @@ class SetEmailLivewire extends Component
     public string $email = '';
     public int $user_id;
     public int $product_id;
+    public int $price;
 
     public $listeners = [
         'eventSetUserEmail'
@@ -24,10 +25,11 @@ class SetEmailLivewire extends Component
         return view('livewire.forms.auth.set-email-livewire');
     }
 
-    public function eventSetUserEmail($user_id, $product_id)
+    public function eventSetUserEmail($user_id, $product_id, $price)
     {
         $this->user_id = $user_id;
         $this->product_id = $product_id;
+        $this->price = $price;
         $this->dispatchBrowserEvent('subscribeToFollowPrice');
     }
 
@@ -37,6 +39,6 @@ class SetEmailLivewire extends Component
         $user = User::where('id', $this->user_id)->firstOrFail();
         $user->email = $this->email;
         $user->save();
-        $this->emitTo('components.product-price-tracker', 'eventSaveTracking', $this->user_id, $this->product_id);
+        $this->emitTo('components.product-price-tracker', 'eventSaveTracking', $this->user_id, $this->product_id, $this->price);
     }
 }

@@ -31,6 +31,8 @@ class LogSuccessfulLogout
                 ->where('IP', request()->ip())
                 ->where('session_id', session()->getId())
                 ->update(['logout_at' => now()]);
+
+            session(['followPriceProductId' => 0]);
         }
     }
 }

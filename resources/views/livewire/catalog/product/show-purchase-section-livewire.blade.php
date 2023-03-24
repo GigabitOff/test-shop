@@ -189,18 +189,20 @@
 </div>
 @push('custom-scripts')
     <script>
+        var follow_product_id = {{$product->follow_product_id}};
+        let price2Window = $('#m-price2');
         function showThankYouPage() {
-            $('#m-price2').modal('show');
+            follow_product_id = 0;
+            price2Window.modal('show');
             $('#followPriceLink').hide();
         }
         window.addEventListener('loginBeforeSubscribeToFollowPrice', () => $('#m-login').modal('show'));
         window.addEventListener('subscribeToFollowPrice', () => $('#m-email').modal('show'));
-        window.addEventListener('successToFollowPrice', showThankYouPage);
+        window.addEventListener('successToFollowPrice', () => {
+            showThankYouPage();
+        });
         window.addEventListener('userIsSuccessfullyLoggedIn', () => {
-            if ({{$product->follow_product_id}} !== 0)
-            {
-                Livewire.emit('eventFollowPrice', {'product_id': {{$product->id}}, 'price': {{$followPrice}} });
-            }
+            Livewire.emit('eventFollowPrice', {'product_id': {{$product->id}}, 'price': {{$followPrice}} });
         });
         jQuery(document).ready(function ($) {
             $('body').on('click', '.btn-close, .button-accent.w-100', function (event) {
@@ -214,7 +216,7 @@
                     popupInput[input].value = '';
                 });
             });
-            if ({{$product->follow_product_id}} !== 0) {
+            if (follow_product_id !== 0) {
                 showThankYouPage();
             }
         });
