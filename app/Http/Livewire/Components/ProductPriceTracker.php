@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Components;
 
-use App\Models\Product;
 use App\Models\ProductPriceTracking;
 use App\Models\User;
 use Livewire\Component;
@@ -25,6 +24,7 @@ class ProductPriceTracker extends Component
     public function followPrice($payload)
     {
         $product_id = $payload['product_id'];
+        session(['followPriceProductId' => $product_id]);
         /** @var User $user */
         $user = auth()->user();
         if (!$user) {
@@ -53,6 +53,7 @@ class ProductPriceTracker extends Component
                 'product_id' => $product_id,
             ]
         );
+        session(['followPriceProductId' => 0]);
         $this->dispatchBrowserEvent('successToFollowPrice');
     }
 }

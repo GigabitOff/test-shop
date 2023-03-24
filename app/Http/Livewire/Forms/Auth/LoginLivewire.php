@@ -87,6 +87,8 @@ class LoginLivewire extends Component
                 $this->shouldSkipRender = false;
 
                 $this->service->clearFailedLogins($this->phone);
+                $this->dispatchBrowserEvent('userIsSuccessfullyLoggedIn');
+
                 return;
             }
         } else {

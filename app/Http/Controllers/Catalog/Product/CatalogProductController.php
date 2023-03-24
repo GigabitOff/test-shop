@@ -90,6 +90,7 @@ class CatalogProductController extends Controller
                 $data->showPriceTracking = false;
             }
         }
+        $data->follow_product_id = session('followPriceProductId', 0);
 
         return view('catalog.product.show', compact('id', 'data', 'breadcrumbs', 'images', 'layout'));
     }

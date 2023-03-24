@@ -188,6 +188,18 @@
 </div>
 @push('custom-scripts')
     <script>
+        function showThankYouPage() {
+            $('#m-price2').modal('show');
+            $('#followPriceLink').hide();
+        }
+        window.addEventListener('loginBeforeSubscribeToFollowPrice', product_id => {
+            $('#m-login').modal('show');
+        });
+        window.addEventListener('subscribeToFollowPrice', () => $('#m-email').modal('show'));
+        window.addEventListener('successToFollowPrice', showThankYouPage);
+        window.addEventListener('userIsSuccessfullyLoggedIn', () => {
+            Livewire.emit('eventFollowPrice', {'product_id' : {{$product->id}} });
+        }, false);
         jQuery(document).ready(function ($) {
             $('body').on('click', '.btn-close, .button-accent.w-100', function (event) {
                 var modal = $(this).closest('.modal-content'),
@@ -200,8 +212,10 @@
                     popupInput[input].value = '';
                 });
             });
+            if ({{$product->follow_product_id}} !== 0) {
+                showThankYouPage();
+            }
         });
-
         //# sourceURL=show-purchase-section-livewire.js
     </script>
 @endpush
