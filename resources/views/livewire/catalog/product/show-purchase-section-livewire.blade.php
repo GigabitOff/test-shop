@@ -1,5 +1,6 @@
 @php
     /** @var \App\Models\Product $product */
+    $followPrice = formatMoney($price);
 @endphp
 <div class="product-full-box --info">
     <div class="product-full__labels">
@@ -83,7 +84,7 @@
                     <div>
                         <a href="#m-question2" data-bs-toggle="modal">@lang('custom::site.ask_a_question')?</a>
                         @if($product->showPriceTracking)
-                        <livewire:components.product-price-tracker :product_id="$product->id" />
+                        <livewire:components.product-price-tracker :product_id="$product->id" :price="$followPrice" />
                         @endif
                     </div>
                 </div>
@@ -192,14 +193,15 @@
             $('#m-price2').modal('show');
             $('#followPriceLink').hide();
         }
-        window.addEventListener('loginBeforeSubscribeToFollowPrice', product_id => {
-            $('#m-login').modal('show');
-        });
+        window.addEventListener('loginBeforeSubscribeToFollowPrice', () => $('#m-login').modal('show'));
         window.addEventListener('subscribeToFollowPrice', () => $('#m-email').modal('show'));
         window.addEventListener('successToFollowPrice', showThankYouPage);
         window.addEventListener('userIsSuccessfullyLoggedIn', () => {
-            Livewire.emit('eventFollowPrice', {'product_id' : {{$product->id}} });
-        }, false);
+            if ({{$product->follow_product_id}} !== 0)
+            {
+                Livewire.emit('eventFollowPrice', {'product_id': {{$product->id}}, 'price': {{$followPrice}} });
+            }
+        });
         jQuery(document).ready(function ($) {
             $('body').on('click', '.btn-close, .button-accent.w-100', function (event) {
                 var modal = $(this).closest('.modal-content'),
