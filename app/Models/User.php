@@ -475,4 +475,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(MailboxEmail::class, 'customer_id', 'id');
     }
+
+    public function trackingProducts()
+    {
+        return $this->hasMany(ProductPriceTracking::class, 'customer_id')->with('product');
+    }
 }

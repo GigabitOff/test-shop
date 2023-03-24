@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Actions\DeleteExpiredUserProxies;
 use App\Actions\DeleteExpiredPriceTypes;
 use App\Actions\DeleteUnusedCategoryAttribute;
+use App\Actions\EmailChangedProductPrices;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -34,6 +35,7 @@ class Kernel extends ConsoleKernel
 //        $schedule->call(new DeleteExpiredPriceTypes())->dailyAt('3:00');
 //        $schedule->call(new DeleteExpiredUserProxies())->dailyAt('3:00');
 //        $schedule->call(new DeleteUnusedCategoryAttribute())->monthly();
+//        $schedule->call(new EmailChangedProductPrices())->cron('0 8,14,20 * * *');
         $schedule->call(new DeleteUnusedCategoryAttribute())->daily();
     }
 
