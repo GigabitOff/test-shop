@@ -146,7 +146,6 @@ class MetaBlockLivewire extends Component
             'postpaidSum' => $this->postpaidSum,
         ]);
     }
-
     public function rules(): array
     {
         $rules = [
