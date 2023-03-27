@@ -126,8 +126,8 @@ class PageMainLivewire extends Component
     public function setPerPage($value)
     {
 
-            session()->put('perPageD', $value);
-            $this->perPageD = $value;
+        session()->put('perPageD', $value);
+        $this->perPageD = $value;
 
         $this->resetPage();
         $this->revalidateTable = true;
@@ -221,7 +221,6 @@ class PageMainLivewire extends Component
             cart()->setPriceAdded($product->id, $product->price);
         }
     }
-
 
     protected function expandProductOffer(Product $product)
     {
@@ -393,27 +392,32 @@ class PageMainLivewire extends Component
             $this->recalculateCashbackToUse();
             return;
         }
-
-//        if (!$this->phoneVerifiedAttempt && !$this->customer->isPhoneVerified()) {
-//            $this->dispatchBrowserEvent('showPhoneVerifiedPhonePopup', ['phone' => $this->customer->phone]);
-//            $this->skipRender();
-//            $this->phoneVerifiedAttempt = true;
-//            return;
-//        }
         try {
             DB::beginTransaction();
-
             $paymentType = PaymentType::find($payload['paymentTypeId']);
 
-            if (!$payload['recipientId'] && $payload['recipientName']) {
-                $recipient = CustomerRecipient::create([
-                    'customer_id' => $this->customer->id,
-                    'name' => $payload['recipientName'],
-                    'recipient' => $payload['recipientINN'],
-                ]);
-                $payload['recipientId'] = $recipient->id;
+            switch ($paymentType["id"]) {
+                case 3:
+                    return redirect()->to('https://www.liqpay.ua/uk/');
+                case 2:
+                    $recipient = CustomerRecipient::create([
+                        'customer_id' => $this->customer->id,
+                        'inn' => $payload['recipientINN'],
+                        'phone' => $payload['phone'],
+                        'name' => $payload['recipientFIO'],
+                    ]);
+                    break;
+                case 1:
+                    $recipient = CustomerRecipient::create([
+                        'customer_id' => $this->customer->id,
+                        'phone' => $payload['phone'],
+                    ]);
+                    break;
+                default:
+                    break;
             }
 
+            $payload['recipientId'] = $recipient->id;
             if (!$payload['deliveryId']) {
                 $delivery = new DeliveryAddress();
                 $delivery->fill($payload['deliveryData']);
@@ -434,31 +438,27 @@ class PageMainLivewire extends Component
             $order->payment_type_id = $payload['paymentTypeId'];
             //$order->contract_id = $payload['contractId'] ?? null;
             $order->type_payment = $paymentType->code ?? null;
-            $order->recipient_id = $payload['recipientId'];
+            $order->recipient_id =  $payload['recipientId'];
             $order->delivery_address_id = $payload['deliveryId'];
             $order->callback_off = $this->callback_off;
             $order->cashback_used = $this->cashbackUsed;
             $order->comment = $payload['comment'];
+            $order->phone = $payload['phone'];
             $order->manager_id = $this->customer->manager_id;
             $order->status_id = $this->callback_off
                 ? OrderStatusType::STATUS_PROCESSING
                 : OrderStatusType::STATUS_NEW;
-
             if ($order->payment_type_id === PaymentType::POSTPAID
                 && $receivable = $this->customer->receivable) {
                 $order->debt_sum = $payload['postpaidSum'];
                 $order->debt_end_at = Carbon::now()->addDays($receivable->otsrochka_days);
             }
-
             $order->save();
-
             // Todo: наладить списание кэшбека
 //            if ($this->cashbackUsed) {
 //                cashback()->expenseCashback($this->customer, $this->cashbackUsed);
 //            }
-
             DB::commit();
-
 //            if (orders()->hasOrderProductAmountVerifiable($order)) {
 //                $this->dispatchBrowserEvent('flashMessage', [
 //                    'title' => __('custom::site.order'),
@@ -472,7 +472,6 @@ class PageMainLivewire extends Component
                 'state' => 'success'
             ]);
 //            }
-
             $this->recalculateCashbackToUse();
             $this->reset(['cashbackUsed', 'cashbackToUse']);
             $this->emit('eventOrderCreateSuccess');

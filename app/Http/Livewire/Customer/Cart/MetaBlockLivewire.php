@@ -8,7 +8,6 @@ use App\Models\PaymentType;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Livewire\Component;
-
 class MetaBlockLivewire extends Component
 {
     public ?User $customer = null;
@@ -20,9 +19,13 @@ class MetaBlockLivewire extends Component
     public ?int $contractId = null;
     public ?string $contractName = null;
     public ?int $recipientId = null;
+    public ?string $recipientNa = null;
     public ?string $recipientName = null;
+    public ?string $recipientPhone = null;
+    public ?string $phone = null;
     public ?string $recipientINN = null;
     public ?string $postpaidSum = null;
+    public ?string $recipientFIO = null;
 
     public array $deliveryData = [];
 
@@ -38,9 +41,11 @@ class MetaBlockLivewire extends Component
         'eventSetOrderDeliveryType',
         'eventSetOrderDeliveryData',
         'eventSetOrderRecipient',
+        'eventSetOrderRecipientPhone',
         'eventClearOrderDelivery',
         'eventOrderCreateSuccess',
     ];
+
 
     public function mount(Request $request)
     {
@@ -72,7 +77,7 @@ class MetaBlockLivewire extends Component
     public function resetMetaToDefault()
     {
         $this->reset('paymentTypeId', 'paymentTypeName', 'counterpartyId', 'contractId', 'contractName');
-        $this->reset('recipientId', 'recipientName', 'recipientINN', 'postpaidSum');
+        $this->reset('recipientId', 'recipientName', 'recipientPhone',  'recipientINN', 'postpaidSum');
         $this->reset('deliveryData');
         $this->initValues();
     }
@@ -105,9 +110,19 @@ class MetaBlockLivewire extends Component
 
     public function eventSetOrderRecipient($id, $name)
     {
+
         $this->recipientName = $name;
         $this->recipientId = $id;
+
     }
+    public function eventSetOrderRecipientPhone($id, $name)
+    {
+
+        $this->recipientPhone = $name;
+        $this->recipientId = $id;
+
+    }
+
 
     public function eventSetOrderDeliveryData($payload)
     {
@@ -130,22 +145,23 @@ class MetaBlockLivewire extends Component
         $this->hideValidationErrors = false;
 
         $this->deliveryValid = collect($this->deliveryData)->filter()->join('');
-
         $this->validate();
-
         $this->emitUp('eventCreateOrder', [
             'paymentTypeId' => $this->paymentTypeId,
             //'contractId' => $this->contractId,
             'recipientId' => $this->recipientId,
             'recipientName' => $this->recipientName,
             'recipientINN' => $this->recipientINN,
+            'recipientFIO' => $this->recipientFIO,
             'deliveryType' => $this->deliveryType,
             'deliveryId' => $this->deliveryData['delivery_id'] ?? null,
             'deliveryData' => $this->deliveryData,
             'comment' => $this->comment,
             'postpaidSum' => $this->postpaidSum,
+            'phone' =>  $this->recipientPhone
         ]);
     }
+
     public function rules(): array
     {
         $rules = [
@@ -158,7 +174,7 @@ class MetaBlockLivewire extends Component
 //        }
 
         if ($this->customer->isCustomerSimple && $this->isPaymentTypeInvoice()) {
-            $rules['recipientName'] = 'required';
+            $rules['recipientNa'] = 'required';
             $rules['recipientINN'] = 'required';
         }
 
@@ -185,7 +201,7 @@ class MetaBlockLivewire extends Component
     public function validationAttributes(): array
     {
         return [
-            'recipientName' => __('custom::site.recipient'),
+            'recipientNa' => __('custom::site.recipient'),
             'recipientINN' => __('custom::site.client_tax_number'),
             'postpaidSum' => __('custom::site.postpaid'),
         ];
@@ -230,7 +246,7 @@ class MetaBlockLivewire extends Component
             ? empty($this->contractId)
             : (empty($this->paymentTypeId) ||
                 ($this->paymentTypeId === PaymentType::INVOICE &&
-                    (empty($this->recipientINN) || empty($this->recipientName))
+                    (empty($this->recipientINN) ||  empty($this->recipientNa))
                 )
             );
     }
