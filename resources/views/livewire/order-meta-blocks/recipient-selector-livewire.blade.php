@@ -10,7 +10,7 @@
                 <ul class="drop-list">
                     @foreach($recipients as $id => $name)
                         <li class="drop-list-item" onclick="@this.setClient({{$id}}, '{{$name}}')"
-                                >{{$name}}
+                        >{{$name}}
                         </li>
                     @endforeach
                 </ul>

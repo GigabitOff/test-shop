@@ -35,9 +35,10 @@ class RecipientSelectorLivewire extends Component
         $this->isOpen = true;
         $this->recipientId = null;
     }
-
+//Эта срабатывает когда выбрал из списка
     public function setClient($id, $name)
     {
+
         $this->recipientId = $id;
         $this->recipientName = $name;
         $this->emit('eventSetOrderRecipient', $id, $name);
@@ -45,6 +46,8 @@ class RecipientSelectorLivewire extends Component
 
     public function setName()
     {
+        ////Эта срабатывает для поля
+
         $this->emit('eventSetOrderRecipient', $this->recipientId, $this->recipientName);
     }
 

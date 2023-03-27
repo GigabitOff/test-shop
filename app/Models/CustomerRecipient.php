@@ -11,7 +11,7 @@ class CustomerRecipient extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['customer_id', 'name', 'delivery_address_id', 'inn'];
+    protected $fillable = ['customer_id', 'name', 'delivery_address_id', 'phone', 'inn'];
 
     public function customer()
     {
