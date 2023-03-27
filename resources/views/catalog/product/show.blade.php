@@ -1,7 +1,9 @@
 <x-app-layout>
+@if(!empty($data->seo_canonical))
 @push('canonical')
-<link rel=“canonical” href=”/sample/” />
+<link rel=“canonical” href=”{{$data->seo_canonical}}” />
 @endpush
+@endif
     <main class="page-main page-product">
         <x-breadcrumbs
             :list="$breadcrumbs"
