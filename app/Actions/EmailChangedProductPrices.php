@@ -2,9 +2,10 @@
 
 namespace App\Actions;
 
+use App\Mail\ChangedProductPrices;
 use App\Models\Product;
 use App\Models\ProductPriceTracking;
-use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Mail;
 
 class EmailChangedProductPrices
 {
@@ -12,7 +13,7 @@ class EmailChangedProductPrices
     {
         $users = ProductPriceTracking::with('customer')->get()->pluck('customer', 'customer_id');
         foreach ($users as $user) {
-            $products = new Collection();
+            $categories = [];
             foreach ($user->trackingProducts as $trackingProduct) {
                 /** @var Product $product */
                 $product = $trackingProduct->product;
@@ -21,12 +22,19 @@ class EmailChangedProductPrices
                 if (!empty($product->$priceField) && $trackingProduct->product_price != $product->$priceField) {
                     $product->old_price = $trackingProduct->product_price;
                     $product->new_price = $product->$priceField;
-                    $products->add($product);
+                    $categories[$product->category_id ?? 0][] = $product;
+                    ProductPriceTracking::where(
+                        [
+                            'customer_id' => $trackingProduct->customer_id,
+                            'product_id' => $trackingProduct->product_id,
+                        ]
+                    )->update([
+                        'product_price' => $product->new_price,
+                    ]);
                 }
             }
-            if ($products->isNotEmpty()) {
-                // TODO: generate & send email
-                // $view = view('', compact('user', 'products'));
+            if (!empty($categories)) {
+                Mail::to($user->email)->send(new ChangedProductPrices($user, $categories));
             }
         }
     }

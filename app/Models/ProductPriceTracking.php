@@ -29,6 +29,11 @@ class ProductPriceTracking extends Model
                 },
             ])
             ->with([
+                'brand.translations' => function ($q) {
+                    $q->where('locale', config('app.fallback_locale'));
+                },
+            ])
+            ->with([
                 'brand.images',
             ]);
     }
