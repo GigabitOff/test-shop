@@ -19,6 +19,7 @@ class ShowPurchaseSectionLivewire extends Component
     public array $selectorAttributes = [];
     public $quantity;
     public $price;
+    public $action;
 
     public function mount()
     {

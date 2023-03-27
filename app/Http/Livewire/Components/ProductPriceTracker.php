@@ -49,10 +49,11 @@ class ProductPriceTracker extends Component
     {
         ProductPriceTracking::updateOrCreate(
             [
-                'customer_id'   => $user_id,
-                'product_id'    => $product_id,
+                'customer_id' => $user_id,
+                'product_id'  => $product_id,
             ], [
                 'product_price' => $price,
+                'hash'          => sha1(sprintf('%d-%d-%.2f', $user_id, $product_id, $price)),
             ]
         );
         if ($clearSession) {

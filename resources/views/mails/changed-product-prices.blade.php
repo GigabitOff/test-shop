@@ -326,7 +326,7 @@
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                             <tr>
                                 <td style="padding-bottom: 17px">
-                                    <h2 class="title-main">@lang('custom::site.nice_day'), {{$user->name}}</h2>
+                                    <h2 class="title-main">@lang('custom::site.hey'), {{$user->name}}</h2>
                                     <p>@lang('custom::site.changed_price_message')</p>
                                 </td>
                             </tr>
@@ -374,7 +374,7 @@
                                                         <td>
                                                             <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btns-grop">
                                                                 <tr>
-                                                                    <td><a href="{{route('products.show', ['product'=>$product->slug])}}" class="btn">@lang('custom::site.Buy')</a><a href="{{route('products.show', ['product'=>$product->slug])}}" style="display: inline-block; height: 45px; width: 45px; border: 1.5px solid #FFAE00; overflow: hidden; padding-top: 8px; font-size: 14px; font-weight: 700; max-width: 100%; margin-right: 10px; border-radius: 30px; line-height: 41px; text-decoration: none; box-sizing: border-box; text-align: center"><img src="{{asset('assets/img/eye.svg')}}" alt="eye" width="25" height="25" /></a></a><a href="{{route('products.show', ['product'=>$product->slug])}}" style="display: inline-block; height: 45px; width: 45px; background: #F8F9FA; overflow: hidden; padding-top: 8px; font-size: 14px; font-weight: 700; max-width: 100%; border-radius: 30px; line-height: 41px; text-decoration: none; box-sizing: border-box; text-align: center"><img src="{{asset('assets/img/eye-slash.svg')}}" alt="eye" width="25" height="25" /></a></td>
+                                                                    <td><a href="{{route('products.show', ['product'=>$product->slug])}}?add-to-cart=true" class="btn">@lang('custom::site.Buy')</a><a href="{{route('products.show', ['product'=>$product->slug])}}" style="display: inline-block; height: 45px; width: 45px; border: 1.5px solid #FFAE00; overflow: hidden; padding-top: 8px; font-size: 14px; font-weight: 700; max-width: 100%; margin-right: 10px; border-radius: 30px; line-height: 41px; text-decoration: none; box-sizing: border-box; text-align: center"><img src="{{asset('assets/img/eye.svg')}}" alt="eye" width="25" height="25" /></a></a><a href="{{route('products.show', ['product'=>$product->slug])}}?unsubscribe=true" style="display: inline-block; height: 45px; width: 45px; background: #F8F9FA; overflow: hidden; padding-top: 8px; font-size: 14px; font-weight: 700; max-width: 100%; border-radius: 30px; line-height: 41px; text-decoration: none; box-sizing: border-box; text-align: center"><img src="{{asset('assets/img/eye-slash.svg')}}" alt="eye" width="25" height="25" /></a></td>
                                                                 </tr>
                                                             </table>
                                                         </td>

@@ -9,9 +9,15 @@ use App\Services\LayoutDetectorService;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Services\CategoryService;
+use Illuminate\Support\Facades\Log;
 
 class CatalogProductController extends Controller
 {
+    const ACTION_REGISTER_AND_ADD_TO_CART = 1;
+    const ACTION_REGISTER_AND_UNSUBSCRIBE = 2;
+    const ACTION_SHOW_ADDED_TO_CART_MESSAGE = 3;
+    const ACTION_SHOW_UNSUBSCRIBED_MESSAGE = 4;
+
     /**
      * Display a listing of the resource.
      */
@@ -49,16 +55,6 @@ class CatalogProductController extends Controller
             ])
             ->firstOrFail();
 
-        $layoutDetector = new LayoutDetectorService();
-        $mode = $layoutDetector->detectMode($data);
-        $columns = $layoutDetector->countColumns($mode);
-        // The mode is a binary value string to search an appropriate product layout template,
-        // E.g. layout variant 8 is mapped to blade template livewire.catalog.product.layouts.variant-10101
-        $layout = [
-            'mode'    => sprintf('%05b', $mode),
-            'columns' => $columns,
-        ];
-
         $images = $data->images()->orderBy('main', 'desc')->get();
 
         $params = array_filter(explode('/', parse_url($request->headers->get('referer'), PHP_URL_PATH)));
@@ -75,19 +71,66 @@ class CatalogProductController extends Controller
 
         $breadcrumbs = $service->makeCatalogBreadcrumbsList($category, true);
 
+        $layoutDetector = new LayoutDetectorService();
+        $mode = $layoutDetector->detectMode($data);
+        $columns = $layoutDetector->countColumns($mode);
+        // The mode is a binary value string to search an appropriate product layout template,
+        // E.g. layout variant 8 is mapped to blade template livewire.catalog.product.layouts.variant-10101
+        $layout = [
+            'mode'    => sprintf('%05b', $mode),
+            'columns' => $columns,
+        ];
+
+        $action = '';
         $data->showPriceTracking = true;
-        if (auth()->user()) {
-            $tracker = ProductPriceTracking::where([
-                'customer_id' => auth()->user()->id,
-                'product_id' => $data->id,
-            ])->first();
-            if (!empty($tracker)) {
-                $data->showPriceTracking = false;
+        try {
+            // check external requests (links in emails, sms, QR-codes etc)
+            if (!empty($hash = $request->get('unsubscribe'))) {
+                if (auth()->user()) {
+                    if (ProductPriceTracking::where('hash', $hash)->delete()) {
+                        $action = self::ACTION_SHOW_UNSUBSCRIBED_MESSAGE;
+                    }
+                } else {
+                    $action = self::ACTION_REGISTER_AND_UNSUBSCRIBE;
+                }
+            } else {
+                if (!empty($request->get('add-to-cart'))) {
+                    if (auth()->user()) {
+                        ProductPriceTracking::updateOrCreate(
+                            [
+                                'customer_id' => auth()->user()->id,
+                                'product_id'  => $data->id,
+                            ], [
+                                'product_price' => $data->price,
+                                'hash'          => sha1(sprintf('%d-%d-%.2f', auth()->user()->id, $data->id,
+                                    $data->price)),
+                            ]
+                        );
+                        $action = self::ACTION_SHOW_ADDED_TO_CART_MESSAGE;
+                    } else {
+                        session(['followPriceProductId' => $data->id]);
+                        $action = self::ACTION_REGISTER_AND_ADD_TO_CART;
+                    }
+                }
             }
+            if (auth()->user()) {
+                $tracker = ProductPriceTracking::where([
+                    'customer_id' => auth()->user()->id,
+                    'product_id'  => $data->id,
+                ])->first();
+                if (!empty($tracker)) {
+                    $data->showPriceTracking = false;
+                }
+            }
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
         }
         $data->follow_product_id = session('followPriceProductId', 0);
+        if (empty($data->seo_canonical)) {
+            $data->seo_canonical = route('products.show', [ 'product' => $data->slug ], false);
+        }
 
-        return view('catalog.product.show', compact('id', 'data', 'breadcrumbs', 'images', 'layout'));
+        return view('catalog.product.show', compact('id', 'data', 'breadcrumbs', 'images', 'layout', 'action'));
     }
 
 }

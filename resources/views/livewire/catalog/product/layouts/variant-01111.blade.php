@@ -3,7 +3,7 @@
     <livewire:catalog.product.show-gallery-section-livewire :product="$data"/>
 </div>
 <div class="col-xxl-7 col-md-6">
-    <livewire:catalog.product.show-purchase-section-livewire :product="$data"/>
+    <livewire:catalog.product.show-purchase-section-livewire :product="$data" :action="$action"/>
 </div>
 <div class="col-12 --product-visible-md">
     <div class="product-full-box --info-dependence"></div>

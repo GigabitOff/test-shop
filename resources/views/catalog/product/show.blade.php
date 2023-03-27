@@ -1,4 +1,7 @@
 <x-app-layout>
+@push('canonical')
+<link rel=“canonical” href=”/sample/” />
+@endpush
     <main class="page-main page-product">
         <x-breadcrumbs
             :list="$breadcrumbs"

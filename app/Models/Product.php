@@ -46,6 +46,7 @@ class Product extends Model implements ImagesOwnerContract
         'seo_h1',
         'seo_h2',
         'seo_h3',
+        'seo_canonical',
         'state',
         'meta_title',
         'meta_keywords',

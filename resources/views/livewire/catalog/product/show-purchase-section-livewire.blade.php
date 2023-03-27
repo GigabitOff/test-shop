@@ -189,6 +189,7 @@
 </div>
 @push('custom-scripts')
     <script>
+        var delayedAction = parseInt('{{$action}}');
         var follow_product_id = {{$product->follow_product_id}};
         let price2Window = $('#m-price2');
         function showThankYouPage() {
@@ -218,6 +219,18 @@
             });
             if (follow_product_id !== 0) {
                 showThankYouPage();
+            } else if ( delayedAction === {{App\Http\Controllers\Catalog\Product\CatalogProductController::ACTION_SHOW_ADDED_TO_CART_MESSAGE}}) {
+                delayedAction = 0;
+                price2Window.modal('show');
+            } else if ( delayedAction === {{App\Http\Controllers\Catalog\Product\CatalogProductController::ACTION_SHOW_UNSUBSCRIBED_MESSAGE}}) {
+                delayedAction = 0;
+                $('#m-price-unsubscribe').modal('show');
+            } else if ( delayedAction === {{App\Http\Controllers\Catalog\Product\CatalogProductController::ACTION_REGISTER_AND_ADD_TO_CART}}) {
+                delayedAction = 0;
+                $('#m-login').modal('show');
+            } else if ( delayedAction === {{App\Http\Controllers\Catalog\Product\CatalogProductController::ACTION_REGISTER_AND_UNSUBSCRIBE}}) {
+                delayedAction = 0;
+                $('#m-login').modal('show');
             }
         });
         //# sourceURL=show-purchase-section-livewire.js

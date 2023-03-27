@@ -26,7 +26,7 @@ class EmailChangedProductPrices
                     ProductPriceTracking::where(
                         [
                             'customer_id' => $trackingProduct->customer_id,
-                            'product_id' => $trackingProduct->product_id,
+                            'product_id'  => $trackingProduct->product_id,
                         ]
                     )->update([
                         'product_price' => $product->new_price,

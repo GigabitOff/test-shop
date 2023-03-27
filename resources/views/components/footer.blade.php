@@ -154,6 +154,7 @@
                   <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-data-bs-processing" data-bs-dismiss="modal">Використання кукі</button></div>
                   <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-price" data-bs-dismiss="modal">Стежити за ціною</button></div>
                   <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-price2" data-bs-dismiss="modal">Стежити за ціною 2</button></div>
+                  <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-price-unsubscribe" data-bs-dismiss="modal">Вiдписатися вiд стеження за ціною</button></div>
                   <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-reviews" data-bs-dismiss="modal">Додати відгук</button></div>
                   <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-reviews2" data-bs-dismiss="modal">Додати відгук 2</button></div>
                   <div class="col-xl-4 col-lg-6"><button class="button-accent w-100" type="button" data-bs-toggle="modal" data-bs-target="#m-reviews3" data-bs-dismiss="modal">Додати відгук 3</button></div>
@@ -309,6 +310,20 @@
             <div class="modal-body">
               <div class="form-group mt-0">
                 <p class="text-lead">@lang('custom::site.watch_price_success')</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="m-price-unsubscribe">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">@lang('custom::site.watch_price')<small>@lang('custom::site.on_project_domain')</small></h5><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group mt-0">
+                <p class="text-lead">@lang('custom::site.unsubscribed_watch_price_message')</p>
               </div>
             </div>
           </div>

@@ -13,6 +13,7 @@ class ProductPriceTracking extends Model
         'customer_id',
         'product_id',
         'product_price',
+        'hash',
     ];
 
     public function product()
