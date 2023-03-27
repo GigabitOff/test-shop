@@ -392,6 +392,7 @@ class PageMainLivewire extends Component
             $this->recalculateCashbackToUse();
             return;
         }
+
         try {
             DB::beginTransaction();
             $paymentType = PaymentType::find($payload['paymentTypeId']);
