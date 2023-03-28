@@ -32,6 +32,7 @@ class ProductTranslation extends Model
         'seo_h1',
         'seo_h2',
         'seo_h3',
+        'seo_canonical',
         'meta_title',
         'meta_keywords',
         'meta_description',

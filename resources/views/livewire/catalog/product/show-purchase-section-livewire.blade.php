@@ -192,20 +192,20 @@ $followPrice = formatMoney($price);
 @push('custom-scripts')
     <script>
         var delayedAction = {{$action}};
-        var follow_product_id = {{$product->follow_product_id}};
-        function showThankYouPage() {
-            follow_product_id = 0;
+        window.addEventListener('loginBeforeSubscribeToFollowPrice', action => {
+            delayedAction = action;
+            $('#m-login').modal('show');
+        });
+        window.addEventListener('subscribeToFollowPrice', () => $('#m-email').modal('show'));
+        window.addEventListener('successToFollowPrice', () => {
             $('#m-price2').modal('show');
             $('#followPriceLink').hide();
-        }
-        window.addEventListener('loginBeforeSubscribeToFollowPrice', () => $('#m-login').modal('show'));
-        window.addEventListener('subscribeToFollowPrice', () => $('#m-email').modal('show'));
-        window.addEventListener('successToFollowPrice', () => showThankYouPage());
+        });
         window.addEventListener('successUnsubscribedPrice', () => $('#m-price-unsubscribe').modal('show'));
         window.addEventListener('userIsSuccessfullyLoggedIn', () => {
             if (delayedAction === {{CatalogProductController::ACTION_SHOW_UNSUBSCRIBED_MESSAGE}}) {
                 Livewire.emit('eventRemoveTracking', {'hash' : '{{$product->unsubscribe_hash ?? ''}}' });
-            } else {
+            } else if (delayedAction === {{CatalogProductController::ACTION_REGISTER_AND_SUBSCRIBE}}) {
                 Livewire.emit('eventFollowPrice', {'product_id': {{$product->id}}, 'price': {{$followPrice}} });
             }
         });
@@ -221,9 +221,7 @@ $followPrice = formatMoney($price);
                     popupInput[input].value = '';
                 });
             });
-            if (follow_product_id !== 0 && delayedAction === {{CatalogProductController::ACTION_NOTHING}}) {
-                showThankYouPage();
-            } else if ( delayedAction === {{CatalogProductController::ACTION_ADD_TO_CART}}) {
+            if ( delayedAction === {{CatalogProductController::ACTION_ADD_TO_CART}}) {
                 delayedAction = {{CatalogProductController::ACTION_NOTHING}};
                 Livewire.emit('eventCartAddProduct', {'product_id' : {{$product->id}}, 'show_notification':1, 'price_added': {{$price}}, 'quantity': 1 });
             } else if ( delayedAction === {{CatalogProductController::ACTION_SHOW_UNSUBSCRIBED_MESSAGE}}) {

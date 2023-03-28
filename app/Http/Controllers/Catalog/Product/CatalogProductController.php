@@ -19,6 +19,7 @@ class CatalogProductController extends Controller
     const ACTION_REGISTER_AND_UNSUBSCRIBE = 2;
     const ACTION_SHOW_ADDED_TO_CART_MESSAGE = 3;
     const ACTION_SHOW_UNSUBSCRIBED_MESSAGE = 4;
+    const ACTION_REGISTER_AND_SUBSCRIBE = 6;
 
     /**
      * Display a listing of the resource.
@@ -88,7 +89,7 @@ class CatalogProductController extends Controller
         try {
             // check external requests (links in emails, sms, QR-codes etc)
             if (!empty($hash = $request->get('unsubscribe'))) {
-                $tracker = ProductPriceTracking::where('hash', $hash)->firstOrFail();
+                $tracker = ProductPriceTracking::where('hash', $hash)->first();
                 if (!empty($tracker)) {
                     $data->unsubscribe_hash = $tracker->hash;
                     $action = auth()->user() ?
@@ -114,9 +115,9 @@ class CatalogProductController extends Controller
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }
-        $data->follow_product_id = session('followPriceProductId', 0);
         if (empty($data->seo_canonical)) {
             $data->seo_canonical = route('products.show', ['product' => $data->slug], false);
+            $data->translations[0]->save();
         }
 
         return view('catalog.product.show', compact('id', 'data', 'breadcrumbs', 'images', 'layout', 'action'));

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Components;
 
+use App\Http\Controllers\Catalog\Product\CatalogProductController;
 use App\Models\ProductPriceTracking;
 use App\Models\User;
 use Livewire\Component;
@@ -27,16 +28,15 @@ class ProductPriceTracker extends Component
     {
         $product_id = $payload['product_id'];
         $price = $payload['price'];
-        session(['followPriceProductId' => $product_id]);
         /** @var User $user */
         $user = auth()->user();
         if (!$user) {
-            $this->dispatchBrowserEvent('loginBeforeSubscribeToFollowPrice');
+            $this->dispatchBrowserEvent('loginBeforeSubscribeToFollowPrice', CatalogProductController::ACTION_REGISTER_AND_SUBSCRIBE);
         } else {
             if (empty($user->email)) {
                 $this->emitTo('forms.auth.set-email-livewire', 'eventSetUserEmail', $user->id, $product_id, $price);
             } else {
-                $this->saveTracking($user->id, $product_id, $price, true);
+                $this->saveTracking($user->id, $product_id, $price);
             }
         }
     }
@@ -46,7 +46,7 @@ class ProductPriceTracker extends Component
         /** @var User $user */
         $user = auth()->user();
         if (!$user) {
-            $this->dispatchBrowserEvent('loginBeforeSubscribeToFollowPrice');
+            $this->dispatchBrowserEvent('loginBeforeSubscribeToFollowPrice', CatalogProductController::ACTION_REGISTER_AND_UNSUBSCRIBE);
         } else {
             $this->removeTracking($payload['hash']);
         }
@@ -57,7 +57,7 @@ class ProductPriceTracker extends Component
         return view('livewire.components.product-price-tracker');
     }
 
-    public function saveTracking($user_id, $product_id, $price, $clearSession = false)
+    public function saveTracking($user_id, $product_id, $price)
     {
         ProductPriceTracking::updateOrCreate(
             [
@@ -68,16 +68,12 @@ class ProductPriceTracker extends Component
                 'hash'          => sha1(sprintf('%d-%d-%.2f', $user_id, $product_id, $price)),
             ]
         );
-        if ($clearSession) {
-            session(['followPriceProductId' => 0]);
-        }
         $this->dispatchBrowserEvent('successToFollowPrice');
     }
 
     public function removeTracking($hash)
     {
         ProductPriceTracking::where('hash', $hash)->delete();
-        session(['followPriceProductId' => 0]);
         $this->dispatchBrowserEvent('successUnsubscribedPrice');
     }
 }
