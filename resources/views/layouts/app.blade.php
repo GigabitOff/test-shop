@@ -15,7 +15,7 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <link rel="shortcut icon" href="/assets/img/favicon.ico" type="image/x-icon">
 
-    @stack('canonical')
+    @yield('canonical')
 
     <!-- Styles -->
     <link rel="stylesheet" href="/assets/css/libs.min.css?ver={{config('app.release_no')}}">

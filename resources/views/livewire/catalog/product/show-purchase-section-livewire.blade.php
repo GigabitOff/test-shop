@@ -1,6 +1,8 @@
 @php
-    /** @var \App\Models\Product $product */
-    $followPrice = formatMoney($price);
+use App\Http\Controllers\Catalog\Product\CatalogProductController;
+
+/** @var \App\Models\Product $product */
+$followPrice = formatMoney($price);
 @endphp
 <div class="product-full-box --info">
     <div class="product-full__labels">
@@ -189,21 +191,23 @@
 </div>
 @push('custom-scripts')
     <script>
-        var delayedAction = parseInt('{{$action}}');
+        var delayedAction = {{$action}};
         var follow_product_id = {{$product->follow_product_id}};
-        let price2Window = $('#m-price2');
         function showThankYouPage() {
             follow_product_id = 0;
-            price2Window.modal('show');
+            $('#m-price2').modal('show');
             $('#followPriceLink').hide();
         }
         window.addEventListener('loginBeforeSubscribeToFollowPrice', () => $('#m-login').modal('show'));
         window.addEventListener('subscribeToFollowPrice', () => $('#m-email').modal('show'));
-        window.addEventListener('successToFollowPrice', () => {
-            showThankYouPage();
-        });
+        window.addEventListener('successToFollowPrice', () => showThankYouPage());
+        window.addEventListener('successUnsubscribedPrice', () => $('#m-price-unsubscribe').modal('show'));
         window.addEventListener('userIsSuccessfullyLoggedIn', () => {
-            Livewire.emit('eventFollowPrice', {'product_id': {{$product->id}}, 'price': {{$followPrice}} });
+            if (delayedAction === {{CatalogProductController::ACTION_SHOW_UNSUBSCRIBED_MESSAGE}}) {
+                Livewire.emit('eventRemoveTracking', {'hash' : '{{$product->unsubscribe_hash ?? ''}}' });
+            } else {
+                Livewire.emit('eventFollowPrice', {'product_id': {{$product->id}}, 'price': {{$followPrice}} });
+            }
         });
         jQuery(document).ready(function ($) {
             $('body').on('click', '.btn-close, .button-accent.w-100', function (event) {
@@ -217,19 +221,20 @@
                     popupInput[input].value = '';
                 });
             });
-            if (follow_product_id !== 0) {
+            if (follow_product_id !== 0 && delayedAction === {{CatalogProductController::ACTION_NOTHING}}) {
                 showThankYouPage();
-            } else if ( delayedAction === {{App\Http\Controllers\Catalog\Product\CatalogProductController::ACTION_SHOW_ADDED_TO_CART_MESSAGE}}) {
-                delayedAction = 0;
-                price2Window.modal('show');
-            } else if ( delayedAction === {{App\Http\Controllers\Catalog\Product\CatalogProductController::ACTION_SHOW_UNSUBSCRIBED_MESSAGE}}) {
-                delayedAction = 0;
+            } else if ( delayedAction === {{CatalogProductController::ACTION_ADD_TO_CART}}) {
+                delayedAction = {{CatalogProductController::ACTION_NOTHING}};
+                Livewire.emit('eventCartAddProduct', {'product_id' : {{$product->id}}, 'show_notification':1, 'price_added': {{$price}}, 'quantity': 1 });
+            } else if ( delayedAction === {{CatalogProductController::ACTION_SHOW_UNSUBSCRIBED_MESSAGE}}) {
+                delayedAction = {{CatalogProductController::ACTION_NOTHING}};
+                $('#followPriceLink').show();
                 $('#m-price-unsubscribe').modal('show');
-            } else if ( delayedAction === {{App\Http\Controllers\Catalog\Product\CatalogProductController::ACTION_REGISTER_AND_ADD_TO_CART}}) {
-                delayedAction = 0;
+            } else if ( delayedAction === {{CatalogProductController::ACTION_REGISTER_AND_ADD_TO_CART}}) {
+                delayedAction = {{CatalogProductController::ACTION_ADD_TO_CART}};
                 $('#m-login').modal('show');
-            } else if ( delayedAction === {{App\Http\Controllers\Catalog\Product\CatalogProductController::ACTION_REGISTER_AND_UNSUBSCRIBE}}) {
-                delayedAction = 0;
+            } else if ( delayedAction === {{CatalogProductController::ACTION_REGISTER_AND_UNSUBSCRIBE}}) {
+                delayedAction = {{CatalogProductController::ACTION_SHOW_UNSUBSCRIBED_MESSAGE}};
                 $('#m-login').modal('show');
             }
         });

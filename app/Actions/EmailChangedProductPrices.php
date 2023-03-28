@@ -22,6 +22,7 @@ class EmailChangedProductPrices
                 if (!empty($product->$priceField) && $trackingProduct->product_price != $product->$priceField) {
                     $product->old_price = $trackingProduct->product_price;
                     $product->new_price = $product->$priceField;
+                    $product->unsubscribe_hash = $trackingProduct->hash;
                     $categories[$product->category_id ?? 0][] = $product;
                     ProductPriceTracking::where(
                         [

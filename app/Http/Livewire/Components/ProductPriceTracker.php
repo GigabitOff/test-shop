@@ -13,8 +13,9 @@ class ProductPriceTracker extends Component
     public $user;
 
     public $listeners = [
-        'eventFollowPrice'  => 'followPrice',
-        'eventSaveTracking' => 'saveTracking',
+        'eventFollowPrice'    => 'followPrice',
+        'eventSaveTracking'   => 'saveTracking',
+        'eventRemoveTracking' => 'unsubscribeTracking',
     ];
 
     public function mount()
@@ -40,6 +41,17 @@ class ProductPriceTracker extends Component
         }
     }
 
+    public function unsubscribeTracking($payload)
+    {
+        /** @var User $user */
+        $user = auth()->user();
+        if (!$user) {
+            $this->dispatchBrowserEvent('loginBeforeSubscribeToFollowPrice');
+        } else {
+            $this->removeTracking($payload['hash']);
+        }
+    }
+
     public function render()
     {
         return view('livewire.components.product-price-tracker');
@@ -60,5 +72,12 @@ class ProductPriceTracker extends Component
             session(['followPriceProductId' => 0]);
         }
         $this->dispatchBrowserEvent('successToFollowPrice');
+    }
+
+    public function removeTracking($hash)
+    {
+        ProductPriceTracking::where('hash', $hash)->delete();
+        session(['followPriceProductId' => 0]);
+        $this->dispatchBrowserEvent('successUnsubscribedPrice');
     }
 }
