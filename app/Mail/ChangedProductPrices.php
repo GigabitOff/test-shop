@@ -24,7 +24,15 @@ class ChangedProductPrices extends Mailable
     {
         $this->user = $user;
         $this->categories = $categories;
-        $this->socials = Setting::where('category', 'social')->where('value', '<>', '')->get();
+        $this->socials = Setting::where('category', 'social')
+            ->where('value', '<>', '')
+            ->whereIn('key',
+                [
+                    'facebook',
+                    'instagram',
+                    'youtube',
+                ])
+            ->get();
     }
 
     /**
