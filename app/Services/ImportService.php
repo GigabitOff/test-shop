@@ -402,7 +402,7 @@ class ImportService
 
             $product->price_purchase = (float) Arr::get($input, 'price_purchase', $product->price_purchase);
             $product->price_wholesale = (float) Arr::get($input, 'price_wholesale', $product->price_wholesale);
-            $product->price_retail = (float) Arr::get($input, 'price_retail', $product->price_rrc);
+            $product->price_rrc = (float) Arr::get($input, 'price_retail', $product->price_rrc);
 
             $product->save();
         }
@@ -937,7 +937,7 @@ class ImportService
             $item->cut_out = (bool)($product['cutout'] ?? false);
             $item->price_purchase = (float)($product['price_purchase'] ?? 0);
             $item->price_wholesale = (float)($product['price_wholesale'] ?? 0);
-            $item->price_retail = (float)($product['price_rrc'] ?? 0);
+            $item->price_rrc = (float)($product['price_retail'] ?? 0);
 
             $item->stock = abs($product['stock'] ?? 0);
             // корректируем по stock.
