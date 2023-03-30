@@ -87,7 +87,7 @@ class LoginLivewire extends Component
                 $this->shouldSkipRender = false;
 
                 $this->service->clearFailedLogins($this->phone);
-                $this->dispatchBrowserEvent('userIsSuccessfullyLoggedIn');
+                $this->emit('userIsSuccessfullyLoggedIn');
 
                 return;
             }
@@ -95,6 +95,7 @@ class LoginLivewire extends Component
             $this->service->addFailedLogin($this->phone);
             $this->tryUserBlock();
         }
+        $this->emit('userIsFailedLoggedIn');
 
         session()->flash('auth_fail', __('custom::site.auth_fail'));
     }

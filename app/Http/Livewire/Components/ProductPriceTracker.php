@@ -2,54 +2,80 @@
 
 namespace App\Http\Livewire\Components;
 
-use App\Http\Controllers\Catalog\Product\CatalogProductController;
 use App\Models\ProductPriceTracking;
-use App\Models\User;
 use Livewire\Component;
 
 class ProductPriceTracker extends Component
 {
+    const ACTION_NOTHING = 0;
+    const ACTION_FILL_EMAIL = 1;
+    const ACTION_ADD_TO_CART = 2;
+    const ACTION_REGISTER_AND_ADD_TO_CART = 3;
+    const ACTION_REGISTER_AND_UNSUBSCRIBE = 4;
+    const ACTION_SHOW_ADDED_TO_CART_MESSAGE = 5;
+    const ACTION_SHOW_UNSUBSCRIBED_MESSAGE = 6;
+    const ACTION_REGISTER_AND_SUBSCRIBE = 7;
+
     public $product_id;
     public $price;
     public $user;
 
+    public $action;
+    public $hash;
+
     public $listeners = [
-        'eventFollowPrice'    => 'followPrice',
-        'eventSaveTracking'   => 'saveTracking',
-        'eventRemoveTracking' => 'unsubscribeTracking',
+        'eventFollowPrice'           => 'followPrice',
+        'eventSaveTracking'          => 'saveTracking',
+        'eventRemoveTracking'        => 'removeTracking',
+        'userIsSuccessfullyLoggedIn' => 'userLoggedIn',
+        'userIsFailedLoggedIn'       => 'userFailedLoggedIn',
     ];
 
     public function mount()
     {
         $this->user = auth()->user();
+        $this->action = session('follow_price_action', self::ACTION_NOTHING);
+        $this->hash = session('unsubscribe_hash', '');
+    }
+
+    public function userLoggedIn()
+    {
+        switch ($this->action) {
+            case self::ACTION_REGISTER_AND_SUBSCRIBE:
+                $this->addTracking();
+                break;
+            case self::ACTION_REGISTER_AND_UNSUBSCRIBE:
+                $this->removeTracking();
+                break;
+        }
+    }
+
+    public function userFailedLoggedIn()
+    {
+        $this->saveAction(self::ACTION_NOTHING);
     }
 
     public function followPrice($payload)
     {
-        $product_id = $payload['product_id'];
-        $price = $payload['price'];
-        /** @var User $user */
-        $user = auth()->user();
-        if (!$user) {
-            $this->dispatchBrowserEvent('loginBeforeSubscribeToFollowPrice', CatalogProductController::ACTION_REGISTER_AND_SUBSCRIBE);
+        $this->product_id = $payload['product_id'];
+        $this->price = $payload['price'];
+        $this->saveAction(self::ACTION_REGISTER_AND_SUBSCRIBE);
+        if (!$this->user) {
+            $this->emit('loginBeforeSubscribeToFollowPrice');
         } else {
-            if (empty($user->email)) {
-                $this->emitTo('forms.auth.set-email-livewire', 'eventSetUserEmail', $user->id, $product_id, $price);
-            } else {
-                $this->saveTracking($user->id, $product_id, $price);
-            }
+            $this->addTracking();
         }
     }
 
-    public function unsubscribeTracking($payload)
+    private function addTracking()
     {
-        /** @var User $user */
-        $user = auth()->user();
-        if (!$user) {
-            $this->dispatchBrowserEvent('loginBeforeSubscribeToFollowPrice', CatalogProductController::ACTION_REGISTER_AND_UNSUBSCRIBE);
+        if (empty($this->user->email)) {
+            $this->saveAction(self::ACTION_REGISTER_AND_SUBSCRIBE);
+            $this->emit('showEmailForm');
         } else {
-            $this->removeTracking($payload['hash']);
+            $this->saveTracking();
         }
+
     }
 
     public function render()
@@ -57,23 +83,36 @@ class ProductPriceTracker extends Component
         return view('livewire.components.product-price-tracker');
     }
 
-    public function saveTracking($user_id, $product_id, $price)
+    public function saveTracking()
     {
         ProductPriceTracking::updateOrCreate(
             [
-                'customer_id' => $user_id,
-                'product_id'  => $product_id,
+                'customer_id' => $this->user->id,
+                'product_id'  => $this->product_id,
             ], [
-                'product_price' => $price,
-                'hash'          => sha1(sprintf('%d-%d-%.2f', $user_id, $product_id, $price)),
+                'product_price' => $this->price,
+                'hash'          => sha1(sprintf('%d-%d-%.2f', $this->user->id, $this->product_id, $this->price)),
             ]
         );
-        $this->dispatchBrowserEvent('successToFollowPrice');
+        $this->saveAction(self::ACTION_NOTHING);
+        $this->emit('successToFollowPrice');
     }
 
-    public function removeTracking($hash)
+    public function removeTracking()
     {
-        ProductPriceTracking::where('hash', $hash)->delete();
-        $this->dispatchBrowserEvent('successUnsubscribedPrice');
+        ProductPriceTracking::where('hash', $this->hash)->delete();
+        $this->saveAction(self::ACTION_NOTHING);
+        $this->emit('successUnsubscribedPrice');
+    }
+
+    private function saveAction($action)
+    {
+        $this->action = $action;
+        self::persistAction($action);
+    }
+
+    public static function persistAction($action)
+    {
+        session(['follow_price_action' => $action]);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Catalog\Product;
 
 use App\Http\Controllers\Controller;
+use App\Http\Livewire\Components\ProductPriceTracker;
 use App\Models\Category;
 use App\Models\ProductPriceTracking;
 use App\Services\LayoutDetectorService;
@@ -13,14 +14,6 @@ use Illuminate\Support\Facades\Log;
 
 class CatalogProductController extends Controller
 {
-    const ACTION_NOTHING = 0;
-    const ACTION_ADD_TO_CART = 5;
-    const ACTION_REGISTER_AND_ADD_TO_CART = 1;
-    const ACTION_REGISTER_AND_UNSUBSCRIBE = 2;
-    const ACTION_SHOW_ADDED_TO_CART_MESSAGE = 3;
-    const ACTION_SHOW_UNSUBSCRIBED_MESSAGE = 4;
-    const ACTION_REGISTER_AND_SUBSCRIBE = 6;
-
     /**
      * Display a listing of the resource.
      */
@@ -84,25 +77,30 @@ class CatalogProductController extends Controller
             'columns' => $columns,
         ];
 
-        $action = self::ACTION_NOTHING;
         $data->showPriceTracking = true;
         try {
             // check external requests (links in emails, sms, QR-codes etc)
             if (!empty($hash = $request->get('unsubscribe'))) {
                 $tracker = ProductPriceTracking::where('hash', $hash)->first();
                 if (!empty($tracker)) {
-                    $data->unsubscribe_hash = $tracker->hash;
-                    $action = auth()->user() ?
-                        self::ACTION_SHOW_UNSUBSCRIBED_MESSAGE :
-                        self::ACTION_REGISTER_AND_UNSUBSCRIBE;
+                    if (auth()->user()) {
+                        $tracker->delete();
+                        $action = ProductPriceTracker::ACTION_SHOW_UNSUBSCRIBED_MESSAGE;
+                    } else {
+                        session(['unsubscribe_hash' => $tracker->hash]);
+                        $action = ProductPriceTracker::ACTION_REGISTER_AND_UNSUBSCRIBE;
+                    }
                }
             } else {
                 if (!empty($request->get('add-to-cart'))) {
                     $action = auth()->user() ?
-                        self::ACTION_ADD_TO_CART :
-                        self::ACTION_REGISTER_AND_ADD_TO_CART;
+                        ProductPriceTracker::ACTION_ADD_TO_CART :
+                        ProductPriceTracker::ACTION_REGISTER_AND_ADD_TO_CART;
+                } else {
+                    $action = session('follow_price_action', ProductPriceTracker::ACTION_NOTHING);
                 }
             }
+            ProductPriceTracker::persistAction($action);
             if (auth()->user()) {
                 $tracker = ProductPriceTracking::where([
                     'customer_id' => auth()->user()->id,

@@ -5,14 +5,14 @@ namespace App\Console\Commands;
 use App\Actions\EmailChangedProductPrices;
 use Illuminate\Console\Command;
 
-class TestEmailChangedPrice extends Command
+class SendChangedPrice extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'test:email-changed-price';
+    protected $signature = 'email:send-changed-price';
 
     /**
      * The console command description.

@@ -77,7 +77,7 @@
                                     <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="poduct-item" style="border-collapse: separate;mso-table-lspace: 0pt;mso-table-rspace: 0pt;width: 100%;padding: 11px 0 3px 0;">
                                         <tr>
                                             <td class="product-img" style="font-family: sans-serif;font-size: 14px;vertical-align: top;width: 54%;">
-                                                @if($product->images->isNotEmpty())
+                                                @if($product->images->isNotEmpty() && file_exists(\Storage::disk('public')->url($product->images[0]->url)))
                                                     <img src="{{$message->embed(\Storage::disk('public')->url($product->images[0]->url))}}"  alt="product" width="262" height="200" style="border: none;-ms-interpolation-mode: bicubic;max-width: 100%;width: 262px;display: block;" />
                                                 @else
                                                     <img src="{{$message->embed(fallbackBaseImageUrl(asset('assets/img/no-photo.png')))}}" alt="product" width="262" height="200" style="border: none;-ms-interpolation-mode: bicubic;max-width: 100%;width: 262px;display: block;" />

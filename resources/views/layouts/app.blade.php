@@ -53,6 +53,7 @@
 
     @stack('before-scripts')
 
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="/assets/js/libs.js?ver={{config('app.release_no')}}"></script>
     <script src="/assets/js/main.js?ver={{config('app.release_no')}}"></script>
     <script src="/assets/js/footableEx.js?ver={{config('app.release_no')}}"></script>

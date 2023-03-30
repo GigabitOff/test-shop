@@ -35,7 +35,7 @@ class Kernel extends ConsoleKernel
 //        $schedule->call(new DeleteExpiredPriceTypes())->dailyAt('3:00');
 //        $schedule->call(new DeleteExpiredUserProxies())->dailyAt('3:00');
 //        $schedule->call(new DeleteUnusedCategoryAttribute())->monthly();
-        $schedule->call(new EmailChangedProductPrices())->cron('0 8,14,20 * * *');
+//        $schedule->call(new EmailChangedProductPrices())->cron('0 8,14,20 * * *');
         $schedule->call(new DeleteUnusedCategoryAttribute())->daily();
     }
 
