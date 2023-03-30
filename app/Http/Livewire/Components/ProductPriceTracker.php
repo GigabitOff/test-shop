@@ -28,7 +28,7 @@ class ProductPriceTracker extends Component
         'eventSaveTracking'          => 'saveTracking',
         'eventRemoveTracking'        => 'removeTracking',
         'userIsSuccessfullyLoggedIn' => 'userLoggedIn',
-        'userIsFailedLoggedIn'       => 'userFailedLoggedIn',
+        'userIsFailedLoggedIn'       => 'clearAction',
     ];
 
     public function mount()
@@ -40,7 +40,11 @@ class ProductPriceTracker extends Component
 
     public function userLoggedIn()
     {
+        $this->user = auth()->user();
         switch ($this->action) {
+            case self::ACTION_REGISTER_AND_ADD_TO_CART:
+                $this->addProductToCart();
+                break;
             case self::ACTION_REGISTER_AND_SUBSCRIBE:
                 $this->addTracking();
                 break;
@@ -50,7 +54,7 @@ class ProductPriceTracker extends Component
         }
     }
 
-    public function userFailedLoggedIn()
+    public function clearAction()
     {
         $this->saveAction(self::ACTION_NOTHING);
     }
@@ -103,6 +107,17 @@ class ProductPriceTracker extends Component
         ProductPriceTracking::where('hash', $this->hash)->delete();
         $this->saveAction(self::ACTION_NOTHING);
         $this->emit('successUnsubscribedPrice');
+    }
+
+    public function addProductToCart()
+    {
+        $this->emit('eventCartAddProduct', [
+            'product_id'        => $this->product_id,
+            'show_notification' => 1,
+            'price_added'       => $this->price,
+            'quantity'          => 1,
+        ]);
+        $this->saveAction(self::ACTION_NOTHING);
     }
 
     private function saveAction($action)

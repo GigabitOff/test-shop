@@ -76,7 +76,7 @@ class CatalogProductController extends Controller
             'mode'    => sprintf('%05b', $mode),
             'columns' => $columns,
         ];
-
+        $action = ProductPriceTracker::ACTION_NOTHING;
         $data->showPriceTracking = true;
         try {
             // check external requests (links in emails, sms, QR-codes etc)

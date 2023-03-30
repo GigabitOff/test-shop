@@ -213,6 +213,11 @@ $followPrice = formatMoney($price);
             delayedAction = {{ProductPriceTracker::ACTION_NOTHING}};
             Livewire.emit('userIsFailedLoggedIn');
         });
+        $('#m-dialog-message').on('hidden.bs.modal', function () {
+            delayedAction = {{ProductPriceTracker::ACTION_NOTHING}};
+            // just to clean session
+            Livewire.emit('userIsFailedLoggedIn');
+        });
         jQuery(document).ready(function ($) {
             if ( delayedAction === {{ProductPriceTracker::ACTION_ADD_TO_CART}}) {
                 delayedAction = {{ProductPriceTracker::ACTION_NOTHING}};
