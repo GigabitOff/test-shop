@@ -1,4 +1,4 @@
-   @if(isset($data_paginate) AND $data_paginate->total()>$perPage OR isset($data_paginate) AND isset($no_total))
+   @if(isset($data_paginate) AND $data_paginate->total()>$perPage) {{--  OR isset($data_paginate) AND isset($no_total) --}}
 <div class="table-nav mt-3" @if(!isset($no_style))style="margin-bottom: 70px;" @endif>
     <div class="drop --arrow js-page-size" >
         <button class="form-control drop-button dropFoot" type="button">

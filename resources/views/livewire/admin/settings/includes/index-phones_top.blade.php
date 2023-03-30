@@ -135,7 +135,8 @@
                 <input class="form-control" type="number" placeholder="@lang('custom::admin.settings.Order')" wire:model.lazy="order">
             </div>
 
-              <div class="mt-4"><button class="button w-100" onclick="@this.createDataPhoneTmp('phones_top','phone');" @if(isset($data_phone['value']) AND isset($select_data['status_phone']['value']) AND isset($select_data['category_phone']['value'])) data-bs-dismiss="modal" @endif type="button" >@lang('custom::admin.Add')</button></div>
+
+              <div class="mt-4"><button class="button w-100" @if(count($this->getErrorBag()) == 0) disabled @endif onclick="@this.createDataPhoneTmp('phones_top','phone');" @if(isset($data_phone['value']) AND isset($select_data['status_phone']['value']) AND isset($select_data['category_phone']['value'])) data-bs-dismiss="modal" @endif type="button" >@lang('custom::admin.Add')</button></div>
 
         @endif
           </div>

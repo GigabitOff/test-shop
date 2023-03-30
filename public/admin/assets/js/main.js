@@ -33,7 +33,7 @@ jQuery(document).ready(function ($) {
 
 
 
-  $('.show-hide input[type="checkbox"]').closest('.show-hide').next('.show-hide-box').hide();
+ // $('.show-hide input[type="checkbox"]').closest('.show-hide').next('.show-hide-box').hide();
   $('.show-hide input[type="checkbox"]').on('change', function() {
     var target = $(this).closest('.show-hide').next('.show-hide-box');
     if (this.checked) target.slideDown();

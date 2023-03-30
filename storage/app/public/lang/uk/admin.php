@@ -1230,5 +1230,12 @@ return [
     'Comparison products' => 'Порівняння товарів',
     'Message for email alert' =>'В темі листа вказувати ID повідомлення обовязково.',
     'dialog closed, contact administrator again' => 'Діалог закритий, зверніться повторно до адміністратора',
-    '' => '',
+    'Image banner category' => 'Зображення баннера категорії',
+    'selected_parent_counterparties' => "Зв'язок дочірніх контрагентів",
+    'Identifity' => "Ідентифікатор",
+    'Filial' => 'Філіал',
+    'Counterparty type' => 'Тип контрагента',
+    'Pay NDS' => 'Платник ПДВ',
+    'All' => 'Всі',
+
 ];

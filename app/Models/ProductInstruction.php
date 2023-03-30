@@ -18,6 +18,7 @@ class ProductInstruction extends Model
         'status',
         'main',
         'file_name',
+        'file_description',
     ];
 
     public function getFullUrlAttribute(): string

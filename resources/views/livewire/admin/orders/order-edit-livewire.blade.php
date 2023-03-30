@@ -1,6 +1,6 @@
 <div class="container-large">
     @include('livewire.admin.includes.head_button',['type'=>'return', 'route'=>'admin.'.$nameLive.'.index'])
-    <h4>@lang('custom::admin.Brands')</h4>
+    <h4>@lang('custom::admin.Orders')</h4>
     <div wire:ignore>
         @livewire('admin.partials.header-livewire', key(time().'header-livewire'))
     </div>

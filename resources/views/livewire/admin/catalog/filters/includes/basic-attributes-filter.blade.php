@@ -151,3 +151,6 @@
     @endif
     </tbody>
 </table>
+
+        @include('livewire.admin.includes.per-page-table')
+

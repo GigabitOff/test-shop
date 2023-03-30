@@ -266,6 +266,7 @@
 
     </script>
 
-        @include('livewire.admin.includes.per-page-table')
     </div>
 --}}
+        @include('livewire.admin.includes.per-page-table')
+

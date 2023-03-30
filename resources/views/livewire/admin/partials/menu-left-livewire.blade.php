@@ -344,7 +344,7 @@
             </a>
         </li>
     </ul>
-<div wire:poll.5750ms="updateChat">
+<div wire:poll.10750ms="updateChat">
     </div>
     <div wire:poll.150ms="checkChatsMessage"></div>
     <script>

@@ -54,6 +54,7 @@ class Category extends Model implements ImagesOwnerContract
         'instagram',
         'youtube',
         'image_small',
+        'image_banner',
     ];
 
     public function parentData()

@@ -27,7 +27,7 @@
                         </li>
                         @if(!empty($selectedData))
                             <li>
-                                <button class="button button-small button-icon ico_trash mt-3"
+                                <button class="button button-small button-icon ico_trash"
                                         onclick="document.categoryChars.confirmDelete()"
                                         type="button"></button>
                             </li>
@@ -40,14 +40,14 @@
             </div>
         </div>
     </div>
-    <div class="table-before-btn --small">
+   {{-- <div class="table-before-btn --small">
         @if(!empty($selectedData))
             <button class="button button-small button-icon ico_trash mt-3"
                     onclick="document.categoryChars.confirmDelete()"
-                    {{--                    wire:click="confirmDelete"--}}
+                    {{--                    wire:click="confirmDelete"-}}
                     type="button"></button>
         @endif
-    </div>
+    </div> --}}
 
     <table wire:ignore id="footable-holder-characteristics"
            data-empty="@lang('custom::admin.No data available')"

@@ -8,10 +8,9 @@
                         aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <p class="message text-center">{!! $message !!}</p>
-                </div>
-
+                <p >
+                    {!! $message !!}
+                </p>
                 <div class="row g-4 mt-0">
                     @foreach($buttons as $button)
                         <div class="{{$this->resolveColCssClass($button['width'])}}">

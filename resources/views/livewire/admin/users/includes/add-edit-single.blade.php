@@ -74,7 +74,7 @@
                           <div class="show-password" @if(!$show_pass)onclick="@this.set('show_pass',true);" @else onclick="@this.set('show_pass',null);" @endif ></div>
                         </div>
                         <div class="form-group  mb-3">
-                            <input class="js-password form-control _pass-2 @if(isset($data['password']) AND $data['password'] != '' AND !isset($data['password_confirmation']) OR isset($data['password']) AND $data['password'] != '' AND $data['password'] != $data['password_confirmation']) is-invalid @endif" type="password" name="password-2" placeholder="@lang('custom::admin.clients.Confirm Password')" required="" wire:model.lazy="data.password_confirmation">
+                            <input class="js-password form-control _pass-2 @if(isset($data['password']) AND $data['password'] != '' AND !isset($data['password_confirmation']) OR isset($data['password']) AND $data['password'] != '' AND $data['password'] != $data['password_confirmation']) is-invalid @endif" @if(!$show_pass)type="password" @else type="text" @endif name="password-2" placeholder="@lang('custom::admin.clients.Confirm Password')" required="" wire:model.lazy="data.password_confirmation">
                           @if(isset($data['password']) AND $data['password'] != '' AND !isset($data['password_confirmation']) OR isset($data['password']) AND $data['password'] != '' AND $data['password'] != $data['password_confirmation'])
                           <div class="invalid-feedback">@lang('custom::admin.messages.Passwords do not match')</div>
                         @endif
@@ -89,11 +89,7 @@
                             <li class="five"></li>
                           </ul>
                         </div>
-                        @error('data.password')
-                    <div class="is-invalid ">
-                        {{$message}}
-                    </div>
-                    @enderror
+
                       </div>
                 <div class="col-12">
                     <input class="form-control @error('data.email') is-invalid @enderror" type="text"
@@ -121,9 +117,9 @@
                     @enderror
                 </div>
 @if(isset($this->data['user_role']) AND $this->data['user_role'] != 'simple' AND $this->data['user_role'] != 'unregistered')
-                 <div class="col-12 show-hide">
-                    <label class="check ">
-                    <input class="check__input" type="checkbox" @if(isset($counterparties_data_user) AND count($counterparties_data_user)>0 OR isset($data['counterparty_id']) AND $data['counterparty_id'] !==null) checked  onclick="@this.deleteDataList('null','','counterparty_id')" @else onclick = "@this.startAddCounterpaties()" @endif />
+                    <div class="col-12 show-hide">
+                    <label class="check " @if($counterparties_data_user !== null AND count($counterparties_data_user)>0 OR isset($data['counterparty_id']) AND $data['counterparty_id'] !==null)   onclick="@this.deleteDataList('null','','counterparty_id')" @else onclick = "@this.startAddCounterpaties()"  @endif>
+                    <input class="check__input" type="checkbox" @if($counterparties_data_user !== null AND count($counterparties_data_user)>0 OR isset($data['counterparty_id']) AND $data['counterparty_id'] !==null) checked @endif />
                     <span class="check__box">@lang('custom::admin.Associated with a counterparty')</span></label>
                 </div>
 
@@ -141,10 +137,11 @@
                 </div>
             <div  class="col-12">
 
-    @if(isset($data['counterpaties_name']) AND $data['counterpaties_name'] != '')
+    @if(isset($data['counterpaties_name']) AND $data['counterpaties_name'] != '' OR isset($data['no_counterpaties_name']) AND $data['no_counterpaties_name'] != '')
     <div class="tagger">
     <input class="form-control" type="hidden" placeholder="@lang('custom::admin.Add hashtag')" value="sdfsdf,dfsdfsdf" hidden="hidden">
     <ul>
+        @if(isset($data['counterpaties_name']) AND is_array($data['counterpaties_name']))
         @foreach ($data['counterpaties_name'] as $item_okpo)
         <li>
         <a href="javascript: void(0);" class="--yellow">
@@ -153,6 +150,7 @@
         </a>
         </li>
         @endforeach
+        @endif
         @if(isset($this->data['no_counterpaties_name']) AND count($this->data['no_counterpaties_name'])>0)
         @foreach ($data['no_counterpaties_name'] as $item_no_okpo)
         <li>
@@ -244,6 +242,8 @@
                 @endif
                 @endif
                 @endif
+
+                @if(isset($this->data['user_role']) AND $this->data['user_role'] != 'simple' AND $this->data['user_role'] != 'unregistered')
                 <div class="col-12">
                     <div   wire:ignore.self class="show-hide-box" >
                     @include('livewire.admin.includes.select-data-arrow',[
@@ -255,17 +255,20 @@
 
                 </div>
                       </div>
-                      <div class="col-12" @if(!isset($select_data['change_manager'])) style="display:none"@endif>
+                <div class="col-12" @if(!isset($select_data['change_manager'])) style="display:none"@endif>
                     <label class="check">
                         <input class="check__input" type="checkbox" @if(isset($data['change_manager_all']) AND $data['change_manager_all']==1) checked @endif onclick="@this.changeDataItem('change_manager_all','{{(isset($data['change_manager_all']) AND $data['change_manager_all']==1) ? 0 : 1}}')" />
                         <span class="check__box">@lang('custom::admin.Transfer rights all')</span>
                     </label>
                 </div>
-                      <div class="col-7" @if(!isset($select_data['change_manager'])) style="display:none"@endif >
+                    @endif
+
+                      <div class="col-7 input-group" @if(!isset($select_data['change_manager']) OR $select_data['change_manager'] == 'unlink') style="display:none"@endif >
                         <input id="data_date_start_end" @error("data.date_to") style='border: 1px solid red' @enderror type="text" class="js-date form-control" value="{{ isset($data['date_from']) ? $data['date_from'] : \Carbon\Carbon::now()->format('d.m.Y')}} - {{ isset($data['date_to']) ? $data['date_to'] : ''}}" />
-        @include('livewire.admin.includes.calendar-form',['formId'=>'data_date_start_end','nameForm'=>'data.date_start_end','date_start'=>'data.date_from','date_end'=>'data.date_to','clear'=>false])
+        @include('livewire.admin.includes.calendar-form',['formId'=>'data_date_start_end','nameForm'=>'data.date_start_end','date_start'=>'data.date_from','date_end'=>'data.date_to','clear'=>false,'calendar_drop'=>'up'])
         <input type="hidden" wire:model="data.date_from">
         <input type="hidden" wire:model="data.date_to">
+        <button class="js-clear-date clear-date" type="button" onclick="@this.unLinkChangeManager(); $('#data_date_start_end').val('');"></button>
                     </div>
                     @endif
                     @if(isset($data['phone_verified_at']))

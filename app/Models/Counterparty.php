@@ -40,6 +40,7 @@ class Counterparty extends Model implements TranslatableContract
     ];
 
     protected $fillable = [
+        'shop_id',
         'id_1c',
         'founder_id',
         'parent_id',
@@ -82,6 +83,7 @@ class Counterparty extends Model implements TranslatableContract
         'created_at',
         'deleted_at'
     ];
+
 
     public function type(): BelongsTo
     {
@@ -220,4 +222,10 @@ class Counterparty extends Model implements TranslatableContract
                 'counterparty_id' => $this->id,
             ])->first();
     }
+
+    public function shop()
+    {
+        return $this->belongsTo(Shop::class);
+    }
+
 }

@@ -29,6 +29,7 @@ class Attribute extends Model
         'slug',
         'basic',
         'status',
+        'icon',
         'min',
         'max',
     ];

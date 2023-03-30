@@ -140,6 +140,7 @@
     <div class="search__overlay search__overlay_{{ $table_name}} @if($search AND $search != '')is-show @endif"></div>
 
     @if($selected_products AND count($selected_products)>0)
+
         <div wire:ignore.self>
             <div class="table-before-btn --catalog-table">
                 <div>
@@ -235,6 +236,17 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+                  @if($selected_products_paginated AND count($selected_products_paginated)>0)
+            setTimeout(() => {
+               // dd($selected_products_paginated);
+                @this.emit('setShowVariatesValue');
+            }, 800);
+            @else
+            setTimeout(() => {
+                @this.emit('setShowVariatesValue','reset');
+            }, 800);
+            @endif
+
             $(document).on('input', '.search__controls_{{ $table_name}} > input', function () {
                 let textLenght = $(this).val().length;
                 if (textLenght >= 1) {
@@ -309,6 +321,22 @@
             }
 
         });
+
+        window.addEventListener('resetShowValuesProductVariates', function (e) {
+
+            if(e.detail.show == 'true'){
+            setTimeout(() => {
+
+                @this.emit('setShowVariatesValue');
+            }, 800);
+            }else{
+                 setTimeout(() => {
+                @this.emit('setShowVariatesValue','reset');
+            }, 800);
+            }
+
+        });
+
     </script>
 
 
