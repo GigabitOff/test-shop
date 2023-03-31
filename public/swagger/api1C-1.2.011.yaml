@@ -1437,18 +1437,18 @@ paths:
                             type: string
                             description: "Почта заказыика"
                             example: "client@mail"
-                          typepayment:
-                            type: string
-                            description: "тип оплаты, значения - nal или beznal"
-                            example: "nal"
+#                          typepayment:
+#                            type: string
+#                            description: "тип оплаты, значения - nal или beznal"
+#                            example: "nal"
                           date_registration:
                             type: string
                             description: "дата создания заказа"
                             example: "2021.03.18"
-                          date_delivery:
-                            type: string
-                            description: "плановая дата отгрузки из 1С"
-                            example: "2021.03.18"
+#                          date_delivery:
+#                            type: string
+#                            description: "плановая дата отгрузки из 1С"
+#                            example: "2021.03.18"
                           status_id_1c:
                             type: string
                             description: "id статуса заказа в 1C"
