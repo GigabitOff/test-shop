@@ -138,18 +138,17 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td style="font-family: sans-serif;font-size: 14px;vertical-align: top;">
+                                                                    <td style="font-family: sans-serif; font-size: 14px;vertical-align: top;">
                                                                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btns-grop" style="border-collapse: separate;mso-table-lspace: 0pt;mso-table-rspace: 0pt;width: 100%;padding-top: 15px;">
                                                                             <tr>
                                                                                 <td style="font-family: sans-serif;font-size: 14px;vertical-align: top;">
-
-                                                                                    <table class="btns-row"  role="presentation" cellpadding="0" cellspacing="0" class="btns-grop" style="border-collapse: separate;mso-table-lspace: 0pt;mso-table-rspace: 0pt;width: 100%;padding-top: 15px;">
+                                                                                    <table class="btns-row" role="presentation" cellpadding="0" cellspacing="0" class="btns-grop" style="border-collapse: separate;mso-table-lspace: 0pt;mso-table-rspace: 0pt;width: 100%;padding-top: 15px;">
                                                                                         <tr>
                                                                                             <td style="border-right: 10px solid transparent; width: 100%">
                                                                                                 <div style="border: 1.5px solid #FFAE00;-webkit-border-radius: 30px;-khtml-border-radius: 30px; -moz-border-radius: 30px; border-radius: 30px;background: #FFAE00;height: 45px;text-align: center;line-height: 45px">
                                                                                                     <a
                                                                                                         href="{{route('products.show', ['product'=>$product->slug])}}?add-to-cart=true" class="btn"
-                                                                                                        style="color: #FFFFFF;text-decoration: none; height: 45px;border: 0;vertical-align: middle;overflow: hidden;font-size: 14px;font-weight: 700;letter-spacing: 0.03em;max-width: 100%;-webkit-border-radius: 30px; -moz-border-radius: 30px; border-radius: 30px;-webkit-box-sizing: border-box;box-sizing: border-box;background: #FFAE00;">@lang('custom::site.Buy')</a>
+                                                                                                        style="color: #FFFFFF;text-decoration: none; height: 45px;border: 0;overflow: hidden;font-size: 14px;font-weight: 700;letter-spacing: 0.03em;max-width: 100%;-webkit-border-radius: 30px; -moz-border-radius: 30px; border-radius: 30px;-webkit-box-sizing: border-box;box-sizing: border-box;background: #FFAE00;">@lang('custom::site.Buy')</a>
                                                                                                 </div>
                                                                                             </td>
                                                                                             <td style="border-right: 10px solid transparent">
