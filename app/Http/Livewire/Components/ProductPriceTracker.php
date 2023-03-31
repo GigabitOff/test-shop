@@ -77,6 +77,7 @@ class ProductPriceTracker extends Component
             $this->saveAction(self::ACTION_REGISTER_AND_SUBSCRIBE);
             $this->emit('showEmailForm');
         } else {
+            $this->saveAction(self::ACTION_NOTHING);
             $this->saveTracking();
         }
 

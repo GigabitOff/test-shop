@@ -114,6 +114,7 @@ class LoginLivewire extends Component
         if ($user = User::find((int)$id)) {
             auth()->login($user);
             $this->redirect(url()->previous());
+            $this->emit('userIsSuccessfullyLoggedIn');
         }
     }
 
