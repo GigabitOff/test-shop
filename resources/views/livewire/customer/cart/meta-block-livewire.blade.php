@@ -166,11 +166,6 @@
                 </div>
             </div>
         </div>
-      {{$this->liqPay}}
-        <div class="form-group" >
-            <livewire:order-meta-blocks.paysystems-liqpay-livewire
-            />
-        </div>
        <div class="col-xl-3 text-end" style="pointer-events: @if(isset($paymentTypeId) and $updateT == 0) none @else block @endif;">
             <button class="button-accent" type="button"
                     wire:click="createOrder">@lang('custom::site.Confirm')</button>
