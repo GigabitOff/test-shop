@@ -31,13 +31,14 @@ class MailBoxReadEmail
 
         $folder = $client->getFolder('INBOX');
         $messages = $folder->messages()->unseen()->get();
-        //dd($messages);
+       // dd($messages);
 
             //code...
 
         foreach ($messages as $message) {
 
             if ($chat = $this->extractRecipient($message)) {
+                    $res_save = null;
                 //dd($chat);
                /* $customer->mailboxEmails()->updateOrCreate(
                     [
@@ -56,11 +57,10 @@ class MailBoxReadEmail
                     //$messages = $forSaveMessage->getLast();
                     // $forSaveMessage = end($messages);
 
-                    $message->setFlag('seen');  // установка флага, что письмо прочитано
 
                 if ($chat AND $chat->closed == 0) {
                     $owner_id = $chat->customer_id;
-                    $chat->messages()->create([
+                    $res_save = $chat->messages()->create([
                         'owner_id' => $owner_id,
                         'manager_id' =>  null,
                         'message' => $this->cleanHtmlBody($forSaveMessage),
@@ -79,7 +79,9 @@ class MailBoxReadEmail
 
                 }
 
+                logger(__METHOD__ .(is_object($res_save) ? $res_save->id . 'Збережено в бд: ID: ' : 'не збережено в бд'));
 
+                $message->setFlag('seen');  // установка флага, что письмо прочитано
 
 
             }else{

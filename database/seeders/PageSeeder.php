@@ -27,14 +27,14 @@ class PageSeeder extends Seeder
                     "title" => "Головна",
                 ]
             ],
-            [
+           /* [
                 "name" => "contacts",
                 "slug" => "contacts",
                 "uk" => [
                     "title" => "Контакти",
 
                 ]
-            ],
+            ], */
             [
                 "name" => "about",
                 "slug" => "about",
@@ -98,13 +98,13 @@ class PageSeeder extends Seeder
                     "title" => "Відгуки",
                 ]
             ],
-            [
+            /*[
                 "name" => "shop_city",
                 "slug" => "shop_cities",
                 "uk" => [
                     "title" => "Міста",
                 ]
-            ],
+            ], */
             [
                 "name" => "main-lk",
                 "slug" => "main-lk",

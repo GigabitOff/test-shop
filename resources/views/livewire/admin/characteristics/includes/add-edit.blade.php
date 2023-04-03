@@ -25,6 +25,7 @@
     @endforeach
 
 </div>
+
 <div class="mt-3">
-    @include('livewire.admin.includes.save-data-include',['wire_click'=>"saveData",'title_button'=>__('custom::admin.Save')])
+   @include('livewire.admin.includes.save-data-include',['on_click'=>'saveData()','title_button'=>__('custom::admin.Save')])
 </div>

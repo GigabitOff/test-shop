@@ -31,7 +31,7 @@
                 @else
                 {{-- value_characteristic value="{{ $value_characteristic }}" --}}
                 {{-- value_characteristic_wire {{ isset($value_characteristic_wire) ? 'wire:model.lazy='.$value_characteristic_wire : ''}} --}}
-                <input class="form-control" type="text" autocomplete="off" placeholder="Text" @if(isset($onchange))onchange="{{$onchange}}" @endif @if(isset($value_characteristic_wire)) wire:model.debounce.750ms="{{$value_characteristic_wire}}" @endif/>
+                <input class="form-control" type="text" autocomplete="off" placeholder="Text" @if(isset($onchange))onchange="{{$onchange}}" @endif @if(isset($value_characteristic_wire)) wire:model.lazy="{{$value_characteristic_wire}}" @endif/>
                 @endif
             </div>
         </div>

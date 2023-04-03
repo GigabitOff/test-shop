@@ -36,10 +36,9 @@
             setTimeout(() => {
 
             @if(isset($date_start))
+                @this.set('{{$date_start}}', start.format('DD.MM.YYYY'));
 
-            @this.set('{{$date_start}}', start.format('DD.MM.YYYY'));
-
-        @endif
+            @endif
 
         @if(isset($search_date_end))
             @this.checkDateFilter();
@@ -51,15 +50,21 @@
         });
     }, 400);
 
+
+
         setTimeout(() => {
             $('.cancelBtn').text("{{__('custom::admin.Cansel')}}");
             $('.applyBtn').text("{{__('custom::admin.Applay')}}");
-        }, 700);
+
+            @if($clear === true)
+            $('#{{$formId}}').val('');
+            @endif
+
+        }, 500);
     }
 
     document.addEventListener('DOMContentLoaded', function () {
         showCalendar{{$formId}}();
-
 
     });
 

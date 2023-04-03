@@ -99,7 +99,7 @@
         })
 
         window.addEventListener('updatePageMainValues', event => {
-            // Обработчик обновления элементов на странице
+            // Обработчик обновления элементов на странице 
             const productIds = Object.keys(event.detail.products);
             const $rows = $('.lk-table-body tbody tr:not(.footable-empty)');
             productIds.forEach(id => {

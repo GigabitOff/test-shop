@@ -8,12 +8,7 @@
 
 @endphp
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        @if(isset($date_start))
-            var from_date = '{{$date_start}}';
-        @endif
-
-        function getLocale{{$formId}}(){
+    function getLocale{{$formId}}(){
             return {
                 @if(isset($timePicker))
                 format: 'DD.MM.YYYY H:mm',
@@ -46,6 +41,15 @@
             };
         }
 
+        function showCalendar{{$formId}}(variable) {
+
+        setTimeout(() => {
+            @if(isset($date_start))
+            var from_date = '{{$date_start}}';
+        @endif
+
+
+
 @if(!isset($single))
 
 var to_date ='{{$date_end}}';
@@ -53,8 +57,12 @@ var to_date ='{{$date_end}}';
         setTimeout(() => {
         $('#{{$formId}}').daterangepicker({
             opens: 'left',
+            @if(isset($calendar_drop))
+            drops: '{{ $calendar_drop }}',
+            @endif
             minDate: new Date(),
             @if(isset($from_date))
+
             startDate: '{{$from_date}}',
             @else
             startDate: new Date(),
@@ -65,7 +73,7 @@ var to_date ='{{$date_end}}';
             endDate: new Date(),
 
             @endif
-            locale: getLocale(),
+            locale: getLocale{{$formId}}(),
 
             //singleDatePicker: true,
 
@@ -167,15 +175,54 @@ setTimeout(() => {
     });
         @endif
 
+    }, 400);
 
-
-        setTimeout(() => {
+    setTimeout(() => {
             $('.cancelBtn').text("{{__('custom::admin.Cansel')}}");
             $('.applyBtn').text("{{__('custom::admin.Applay')}}");
             @if($clear === true)
             $('#{{$formId}}').val('');
             @endif
         }, 700);
+
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        showCalendar{{$formId}}();
+
+
+    });
+
+    document.addEventListener('clearCalendar', event => {
+
+        $('#{{$formId}}').data('daterangepicker').remove();
+    // re-initialize the daterangepicker
+        $('#{{$formId}}').daterangepicker({
+        opens: 'left',
+        @if(isset($calendar_drop))
+        drops: '{{ $calendar_drop }}',
+        @endif
+        minDate: new Date(),
+        startDate: new Date(),
+        endDate: new Date(),
+        locale: getLocale{{$formId}}(),
+    }, function(start, end, label) {
+            setTimeout(() => {
+
+            @if(isset($date_start))
+            @this.set('{{$date_start}}', start.format('DD.MM.YYYY'));
+        @endif
+        @if(isset($date_end))
+
+            @this.set('{{$date_end}}', end.format('DD.MM.YYYY'));
+        @endif
+
+
+            }, 500);
+          //  console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+        });
+
+
 
     });
 

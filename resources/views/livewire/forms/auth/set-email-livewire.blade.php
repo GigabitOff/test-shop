@@ -5,13 +5,11 @@
     </div>
     <div class="modal-body">
         <form wire:submit.prevent="submit" autocomplete="off">
-            <input type="hidden" wire:model="user_id">
-            <input type="hidden" wire:model="product_id">
             <div class="form-group">
                 <p>@lang('custom::site.enter_email_tooltips')</p>
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" placeholder="E-mail" wire:model="email">
+                <input class="form-control" type="text" placeholder="E-mail" wire:model.defer="email">
             </div>
             <div class="form-group">
                 <button class="button-accent w-100" type="submit">@lang('custom::site.Confirm')</button>

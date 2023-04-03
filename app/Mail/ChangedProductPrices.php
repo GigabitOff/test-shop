@@ -4,7 +4,6 @@ namespace App\Mail;
 
 use App\Models\Setting;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -25,7 +24,15 @@ class ChangedProductPrices extends Mailable
     {
         $this->user = $user;
         $this->categories = $categories;
-        $this->socials = Setting::where('category', 'social')->where('value', '<>', '')->get();
+        $this->socials = Setting::where('category', 'social')
+            ->where('value', '<>', '')
+            ->whereIn('key',
+                [
+                    'facebook',
+                    'instagram',
+                    'youtube',
+                ])
+            ->get();
     }
 
     /**

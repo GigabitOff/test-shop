@@ -94,7 +94,7 @@
                           </p>
                         </div>
                         @endif
-                        <div class="action-group">
+                        {{--<div class="action-group">
                           <div class="action-group-btn button-accent"><span class="ico_submenu"></span></div>
                           <div class="action-group-drop">
                             <ul class="action-group-list">
@@ -104,7 +104,7 @@
                               <li><button class="js-hide-drop ico_close" type="button"></button></li>
                             </ul>
                           </div>
-                        </div>
+                        </div>--}}
                       </div>
                     </div>
                   </div>

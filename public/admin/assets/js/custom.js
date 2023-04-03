@@ -191,55 +191,68 @@ document.addEventListener('DOMContentLoaded', function() {
 gainNode.connect(audioCtx.destination);
 
 
- if (document.getElementById("wheelPicker")) {
-    const wheelPicker = new iro.ColorPicker("#wheelPicker", {
-      width: 250,
-      color: '#D4014C',
-      display: 'grid',
-      margin: 0,
-      handleRadius: 15,
-      layout: [{
-        component: iro.ui.Wheel
-      }, {
-        component: iro.ui.Slider,
-        options: {
-          sliderType: 'saturation',
-          handleRadius: 12
-        }
-      }, {
-        component: iro.ui.Slider,
-        options: {
-          sliderType: 'value',
-          handleRadius: 12
-        }
-      }]
-    });
-    const colorInput = document.querySelector('.select-color-input');
-    colorInput.addEventListener('change', function () {
-      wheelPicker.color.hexString = this.value;
-    });
-    wheelPicker.on('color:change', function (color) {
-      // if the first color changed
-      if (color.index === 0) {
-        // log the color index and hex value
-        const previweColor = document.querySelector('.select-color-previve');
-        const previweColorInner = document.querySelector('.select-color-previve__inner');
-        const selectedColor = color.hexString;
-        colorInput.value = selectedColor.toUpperCase();
-        previweColor.style.background = selectedColor;
-        previweColorInner.style.background = selectedColor;
-      }
-    });
 
-    if (document.querySelector('.color-button')) {
-      const selectColorButton = document.querySelector('.button-select-color'),
-            colorButton = document.querySelector('.color-button'),
-            colorPreviwe = colorButton.querySelector('.color-button__preview'),
-            colorHolder = colorButton.querySelector('.color-button__color');
-      selectColorButton.addEventListener('click', function () {
-        colorHolder.innerHTML = wheelPicker.color.hexString.toUpperCase();
-        colorPreviwe.style.background = wheelPicker.color.hexString;
-      });
+
+$("._pass._pass-1").keyup(function() {
+    var pass = $("._pass._pass-1").val();
+    check(pass);
+  });
+  function check(pass) {
+    var protect = 0;
+    // РџСЂРѕРІРµСЂРєР° РЅР° РєРѕР»-РІРѕ СЃРёРјРІРѕР»РѕРІ
+    if(pass.length >= 8) { protect++; }
+    // РџСЂРѕРІРµСЂРєР° РЅР° РЅР°Р»РёС‡РёРµ СЃРёРјРІРѕР»РѕРІ a,s,d,f ... x,y,z
+    var small = "([a-z]+)";
+    if(pass.match(small)) { protect++; }
+    // РџСЂРѕРІРµСЂРєР° РЅР° РЅР°Р»РёС‡РёРµ СЃРёРјРІРѕР»РѕРІ A,B,C,D ... X,Y,Z
+    var big = "([A-Z]+)";
+    if(pass.match(big)) { protect++; }
+    // РџСЂРѕРІРµСЂРєР° РЅР° РЅР°Р»РёС‡РёРµ СЃРёРјРІРѕР»РѕРІ 1,2,3,4,5 ... 0
+    var numb = "([0-9]+)";
+    if(pass.match(numb)) { protect++; }
+    //  РџСЂРѕРІРµСЂРєР° РЅР° РЅР°Р»РёС‡РёРµ СЃРёРјРІРѕР»РѕРІ !@#$
+    var vv = /\W/;
+    if(pass.match(vv)) { protect++; }
+    // Р”РѕР±Р°РІР»РµРЅРёРµ РєР»Р°СЃСЃРѕРІ
+    if(protect >= 1) {
+      $("._password-quality > li.one").addClass('_active');
+      $('._password-quality').addClass('easy');
+      $('._password-quality-title').addClass('easy');
+    } else {
+      $("._password-quality > li.one").removeClass('_active');
+      $('._password-quality').removeClass('easy');
+      $('._password-quality-title').removeClass('easy');
+    }
+    if(protect >= 2) {
+      $("._password-quality > li.two").addClass('_active');
+      $('._password-quality').removeClass('easy');
+      $('._password-quality-title').removeClass('easy');
+      $('._password-quality').addClass('normal');
+      $('._password-quality-title').addClass('normal');
+    } else {
+      $("._password-quality > li.two").removeClass('_active');
+      $('._password-quality').removeClass('normal');
+      $('._password-quality-title').removeClass('normal');
+    }
+    if(protect >= 3) {
+      $("._password-quality > li.three").addClass('_active');
+      $('._password-quality').removeClass('normal');
+      $('._password-quality-title').removeClass('normal');
+      $('._password-quality').addClass('good');
+      $('._password-quality-title').addClass('good');
+    } else {
+      $("._password-quality > li.three").removeClass('_active');
+      $('._password-quality').removeClass('good');
+      $('._password-quality-title').removeClass('good');
+    }
+    if(protect >= 4) {
+      $("._password-quality > li.four").addClass('_active');
+    } else {
+      $("._password-quality > li.four").removeClass('_active');
+    }
+    if(protect >= 5) {
+      $("._password-quality > li.five").addClass('_active');
+    } else {
+      $("._password-quality > li.five").removeClass('_active');
     }
   }
-

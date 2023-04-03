@@ -20,9 +20,9 @@ class OrderResource extends JsonResource
                 'id_site' => $this->id,
                 'total' => $this->total , // сумма заказа
                 'total_quantity' => $this->total_quantity, // количество товаров
-                'type_payment' => $this->type_payment, //тип оплаты, значения - "nal" или "beznal"
+//                'type_payment' => $this->type_payment, //тип оплаты, значения - "nal" или "beznal"
                 'date_registration' =>  $this->created_at, // дата создания заказа
-                'date_delivery' => $this->date_delivery ?? '', // плановая дата отгрузки из 1С
+//                'date_delivery' => $this->date_delivery ?? '', // плановая дата отгрузки из 1С
                 'status_id_1c' => $this->status->id_1c ?? '', // id статуса заказа
                 'order_products' => OrderProductResource::collection($this->products),
                 'updated_at' => $this->updated_at,
@@ -44,8 +44,9 @@ class OrderResource extends JsonResource
             ? [
                 'phone' => $this->phone,
                 'name' => $this->fio,
-                'email' => null,
-                'company_name' => $this->company,
+//                'email' => null,
+//                'company_name' => $this->company,
+                'comment' => $this->comment,
             ]
             : [];
     }
@@ -58,6 +59,8 @@ class OrderResource extends JsonResource
                 'id_1c' => $this->id_1c,
                 'counterparty_id_site' => $this->counterparty_id,
                 'counterparty_id_1c' => $this->getCounterpartyId1c(),
+                'date_delivery' => $this->date_delivery ?? '', // плановая дата отгрузки из 1С
+                'type_payment' => $this->type_payment, //тип оплаты, значения - "nal" или "beznal"
                 'driver_id_1c' => $this->driver->id_1c ?? '', // id водителя из справочника
                 'manager_id_1c' => $this->manager->id_1c ?? '', // id менеджера из справочника
                 'delivery_address_id_site' => $this->delivery_address->id ?? '', // сайтовый идентификатор адреса из справочника доставки

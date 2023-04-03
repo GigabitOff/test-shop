@@ -82,6 +82,15 @@
                         'class'=>'--small',
                         ])
                 </div>
+                <div class="col">
+                    @include('livewire.admin.includes.image-data-grow',[
+                        'index'=>'image_banner',
+                        'title'=>__('custom::admin.Image banner category'),
+                        'grow'=>false,
+                        'title_size' => '.png, .webp',
+                        'class'=>'--small',
+                        ])
+                </div>
             </div>
         </div>
 

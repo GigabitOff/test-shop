@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Catalog\Product;
 
 use App\Http\Controllers\Controller;
+use App\Http\Livewire\Components\ProductPriceTracker;
 use App\Models\Category;
 use App\Models\ProductPriceTracking;
 use App\Services\LayoutDetectorService;
@@ -13,11 +14,6 @@ use Illuminate\Support\Facades\Log;
 
 class CatalogProductController extends Controller
 {
-    const ACTION_REGISTER_AND_ADD_TO_CART = 1;
-    const ACTION_REGISTER_AND_UNSUBSCRIBE = 2;
-    const ACTION_SHOW_ADDED_TO_CART_MESSAGE = 3;
-    const ACTION_SHOW_UNSUBSCRIBED_MESSAGE = 4;
-
     /**
      * Display a listing of the resource.
      */
@@ -80,39 +76,31 @@ class CatalogProductController extends Controller
             'mode'    => sprintf('%05b', $mode),
             'columns' => $columns,
         ];
-
-        $action = '';
+        $action = ProductPriceTracker::ACTION_NOTHING;
         $data->showPriceTracking = true;
         try {
             // check external requests (links in emails, sms, QR-codes etc)
             if (!empty($hash = $request->get('unsubscribe'))) {
-                if (auth()->user()) {
-                    if (ProductPriceTracking::where('hash', $hash)->delete()) {
-                        $action = self::ACTION_SHOW_UNSUBSCRIBED_MESSAGE;
+                $tracker = ProductPriceTracking::where('hash', $hash)->first();
+                if (!empty($tracker)) {
+                    if (auth()->user()) {
+                        $tracker->delete();
+                        $action = ProductPriceTracker::ACTION_SHOW_UNSUBSCRIBED_MESSAGE;
+                    } else {
+                        session(['unsubscribe_hash' => $tracker->hash]);
+                        $action = ProductPriceTracker::ACTION_REGISTER_AND_UNSUBSCRIBE;
                     }
-                } else {
-                    $action = self::ACTION_REGISTER_AND_UNSUBSCRIBE;
-                }
+               }
             } else {
                 if (!empty($request->get('add-to-cart'))) {
-                    if (auth()->user()) {
-                        ProductPriceTracking::updateOrCreate(
-                            [
-                                'customer_id' => auth()->user()->id,
-                                'product_id'  => $data->id,
-                            ], [
-                                'product_price' => $data->price,
-                                'hash'          => sha1(sprintf('%d-%d-%.2f', auth()->user()->id, $data->id,
-                                    $data->price)),
-                            ]
-                        );
-                        $action = self::ACTION_SHOW_ADDED_TO_CART_MESSAGE;
-                    } else {
-                        session(['followPriceProductId' => $data->id]);
-                        $action = self::ACTION_REGISTER_AND_ADD_TO_CART;
-                    }
+                    $action = auth()->user() ?
+                        ProductPriceTracker::ACTION_ADD_TO_CART :
+                        ProductPriceTracker::ACTION_REGISTER_AND_ADD_TO_CART;
+                } else {
+                    $action = session('follow_price_action', ProductPriceTracker::ACTION_NOTHING);
                 }
             }
+            ProductPriceTracker::persistAction($action);
             if (auth()->user()) {
                 $tracker = ProductPriceTracking::where([
                     'customer_id' => auth()->user()->id,
@@ -125,9 +113,9 @@ class CatalogProductController extends Controller
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }
-        $data->follow_product_id = session('followPriceProductId', 0);
         if (empty($data->seo_canonical)) {
-            $data->seo_canonical = route('products.show', [ 'product' => $data->slug ], false);
+            $data->seo_canonical = route('products.show', ['product' => $data->slug], false);
+            $data->translations[0]->save();
         }
 
         return view('catalog.product.show', compact('id', 'data', 'breadcrumbs', 'images', 'layout', 'action'));

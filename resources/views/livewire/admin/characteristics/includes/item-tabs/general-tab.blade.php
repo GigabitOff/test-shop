@@ -35,4 +35,12 @@
     >
     </x-livewire.admin.drop-select>
 </div>
+<div  class="form-group">
+    @include('livewire.admin.includes.image-data-grow',[
+                'grow' => false,
+                'index'=>'icon',
+//                'title_size'=>'480х300 px',
+                'title'=>__('custom::admin.Icon')
+            ])
+</div>
 

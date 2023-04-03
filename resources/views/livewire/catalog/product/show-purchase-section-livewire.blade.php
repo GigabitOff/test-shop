@@ -1,6 +1,8 @@
 @php
-    /** @var \App\Models\Product $product */
-    $followPrice = formatMoney($price);
+use App\Http\Livewire\Components\ProductPriceTracker;
+
+/** @var \App\Models\Product $product */
+$followPrice = formatMoney($price);
 @endphp
 <div class="product-full-box --info">
     <div class="product-full__labels">
@@ -189,22 +191,68 @@
 </div>
 @push('custom-scripts')
     <script>
-        var delayedAction = parseInt('{{$action}}');
-        var follow_product_id = {{$product->follow_product_id}};
-        let price2Window = $('#m-price2');
-        function showThankYouPage() {
-            follow_product_id = 0;
-            price2Window.modal('show');
+        var delayedAction = {{$action}};
+        let isEmptyEmail = {!! empty(auth()->user()->email) ? 1 : 0 !!};
+        Livewire.on('successUnsubscribedPrice', () => {
+            $('#m-price-unsubscribe').modal('show');
+            $('#followPriceLink').show();
+        });
+        Livewire.on('loginBeforeSubscribeToFollowPrice', () => $('#m-login').modal('show'));
+        Livewire.on('showEmailForm', () => $('#m-email').modal('show'));
+        Livewire.on('successToFollowPrice', () => {
+            delayedAction = {{ProductPriceTracker::ACTION_NOTHING}};
+            $('#m-price2').modal('show');
             $('#followPriceLink').hide();
-        }
-        window.addEventListener('loginBeforeSubscribeToFollowPrice', () => $('#m-login').modal('show'));
-        window.addEventListener('subscribeToFollowPrice', () => $('#m-email').modal('show'));
-        window.addEventListener('successToFollowPrice', () => {
-            showThankYouPage();
         });
-        window.addEventListener('userIsSuccessfullyLoggedIn', () => {
-            Livewire.emit('eventFollowPrice', {'product_id': {{$product->id}}, 'price': {{$followPrice}} });
+        Livewire.on('successUnsubscribedPrice', () => $('#m-price-unsubscribe').modal('show'));
+        $('#m-login').on('hidden.bs.modal', function () {
+            delayedAction = {{ProductPriceTracker::ACTION_NOTHING}};
+            Livewire.emit('userIsFailedLoggedIn');
         });
+        $('#m-email').on('hidden.bs.modal', function () {
+            delayedAction = {{ProductPriceTracker::ACTION_NOTHING}};
+            Livewire.emit('userIsFailedLoggedIn');
+        });
+        $('#m-dialog-message').on('hidden.bs.modal', function () {
+            delayedAction = {{ProductPriceTracker::ACTION_NOTHING}};
+            // just to clean session
+            Livewire.emit('userIsFailedLoggedIn');
+        });
+        $('#m-price2').on('hidden.bs.modal', function () {
+            delayedAction = {{ProductPriceTracker::ACTION_NOTHING}};
+            // just to clean session too
+            Livewire.emit('userIsFailedLoggedIn');
+        });
+        jQuery(document).ready(function ($) {
+            if ( delayedAction === {{ProductPriceTracker::ACTION_ADD_TO_CART}}) {
+                delayedAction = {{ProductPriceTracker::ACTION_NOTHING}};
+                Livewire.emit('eventCartAddProduct', {'product_id' : {{$product->id}}, 'show_notification':1, 'price_added': {{$price}}, 'quantity': 1 });
+            } else if ( delayedAction === {{ProductPriceTracker::ACTION_SHOW_UNSUBSCRIBED_MESSAGE}}) {
+                delayedAction = {{ProductPriceTracker::ACTION_NOTHING}};
+                $('#followPriceLink').show();
+                $('#m-price-unsubscribe').modal('show');
+            } else if ( delayedAction === {{ProductPriceTracker::ACTION_REGISTER_AND_ADD_TO_CART}}) {
+                delayedAction = {{ProductPriceTracker::ACTION_ADD_TO_CART}};
+                $('#m-login').modal('show');
+            } else if ( delayedAction === {{ProductPriceTracker::ACTION_REGISTER_AND_UNSUBSCRIBE}}) {
+                delayedAction = {{ProductPriceTracker::ACTION_SHOW_UNSUBSCRIBED_MESSAGE}};
+                $('#m-login').modal('show');
+            } else if ( delayedAction === {{ProductPriceTracker::ACTION_REGISTER_AND_SUBSCRIBE}}) {
+                delayedAction = {{ProductPriceTracker::ACTION_NOTHING}};
+                if (isEmptyEmail===1) {
+                    $('#m-email').modal('show');
+                } else {
+                    $('#m-price2').modal('show');
+                    $('#followPriceLink').hide();
+                }
+            }
+        });
+    </script>
+@endpush
+
+@push('custom-scripts')
+    <script>
+        var delayedAction = {{$action}};
         jQuery(document).ready(function ($) {
             $('body').on('click', '.btn-close, .button-accent.w-100', function (event) {
                 var modal = $(this).closest('.modal-content'),
@@ -217,21 +265,6 @@
                     popupInput[input].value = '';
                 });
             });
-            if (follow_product_id !== 0) {
-                showThankYouPage();
-            } else if ( delayedAction === {{App\Http\Controllers\Catalog\Product\CatalogProductController::ACTION_SHOW_ADDED_TO_CART_MESSAGE}}) {
-                delayedAction = 0;
-                price2Window.modal('show');
-            } else if ( delayedAction === {{App\Http\Controllers\Catalog\Product\CatalogProductController::ACTION_SHOW_UNSUBSCRIBED_MESSAGE}}) {
-                delayedAction = 0;
-                $('#m-price-unsubscribe').modal('show');
-            } else if ( delayedAction === {{App\Http\Controllers\Catalog\Product\CatalogProductController::ACTION_REGISTER_AND_ADD_TO_CART}}) {
-                delayedAction = 0;
-                $('#m-login').modal('show');
-            } else if ( delayedAction === {{App\Http\Controllers\Catalog\Product\CatalogProductController::ACTION_REGISTER_AND_UNSUBSCRIBE}}) {
-                delayedAction = 0;
-                $('#m-login').modal('show');
-            }
         });
         //# sourceURL=show-purchase-section-livewire.js
     </script>

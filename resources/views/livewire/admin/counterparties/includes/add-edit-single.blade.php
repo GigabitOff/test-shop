@@ -26,13 +26,44 @@
             <div class="col-xl-6">
                 <form action="#!">
                     <div class="row g-3">
+                        <div class="col-12" >
+                        <div   wire:ignore.self >
+                    @include('livewire.admin.includes.select-data-arrow',[
+                        'select_data_input'=>(isset($select_data['shop_id']) ? $select_data['shop_id']: null),
+                        'select_data_array'=>isset($select_array['shop_id']) ? $select_array['shop_id'] : null,
+                        'placeholder'=>__('custom::admin.Filial'),
+                        //'drop_class'=> '--search',
+                        //'locale'=>session('lang'),
+                        'index'=>'shop_id',
+                       // 'title_select' => (isset($select_data['shop_id']) ? $select_data['shop_id']['input']: null),
+                        'show_title' => true,
+                        'disabled_select'=>true,
+                        ])
+
+                      </div>
+                      </div>
+                      <div class="col-12" >
+                        <div   wire:ignore.self >
+                    @include('livewire.admin.includes.select-data-arrow',[
+                        'select_data_input'=>(isset($select_data['type_id']) ? $select_data['type_id']: null),
+                        'select_data_array'=>isset($select_array['type_id']) ? $select_array['type_id'] : null,
+                        'placeholder'=>__('custom::admin.Counterparty type'),
+                        //'drop_class'=> 'drop-input',
+                        //'locale'=>session('lang'),
+                        'index'=>'type_id',
+                        'disabled_select'=>true,
+                        'show_name'=>true
+                        ])
+
+                      </div>
+                      </div>
                       <div class="col-12" >
                         <div   wire:ignore.self >
                     @include('livewire.admin.includes.select-data-arrow',[
                         'select_data_input'=>(isset($select_data['form']) ? $select_data['form']: null),
                         'select_data_array'=>isset($select_array['form']) ? $select_array['form'] : null,
                         'placeholder'=>__('custom::admin.Forms'),
-                        'drop_class'=> '--search',
+                        //'drop_class'=> '--search',
                         'locale'=>session('lang'),
                         'index'=>'form',
                         'disabled_select'=>true,
@@ -40,6 +71,7 @@
                         ])
 
                       </div>
+
                 {{--<div class="drop --select @if(isset($data['form_id']))_selected @endif"><span class="drop-clear"></span>
                     <input class="form-control drop-input @error('data.form_id') is-invalid @enderror drop-input-hide" type="text" autocomplete="off" value="{{isset($data['form_id']) AND isset($counterparty_forms[$data['form_id']]) ? $counterparty_forms[$data['form_id']]['name'] : '' }}" placeholder="@lang('custom::admin.Forms')" />
                     <button class="form-control drop-button" type="button">{{ (isset($data['form_id']) AND isset($show_counterparty[$data['form_id']])) ? $show_counterparty[$data['form_id']]['name'] : __('custom::admin.Forms') }}</button>
@@ -83,13 +115,21 @@
                       <div class="col-12"><input class="form-control"  type="text" wire:model.lazy="data.activity_type" placeholder="@lang('custom::admin.Employment type')"></div>
                       <div class="col-12"><input class="form-control"  type="text" wire:model.lazy="data.owner" placeholder="@lang('custom::admin.Owner')"></div>
                       <div class="col-12"><input class="form-control"  type="text" wire:model.lazy="data.authorized_capital" placeholder="@lang('custom::admin.Authorized capital')"></div>
-                      {{--<div class="col-12"><input class="form-control"  type="text" wire:model.lazy="data.inn" placeholder="ИНН"></div>--}}
-                      <div class="col-12"><input class="form-control"  type="text" wire:model.lazy="data.date_registration_inn" placeholder="@lang('custom::admin.Date register okpo')"></div>
+                      {{--<div class="col-12"><input class="form-control"  type="text" wire:model.lazy="data.inn" placeholder="ИНН"></div>
+                      <div class="col-12"><input class="form-control"  type="text" wire:model.lazy="data.date_registration_inn" placeholder="@lang('custom::admin.Date register okpo')"></div>--}}
                       <div class="col-12"><input class="form-control"  type="text" wire:model.lazy="data.form_nalog" placeholder="@lang('custom::admin.form_nalog')"></div>
-                      <div class="col-12"><input class="form-control"  type="text" wire:model.lazy="data.nds_certificate" placeholder="@lang('custom::admin.nds_certificate')"></div>
-                      <div class="col-12">
+                      <div class="col-12 show-hide">
+                        <label class="check" onclick="@this.changeDataItem('is_nds','{{(isset($data['is_nds']) AND $data['is_nds']==1) ? 0 : 1}}')">
+                        <input class="check__input" @if(isset($data['is_nds']) AND $data['is_nds']==1) checked @endif  type="checkbox">
+                        <span class="check__box"></span>
+                        <span class="check__txt">@lang('custom::admin.Pay NDS')</span></label>
+                    </div>
+                    <div class="show-hide-box" @if(isset($data['is_nds']) AND $data['is_nds']==1) style="display: block;"  wire:ignore @endif>
+                        <div class="col-12"><input class="form-control" value="{{ @$data['nds_certificate'] }}" type="text" onchange="@this.set('data.nds_certificate',this.value)" placeholder="@lang('custom::admin.nds_certificate')"></div>
+                      </div>
+                      {{--<div class="col-12">
                         <input class="form-control"  type="text" wire:model.lazy="data.phone"  onchange="@this.set('data.phone',this.value);" @if(isset($data['phone']))  @else value="" @endif  placeholder="@lang('custom::admin.Phone')"></div>
-                      <div class="col-12"><input class="form-control"  type="text" wire:model.lazy="data.email" placeholder="@lang('custom::admin.E-mail')"></div>
+                      <div class="col-12"><input class="form-control"  type="text" wire:model.lazy="data.email" placeholder="@lang('custom::admin.E-mail')"></div>--}}
                       <div class="col-12">
                         <div class="form-group-box">
                             <input class="form-control"  type="text" wire:model.lazy="data.ur_address" placeholder="@lang('custom::admin.ur_address')">
@@ -251,7 +291,7 @@
     </ul>
 </div>
     @else
-    <input class="js-tags-first form-control" onkeypress="return addNewTagsFirst(event,'parent_counterparties',this.value,'counterparty');" type="text" placeholder="@lang('custom::admin.selected_users')" value = "">
+    <input class="js-tags-first form-control" onkeypress="return addNewTagsFirst(event,'parent_counterparties',this.value,'counterparty');" type="text" placeholder="@lang('custom::admin.selected_parent_counterparties')" value = "">
     @endif
   {{-- <div class="form-group mt-4"><button class="button" type="button">Добавить</button></div>--}}
 
@@ -275,7 +315,6 @@
 
    function addNewTagsFirst(e,key_item, value, role = 'manager') {
      if(e.which == 13) {
-        //alert('ddd');
         @this.setDataTags(key_item,value,role)
         $('.js-tags-first').val('');
     }

@@ -1,7 +1,9 @@
 <div class="orders-filter">
             <div>
-              <div class="drop --arrow"><span class="drop-clear"></span><input class="form-control drop-input" type="text" autocomplete="off" placeholder="По № заказа">
-                <div class="drop-box">
+              <div class="drop --search">
+                <span class="drop-clear @if(isset($filter['id'])) _active @endif" onclick="@this.deleteFilterList('id')"></span>
+                <input class="form-control drop-input" oninput="sellectFilterListOrder('id',this.value)" type="text" autocomplete="off" placeholder="По № заказа">
+             {{--   <div class="drop-box">
                   <div class="drop-overflow">
                     <ul class="drop-list">
                       <li class="drop-list-item">№ заказ 1</li>
@@ -16,82 +18,72 @@
                       <li class="drop-list-item">№ заказ 10</li>
                     </ul>
                   </div>
-                </div>
+                </div>--}}
               </div>
             </div>
             <div>
-              <div class="drop --arrow"><span class="drop-clear"></span><input class="form-control drop-input" type="text" autocomplete="off" placeholder="По артикулу товара">
-                <div class="drop-box">
+              <div class="drop --search">
+                <span class="drop-clear @if(isset($filter['customer'])) _active @endif" onclick="@this.deleteFilterList('customer')"></span>
+                <input class="form-control drop-input" oninput="sellectFilterListOrder('customer',this.value)" type="text" autocomplete="off" placeholder="Замовник">
+             {{--   <div class="drop-box">
                   <div class="drop-overflow">
                     <ul class="drop-list">
-                      <li class="drop-list-item">Артикул товара 1</li>
-                      <li class="drop-list-item">Артикул товара 2</li>
-                      <li class="drop-list-item">Артикул товара 3</li>
-                      <li class="drop-list-item">Артикул товара 4</li>
-                      <li class="drop-list-item">Артикул товара 5</li>
-                      <li class="drop-list-item">Артикул товара 6</li>
-                      <li class="drop-list-item">Артикул товара 7</li>
-                      <li class="drop-list-item">Артикул товара 8</li>
-                      <li class="drop-list-item">Артикул товара 9</li>
-                      <li class="drop-list-item">Артикул товара 10</li>
+                      <li class="drop-list-item">№ заказ 1</li>
+                      <li class="drop-list-item">№ заказ 2</li>
+                      <li class="drop-list-item">№ заказ 3</li>
+                      <li class="drop-list-item">№ заказ 4</li>
+                      <li class="drop-list-item">№ заказ 5</li>
+                      <li class="drop-list-item">№ заказ 6</li>
+                      <li class="drop-list-item">№ заказ 7</li>
+                      <li class="drop-list-item">№ заказ 8</li>
+                      <li class="drop-list-item">№ заказ 9</li>
+                      <li class="drop-list-item">№ заказ 10</li>
                     </ul>
                   </div>
-                </div>
+                </div>--}}
               </div>
             </div>
+
             <div>
-              <div class="drop --arrow"><span class="drop-clear"></span><input class="form-control drop-input" type="text" autocomplete="off" placeholder="По контрагенту">
-                <div class="drop-box">
+              <div class="drop --search">
+                <span class="drop-clear @if($search != '') _active @endif" onclick="@this.set('search','')"></span>
+                <input class="form-control drop-input" wire:model.debounce.650ms="search" type="text" autocomplete="off" placeholder="Пошук">
+             {{--   <div class="drop-box">
                   <div class="drop-overflow">
                     <ul class="drop-list">
-                      <li class="drop-list-item">Контрагент 1</li>
-                      <li class="drop-list-item">Контрагент 2</li>
-                      <li class="drop-list-item">Контрагент 3</li>
-                      <li class="drop-list-item">Контрагент 4</li>
-                      <li class="drop-list-item">Контрагент 5</li>
-                      <li class="drop-list-item">Контрагент 6</li>
-                      <li class="drop-list-item">Контрагент 7</li>
-                      <li class="drop-list-item">Контрагент 8</li>
-                      <li class="drop-list-item">Контрагент 9</li>
-                      <li class="drop-list-item">Контрагент 10</li>
+                      <li class="drop-list-item">№ заказ 1</li>
+                      <li class="drop-list-item">№ заказ 2</li>
+                      <li class="drop-list-item">№ заказ 3</li>
+                      <li class="drop-list-item">№ заказ 4</li>
+                      <li class="drop-list-item">№ заказ 5</li>
+                      <li class="drop-list-item">№ заказ 6</li>
+                      <li class="drop-list-item">№ заказ 7</li>
+                      <li class="drop-list-item">№ заказ 8</li>
+                      <li class="drop-list-item">№ заказ 9</li>
+                      <li class="drop-list-item">№ заказ 10</li>
                     </ul>
                   </div>
-                </div>
+                </div>--}}
               </div>
             </div>
+
             <div>
-              <div class="drop --arrow"><span class="drop-clear"></span><input class="form-control drop-input" type="text" autocomplete="off" placeholder="По названию товара">
-                <div class="drop-box">
-                  <div class="drop-overflow">
-                    <ul class="drop-list">
-                      <li class="drop-list-item">Товар 1</li>
-                      <li class="drop-list-item">Товар 2</li>
-                      <li class="drop-list-item">Товар 3</li>
-                      <li class="drop-list-item">Товар 4</li>
-                      <li class="drop-list-item">Товар 5</li>
-                      <li class="drop-list-item">Товар 6</li>
-                      <li class="drop-list-item">Товар 7</li>
-                      <li class="drop-list-item">Товар 8</li>
-                      <li class="drop-list-item">Товар 9</li>
-                      <li class="drop-list-item">Товар 10</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
+
+              <div class="input-group" wire:key="filter_date_from" wire:ignore>
+                <input id="filter_date_from" @error("filter.date_from") style='border: 1px solid red' @enderror type="text" class="js-date form-control" value="{{ isset($filter['date_from']) ? $filter['date_from'] : ''}}" placeholder="Від" />
+        @include('livewire.admin.includes.calendar-new-form',['formId'=>'filter_date_from','nameForm'=>'filter.date_from','date_start'=>'filter.date_from','single'=>'single','clear'=>true])
+        <input type="hidden" wire:model="filter.date_from">
+                <input id="filter_date_to" @error("filter.date_to") style='border: 1px solid red' @enderror type="text" class="js-date form-control" value="{{ isset($filter['date_to']) ? $filter['date_to'] : ''}}" placeholder="До" />
+        @include('livewire.admin.includes.calendar-new-form',['formId'=>'filter_date_to','nameForm'=>'filter.date_to','date_start'=>'filter.date_to','single'=>'single','clear'=>true])
+        <input type="hidden" wire:model="filter.date_to">
+                <button class="js-clear-date clear-date" type="button" onclick="@this.deleteFilterList('date_from'); @this.deleteFilterList('date_to'); $('#filter_date_to').val(''); $('#filter_date_to').val('')"></button>
             </div>
-            <div>
-              <div class="js-date-group input-group"><input class="js-date form-control" type="text" placeholder="От"><input class="js-date form-control" type="text" placeholder="До"><button class="js-clear-date clear-date" type="button"></button></div>
             </div>
           </div>
-<ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab" aria-selected="true">Все <span class="nav-item__counter">3</span></button></li>
-            <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#new" type="button" role="tab" aria-selected="false" tabindex="-1">Новые <span class="nav-item__counter">3</span></button></li>
-            <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#confirmed" type="button" role="tab" aria-selected="false" tabindex="-1">Подтвержден <span class="nav-item__counter">3</span></button></li>
-            <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#shipment" type="button" role="tab" aria-selected="false" tabindex="-1">Отгрузка <span class="nav-item__counter">3</span></button></li>
-            <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#shipped" type="button" role="tab" aria-selected="false" tabindex="-1">Отгружено <span class="nav-item__counter">3</span></button></li>
-            <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#close" type="button" role="tab" aria-selected="false" tabindex="-1">Закрыто <span class="nav-item__counter">3</span></button></li>
-            <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#canseled" type="button" role="tab" aria-selected="false" tabindex="-1">Отменено <span class="nav-item__counter">3</span></button></li>
-          </ul>
+          <div wire:ignore>
+          @livewire('admin.orders.order-index-filter-livewire', key(time().'-order-index'))
+
+          </div>
 
 <div id="footable-content"
              class="footable-content @if($this->isNeedRevalidateFootable()) footable-revalidate @endif"
@@ -102,3 +94,13 @@
                data-empty="@lang('custom::site.data_is_absent')"
                data-show-toggle="true" data-toggle-column="last">
         </table>
+<script>
+    function sellectFilterListOrder(type,value,set,set2) {
+    setTimeout(() => {
+        //alert(value);
+        @this.sellectFilterList(type,value,set,set2)
+        //changeTableFoot();
+
+    }, 600);
+    }
+</script>

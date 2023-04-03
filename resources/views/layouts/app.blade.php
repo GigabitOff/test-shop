@@ -15,7 +15,7 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <link rel="shortcut icon" href="/assets/img/favicon.ico" type="image/x-icon">
 
-    @stack('canonical')
+    @yield('canonical')
 
     <!-- Styles -->
     <link rel="stylesheet" href="/assets/css/libs.min.css?ver={{config('app.release_no')}}">
@@ -53,6 +53,7 @@
 
     @stack('before-scripts')
 
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="/assets/js/libs.js?ver={{config('app.release_no')}}"></script>
     <script src="/assets/js/main.js?ver={{config('app.release_no')}}"></script>
     <script src="/assets/js/footableEx.js?ver={{config('app.release_no')}}"></script>

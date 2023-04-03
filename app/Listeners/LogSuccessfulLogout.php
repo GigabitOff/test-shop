@@ -32,7 +32,12 @@ class LogSuccessfulLogout
                 ->where('session_id', session()->getId())
                 ->update(['logout_at' => now()]);
 
-            session(['followPriceProductId' => 0]);
+            session(
+                [
+                    'followPriceProductId' => 0,
+                    'follow_price_action' => 0,
+                ]
+            );
         }
     }
 }

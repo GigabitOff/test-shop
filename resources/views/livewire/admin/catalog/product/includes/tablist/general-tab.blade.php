@@ -327,6 +327,8 @@
     </div>
     @endif
 
+<div  wire:ignore>
+    @livewire('admin.forms.select-color-livewire', ['color' => ($data['color'] ?? 'CC1641')], key(time().'color'))
+    </div>
 
-    <livewire:admin.forms.select-color-livewire />
 </div>

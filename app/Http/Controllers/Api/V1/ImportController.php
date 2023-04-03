@@ -86,7 +86,7 @@ class ImportController extends Controller
         return $this->success([], 'Import success');
     }
 
-    public function setProductPrice(Request $request): JsonResponse
+    public function setProductsPrice(Request $request): JsonResponse
     {
         $this->validate($request, ['prices' => 'required']);
 

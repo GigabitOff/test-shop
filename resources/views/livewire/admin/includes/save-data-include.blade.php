@@ -16,7 +16,7 @@
         @php($error_data = true)
     @enderror
 <div class="button-group page-save --all-info --btn-group">
-<button class="button" type="button" onclick="topFunction(); " @if(!isset($error_data)) data-bs-target="#saveMode{{$kay_popap}}" data-bs-toggle="modal"  @endif>
+<button class="button" type="button" onclick="topFunction(); " @if(!isset($error_data) AND !$canselSaveButton OR !isset($error_data)) data-bs-target="#saveMode{{$kay_popap}}" data-bs-toggle="modal"  @endif>
    @if(isset($title_button))
    {!! $title_button !!}
    @else
@@ -27,7 +27,6 @@
 @if(isset($canselSaveButton) AND !isset($onclick_cansel))
 
 <button class="button button-secondary" type="button" data-bs-target="#saveModeReturnBeckRefresh" data-bs-toggle="modal" data-bs-toggle="modal">
-
    @lang('custom::admin.Cansel')
 
 </button>
