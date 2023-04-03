@@ -9,7 +9,18 @@
             ])
         </div>
     @endif
-
+        <div class="form-group">
+            @include('livewire.includes.dropdown-server-filterable', [
+                'name' => 'filterableCity',
+                'model' => $filterableCity,
+                'mode' => $filterableMode,
+                'class' => 'custome-dropdown--arrow --empty',
+                'placeholder' => __('custom::site.choice_city'),
+            ])
+            @error('data.city_id')
+            <div class="invalid-feedback" style="display:block;">{{$message}}</div>
+            @enderror
+        </div>
     <form action="javascript:void(0);">
         <div class="js-group-option group-option"><label>@lang('custom::site.delivery_type')</label>
             <div class="form-group">
@@ -37,19 +48,7 @@
             @if($this->isDeliveryNewToAddress())
                 <div class="js-option1 group-option-item">
                     <div class="form-group">
-                        @include('livewire.includes.dropdown-server-filterable', [
-                            'name' => 'filterableCity',
-                            'model' => $filterableCity,
-                            'mode' => $filterableMode,
-                            'class' => 'custome-dropdown--arrow --empty',
-                            'placeholder' => __('custom::site.choice_city'),
-                        ])
-                        @error('data.city_id')
-                        <div class="invalid-feedback" style="display:block;">{{$message}}</div>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <input class="form-control" type="text"
+                       <input class="form-control" type="text"
                                wire:model.lazy="street"
                                placeholder="@lang('custom::site.street')">
                         @error('data.street_name')
@@ -82,17 +81,16 @@
                     </div>
                 </div>
             @elseif($this->isDeliveryNewToDepartment())
-                <div class="js-option2 group-option-item">
-                    <div class="form-group">
-                        @include('livewire.includes.dropdown-front-filterable', [
-                           'name' => 'filterableDepartment',
-                           'model' => $filterableDepartment,
-                           'placeholder' => __('custom::site.select_department'),
-                       ])
-                        @error('data.otdel_guid')
-                        <div class="invalid-feedback" style="display:block;">{{$message}}</div>
-                        @enderror
-                    </div>
+
+                <div class="form-group">
+                    @include('livewire.includes.dropdown-front-filterable', [
+                      'name' => 'filterableDepartment',
+                      'model' => $filterableDepartment,
+                      'placeholder' => __('custom::site.select_department'),
+                    ])
+                    @error('data.otdel_guid')
+                    <div class="invalid-feedback" style="display:block;">{{$message}}</div>
+                    @enderror
                 </div>
             @elseif($this->isDeliverySaved())
                 <div class="form-group">

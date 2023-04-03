@@ -30,6 +30,8 @@ class SatLivewire extends Component
     // локальные данные
     public string $deliveryTarget = 'address';
 
+    public array $delName= [];
+
     public ?string $street = null;
     public ?string $house = null;
     public ?string $korpus = null;
@@ -77,6 +79,8 @@ class SatLivewire extends Component
 
     protected function onSetFilterableCity($id, $name)
     {
+        $this->delName = $this->setFilterableDepartmentList($name);
+        $this->setFilterableDepartmentList($name);
         $this->trySendAddress();
     }
 
@@ -167,6 +171,8 @@ class SatLivewire extends Component
     /** Service Functions */
     protected function trySendAddress()
     {
+
+
         if ($this->isDeliveryNew()) {
             $this->updateDataFromValues();
 
@@ -287,19 +293,46 @@ class SatLivewire extends Component
         return $saved ?? [];
     }
 
-    protected function setFilterableDepartmentList(): array
+    protected function setFilterableDepartmentList($name): array
     {
-        return $this->SatService->getWarehouses()
-            ->keyBy('ref')
-            ->map(function ($el) {
-                return [
-                    'text' => $el['description'],
-                    'title' => "{$el['description']} {$el['address']}",
-                    'number' => $el['number'],
-                ];
-            })
-            ->toArray();
+    /*    if(empty($name)) {
+            return [];
+        }*/
+        $result = $this->SatService->getStreet($name);
+        $streetList = [];
+        foreach ($result as $item) {
+            $streetList[] = [
+                'text' => $item['address'],
+                'number' => '',
+            ];
+        }
+        return $streetList;
     }
+
+  /*  protected function setFilterableDepartmentList($name): array
+    {
+if(!empty($name)) {
+    $result = $this->SatService->getStreet($name);
+    $streetList = [];
+    foreach ($result as $item) {
+        $streetList[] = [
+            'text' => $item['address'],
+            'number' => '',
+        ];
+    }
+    return $streetList;
+}else{
+    $result = $this->SatService->getStreet($name = null);
+    $streetList = [];
+    foreach ($result as $item) {
+        $streetList[] = [
+            'text' => $item['address'],
+            'number' => '',
+        ];
+    }
+    return $streetList;
+}
+    }*/
 
     protected function setFilterableCityList($value): array
     {

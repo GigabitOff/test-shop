@@ -1,5 +1,5 @@
 <div>
-    @if($filterableSaved['list'])
+  {{--  @if($filterableSaved['list'])
         <div class="form-group" id="filterable-saved">
             @include('livewire.includes.dropdown-front-filterable', [
                 'name' => 'filterableSaved',
@@ -18,7 +18,7 @@
                 </div>
             @endif
         @endforeach
-    @else
+    @else--}}
         <div class="form-group">
             @include('livewire.includes.dropdown-server-filterable', [
                 'name' => 'filterableCity',
@@ -91,7 +91,7 @@
                 @endif
             </script>
         </div>
-    @endif
-    <div class="form-group"><span>@lang('custom::site.delivery_amount')</span></div>
+   {{-- @endif--}}
+ {{--   <div class="form-group"><span>@lang('custom::site.delivery_amount')</span></div>--}}
 </div>
 

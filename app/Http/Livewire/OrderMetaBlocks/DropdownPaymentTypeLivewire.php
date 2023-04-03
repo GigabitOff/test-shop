@@ -12,8 +12,10 @@ class DropdownPaymentTypeLivewire extends Component
     public string $paymentName = '';
     public array $paymentList = [];
 
+
     public function mount()
     {
+
         $this->paymentList = $this->customer->availablePaymentTypes()
             ->get()->keyBy('id')->map->name->toArray();
 
@@ -29,10 +31,19 @@ class DropdownPaymentTypeLivewire extends Component
         return view('livewire.order-meta-blocks.dropdown-payment-type-livewire');
     }
 
+
     public function updatedPaymentId($id)
     {
+        $this->paytype = $this->paymentId;
         $this->paymentName = $this->paymentList[$id] ?? '';
-        $this->emit('eventSetOrderPaymentType', $id, $this->paymentName);
+        $this->emit('eventSetOrderPaymentType', $id, $this->paymentName, $this->paytype);
+        $this->refreshT();
+    }
+
+    public function refreshT()
+    {
+
+        $this->emit('eventT',  $this->paytype);
     }
 
 }

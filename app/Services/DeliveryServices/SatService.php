@@ -22,7 +22,9 @@ class SatService extends BaseDeliveryService
      */
     public function getCities($warehouseRef = '')
     {
-        $response = $this->httpRequest('getTowns', ['rsp' => $warehouseRef]);
+
+
+        $response = $this->httpRequest('getRsp', ['rsp' => $warehouseRef]);
 
         $items = collect($response['data'] ?? []);
 
@@ -63,6 +65,29 @@ class SatService extends BaseDeliveryService
         return $items;
     }
 
+
+
+    public function getStreet($city)
+    {
+
+        $response = $this->httpRequest('getRsp', [
+            'searchstring' => $city, // добавляем параметр для поиска по городу
+        ]);
+
+        $items = collect($response['data'] ?? []);
+
+        if ($this->shortListAttributes) {
+            $items = $items->map(function ($el) {
+                return [
+                    'address' => $el['address'], // изменение возвращаемых атрибутов
+                ];
+            });
+        }
+
+        return $items; // возвращаем только адреса
+
+    }
+
     /**
      * Выполняет http запросы на API
      *
@@ -95,6 +120,7 @@ class SatService extends BaseDeliveryService
                 ]);
 
                 $result = json_decode((string)$response->getBody(), true);
+
                 Cache::put($hash, $result, now()->addDays(1));
             } catch (\Exception $e) {
             }

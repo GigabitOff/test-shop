@@ -11,11 +11,9 @@
     <div class="order-select-current"><span>@if($value) {{$value}} @else {{$placeholder}} @endif</span></div>
     <div class="order-select-box">
       <ul>
-        @foreach($items as $key => $name)
-        <li
-            onclick="@this.set('{{$model}}', '{{$key}}')"
-            value="{{$key}}">{{$name}}</li>
-        @endforeach
+          @foreach($items as $key => $name)
+              <li onclick="@this.set('{{$model}}', '{{$key}}')" value="{{$key}}">{{$name}}</li>
+          @endforeach
       </ul>
     </div>
   </div>
@@ -26,3 +24,8 @@
     <div class="invalid-feedback" style="display:block;">{{$message}}</div>
 @enderror
 </div>
+
+
+
+
+

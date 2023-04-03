@@ -7,6 +7,11 @@ use App\Models\DeliveryAddress;
 use App\Models\Warehouse;
 use Livewire\Component;
 
+use App\Models\City;
+use App\Models\Contract;
+use App\Models\DeliveryType;
+use Illuminate\Database\Eloquent\Model;
+
 class SelfPickupLivewire extends Component
 {
     use WithFilterableDropdown;
@@ -17,8 +22,12 @@ class SelfPickupLivewire extends Component
     // локальные данные
     public array $data = [];
     public array $filterableWarehouse = [];
+    public array $filterableCity = [];
+    public ?DeliveryType $deliveryType = null;
 
+    public array $filterableSaved = [];
     protected array $rules = [
+        'data.city_id' => 'required',
         'data.warehouse_id' => 'required',
     ];
 
@@ -30,10 +39,56 @@ class SelfPickupLivewire extends Component
 
     public function render()
     {
+
         return view('livewire.order-meta-blocks.self-pickup-livewire', [
             'filterableMode' => $this->filterableMode,
         ]);
     }
+
+    protected function onUpdatingFilterableCityValue($value)
+    {
+        if ($this->filterableCity['id']) {
+            $this->emit('eventClearOrderDelivery');
+        }
+    }
+
+    protected function onSetFilterableCity($id, $name)
+    {
+        $this->trySendAddress();
+    }
+
+    protected function onResetFilterableCity()
+    {
+        $this->trySendAddress();
+    }
+
+    protected function setFilterableCityList($value): array
+    {
+        $cities = $value
+            ? City::query()->SearchByName($value)->limit(10)->get()
+            : City::query()->RegionCapitals()->get();
+
+        return $cities->keyBy('id')
+            ->map(function ($c) {
+                return [
+                    'text' => $c->name_uk,
+                    'title' => $c->name_uk . " ({$c->district_uk} {$c->region_uk})",
+                ];
+            })->toArray();
+    }
+
+    protected function getFullAddress(): string
+    {
+        return sprintf('%s, %s %s/%s, %s',
+            $this->filterableCity['value'],
+            $this->street,
+            $this->house,
+            $this->korpus,
+            $this->office
+        );
+    }
+
+/*    /////////////////*/
 
     public function updated($field, $value)
     {
@@ -43,24 +98,27 @@ class SelfPickupLivewire extends Component
     public function messages()
     {
         return [
+            'data.city_id.required' => __('custom::site.choice_value_from_list'),
             'data.warehouse_id.required' => __('custom::site.choice_value_from_list'),
         ];
     }
 
-    /** Service Functions */
     private function trySendAddress()
     {
         $this->updateDataFromValues();
 
         try {
+
             $this->validate();
         } catch (\Exception $e) {
+
             $this->emit('eventClearOrderDelivery');
             throw $e;
         }
 
         $this->emit('eventSetOrderDeliveryData', $this->data);
     }
+
 
     protected function initSavedAddresses()
     {
@@ -90,6 +148,7 @@ class SelfPickupLivewire extends Component
     {
         $this->data = [
             'warehouse_id' => $this->filterableWarehouse['id'],
+            'city_id' => $this->filterableCity['id'],
         ];
     }
 

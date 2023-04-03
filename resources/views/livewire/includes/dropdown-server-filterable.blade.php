@@ -6,6 +6,7 @@
 {{--        (string) autocomplete       --}}
 {{--        (string) placeholder,       --}}
 {{--        (string) $class             --}}
+
                     <div class="drop --arrow"><span class="drop-clear"
                     onclick="$(this).parent().find('input').focus();
                     $(this).parent().find('.custome-dropdown-box').remove();

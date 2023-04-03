@@ -66,6 +66,8 @@ class PageMainLivewire extends Component
 
     }
 
+
+
     public function mount()
     {
         $this->invalidateNonValidPersonalOffers();
@@ -373,6 +375,7 @@ class PageMainLivewire extends Component
 
     public function eventCreateOrder($payload)
     {
+
         if (cart()->totalCartCheckedQuantity() < 1) {
             $this->dispatchBrowserEvent('flashMessage', [
                 'title' => __('custom::site.order'),
@@ -398,20 +401,24 @@ class PageMainLivewire extends Component
             $paymentType = PaymentType::find($payload['paymentTypeId']);
 
             switch ($paymentType["id"]) {
-                case 3:
-                    return redirect()->to('https://www.liqpay.ua/uk/');
+
                 case 2:
+
                     $recipient = CustomerRecipient::create([
                         'customer_id' => $this->customer->id,
                         'inn' => $payload['recipientINN'],
                         'phone' => $payload['phone'],
-                        'name' => $payload['recipientFIO'],
+                        'fop_title' => $payload['recipientFIO'],
+                        'name' => $payload['recipientName'],
+                        'delivery_address_id' =>  $payload['deliveryId'],
                     ]);
                     break;
                 case 1:
                     $recipient = CustomerRecipient::create([
                         'customer_id' => $this->customer->id,
                         'phone' => $payload['phone'],
+                        'name' => $payload['recipientName'],
+                        'delivery_address_id' =>  $payload['deliveryId'],
                     ]);
                     break;
                 default:

@@ -109,40 +109,41 @@ class DeliveryAutoService extends BaseDeliveryService
      * @param array $params Дополнительные парамтеры
      * @return array|mixed
      */
-    private function httpRequest($segment, $params = [])
-    {
-        $params['culture'] = $this->getCulture();
-        $params['country'] = $this->country;
 
-        $queryString = http_build_query($params);
-        $url = 'https://www.delivery-auto.com/api/v4/Public/' . $segment;
-        if ($queryString) {
-            $url .= '?' . $queryString;
-        }
+        private function httpRequest($segment, $params = [])
+        {
+            $params['culture'] = $this->getCulture();
+            $params['country'] = $this->country;
 
-        $hash = md5(json_encode(['url' => $url, 'salt' => 'DeliveryAuto',]));
-        $result = Cache::get($hash, []);
-
-        if (!$result) {
-            try {
-
-                $client = new \GuzzleHttp\Client();
-
-                $response = $client->request('GET', $url, [
-                    'headers' => [
-                        'Content-Type' => "application/json",
-                        'Accept' => "application/json"
-                    ],
-                ]);
-
-                $result = json_decode((string)$response->getBody(), true);
-                Cache::put($hash, $result, now()->addDays(1));
-            } catch (\Exception $e) {
+            $queryString = http_build_query($params);
+            $url = 'http://www.delivery-auto.com/api/v4/Public/' . $segment;
+            if ($queryString) {
+                $url .= '?' . $queryString;
             }
-        }
 
-        return $result ?? [];
-    }
+            $hash = md5(json_encode(['url' => $url, 'salt' => 'DeliveryAuto',]));
+            $result = Cache::get($hash, []);
+
+            if (!$result) {
+                try {
+
+                    $client = new \GuzzleHttp\Client();
+
+                    $response = $client->request('GET', $url, [
+                        'headers' => [
+                            'Content-Type' => "application/json",
+                            'Accept' => "application/json"
+                        ],
+                    ]);
+
+                    $result = json_decode((string)$response->getBody(), true);
+                    Cache::put($hash, $result, now()->addDays(1));
+                } catch (\Exception $e) {
+                }
+            }
+
+            return $result ?? [];
+        }
 
 
     private function getCulture()

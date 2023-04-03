@@ -19,6 +19,7 @@
             @endif
         @endforeach
     @else
+      {{--  ...........................................................--}}
         <div class="form-group">
             @include('livewire.includes.dropdown-server-filterable', [
                 'name' => 'filterableCity',
@@ -91,5 +92,5 @@
             </script>
         </div>
     @endif
-    <div class="form-group"><span>@lang('custom::site.delivery_amount')</span></div>
+    {{--<div class="form-group"><span>@lang('custom::site.delivery_amount')</span></div>--}}
 </div>

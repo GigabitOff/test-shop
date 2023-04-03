@@ -52,7 +52,6 @@ class PersonalManager extends Component
     public function sendData()
     {
         $this->validate();
-        dd($this->data);
     }
 
 }

@@ -51,8 +51,8 @@ class DeliveryTypeSeeder extends Seeder
 
         if (!DeliveryType::where('id_1c', 'seed-sat-service')->first()) {
             $dt = new DeliveryType(array(
-                'name:uk' => 'САТ',
-                'name:ru' => 'САТ',
+                'name:uk' => 'SAT',
+                'name:ru' => 'SАТ',
                 'name:en' => 'SAT',
                 'id_1c' => 'seed-sat-service',
             ));

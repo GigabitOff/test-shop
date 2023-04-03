@@ -1,4 +1,3 @@
-
 <div class="order-form order-form--custome">
     <div class="row">
         <div class="col-xl-9">
@@ -19,45 +18,72 @@
                         </p>
                     </div>
                     <div class="col-xl-3 col-md-6">
-                        <livewire:order-meta-blocks.dropdown-payment-type-livewire
-                            :customer="$customer"
-                            :paymentId="$paymentTypeId"
-                            :key="'dropdown-payment-type_' . $updatingKey"/>
+                        @if(empty($recipientPhone))
+                            <span style="pointer-events: none;">
+                          <livewire:order-meta-blocks.dropdown-payment-type-livewire
+                              :customer="$customer"
+                              :paymentId="$paymentTypeId"
+                              :key="'dropdown-payment-type_' . $updatingKey"
+                          />
+                            </span>
+                        @else
+                            <livewire:order-meta-blocks.dropdown-payment-type-livewire
+                                :customer="$customer"
+                                :paymentId="$paymentTypeId"
+                                :key="'dropdown-payment-type_' . $updatingKey"
+                            />
+                        @endif
                         <div class="order-block --customer">
-                            @if(!empty($recipientPhone) and $paymentTypeId == 2)
-                                <div class="customer-content js-customer-content-1">
-                                    <form action="#" autocomplete="off">
-                                        <div class="form-group">
-                                            <input class="form-control"
-                                                   type="text"
-                                                   wire:model.lazy="recipientINN"
-                                                   placeholder="@lang('custom::site.client_tax_number')">
-                                            @error('recipientINN')
-                                            <div class="invalid-feedback" style="display:block;">{{$message}}</div>
-                                            @enderror</div>
-                                    </form>
-                                </div>
-                                <p>
+                            @if(!empty($recipientPhone) and $paymentTypeId != 0 and $paymentTypeId != 1 and $paymentTypeId != 3)
                                 <div class="customer-content js-customer-content-1">
                                     <form action="#" autocomplete="off">
                                         <div class="form-group">
                                             <input class="form-control"
                                                    type="text"
                                                    wire:model.lazy="recipientFIO"
-                                                   placeholder="ПІБ">
+                                                   placeholder="ПІБ або ФОП">
                                         </div>
                                     </form>
                                 </div>
+                                <p>
+                                <form action="#" autocomplete="off">
+                                    <div class="form-group">
+                                        <input class="form-control"
+                                               type="text"
+                                               wire:model.lazy="recipientINN"
+                                               placeholder="@lang('custom::site.client_tax_number')">
+                                        @error('recipientINN')
+                                        <div class="invalid-feedback" style="display:block;">{{$message}}</div>
+                                        @enderror</div>
+                                </form>
                                 </p>
                             @endif
                         </div>
                     </div>
+                    @if($paymentTypeId != 3)
                     <div class="col-xl-3 col-md-6">
-                        <livewire:order-meta-blocks.dropdown-delivery-type-livewire
-                            :deliveryTypeId="$deliveryType->id ?? 0"
-                            :key="'dropdown-delivery-type_' . $updatingKey"/>
-
-                        <div class="order-block --delivery">
+                        @if($updateT == 0)
+                            <span style="pointer-events: none;">
+                                 <livewire:order-meta-blocks.dropdown-delivery-type-livewire
+                                     :deliveryTypeId="0"
+                                     :key="'dropdown-delivery-type_' . rand()"
+                                 />
+                            </span>
+                        @else
+                            @switch($updateT)
+                                @case(1)
+                                @case(2)
+                                    @once
+                                        <livewire:order-meta-blocks.dropdown-delivery-type-livewire
+                                            :deliveryTypeId="$deliveryType->id"
+                                            :key="'dropdown-delivery-type_' . rand()"
+                                        />
+                                    @endonce
+                                    @break
+                                @default
+                            @endswitch
+                        @endif
+                        <div class="order-block --delivery" style="display: @if($updateT == 0) none @else block @endif;">
                             @if($this->isServiceSelfPickup())
                                 <div class="delivery-content js-delivery-content-1">
                                     <form action="#" autocomplete="off">
@@ -78,11 +104,11 @@
                                         </div>
                                     </form>
                                 </div>
+                                </span>
                             @elseif($this->isServiceNovaPoshta())
                                 <div class="delivery-content js-delivery-content-3">
                                     <form action="#" autocomplete="off">
                                         <div class="form-group">
-
                                             <livewire:order-meta-blocks.nova-poshta-livewire
                                                 :addressOwner="$addressOwner"
                                                 :deliveryType="$deliveryType"
@@ -91,11 +117,9 @@
                                     </form>
                                 </div>
                             @elseif($this->isServiceSat())
-
                                 <div class="delivery-content js-delivery-content-4">
                                     <form action="#" autocomplete="off">
                                         <div class="form-group">
-
                                             <livewire:order-meta-blocks.sat-livewire
                                                 :addressOwner="$addressOwner"
                                                 :deliveryType="$deliveryType"
@@ -115,31 +139,37 @@
                                     </form>
                                 </div>
                             @elseif($this->isServiceExist())
-
                                 <div class="delivery-content js-delivery-content">
                                     <form action="#" autocomplete="off">
                                         <div class="form-group">
                                             <livewire:order-meta-blocks.imported-delivery-livewire
                                                 :addressOwner="$addressOwner"
                                                 :deliveryType="$deliveryType"
-                                                :key="'imported-delivery-service_' . $updatingKey"/>
+                                                :key="'imported-delivery-service_' . rand()"
+                                                wire:model="name"
+                                            />
                                         </div>
                                     </form>
                                 </div>
                             @endif
                         </div>
                     </div>
-
-                    <div class="col-xl-3 col-md-6">
-                        <button class="js-add-comment order-form-btn" type="button"> @lang('custom::site.Comment')</button>
-                        <div class="order-block --comment" @if($this->isHideCommentSection()) style="display: none" @endif>
+                    <div class="col-xl-3 col-md-6" style="pointer-events: @if($updateT == 0) none @else block @endif;">
+                        <button class="js-add-comment order-form-btn"
+                                type="button"> @lang('custom::site.Comment')</button>
+                        <div class="order-block --comment "
+                             @if($this->isHideCommentSection()) style="display: none" @endif>
             <textarea class="form-control" wire:model.lazy="comment"
                       placeholder="@lang('custom::site.comment_text')"></textarea></div>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 text-end"><button class="button-accent" type="button"
-                                               wire:click="createOrder">@lang('custom::site.Confirm')</button></div>
+       <div class="col-xl-3 text-end" style="pointer-events: @if(isset($paymentTypeId) and $updateT == 0) none @else block @endif;">
+            <button class="button-accent" type="button"
+                    wire:click="createOrder">@lang('custom::site.Confirm')</button>
+        </div>
     </div>
 </div>
+

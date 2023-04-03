@@ -42,11 +42,13 @@ class DeliveryAutoLivewire extends Component
 
     public function boot(DeliveryAutoService $service)
     {
+
         $this->deliveryAutoService = $service;
     }
 
     public function mount()
     {
+
         $this->initFilterable();
         $this->initSavedAddresses();
     }
@@ -60,6 +62,9 @@ class DeliveryAutoLivewire extends Component
 
     public function updated($field, $value)
     {
+
+        ////Меняется тип доставки Курьером или в отделение
+
         $this->updatedFilterable($field, $value);
 
         if (in_array($field, ['deliveryTarget', 'street', 'house', 'korpus', 'office'])) {
@@ -69,6 +74,7 @@ class DeliveryAutoLivewire extends Component
 
     protected function onSetFilterableSaved($id, $value)
     {
+
         if ($this->isDeliverySaved()) {
             $this->updateDataFromSaved($id);
         } else {
@@ -80,11 +86,14 @@ class DeliveryAutoLivewire extends Component
 
     protected function onResetFilterableSaved()
     {
+
         $this->emit('eventClearOrderDelivery');
     }
 
     protected function onSetFilterableRegion($id, $value)
     {
+        //////При заполненом значение и выборе поля Область
+
         $this->resetFilterable('filterableLocation');
         $this->resetFilterable('filterableDepartment');
         $this->filterableLocation['list'] = $this->setFilterableLocationList($id);
@@ -92,7 +101,8 @@ class DeliveryAutoLivewire extends Component
     }
 
     protected function onSetFilterableLocation($id, $value)
-    {
+    {  //////При заполненом значение и выборе поля Района
+
         $this->resetFilterable('filterableDepartment');
         $this->filterableDepartment['list'] = $this->setFilterableDepartmentList($id);
         $this->trySendAddress();
@@ -100,12 +110,14 @@ class DeliveryAutoLivewire extends Component
 
     protected function onSetFilterableDepartment($id, $value)
     {
+        //////При заполненом значение и выборе поля Района
         $this->filterableDepartment['number'] = $this->filterableDepartment['list'][$id]['number'] ?? null;
         $this->trySendAddress();
     }
 
     public function rules()
     {
+        ////Меняется тип доставки Курьером или в отделение
         if ('address' === $this->deliveryTarget) {
             $rules = [
                 'filterableRegion.id' => 'required',
@@ -150,6 +162,7 @@ class DeliveryAutoLivewire extends Component
     /** Event Handlers */
     public function eventSetOrderContract($id, $name)
     {
+
         if ($contract = Contract::find((int)$id)) {
             $this->addressOwner = $contract;
             $this->reset('deliveryAddressId', 'deliveryTarget');
@@ -164,6 +177,7 @@ class DeliveryAutoLivewire extends Component
 
     public function eventReceiveDeliveryDataSaved()
     {
+        ////при выборе доставки деливери
         if ($this->isDeliverySaved()) {
             $this->emit('eventSetOrderDeliveryData', $this->data);
         }
@@ -173,6 +187,7 @@ class DeliveryAutoLivewire extends Component
     /** Service Functions */
     protected function trySendAddress()
     {
+        ////Меняется тип доставки Курьером или в отделение
         if ($this->isDeliveryNew()) {
             $this->updateDataFromValues();
 
@@ -189,6 +204,8 @@ class DeliveryAutoLivewire extends Component
 
     protected function initSavedAddresses()
     {
+        ////при выборе доставки деливери
+
         $savedId = 0;
         if ($this->deliveryAddressId) {
             $savedId = $this->deliveryAddressId;
@@ -208,6 +225,7 @@ class DeliveryAutoLivewire extends Component
 
     protected function updateDataFromSaved($id)
     {
+
         if ($address = DeliveryAddress::find($id)) {
             $this->data = [
                 'delivery_id' => $id,
@@ -230,6 +248,7 @@ class DeliveryAutoLivewire extends Component
 
     protected function updateDataFromValues()
     {
+        ////Меняется тип доставки Курьером или в отделение
         if ('address' === $this->deliveryTarget) {
             $this->data = [
                 'city_guid' => $this->filterableLocation['id'],
@@ -252,36 +271,43 @@ class DeliveryAutoLivewire extends Component
 
     public function isTargetAddress(): bool
     {
+        ////при выборе доставки деливери
         return 'address' === $this->deliveryTarget;
     }
 
     public function isTargetDepartment(): bool
     {
+        ////Меняется тип доставки Курьером или в отделение
         return 'department' === $this->deliveryTarget;
     }
 
     public function isDeliveryNew(): bool
     {
+        ////при выборе доставки деливери
         return 'static' === ($this->filterableSaved['id'] ?: 'static');
     }
 
     public function isDeliverySaved(): bool
     {
+        ////при выборе доставки деливери
         return !$this->isDeliveryNew();
     }
 
     public function isDeliveryNewToAddress(): bool
     {
+        ////при выборе доставки деливери
         return $this->isDeliveryNew() && $this->isTargetAddress();
     }
 
     public function isDeliveryNewToDepartment(): bool
     {
+        ////Меняется тип доставки Курьером или в отделение
         return $this->isDeliveryNew() && $this->isTargetDepartment();
     }
 
     protected function setFilterableSavedList(): array
     {
+        ////при выборе доставки деливери
         if ($this->deliveryType && $this->addressOwner) {
             $saved = $this->addressOwner->deliveryAddresses()
                 ->where('delivery_type_id', $this->deliveryType->id)
@@ -297,12 +323,17 @@ class DeliveryAutoLivewire extends Component
 
     protected function setFilterableRegionList(): array
     {
-        return $this->deliveryAutoService->getRegions()
+        ////при выборе доставки деливери
+
+       $ty = $this->deliveryAutoService->getRegions()
             ->keyBy('code')->map->description->toArray();
+
+       return $ty;
     }
 
     protected function setFilterableLocationList($regionId): array
     {
+        ////при выборе доставки деливери
         return $regionId
             ? $this->deliveryAutoService->getCities($regionId)
                 ->keyBy('ref')->map->description->toArray()

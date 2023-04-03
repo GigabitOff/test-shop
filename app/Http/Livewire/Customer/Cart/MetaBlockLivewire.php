@@ -26,11 +26,15 @@ class MetaBlockLivewire extends Component
     public ?string $recipientINN = null;
     public ?string $postpaidSum = null;
     public ?string $recipientFIO = null;
-
     public array $deliveryData = [];
-
     public string $comment = '';
     public string $updatingKey = '';
+    /*public string $ret = '';*/
+    public int $updateT = 0;
+    public int $liqPay = 0;
+    public $showModal = false;
+
+
 
 
     protected bool $hideValidationErrors = true;
@@ -44,8 +48,15 @@ class MetaBlockLivewire extends Component
         'eventSetOrderRecipientPhone',
         'eventClearOrderDelivery',
         'eventOrderCreateSuccess',
+        'eventT',
     ];
 
+    /** Event Handlers */
+    public function eventT($type)
+    {
+
+        $this->updateT  = $type;
+    }
 
     public function mount(Request $request)
     {
@@ -53,12 +64,20 @@ class MetaBlockLivewire extends Component
         $this->initValues();
     }
 
+    public int $updateCount = 0;
+
+    public function refreshComponent($paytype)
+    {
+        $this->updateCount = $paytype;
+    }
+
+
     public function render()
     {
+
         if ($this->hideValidationErrors) {
             $this->clearValidation();
         }
-
         $addressOwner = $this->contractId
             ? (Contract::find((int)$this->contractId) ?? $this->customer)
             : $this->customer;
@@ -83,8 +102,11 @@ class MetaBlockLivewire extends Component
     }
 
     /** Event Handlers */
-    public function eventSetOrderPaymentType($id, $name)
+    public function eventSetOrderPaymentType($id, $name, $paytype)
     {
+       // echo dd($paytype);
+        $this->eventSetOrderDeliveryType($id, $name, $paytype);
+
         $this->paymentTypeId = $id;
         $this->paymentTypeName = $name;
     }
@@ -101,8 +123,10 @@ class MetaBlockLivewire extends Component
         $this->reset('contractId', 'contractName');
     }
 
-    public function eventSetOrderDeliveryType($id, $name)
+    public function eventSetOrderDeliveryType($id, $name, $paytype)
     {
+
+        $this->refreshComponent($paytype);
         $this->deliveryType = DeliveryType::find($id);
         $this->deliveryData = [];
         $this->emit('eventReceiveDeliveryDataSaved');
@@ -123,7 +147,6 @@ class MetaBlockLivewire extends Component
 
     }
 
-
     public function eventSetOrderDeliveryData($payload)
     {
         $this->deliveryData = $payload;
@@ -135,6 +158,8 @@ class MetaBlockLivewire extends Component
         $this->deliveryData = [];
     }
 
+
+
     public function eventOrderCreateSuccess()
     {
         $this->resetMetaToDefault();
@@ -142,24 +167,41 @@ class MetaBlockLivewire extends Component
 
     public function createOrder()
     {
-        $this->hideValidationErrors = false;
 
-        $this->deliveryValid = collect($this->deliveryData)->filter()->join('');
-        $this->validate();
-        $this->emitUp('eventCreateOrder', [
-            'paymentTypeId' => $this->paymentTypeId,
-            //'contractId' => $this->contractId,
-            'recipientId' => $this->recipientId,
-            'recipientName' => $this->recipientName,
-            'recipientINN' => $this->recipientINN,
-            'recipientFIO' => $this->recipientFIO,
-            'deliveryType' => $this->deliveryType,
-            'deliveryId' => $this->deliveryData['delivery_id'] ?? null,
-            'deliveryData' => $this->deliveryData,
-            'comment' => $this->comment,
-            'postpaidSum' => $this->postpaidSum,
-            'phone' =>  $this->recipientPhone
-        ]);
+        if($this->paymentTypeId != 3) {
+            $this->hideValidationErrors = false;
+
+            $this->deliveryValid = collect($this->deliveryData)->filter()->join('');
+            $this->validate();
+            $this->emitUp('eventCreateOrder', [
+                'paymentTypeId' => $this->paymentTypeId,
+                //'contractId' => $this->contractId,
+                'recipientId' => $this->recipientId,
+                'recipientName' => $this->recipientName,
+                'recipientINN' => $this->recipientINN,
+                'recipientFIO' => $this->recipientFIO,
+                'deliveryType' => $this->deliveryType,
+                'deliveryId' => $this->deliveryData['delivery_id'] ?? null,
+                'deliveryData' => $this->deliveryData,
+                'comment' => $this->comment,
+                'postpaidSum' => $this->postpaidSum,
+                'phone' => $this->recipientPhone
+            ]);
+        }else{
+         /*   return redirect()->to('https://www.liqpay.ua/uk/');*/
+         return   $this->liqPay = 1;
+
+        }
+    }
+
+    public function openModal()
+    {
+        $this->showModal = true;
+    }
+
+    public function closeModal()
+    {
+        $this->showModal = false;
     }
 
     public function rules(): array
@@ -222,8 +264,8 @@ class MetaBlockLivewire extends Component
             $this->paymentTypeName = $pt->name ?? '';
         }
 
-        $this->deliveryType = DeliveryType::where('id_1c', DeliveryType::DEFAULT)->first();
 
+        $this->deliveryType = DeliveryType::where('id_1c', DeliveryType::DEFAULT)->first();
         $this->counterpartyId = $this->customer->counterparty_id;
 
         $this->emit('eventReceiveDeliveryDataSaved');
@@ -259,6 +301,12 @@ class MetaBlockLivewire extends Component
     public function isServiceExist(): bool
     {
         return (bool)$this->deliveryType;
+    }
+
+    public function isTest($rt)
+    {
+        return  $rt;
+
     }
 
     public function isServiceSelfPickup(): bool

@@ -264,6 +264,7 @@ class NovaPoshtaLivewire extends Component
         return 'static' === ($this->filterableSaved['id'] ?: 'static');
     }
 
+
     protected function isDeliverySaved(): bool
     {
         return !$this->isDeliveryNew();

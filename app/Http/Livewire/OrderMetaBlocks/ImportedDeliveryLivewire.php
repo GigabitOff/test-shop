@@ -138,6 +138,7 @@ class ImportedDeliveryLivewire extends Component
 
     public function eventReceiveDeliveryDataSaved()
     {
+
         if ($this->isDeliverySaved()) {
             $this->emit('eventSetOrderDeliveryData', $this->data);
         }
