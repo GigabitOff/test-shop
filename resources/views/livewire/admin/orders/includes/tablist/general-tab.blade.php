@@ -69,14 +69,14 @@
 
             <div>
 
-              <div class="input-group" wire:key="filter_date_from" wire:ignore>
-                <input id="filter_date_from" @error("filter.date_from") style='border: 1px solid red' @enderror type="text" class="js-date form-control" value="{{ isset($filter['date_from']) ? $filter['date_from'] : ''}}" placeholder="Від" />
-        @include('livewire.admin.includes.calendar-new-form',['formId'=>'filter_date_from','nameForm'=>'filter.date_from','date_start'=>'filter.date_from','single'=>'single','clear'=>true])
+              <div class="input-group" wire:key="filter_date_from" >
+                <input readonly id="filter_date_from_to" @error("filter.date_from") style='border: 1px solid red' @enderror type="text" class="js-date-multy form-control" value="{{ isset($filter['date_from']) ? $filter['date_from'] : ''}}" placeholder="Від" />
+                @include('livewire.admin.includes.calendar-form',['formId'=>'filter_date_from_to','nameForm'=>'filter.date_start_end','date_start'=>'filter.date_from','date_end'=>'filter.date_to','hide_min_date'=>true,'clear'=>true])
+
         <input type="hidden" wire:model="filter.date_from">
-                <input id="filter_date_to" @error("filter.date_to") style='border: 1px solid red' @enderror type="text" class="js-date form-control" value="{{ isset($filter['date_to']) ? $filter['date_to'] : ''}}" placeholder="До" />
-        @include('livewire.admin.includes.calendar-new-form',['formId'=>'filter_date_to','nameForm'=>'filter.date_to','date_start'=>'filter.date_to','single'=>'single','clear'=>true])
+
         <input type="hidden" wire:model="filter.date_to">
-                <button class="js-clear-date clear-date" type="button" onclick="@this.deleteFilterList('date_from'); @this.deleteFilterList('date_to'); $('#filter_date_to').val(''); $('#filter_date_to').val('')"></button>
+                <button class="js-clear-date clear-date" type="button" onclick="@this.deleteFilterList('date_from'); @this.deleteFilterList('date_to'); $('#filter_date_from_to').val('');"></button>
             </div>
             </div>
           </div>

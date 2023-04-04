@@ -211,17 +211,17 @@ $followPrice = formatMoney($price);
         });
         $('#m-email').on('hidden.bs.modal', function () {
             delayedAction = {{ProductPriceTracker::ACTION_NOTHING}};
-            Livewire.emit('userIsFailedLoggedIn');
+            //Livewire.emit('userIsFailedLoggedIn');
         });
         $('#m-dialog-message').on('hidden.bs.modal', function () {
             delayedAction = {{ProductPriceTracker::ACTION_NOTHING}};
             // just to clean session
-            Livewire.emit('userIsFailedLoggedIn');
+            //Livewire.emit('userIsFailedLoggedIn');
         });
         $('#m-price2').on('hidden.bs.modal', function () {
             delayedAction = {{ProductPriceTracker::ACTION_NOTHING}};
             // just to clean session too
-            Livewire.emit('userIsFailedLoggedIn');
+            //Livewire.emit('userIsFailedLoggedIn');
         });
         jQuery(document).ready(function ($) {
             if ( delayedAction === {{ProductPriceTracker::ACTION_ADD_TO_CART}}) {
@@ -229,6 +229,7 @@ $followPrice = formatMoney($price);
                 Livewire.emit('eventCartAddProduct', {'product_id' : {{$product->id}}, 'show_notification':1, 'price_added': {{$price}}, 'quantity': 1 });
             } else if ( delayedAction === {{ProductPriceTracker::ACTION_SHOW_UNSUBSCRIBED_MESSAGE}}) {
                 delayedAction = {{ProductPriceTracker::ACTION_NOTHING}};
+                console.log('run3');
                 $('#followPriceLink').show();
                 $('#m-price-unsubscribe').modal('show');
             } else if ( delayedAction === {{ProductPriceTracker::ACTION_REGISTER_AND_ADD_TO_CART}}) {
@@ -242,7 +243,7 @@ $followPrice = formatMoney($price);
                 if (isEmptyEmail===1) {
                     $('#m-email').modal('show');
                 } else {
-                    $('#m-price2').modal('show');
+                    //$('#m-price2').modal('show');
                     $('#followPriceLink').hide();
                 }
             }

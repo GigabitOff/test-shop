@@ -648,7 +648,7 @@ jQuery(document).ready(function ($) {
   /* ------------------------- Показать/Скрыть пароль ------------------------- */
 
   $(document).on('click', '.show-password', function () {
-    let $inputPass = $(this).closest('._pass-form').find('input.js-password');
+   /* let $inputPass = $(this).closest('._pass-form').find('input.js-password');
 
     if ($inputPass.attr('type') == 'password') {
       $(this).addClass('_active');
@@ -658,7 +658,7 @@ jQuery(document).ready(function ($) {
       $inputPass.attr('type', 'password');
     }
 
-    return false;
+    return false;*/
   });
   $(document).on('click', 'table .js-select-all2', function () {
     let $table = $(this).closest('table');

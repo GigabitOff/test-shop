@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 use App\Http\Livewire\BaseComponentLivewire;
-
+use Illuminate\Support\Facades\Validator;
 class FeedbackTestLivewire extends BaseComponentLivewire
 {
 
@@ -61,9 +61,9 @@ class FeedbackTestLivewire extends BaseComponentLivewire
 
         $managers = $this->getManagers($this->popup_id);
         $popup = Popup::where('id', $this->popup_id)->first();
-        //dd($this->popup);
         $customer_id = null;
 
+        //dd($managers);
 
         if (!$popup) {
             $this->popup_id = null;
@@ -83,6 +83,10 @@ class FeedbackTestLivewire extends BaseComponentLivewire
         $this->sendAllEmails($managers);
         try {
 
+            $data['message'] = $this->data['message'];
+            $data['name'] = $this->data['fio'];
+            $data['subject'] = $this->subject;
+
             DB::beginTransaction();
 
             $chat = Chat::create([
@@ -98,6 +102,8 @@ class FeedbackTestLivewire extends BaseComponentLivewire
                 'owner_id' => $customer_id,
                 'message' => $this->data['message'],
             ]);
+
+            Mail::to($this->data['email'])->send(new SendDataMail($data));
 
             DB::commit();
 
@@ -123,12 +129,14 @@ class FeedbackTestLivewire extends BaseComponentLivewire
     {
         $managers = null;
         $popup = Popup::find($id);
+
         $this->popup = $popup;
         if ($popup) {
             $contucts = $popup->contucts;
             if (count($contucts) > 0) {
                 foreach ($contucts as $key_c => $value_c) {
                     if (count($value_c->users) > 0) {
+            //dd($value_c->users);
                         foreach ($value_c->users as $key_c => $value_c) {
                             if ($value_c->pivot->send_mail == 1) {
                                 $managers[$value_c->id] = $value_c;
@@ -154,10 +162,19 @@ class FeedbackTestLivewire extends BaseComponentLivewire
 
             foreach ($managers as $key => $value) {
                 # code...
+                if(!isset($value['email'])){
                 $manager['email'] = $this->emailSend;
+                }else{
+                    $manager['email'] = $value['email'];
 
+                }
 
-                if (isset($value)) {
+                $validator = Validator::make(['email' => $manager['email']], [
+                    'email' => 'required|email',
+                ]);
+
+                //dd($manager['email']);
+                if (isset($value) AND !$validator->fails()) {
 
                     //$this->data['user_id'] = $value['id'];
 
@@ -172,6 +189,10 @@ class FeedbackTestLivewire extends BaseComponentLivewire
                 }
             }
         } else {
+            $validator = Validator::make(['email' => $this->emailSend], [
+                'email' => 'required|email',
+            ]);
+
             $item = Mail::to($this->emailSend)->send(new SendDataMail($data));
         }
     }

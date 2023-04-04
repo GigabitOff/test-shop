@@ -64,7 +64,7 @@
                                   placeholder="@lang('custom::admin.new_message')"></textarea>
                         <button class="button"
                                 wire:click="submitNewMessage"
-                                type="button">@lang('custom::admin.to_send')</button>
+                                type="button" onclick="scrollChat()">@lang('custom::admin.to_send')</button>
                     </div>
                 @endif
           </div>
@@ -107,18 +107,8 @@
                     }).toArray().filter(e => e > 0);
             }
 
-            function scrollToFirstUnViewed() {
-                const holder = $('.messages-list-box').get(0);
-                const $first = $('.messages-list__item-text[data-viewed="0"]').eq(0)
-                const last = $('.messages-list__item-text').last().get(0)
+            scrollChat();
 
-                const el = $first.length ? $first.get(0) : last;
-
-                document.tm.scrollToElement(el, holder)
-            }
-
-            // First run after load page
-            scrollToFirstUnViewed()
             setMessagesToViewed()
 
             window.addEventListener('checkUnViewedMessages', () => setMessagesToViewed());
@@ -135,5 +125,13 @@
                 @this.submitNewMessage();
                 }
             });
+
     </script>
+
+    <script>
+          function scrollChat() {
+            const chatContainer = document.querySelector('.messages-list-box');
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+          }
+        </script>
 @endpush
