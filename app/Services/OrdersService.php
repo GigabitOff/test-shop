@@ -81,6 +81,7 @@ class OrdersService
         $order->total = $product_price * $product_quantity;
         $order->total_quantity = $product_quantity;
         $order->fio = $data['name'];
+        $order->phone = $data['phone'];
         $order->comment = $data['comment'] ?? '';
         $order->fast_order = true;
         $order->products()->attach($data['product_id'], [
