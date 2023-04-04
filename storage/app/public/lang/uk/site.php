@@ -186,7 +186,7 @@ return [
 
     'order' => 'Замовлення',
     'recipient' => 'Одержувач',
-    'client_tax_number' => 'ИПН',
+    'client_tax_number' => 'ІПН',
     'shipment_br_warehouse' => 'Склад<br> відвантаження',
     'select_storage' => 'Оберіть віддилення',
     'departure_date' => 'Дата відправки',

@@ -29,7 +29,6 @@ class MetaBlockLivewire extends Component
     public array $deliveryData = [];
     public string $comment = '';
     public string $updatingKey = '';
-    /*public string $ret = '';*/
     public int $updateT = 0;
     public int $liqPay = 0;
     public $showModal = false;
@@ -54,7 +53,6 @@ class MetaBlockLivewire extends Component
     /** Event Handlers */
     public function eventT($type)
     {
-
         $this->updateT  = $type;
     }
 
@@ -62,6 +60,7 @@ class MetaBlockLivewire extends Component
     {
         $this->customer = auth()->user();
         $this->initValues();
+
     }
 
     public int $updateCount = 0;
@@ -104,9 +103,8 @@ class MetaBlockLivewire extends Component
     /** Event Handlers */
     public function eventSetOrderPaymentType($id, $name, $paytype)
     {
-       // echo dd($paytype);
-        $this->eventSetOrderDeliveryType($id, $name, $paytype);
 
+        $this->eventSetOrderDeliveryType($id, $name, $paytype);
         $this->paymentTypeId = $id;
         $this->paymentTypeName = $name;
     }
@@ -259,9 +257,10 @@ class MetaBlockLivewire extends Component
             $this->paymentTypeId = $this->customer->paymentType->id;
             $this->paymentTypeName = $this->customer->paymentType->name;
         } else {
-            $this->paymentTypeId = $this->customer->defaultPaymentType;
+            $this->paymentTypeId = 0;
             $pt = PaymentType::find($this->paymentTypeId);
             $this->paymentTypeName = $pt->name ?? '';
+
         }
 
 

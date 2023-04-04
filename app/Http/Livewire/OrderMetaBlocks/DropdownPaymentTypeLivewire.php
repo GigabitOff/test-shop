@@ -23,6 +23,10 @@ class DropdownPaymentTypeLivewire extends Component
             $id = $this->customer->payment_type_id ?? $this->customer->defaultPaymentType;
             $this->paymentId = isset($this->paymentList[$id]) ? $id : 0;
         }
+        if ($this->paymentId || !isset($this->paymentList[$this->paymentId])) {
+            $id = $this->customer->payment_type_id ?? 5;
+            $this->paymentId = isset($this->paymentList[$id]) ? $id : 0;
+        }
         $this->paymentName = $this->paymentList[$this->paymentId] ?? '';
     }
 
@@ -34,6 +38,7 @@ class DropdownPaymentTypeLivewire extends Component
 
     public function updatedPaymentId($id)
     {
+
         $this->paytype = $this->paymentId;
         $this->paymentName = $this->paymentList[$id] ?? '';
         $this->emit('eventSetOrderPaymentType', $id, $this->paymentName, $this->paytype);
@@ -42,7 +47,6 @@ class DropdownPaymentTypeLivewire extends Component
 
     public function refreshT()
     {
-
         $this->emit('eventT',  $this->paytype);
     }
 

@@ -1,6 +1,9 @@
-@include('livewire.includes.custome-select',[
+
+    @include('livewire.includes.custome-select',[
     'model'=>'paymentId',
     'value'=>$paymentName,
     'items'=>$paymentList,
-    'placeholder'=>__('custom::site.Payment method'),
-])
+    'placeholder'=>('custom::site.Payment method'),
+    ])
+
+

@@ -7,23 +7,28 @@
 {{--        (string) class          --}}
 
 <div>
-  <div class="order-select js-select-{{$class ?? ''}}">
-    <div class="order-select-current"><span>@if($value) {{$value}} @else {{$placeholder}} @endif</span></div>
-    <div class="order-select-box">
-      <ul>
-          @foreach($items as $key => $name)
-              <li onclick="@this.set('{{$model}}', '{{$key}}')" value="{{$key}}">{{$name}}</li>
-          @endforeach
-      </ul>
+    <div class="order-select js-select-{{$class ?? ''}}">
+        <div class="order-select-current"><span>{{$value ?: $placeholder}}</span></div>
+        <div class="order-select-box">
+            <ul>
+                @foreach($items as $key => $name)
+                    @if(($model == 'paymentId' && $key != 5) || $model == 'deliveryTypeId')
+                        <li onclick="@this.set('{{$model}}', '{{$key}}')" value="{{$key}}">{{$name}}</li>
+                    @endif
+                @endforeach
+            </ul>
+        </div>
     </div>
-  </div>
-  <div class="order-block --{{$class ?? ''}}" style="display: none;">
-    <div class="order-block-value"></div>
-  </div>
-@error($model)
+    <div class="order-block --{{$class ?? ''}}" style="display: none;">
+        <div class="order-block-value"></div>
+    </div>
+    @error($model)
     <div class="invalid-feedback" style="display:block;">{{$message}}</div>
-@enderror
+    @enderror
 </div>
+
+
+
 
 
 

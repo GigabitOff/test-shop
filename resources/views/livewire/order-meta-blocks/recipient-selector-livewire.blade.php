@@ -1,4 +1,4 @@
-<div class="drop --arrow"><span class="drop-clear"></span>
+<div class="drop --arrow" style="width: 100%"><span class="drop-clear"></span>
     <input class="form-control drop-input" type="text"
            placeholder="@lang('custom::site.recipient')" name="recipient"
            wire:model.debounce.700ms="recipientName"
