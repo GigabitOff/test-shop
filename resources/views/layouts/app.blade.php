@@ -30,8 +30,11 @@
 </head>
 
 <body class="{{$bodyClasses}}">
+
 <div class="page-wrapper">
+
     <x-header/>
+
     {{ $slot }}
     <x-footer/>
 
