@@ -36,7 +36,7 @@
                 <th style="display: table-cell;">
                     @lang('custom::admin.clients.Company')<br>@lang('custom::admin.clients.Registration')
                 </th>
-                <th data-breakpoints="xs" style="display: table-cell;">Ответственное лицо</th>
+                <th data-breakpoints="xs" style="display: table-cell;">@lang('custom::admin.clients.Responsible person')</th>
                 <th data-breakpoints="xs" style="display: table-cell;">
                     @lang('custom::admin.clients.Phone')
                 </th>

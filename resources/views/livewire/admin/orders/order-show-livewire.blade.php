@@ -138,7 +138,7 @@
           @endif
 
 
-          <div class="page-bottom-group">
+         {{-- <div class="page-bottom-group">
             <div>
               <div class="button-group page-save --btn-group"><button class="button" type="button">Подтвердить</button><button class="button button-secondary" type="button">Отменить</button></div>
             </div>
@@ -159,6 +159,6 @@
                 <div id="table-nav-7"></div>
               </div>
             </div>
-          </div>
+          </div>--}}
 
 </div>

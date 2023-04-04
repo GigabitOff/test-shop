@@ -16,6 +16,7 @@
 
     @if($data_paginate AND count($data_paginate)>0)
         @foreach ($data_paginate as $key_f=>$item_f)
+        @if(isset($item_f->attribute))
 
         <tr>
             <td class="footable-first-visible" style="display: table-cell;">
@@ -139,6 +140,7 @@
                     <button class="button button-small button-icon ico_trash" title="@lang('custom::admin.Del')" type="button" onclick="@this.destroyDataFilterAttribute('{{$item_f['id']}}')"></button></div>
             </td>--}}
         </tr>
+        @endif
         @endforeach
 @else
                 <tr>

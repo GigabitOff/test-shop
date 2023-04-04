@@ -103,7 +103,7 @@
     <div class="form-group">
       <div class="input-group">
         <div class="input-group-text">
-            <span>Категория для фильтра</span>
+            <span>@lang('custom::admin.Category for filter')</span>
         </div>
         @include('livewire.admin.includes.select-data-arrow',[
                         'select_data_input'=>(isset($data['category_id']) AND isset($select_data['category_id'][$data['category_id']]['input']) ? $select_data['category_id'][$data['category_id']]['input']: null),

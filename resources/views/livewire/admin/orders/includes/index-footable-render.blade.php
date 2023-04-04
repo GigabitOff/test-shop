@@ -15,10 +15,10 @@
     <tbody>
     @foreach ($data_paginate as $item)
         <tr>
-                    <td><a class="accent" href="{{ route('admin.'.$nameLive.'.show', $item->id)}}">№{{ $item->id }}</a><span class="order-info">от {{ formatDate($item->created_at,'d.m.Y')}}</span></td>
+                    <td><a class="accent" href="{{ route('admin.'.$nameLive.'.show', $item->id)}}">№{{ $item->id }}</a><span class="order-info">@lang('custom::admin.from') {{ formatDate($item->created_at,'d.m.Y')}}</span></td>
                     <td>{{ formatDate($item->created_at,'H:i')}}</td>
                     <td>{{ $item->paymentType}}</td>
-                    <td>{{formatMoney($item->total)}} @lang('custom::site.uah')<spam class="order-info">{{ count($item->products)}} товаров</spam>
+                    <td>{{formatMoney($item->total)}} @lang('custom::site.uah')<spam class="order-info">{{ count($item->products)}} @lang('custom::admin.tovars')</spam>
                     </td>
                     <td><span class="nowrap">{{ $item->manager ? $item->manager->name : ''}}</span></td>
                     <td><span class="nowrap">{{ $item->customer->name}}</span><a class="order-customer-phone" href="tel:+{{ $item->customer->phone}}">+{{ $item->customer->phone}} </a></td>
