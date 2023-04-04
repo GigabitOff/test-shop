@@ -11,10 +11,10 @@
     <li class="nav-item" role="presentation">
         <button class="nav-link @if(isset($changeLangTabItem)  AND $changeLangTabItem==='all-info')active @endif" type="button"  onclick="@this.changeLangTab('all-info')"  tabindex="-1">@lang('custom::admin.Main data')</button>
     </li>
+    @if(isset($item_id))
     <li class="nav-item" role="presentation">
         <button class="nav-link @if(isset($changeLangTabItem)  AND $changeLangTabItem==='person')active @endif" type="button"  onclick="@this.changeLangTab('person')" tabindex="-1">@lang('custom::admin.founder')</button>
     </li>
-    @if(isset($item_id))
     <li class="nav-item" role="presentation">
         <button class="nav-link @if(isset($changeLangTabItem)  AND $changeLangTabItem==='contracts')active @endif" type="button"  onclick="@this.changeLangTab('contracts')" tabindex="-1">@lang('custom::admin.Agreements')</button>
     </li>
@@ -37,12 +37,12 @@
                         'index'=>'shop_id',
                        // 'title_select' => (isset($select_data['shop_id']) ? $select_data['shop_id']['input']: null),
                         'show_title' => true,
-                        'disabled_select'=>true,
+                       // 'disabled_select'=>true,
                         ])
 
                       </div>
                       </div>
-                      <div class="col-12" >
+                      {{--<div class="col-12" >
                         <div   wire:ignore.self >
                     @include('livewire.admin.includes.select-data-arrow',[
                         'select_data_input'=>(isset($select_data['type_id']) ? $select_data['type_id']: null),
@@ -56,7 +56,7 @@
                         ])
 
                       </div>
-                      </div>
+                      </div>--}}
                       <div class="col-12" >
                         <div   wire:ignore.self >
                     @include('livewire.admin.includes.select-data-arrow',[
@@ -414,11 +414,11 @@
                           <div class="action-group-drop">
                             <ul class="action-group-list">
                               <li><button class="js-show-person-box  ico_plus"  data-bs-target="#m-add-edit-founder" onclick="@this.addRemoveFounder('show')" data-bs-toggle="modal" type="button"></button></li>
-                              <li>
                                 @if(isset($data['founder']))
+                              <li>
                                 <button class="js-hide-person-box ico_trash"  onclick="@this.selectTab('info_user');@this.deleteFounderData({{isset($data['founder']['id']) ? $data['founder']['id'] : 0}});" type="button"></button>
-                                @endif
                             </li>
+                                @endif
                               <li>
                                 <button class="js-hide-drop ico_close" onclick="" type="button"></button>
                             </li>
@@ -443,11 +443,11 @@
                           <div class="action-group-drop">
                             <ul class="action-group-list">
                               <li><button class="js-show-person-box  ico_plus"  data-bs-target="#m-add-edit-founder-user" onclick="@this.addRemoveFounderUser('show')" data-bs-toggle="modal" type="button"></button></li>
-                              <li>
                                 @if(isset($selectedData) AND count($selectedData)>0)
+                              <li>
                                 <button class="js-hide-person-box ico_trash"  onclick="@this.addRemoveFounderUser('remove');" type="button"></button>
-                                @endif
                             </li>
+                                @endif
                               <li>
                                 <button class="js-hide-drop ico_close" type="button"></button>
                             </li>

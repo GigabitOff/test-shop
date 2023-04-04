@@ -45,10 +45,10 @@
 
         <div class="col-lg-5 col-5 @if(empty($data['varsAttrs'][$key])) d-none @endif">
             <label class="check eye">
-                <input class="check__input card-attr2 cart-attr-{{$item_column}}" name="cart-attr"
-                       wire:click="toggleCardAttribute('{{$item_column}}')"
-                       onclick="document.variations.cardAttrChecked(this)"
-                       @if(isset($data['card_attribute']) AND $data['card_attribute'] != $item_column) checked @endif
+                <input class="check__input card-attr2 cart-attr-{{$item_column}}" name="cart-attr2"
+                       onclick="@this.toggleCardAttribute('{{$item_column}}');"
+                      {{-- onclick="document.variations.cardAttrChecked(this)"--}}
+                       @if(!isset($data['card_attribute']) OR $data['card_attribute'] != $item_column) checked @endif
                        type="checkbox">
                 <span class="check__box"></span>
             </label>
@@ -73,10 +73,11 @@
 
         <div class="col-lg-5 col-5 @if(empty($data['varsAttrs'][$attrId])) d-none @endif">
             <label class="check eye">
-                <input class="check__input card-attr cart-attr-{{$attrId}}" name="cart-attr"
-                       wire:click="toggleCardAttribute('{{$attrId}}')"
-                       onclick="document.variations.cardAttrChecked(this)"
-                       @if(isset($data['card_attribute']) AND $data['card_attribute'] != $attrId) checked @endif
+                <input class="check__input card-attr2 cart-attr-{{$attrId}}"  name="cart-attr2"
+
+                       onclick="@this.toggleCardAttribute('{{$item_column}}');"
+                      {{-- onclick="document.variations.cardAttrChecked(this)"--}}
+                       @if(!isset($data['card_attribute']) OR $data['card_attribute'] != $item_column) checked @endif
                        type="checkbox">
                 <span class="check__box"></span>
             </label>
@@ -90,7 +91,7 @@
     <script>
         // Из за того, что checkbox eye работает наоборот, то приходится
         // переворачивать.
-        document.variations = {
+     /*   document.variations = {
             cardAttrChecked: function (target) {
                 $('.card-attr').each((i, el) => {
 
@@ -101,6 +102,23 @@
                 })
             }
         }
+
+
+          document.variations = {
+            cardAttrChecked: function(target) {
+              const $target = $(target);
+              if ($target.is(':checked')) {
+                return;
+              }
+              $('.card-attr').each((i, el) => {
+                const $el = $(el);
+                if (el !== target) {
+                  $el.prop('checked', true);
+                }
+              })
+            }
+          }
+ */
 
         //# sourceURL=product-variations.js
     </script>

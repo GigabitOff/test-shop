@@ -8,6 +8,7 @@
 
 @endphp
 <script>
+    var setSelectDate = null;
     function getLocale{{$formId}}(){
             return {
                 @if(isset($timePicker))
@@ -38,6 +39,11 @@
                     "{{__('custom::admin.calendar.month_full.nov')}}",
                     "{{__('custom::admin.calendar.month_full.dec')}}"
                 ],
+                buttonLabels: {
+                cancel: "{{__('custom::admin.Cansel')}}",
+                apply: "{{__('custom::admin.Applay')}}"
+            }
+
             };
         }
 
@@ -57,20 +63,28 @@ var to_date ='{{$date_end}}';
         setTimeout(() => {
         $('#{{$formId}}').daterangepicker({
             opens: 'left',
+            isInvalidDate: function(date) {
+                var today = new Date();
+                return date.isSame(today, 'day');
+            },
             @if(isset($calendar_drop))
             drops: '{{ $calendar_drop }}',
             @endif
+
+             @if(!isset($hide_min_date))
             minDate: new Date(),
+            @endif
+
             @if(isset($from_date))
 
             startDate: '{{$from_date}}',
-            @else
-            startDate: new Date(),
+            @elseif($clear !== true)
+            //startDate: new Date(),
             @endif
             @if(isset($to_date))
             endDate: '{{$to_date}}',
             @else
-            endDate: new Date(),
+            //endDate: new Date(),
 
             @endif
             locale: getLocale{{$formId}}(),
@@ -78,13 +92,13 @@ var to_date ='{{$date_end}}';
             //singleDatePicker: true,
 
         }, function(start, end, label) {
+            var setSelectDate = true;
             setTimeout(() => {
 
             @if(isset($date_start))
             @this.set('{{$date_start}}', start.format('DD.MM.YYYY'));
         @endif
         @if(isset($date_end))
-
             @this.set('{{$date_end}}', end.format('DD.MM.YYYY'));
         @endif
 
@@ -94,7 +108,7 @@ var to_date ='{{$date_end}}';
         });
 
         setTimeout(() => {
-            $('#{{$formId}}').val(`{{$from_date}}-{{$to_date}}`);
+            $('#{{$formId}}').val(`{{$from_date ? $from_date.'-' : ''}}{{$to_date}}`);
         }, 400)
 
     }, 400);
@@ -142,55 +156,37 @@ setTimeout(() => {
         });
 
     }, 400);
-    @else
-    setTimeout(() => {
-       $('#{{$formId}}2').datepicker({
-           autoClose: true,
-           @if(!isset($single))
-            range: true,
 
-            multipleDatesSeparator: ' - ',
-            beforeShow: function() {
-                if ($(window).width() < 768) {
-                    return { numberOfMonths: 1 };
-                } else {
-                    return { numberOfMonths: 2 };
-                }
-            },
-            @endif
-
-       @if(isset($date_start))
-       onSelect: function( selectedDate ) {
-            var dateSelect = selectedDate.split(' - ');
-             @this.set('{{$date_start}}', dateSelect[0]);
-
-
-            @if(isset($date_end))
-             @this.set('{{$date_end}}', dateSelect[1]);
-            @endif
-        },
-    @endif
-    });
-
-    });
         @endif
 
     }, 400);
 
-    setTimeout(() => {
-            $('.cancelBtn').text("{{__('custom::admin.Cansel')}}");
-            $('.applyBtn').text("{{__('custom::admin.Applay')}}");
+
             @if($clear === true)
             $('#{{$formId}}').val('');
             @endif
-        }, 700);
 
+
+        setTimeout(() => {
+            $('.cancelBtn').html("{{__('custom::admin.Cansel')}}");
+            $('.applyBtn').html("{{__('custom::admin.Applay')}}");
+            @if($clear === true)
+            document.querySelector('.drp-selected').html = '';
+            @endif
+
+        }, 1200);
     }
 
     document.addEventListener('DOMContentLoaded', function () {
         showCalendar{{$formId}}();
 
-
+        $('#{{$formId}}').on('hide.daterangepicker', function() {
+    // Викликати вашу функцію тут
+            if(setSelectDate == null ){
+                $('#{{$formId}}').val('');
+            document.querySelector('.drp-selected').html = '';
+            }
+        });
     });
 
     document.addEventListener('clearCalendar', event => {
@@ -202,7 +198,9 @@ setTimeout(() => {
         @if(isset($calendar_drop))
         drops: '{{ $calendar_drop }}',
         @endif
+        @if(!isset($hide_min_date))
         minDate: new Date(),
+        @endif
         startDate: new Date(),
         endDate: new Date(),
         locale: getLocale{{$formId}}(),
@@ -225,5 +223,7 @@ setTimeout(() => {
 
 
     });
+
+
 
 </script>

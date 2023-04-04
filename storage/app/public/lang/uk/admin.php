@@ -1237,5 +1237,8 @@ return [
     'Counterparty type' => 'Тип контрагента',
     'Pay NDS' => 'Платник ПДВ',
     'All' => 'Всі',
+    'Select filial' => 'Вибрати філіал',
+    'Max 3 address' => 'у Footer можна додати не більше трьох адрес',
+    'Name filial' => 'Назва філіалу',
 
 ];

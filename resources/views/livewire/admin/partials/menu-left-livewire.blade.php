@@ -335,7 +335,7 @@
                 <span>@lang('custom::admin.Chats')</span>
 
             </x-admin.menu-link>
-            <button class="sidebar-menu__sound @if(session('playAudio') ===false)--mute @endif" wire:poll.keep-alive="checkChatsMessage" onclick="@this.stopStartAudioMessage(); @if(session('playAudio') ===false) startAudioMessagePlayFirst(); @endif"></button>
+            <button class="sidebar-menu__sound @if(session('playAudio') ===false)--mute @endif" {{--wire:poll.keep-alive="checkChatsMessage"--}} onclick="@this.stopStartAudioMessage(); @if(session('playAudio') ===false) startAudioMessagePlayFirst(); @endif"></button>
         </li>
         <li class="sidebar-menu__item">
             <a target="_blank" class="sidebar-menu__link" href="/swagger">
@@ -344,9 +344,13 @@
             </a>
         </li>
     </ul>
-<div wire:poll.10750ms="updateChat">
+    @if(session('playAudio') === true)
+
+{{--
+    <div wire:poll.100750ms="updateChat">
     </div>
-    <div wire:poll.150ms="checkChatsMessage"></div>
+    <div wire:poll.400150ms="checkChatsMessage"></div>--}}
+    @endif
     <script>
         window.addEventListener('stopChangeStartSet', () => {
             @this.
@@ -435,6 +439,20 @@
           //  @this.emit('reloadChatsIndex');
         });
 
+        window.addEventListener('hidePopup', (e) => {
+            $('.modal').modal('hide');
+        });
+
+
     </script>
 
 </div>
+@push('scripts')
+    <script>
+        Livewire.on('responseReceivedMessage', function(response) {
+            // Показуємо сповіщення про отриманий результат
+            startAudioMessage();
+
+        });
+    </script>
+@endpush
