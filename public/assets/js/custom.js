@@ -1,36 +1,31 @@
 /* --------------------------- Страница "Контакты" -------------------------- */
+const mapBox = document.getElementById("map");
 
-const mapBox      = document.getElementById("map");
-
-if(mapBox && document.shopLocations[0]) {
+  if(mapBox) {
     const markerIcon  = '/assets/img/pin.png';
-    const mapZoom     = 12;
-    const centerMap   = new google.maps.LatLng(document.shopLocations[0]);
-
+    const mapZoom     = 7;
+    const centerMap   = new google.maps.LatLng(lat, lng);
+    // const markersData = [
+    //                       { lat: 48.49569167197041, lng: 32.22044119328887},
+    //                       { lat: 48.89569167197041, lng: 32.52044119328887},
+    //                     ];
     function initMap() {
-        var mapOptions = {
-            center: centerMap,
-            zoom: mapZoom,
-        };
-        map = new google.maps.Map(mapBox, mapOptions);
-        const markers = document.shopLocations.map((location, i) => {
-            return new google.maps.Marker({
-                position: location,
-                map,
-                icon: markerIcon,
-            });
+      var mapOptions = {
+        center: centerMap,
+        zoom: mapZoom,
+      };
+      map = new google.maps.Map(mapBox, mapOptions);
+      const markers = markersData.map((location, i) => {
+        return new google.maps.Marker({
+          position: location,
+          map,
+          icon: markerIcon,
         });
-        /*const markers = markersData.map((location, i) => {
-            return new google.maps.Marker({
-                position: location,
-                map,
-                icon: markerIcon,
-            });
-        });*/
+      });
     }
 
     initMap();
-}
+  }
 
 
 jQuery(document).ready(function ($) {

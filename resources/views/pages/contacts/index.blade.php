@@ -16,17 +16,18 @@
             </div>
         </section>
         @endif
-        @if($shop && $shop->getContuct())
+        @if($shops && count($shops))
             <section class="contacts-items">
                 <div class="container-xl">
                     <div class="row g-5">
-                        @foreach ($shop->getContuct()->get() as $item)
+
+                        @foreach ($shops as $item)
                             <div class="col-xl-4" data-aos="fade-right" data-aos-delay="200" data-aos-duration="500">
                                 <div class="contacts-item">
                                     <a class="contacts-item__link" href="#m-contacts{{ $item->id }}" data-bs-toggle="modal">
                                         <div class="contacts-item__info">
                                             <div class="contacts-item__title">{{ $item->title }}</div>
-                                            <div class="contacts-item__location"><i class="ico_location"></i>{{ $shop->address_lang }}</div>
+                                            <div class="contacts-item__location"><i class="ico_location"></i>{{ $item->address_lang }}</div>
                                         </div>
                                         <div class="contacts-item__btn"><button class="button-more" type="button"></button></div>
                                     </a>
@@ -39,7 +40,7 @@
                                         <div class="modal-header">
                                             <h5 class="modal-title">{{ $item->title }}</h5>
                                             <div class="m-contacts__location"><i class="ico_location"></i>
-                                                <span>{{ $shop->address_lang }}</span>
+                                                <span>{{ $item->address_lang }}</span>
                                             </div><button class="btn-close" type="button" data-bs-dismiss="modal"></button>
                                         </div>
                                         <div class="modal-body">
@@ -91,7 +92,18 @@
             </section>
         @endif
         <script>
-            document.shopLocations = @js($locations);
+
+            //document.shopLocations = @js($locations);
+
+            const markersData = @js($locations);
+            @if(isset($locations[1]))
+            const lat = @js($locations[1]['lat']);
+            const lng = @js($locations[1]['lng']);
+            @else
+                const lat = @js($locations[0]['lat']);
+                const lng = @js($locations[0]['lng']);
+            @endif
+            
         </script>
         <section class="contacts-map" data-aos="fade-up" data-aos-delay="800" data-aos-duration="500">
             <div class="container-xl">

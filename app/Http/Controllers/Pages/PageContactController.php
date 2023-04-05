@@ -22,10 +22,10 @@ class PageContactController extends Controller
         return redirect()->route('index',['lang'=>app()->currentLocale()]);
 
         $banners = Banner::where('page_id', $page->id)->where('status', true)->get();
-        $shop = Shop::where('status',true)
+        $shops = Shop::where('status',true)
                 ->with('translation')
                 ->with('getContuct')
-                ->first();
+                ->get();
         //logger()->info($shop);
        // exit();
 
@@ -43,6 +43,7 @@ class PageContactController extends Controller
             ];
         }
 
-        return view('pages.contacts.index', compact('shop','page', 'locations', 'banners'));
+
+        return view('pages.contacts.index', compact('shops','page', 'locations', 'banners', 'getLocations'));
     }
 }

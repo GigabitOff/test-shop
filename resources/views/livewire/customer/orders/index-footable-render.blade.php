@@ -25,7 +25,7 @@
       @endif
       </td>
       <td>
-        <div class="status --status-1"><span class="circle"></span><span>{{$order->status ? $order->status->name : ''}}</span></div>
+        <div class="status --status-{{$order->status ? $order->status->id : ''}}"><span class="circle"></span><span>{{$order->status ? $order->status->name : ''}}</span></div>
       </td>
       <td>
         <div class="return">
