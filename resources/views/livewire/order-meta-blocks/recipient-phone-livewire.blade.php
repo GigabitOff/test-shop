@@ -2,38 +2,18 @@
 <div class="add-phone">
     <div class="form-group">
         <form>
-            <input id="lf-phone-raw" style="display: none;" class="js-phone form-control" type="text"
+            <input id="lf-phone-raw"  class="js-phone form-control" type="text"
                    wire:model.lazy="recipientPhone"
-                   autocomplete="off"
-                   required placeholder="Phone">
+                   placeholder="@lang('custom::site.phone')">
         </form>
     </div>
 </div>
-
 <script>
-    var orderForm = document.querySelector(".order-form--custome");
-    var textField = orderForm.querySelector("input[type='text']");
-    var formGroup = document.querySelector(".order-form");
-    var uyBlock = document.getElementById("lf-phone-raw");
-    var intervalMs = 200;
-    var intervalId;
-
-    const phoneNumberInput = document.querySelector('.js-phone');
-    phoneNumberInput.addEventListener('blur', function () {
-        const phoneNumberValue = this.value;
-        console.log(`${phoneNumberValue}`);
-        Livewire.emit('recipientNaUpdated', phoneNumberValue);
+    const phoneInput = document.querySelector('#lf-phone-raw');
+    phoneInput.addEventListener('blur', function() {
+        const tel = phoneInput.value;
+        Livewire.emit('recipientNaUpdated', tel);
     });
-
-    function checkTextField() {
-        if (textField.value !== "") {
-            uyBlock.style.display = 'block';
-        } else {
-            uyBlock.style.display = 'none';
-        }
-    }
-
-    intervalId = setInterval(checkTextField, intervalMs);
 </script>
 
 

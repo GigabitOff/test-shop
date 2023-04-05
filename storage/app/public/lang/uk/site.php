@@ -336,7 +336,6 @@ return [
     'send_message_success' => 'Повідомлення відправлене',
     'send_recovery_code_sms' => 'Вам відправлен код в смс',
     'send_for_review' => 'Надіслати на розгляд',
-
     'login_to_account' => 'Вхід в особистий кабінет',
     'login_to_account2' => 'Вхід в особистий кабінет 2',
     'user' => 'Користувач',

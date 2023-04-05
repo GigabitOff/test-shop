@@ -147,10 +147,9 @@ class MetaBlockLivewire extends Component
     public function eventSetOrderRecipientPhone($id, $name)
     {
 
-
         $this->recipientPhone = $name;
         $this->recipientId = $id;
-        return $this->test = 1234567;
+
 
     }
 
@@ -193,16 +192,12 @@ class MetaBlockLivewire extends Component
                 'phone' => $this->recipientPhone
             ]);
 
-            $this->cleanPhone();
+
             $this->cleanDelivery();
             $this->cleanComment();
 
     }
 
-    public function cleanPhone()
-    {
-        $this->test = 0;
-    }
 
     public function cleanDelivery()
     {

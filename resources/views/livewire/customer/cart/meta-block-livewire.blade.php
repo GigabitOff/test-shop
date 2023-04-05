@@ -4,7 +4,7 @@
         <div class="col-xl-9">
             <div class="order-form-select">
                 <div class="row g-5 mb-3">
-                    <div id="uiooo" class="col-xl-3 col-md-6" >
+                    <div  class="col-xl-3 col-md-6" >
                         <livewire:order-meta-blocks.recipient-selector-livewire
                             :customer="$customer"
                             :recipientName="$recipientName"
@@ -13,29 +13,20 @@
                         <div class="invalid-feedback" style="display:block;">{{$message}}</div>
                         @enderror
                         &nbsp;
-                        <div style="display: @if(!$recipientName) none @else block @endif;">
-                            <livewire:order-meta-blocks.recipient-phone-livewire
-                                :customer="$customer"
-                                :recipientPhone="$recipientPhone"/>
-                        </div>
+                            <div style="display: @if(!$recipientName) none @else block @endif;">
+                                <livewire:order-meta-blocks.recipient-phone-livewire
+                                    :customer="$customer"
+                                    :recipientPhone="$recipientPhone"/>
+                            </div>
                     </div>
+                    <div class="col-xl-3 col-md-6" style="pointer-events: @if(!$recipientPhone) none @else block @endif;" >
 
-                    <div class="col-xl-3 col-md-6"  >
-                        @if(empty($recipientPhone))
-                            <span style="pointer-events: @if(!$recipientPhone) none @else block @endif;">
-                          <livewire:order-meta-blocks.dropdown-payment-type-livewire
-                              :customer="$customer"
-                              :paymentId="$paymentTypeId"
-                              :key="'dropdown-payment-type_' . $updatingKey"
-                          />
-                            </span>
-                        @else
                             <livewire:order-meta-blocks.dropdown-payment-type-livewire
                                 :customer="$customer"
                                 :paymentId="$paymentTypeId"
                                 :key="'dropdown-payment-type_' . $updatingKey"
                             />
-                        @endif
+
                         <div class="order-block --customer">
                      @if(!empty($recipientPhone) and $paymentTypeId != 0 and $paymentTypeId != 1 and $paymentTypeId != 3)
                                 <div class="customer-content js-customer-content-1">
