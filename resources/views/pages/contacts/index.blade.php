@@ -8,7 +8,7 @@
                         <div class="banner__desc" data-aos="fade-up" data-aos-delay="200" data-aos-duration="500">
                             <div class="banner__top"><a class="button-back" href="/">@lang('custom::site.Come back')<i class="ico_angle-left"></i></a><span>{{(isset($page->seo_h1) AND $page->seo_h1) != '' ? $page->seo_h1 : $page->title}}</span></div>
                             <h3 class="banner__title">{!! $banners->first()->title !!}</h3>
-                            <p class="banner__text">{!! $banners->first()->description?$banners->first()->description : '' !!}}</p>
+                            <p class="banner__text">{!! $banners->first()->description?$banners->first()->description : '' !!}</p>
                         </div>
                         <div class="banner__media" style="background-image: url({!! $banners->first()->image ?  \Storage::disk('public')->url($banners->first()->image) : '' !!})"></div>
                     </div>
@@ -20,8 +20,13 @@
             <section class="contacts-items">
                 <div class="container-xl">
                     <div class="row g-5">
+                        @foreach ($shops as $item_sh)
+                        <div class="col-12">
+                        <h3 class="section-title mb-0">{{ $item_sh->title }}</h3>
+                        </div>
+                            @if(count($item_sh->getContucts)>0)
+                            @foreach ($item_sh->getContucts as $item)
 
-                        @foreach ($shops as $item)
                             <div class="col-xl-4" data-aos="fade-right" data-aos-delay="200" data-aos-duration="500">
                                 <div class="contacts-item">
                                     <a class="contacts-item__link" href="#m-contacts{{ $item->id }}" data-bs-toggle="modal">
@@ -86,6 +91,8 @@
                                     </div>
                                 </div>
                             </div>
+                            @endforeach
+                            @endif
                         @endforeach
                     </div>
                 </div>
@@ -103,7 +110,7 @@
                 const lat = @js($locations[0]['lat']);
                 const lng = @js($locations[0]['lng']);
             @endif
-            
+
         </script>
         <section class="contacts-map" data-aos="fade-up" data-aos-delay="800" data-aos-duration="500">
             <div class="container-xl">
