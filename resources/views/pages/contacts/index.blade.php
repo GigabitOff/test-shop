@@ -26,13 +26,12 @@
                         </div>
                             @if(count($item_sh->getContucts)>0)
                             @foreach ($item_sh->getContucts as $item)
-
                             <div class="col-xl-4" data-aos="fade-right" data-aos-delay="200" data-aos-duration="500">
                                 <div class="contacts-item">
                                     <a class="contacts-item__link" href="#m-contacts{{ $item->id }}" data-bs-toggle="modal">
                                         <div class="contacts-item__info">
                                             <div class="contacts-item__title">{{ $item->title }}</div>
-                                            <div class="contacts-item__location"><i class="ico_location"></i>{{ $item->address_lang }}</div>
+                                            <div class="contacts-item__location"><i class="ico_location"></i>{{ $item_sh->address_lang }}</div>
                                         </div>
                                         <div class="contacts-item__btn"><button class="button-more" type="button"></button></div>
                                     </a>
@@ -45,7 +44,7 @@
                                         <div class="modal-header">
                                             <h5 class="modal-title">{{ $item->title }}</h5>
                                             <div class="m-contacts__location"><i class="ico_location"></i>
-                                                <span>{{ $item->address_lang }}</span>
+                                                <span>{{ $item_sh->address_lang }}</span>
                                             </div><button class="btn-close" type="button" data-bs-dismiss="modal"></button>
                                         </div>
                                         <div class="modal-body">
