@@ -202,7 +202,7 @@ $followPrice = formatMoney($price);
         Livewire.on('successToFollowPrice', () => {
             delayedAction = {{ProductPriceTracker::ACTION_NOTHING}};
             $('#m-price2').modal('show');
-            $('#followPriceLink').hide();
+            $('#followPriceLink').remove();
         });
         Livewire.on('successUnsubscribedPrice', () => $('#m-price-unsubscribe').modal('show'));
         $('#m-login').on('hidden.bs.modal', function () {
@@ -221,7 +221,7 @@ $followPrice = formatMoney($price);
         $('#m-price2').on('hidden.bs.modal', function () {
             delayedAction = {{ProductPriceTracker::ACTION_NOTHING}};
             // just to clean session too
-            //Livewire.emit('userIsFailedLoggedIn');
+            Livewire.emit('userIsFailedLoggedIn');
         });
         jQuery(document).ready(function ($) {
             if ( delayedAction === {{ProductPriceTracker::ACTION_ADD_TO_CART}}) {
@@ -243,7 +243,7 @@ $followPrice = formatMoney($price);
                     $('#m-email').modal('show');
                 } else {
                     $('#m-price2').modal('show');
-                    $('#followPriceLink').hide();
+                    $('#followPriceLink').remove();
                 }
             }
         });
