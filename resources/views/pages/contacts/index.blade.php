@@ -44,7 +44,7 @@
                                         <div class="modal-header">
                                             <h5 class="modal-title">{{ $item->title }}</h5>
                                             <div class="m-contacts__location"><i class="ico_location"></i>
-                                                <span>{{ $item_sh->address_lang }}</span>
+                                                <span>{{ $item_sh->title ? $item_sh->title.', ' : '' }}{{ $item_sh->address_lang }}</span>
                                             </div><button class="btn-close" type="button" data-bs-dismiss="modal"></button>
                                         </div>
                                         <div class="modal-body">
@@ -54,10 +54,9 @@
                                                         <div class="swiper-slide">
                                                             <div class="contacts-user-card">
                                                                     <div class="contacts-user-card__box">
-                                                                        @if($item->shop)
-                                                                            <div class="contacts-user-card__avatar"><img src="{{ \Storage::disk('public')->url($item->shop->image) }}" alt="avatar"></div>
-                                                                            <div class="contacts-user-card__name">{{ $item->shop->title }}</div>
-                                                                            <div class="contacts-user-card__position">{{ $item->shop->posada }}</div>
+                                                                            <div class="contacts-user-card__avatar"><img src="{{ \Storage::disk('public')->url($item->image) }}" alt="avatar"></div>
+                                                                            <div class="contacts-user-card__name">{{ $item->name }}</div>
+                                                                            <div class="contacts-user-card__position">{{ $item->posada }}</div>
                                                                             <div class="contacts-user-card__line"></div>
                                                                             <div class="contacts-user-card__links">
                                                                                 @foreach (json_decode($item->phones,1) as $phone)
@@ -68,11 +67,10 @@
                                                                                 @endforeach
                                                                             </div>
                                                                             <div class="contacts-user-card__btn">
-                                                                                <button type="button" class="open_callback" data-department-id="{{$item->shop->parent_id}}">
+                                                                                <button type="button" class="open_callback" data-department-id="{{$item->id}}">
                                                                                     @lang('custom::site.write_to')
                                                                                 </button>
                                                                             </div>
-                                                                        @endif
                                                                     </div>
                                                             </div>
                                                         </div>
