@@ -12,6 +12,7 @@
                         @error('recipientName')
                         <div class="invalid-feedback" style="display:block;">{{$message}}</div>
                         @enderror
+                        &nbsp;
                         <div style="display: @if(!$recipientName) none @else block @endif;">
                             <livewire:order-meta-blocks.recipient-phone-livewire
                                 :customer="$customer"
