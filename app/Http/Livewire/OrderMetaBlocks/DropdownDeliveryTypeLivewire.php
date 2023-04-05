@@ -20,11 +20,10 @@ class DropdownDeliveryTypeLivewire extends Component
     public ?int $deliveryTypeId = 0;
     public string $deliveryTypeName = '';
     public array $deliveryTypeList = [];
-    public ?int $paymentId = 0;
-
 
     public function mount()
     {
+
         $this->deliveryTypeList = $this->setDeliveryTypeList();
         $this->deliveryTypeName = $this->deliveryTypeList[$this->deliveryTypeId] ?? '';
     }
@@ -39,9 +38,9 @@ class DropdownDeliveryTypeLivewire extends Component
     public function updatedDeliveryTypeId($id)
     {
 
-        $this->ret = $this->paymentId;
         $this->deliveryTypeName = $this->deliveryTypeList[$id] ?? '';
-        $this->emit('eventSetOrderDeliveryType', $id, $this->deliveryTypeName,  $this->ret);
+        $this->emit('eventSetOrderDeliveryType', $id, $this->deliveryTypeName);
+
     }
 
     private function setDeliveryTypeList(): array

@@ -1,5 +1,5 @@
 
-        @include('livewire.includes.custome-select',[
+        @include('livewire.includes.custome-selecttu',[
             'model'=>'deliveryTypeId',
             'value'=>$deliveryTypeName,
             'items'=>$deliveryTypeList,

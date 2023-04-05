@@ -8,6 +8,7 @@ use App\Models\PaymentType;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Livewire\Component;
+
 class MetaBlockLivewire extends Component
 {
     public ?User $customer = null;
@@ -30,10 +31,9 @@ class MetaBlockLivewire extends Component
     public string $comment = '';
     public string $updatingKey = '';
     public int $updateT = 0;
-    public int $liqPay = 0;
     public $showModal = false;
-
-
+    public int $deliveryVars = 0;
+    public int $test = 0;
 
 
     protected bool $hideValidationErrors = true;
@@ -48,12 +48,19 @@ class MetaBlockLivewire extends Component
         'eventClearOrderDelivery',
         'eventOrderCreateSuccess',
         'eventT',
+        'eventTest',
     ];
 
     /** Event Handlers */
     public function eventT($type)
     {
         $this->updateT  = $type;
+    }
+
+    /** Event Handlers */
+    public function eventTest()
+    {
+        $this->test = '';
     }
 
     public function mount(Request $request)
@@ -101,10 +108,10 @@ class MetaBlockLivewire extends Component
     }
 
     /** Event Handlers */
-    public function eventSetOrderPaymentType($id, $name, $paytype)
+    public function eventSetOrderPaymentType($id, $name)
     {
 
-        $this->eventSetOrderDeliveryType($id, $name, $paytype);
+        $this->eventSetOrderDeliveryType($id, $name);
         $this->paymentTypeId = $id;
         $this->paymentTypeName = $name;
     }
@@ -121,10 +128,10 @@ class MetaBlockLivewire extends Component
         $this->reset('contractId', 'contractName');
     }
 
-    public function eventSetOrderDeliveryType($id, $name, $paytype)
+    public function eventSetOrderDeliveryType($id, $name)
     {
 
-        $this->refreshComponent($paytype);
+        $this->deliveryVars = $id;
         $this->deliveryType = DeliveryType::find($id);
         $this->deliveryData = [];
         $this->emit('eventReceiveDeliveryDataSaved');
@@ -140,10 +147,13 @@ class MetaBlockLivewire extends Component
     public function eventSetOrderRecipientPhone($id, $name)
     {
 
+
         $this->recipientPhone = $name;
         $this->recipientId = $id;
+        return $this->test = 1234567;
 
     }
+
 
     public function eventSetOrderDeliveryData($payload)
     {
@@ -156,8 +166,6 @@ class MetaBlockLivewire extends Component
         $this->deliveryData = [];
     }
 
-
-
     public function eventOrderCreateSuccess()
     {
         $this->resetMetaToDefault();
@@ -166,11 +174,10 @@ class MetaBlockLivewire extends Component
     public function createOrder()
     {
 
-        if($this->paymentTypeId != 3) {
             $this->hideValidationErrors = false;
 
             $this->deliveryValid = collect($this->deliveryData)->filter()->join('');
-            $this->validate();
+            //$this->validate();
             $this->emitUp('eventCreateOrder', [
                 'paymentTypeId' => $this->paymentTypeId,
                 //'contractId' => $this->contractId,
@@ -185,11 +192,26 @@ class MetaBlockLivewire extends Component
                 'postpaidSum' => $this->postpaidSum,
                 'phone' => $this->recipientPhone
             ]);
-        }else{
-         /*   return redirect()->to('https://www.liqpay.ua/uk/');*/
-         return   $this->liqPay = 1;
 
-        }
+            $this->cleanPhone();
+            $this->cleanDelivery();
+            $this->cleanComment();
+
+    }
+
+    public function cleanPhone()
+    {
+        $this->test = 0;
+    }
+
+    public function cleanDelivery()
+    {
+        $this->deliveryVars = 0;
+    }
+
+    public function cleanComment()
+    {
+        $this->comment = '';
     }
 
     public function openModal()

@@ -1,9 +1,15 @@
-<form>
-    <input id="lf-phone-raw" style="display: none;" class="js-phone form-control" type="text"
-           wire:model.lazy="recipientPhone"
-           autocomplete="off"
-           required placeholder="Phone">
-</form>
+
+<div class="add-phone">
+    <div class="form-group">
+        <form>
+            <input id="lf-phone-raw" style="display: none;" class="js-phone form-control" type="text"
+                   wire:model.lazy="recipientPhone"
+                   autocomplete="off"
+                   required placeholder="Phone">
+        </form>
+    </div>
+</div>
+
 <script>
     var orderForm = document.querySelector(".order-form--custome");
     var textField = orderForm.querySelector("input[type='text']");
@@ -29,6 +35,7 @@
 
     intervalId = setInterval(checkTextField, intervalMs);
 </script>
+
 
 
 

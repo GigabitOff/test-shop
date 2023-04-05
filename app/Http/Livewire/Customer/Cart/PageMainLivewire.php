@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Customer\Cart;
 
+use App\Http\Livewire\OrderMetaBlocks\RecipientPhoneLivewire;
 use App\Models\Contract;
 use App\Models\Counterparty;
 use App\Models\CustomerRecipient;
@@ -397,14 +398,14 @@ class PageMainLivewire extends Component
         }
 
         try {
+
             DB::beginTransaction();
             $paymentType = PaymentType::find($payload['paymentTypeId']);
 
             switch ($paymentType["id"]) {
-
                 case 2:
-
                     $recipient = CustomerRecipient::create([
+
                         'customer_id' => $this->customer->id,
                         'inn' => $payload['recipientINN'],
                         'phone' => $payload['phone'],
@@ -485,6 +486,7 @@ class PageMainLivewire extends Component
             $this->emit('eventOrderCreateSuccess');
             $this->revalidateTable = true;
             $this->prepareProducts(false, true);
+
         } catch (\Exception $e) {
             DB::rollBack();
             logger(__METHOD__ . $e->getMessage());
@@ -494,7 +496,11 @@ class PageMainLivewire extends Component
                 'state' => 'danger'
             ]);
         }
+
+
     }
+
+
 
     public function eventRefreshPage()
     {
