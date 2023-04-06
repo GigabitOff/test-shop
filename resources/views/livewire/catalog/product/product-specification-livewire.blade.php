@@ -1,11 +1,11 @@
 @php $attributes = $data->attributeValues->toArray();@endphp
 @if($attributes)
-<div class="product-full-box --specification">
+<div class="product-full-box --specification-single">
     <div class="product-full-box__head">
         <div class="product-full-box__title" id="specification">@lang('custom::site.Specification')</div>
     </div>
     <div class="product-full-box__body --overflow">
-        <div class="row g-5">
+        <div>
             @php
             //add size and weight to attribute
             if($data->weight)
@@ -20,7 +20,7 @@
             ]);
             $countAttributes = count($attributes);
             @endphp
-            <div class="@if($layout['columns']==3) col-md-12 @else col-md-6 @endif">
+            <div>
                 <ul class="specification-list">
                     @foreach(array_slice($attributes, 0, ceil($countAttributes/2)) as $attr)
                         <li>

@@ -1,5 +1,5 @@
 @if($layout['columns']!=3)
-<div class="col-md-6">
+<div>
 @endif
     <ul class="specification-list">
         @foreach(array_slice($attributes, ceil($countAttributes/2)) as $attr)
