@@ -102,7 +102,6 @@ class FeedbackContuctLivewire extends Component
 
             DB::commit();
 
-            $this->resetForm();
             session()->flash('chat_message_success', __('custom::site.send_message_success'));
         } catch (\Exception $e) {
             DB::rollBack();
@@ -111,6 +110,8 @@ class FeedbackContuctLivewire extends Component
         }
 
         $this->sendAllEmails($managers);
+
+        $this->resetForm();
 
     }
 
@@ -155,6 +156,7 @@ class FeedbackContuctLivewire extends Component
     }
 
     public function sendAllEmails($managers){
+
         $data['message'] = $this->data['message'];
         $data['name'] = $this->data['fio'];
         $data['subject'] = $this->subject;
