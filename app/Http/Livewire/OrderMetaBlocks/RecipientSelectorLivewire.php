@@ -44,7 +44,7 @@ class RecipientSelectorLivewire extends Component
 
     public function setName()
     {
-        //$this->emit('eventSetOrderRecipient', $this->recipientId, $this->recipientName);
+        $this->emit('eventSetOrderRecipient', $this->recipientId, $this->recipientName);
     }
 
     protected function revalidateRecipientList($value = '')

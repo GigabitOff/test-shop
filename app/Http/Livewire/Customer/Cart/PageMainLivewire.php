@@ -434,7 +434,6 @@ class PageMainLivewire extends Component
                 $payload['deliveryId'] = $delivery->id;
             }
 
-// Выполняем обязательный пересчет цен товаров
             $this->prepareProducts(true, true);
 
             $order = orders()->createOrderFromCart($this->customer, $this->cashbackUsed);
