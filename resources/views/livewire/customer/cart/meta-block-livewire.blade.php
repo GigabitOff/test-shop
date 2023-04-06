@@ -105,7 +105,7 @@
                             @endswitch
                         @endif
                         <div class="order-block --delivery" >
-                            @if($this->isServiceSelfPickup() and  $paymentTypeId == 1 or $this->isServiceSelfPickup() and  $paymentTypeId == 2 and !empty($deliveryTypeIdDu) )
+                            @if($this->isServiceSelfPickup() and  $paymentTypeId == 1 or $this->isServiceSelfPickup() and  $paymentTypeId == 2 and !empty($deliveryTypeIdDu) or $this->isServiceSelfPickup() and  $paymentTypeId == 3 and !empty($deliveryTypeIdDu))
                                 <div class="delivery-content js-delivery-content-1">
                                     <form action="#" autocomplete="off">
                                         <div class="form-group">
