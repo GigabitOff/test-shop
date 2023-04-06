@@ -57,56 +57,31 @@
                     <div class="col-xl-3 col-md-6" style="pointer-events: @if(!$paymentTypeId) none @else block @endif;">
                         @if($updateT == 0 and $this->deliveryVars == 0)
                             <span>
-                                 <livewire:order-meta-blocks.dropdown-delivery-type-livewire
-                                     :deliveryTypeId="0"
-                                     :key="'dropdown-delivery-type_' . rand()"
-                                 />
+                               <livewire:order-meta-blocks.dropdown-delivery-type-livewire
+                               :deliveryTypeId="0" />
                             </span>
                         @else
                             @switch($updateT)
                                 @case(1)
-                                    @once
-                                        <livewire:order-meta-blocks.dropdown-delivery-type-livewire
-                                            :deliveryTypeId="1"
-                                            :key="'dropdown-delivery-type_' . rand()"
-                                        />
-                                    @endonce
+                                    <livewire:order-meta-blocks.dropdown-delivery-type-livewire
+                                        :deliveryTypeId="1"
+                                    />
                                     @break
                                 @case(2)
-                                    @once
-                                        @if(!$deliveryTypeIdDu)
-                                        <livewire:order-meta-blocks.dropdown-delivery-type-livewire
-                                            :deliveryTypeId="0"
-                                            :key="'dropdown-delivery-type_' . rand()"
-                                        />
-                                        @else
-                                            <livewire:order-meta-blocks.dropdown-delivery-type-livewire
-                                                :deliveryTypeId="$deliveryTypeIdDu"
-                                                :key="'dropdown-delivery-type_' . rand()"
-                                            />
-                                        @endif
-                                    @endonce
+                                    <livewire:order-meta-blocks.dropdown-delivery-type-livewire
+                                        :deliveryTypeId="$deliveryTypeIdDu ?? 0"
+                                    />
                                     @break
                                 @case(3)
-                                    @once
-                                        @if(!$deliveryTypeIdDu)
-                                            <livewire:order-meta-blocks.dropdown-delivery-type-livewire
-                                                :deliveryTypeId="0"
-                                                :key="'dropdown-delivery-type_' . rand()"
-                                            />
-                                        @else
-                                            <livewire:order-meta-blocks.dropdown-delivery-type-livewire
-                                                :deliveryTypeId="$deliveryTypeIdDu"
-                                                :key="'dropdown-delivery-type_' . rand()"
-                                            />
-                                        @endif
-                                    @endonce
+                                    <livewire:order-meta-blocks.dropdown-delivery-type-livewire
+                                        :deliveryTypeId="$deliveryTypeIdDu ?? 0"
+                                    />
                                     @break
                                 @default
                             @endswitch
                         @endif
-                        <div class="order-block --delivery" style="display: @if(!$paymentTypeId) none @else block @endif;">
-                            @if($this->isServiceSelfPickup() and $updateT != 0  and $deliveryTypeIdDu)
+                        <div class="order-block --delivery" >
+                            @if($this->isServiceSelfPickup() and $paymentTypeId == 1)
                                 <div class="delivery-content js-delivery-content-1">
                                     <form action="#" autocomplete="off">
                                         <div class="form-group">
@@ -115,7 +90,8 @@
                                         </div>
                                     </form>
                                 </div>
-                            @elseif($this->isServiceAddressDelivery() and $deliveryTypeIdDu)
+                            @endif
+                            @if($this->isServiceAddressDelivery())
                                 <div class="delivery-content js-delivery-content-2">
                                     <form action="#">
                                         <div class="form-group">
