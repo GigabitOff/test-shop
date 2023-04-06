@@ -96,9 +96,9 @@ class CatalogProductController extends Controller
                     $action = auth()->user() ?
                         ProductPriceTracker::ACTION_ADD_TO_CART :
                         ProductPriceTracker::ACTION_REGISTER_AND_ADD_TO_CART;
-                }/* else {
+                } else {
                     $action = session('follow_price_action', ProductPriceTracker::ACTION_NOTHING);
-                }*/
+                }
             }
             ProductPriceTracker::persistAction($action);
             if (auth()->user()) {
