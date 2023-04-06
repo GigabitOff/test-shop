@@ -215,6 +215,14 @@ $followPrice = formatMoney($price);
         });
         $('#m-dialog-message').on('hidden.bs.modal', function () {
             delayedAction = {{ProductPriceTracker::ACTION_NOTHING}};
+            if (window.parent.location.href.match(/add-to-cart=/)){
+                if (typeof (history.pushState) != "undefined") {
+                    var obj = { Title: document.title, Url: window.parent.location.pathname };
+                    history.pushState(obj, obj.Title, obj.Url);
+                } else {
+                    window.parent.location = window.parent.location.pathname;
+                }
+            }
             // just to clean session
             Livewire.emit('userIsFailedLoggedIn');
         });
