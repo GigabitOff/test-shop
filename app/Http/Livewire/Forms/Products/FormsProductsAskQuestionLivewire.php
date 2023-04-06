@@ -70,8 +70,7 @@ class FormsProductsAskQuestionLivewire extends Component
         $this->validate();
 
         $managers = $this->getManagers($this->popup_id);
-        $popup = Popup::where('id',$this->popup)->first();
-        //dd($this->popup);
+
         $customer_id = null;
 
         $this->subject = 'Повідомлення з попап';
@@ -81,16 +80,16 @@ class FormsProductsAskQuestionLivewire extends Component
         if ($customer)
         $customer_id = $customer->id;
 
-        if (!$popup) {
+        if (!$this->popup) {
             $this->popup_id = null;
         } else {
             if($this->product_data){
-                $this->subject = $popup->name .' №'. $this->product_data->id;
+                $this->subject = $this->popup->name .' №'. $this->product_data->id;
             }else{
-                $this->subject = $popup->name;
+                $this->subject = $this->popup->name;
 
             }
-            $this->popup_id = $this->popup;
+            $this->popup_id = $this->popup->id;
         }
 
         if(isset(auth()->user()->id))
@@ -104,7 +103,7 @@ class FormsProductsAskQuestionLivewire extends Component
                 'customer_id' => $customer_id,
                 'fio' => $this->data['fio'],
                 'answer_owner' => 1,
-                'subtitle' => $this->subject,
+                'subject' => $this->subject,
                 'popup_id' => $this->popup_id,
                 'email' => $this->data['email'],
                 'phone' => $this->data['phone'],
@@ -150,8 +149,7 @@ class FormsProductsAskQuestionLivewire extends Component
     {
         $managers = null;
         $popup = Popup::find($id);
-        $this->popup = $popup;
-        if($popup){
+        if($popup AND isset($popup->contucts)){
             $contucts = $popup->contucts;
             if(count($contucts)>0){
                 foreach ($contucts as $key_c => $value_c) {
