@@ -44,7 +44,7 @@ class RecipientSelectorLivewire extends Component
 
     public function setName()
     {
-        $this->emit('eventSetOrderRecipient', $this->recipientId, $this->recipientName);
+        //$this->emit('eventSetOrderRecipient', $this->recipientId, $this->recipientName);
     }
 
     protected function revalidateRecipientList($value = '')
@@ -56,6 +56,8 @@ class RecipientSelectorLivewire extends Component
 
         $this->recipients = $query->take(10)->get()
             ->keyBy('id')->map->name->toArray();
+
+
     }
 
 }
