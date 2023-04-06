@@ -53,11 +53,8 @@ class RecipientSelectorLivewire extends Component
         if ($value){
             $query->where('name', 'like', "%$value%");
         }
-
         $this->recipients = $query->take(10)->get()
             ->keyBy('id')->map->name->toArray();
-
-
     }
 
 }
