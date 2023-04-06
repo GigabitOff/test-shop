@@ -13,22 +13,22 @@
                         <div class="invalid-feedback" style="display:block;">{{$message}}</div>
                         @enderror
                         &nbsp;
-                            <div style="display: @if(!$recipientName) none @else block @endif;">
-                                <livewire:order-meta-blocks.recipient-phone-livewire
-                                    :customer="$customer"
-                                    :recipientPhone="$recipientPhone"/>
-                            </div>
+                        <div style="display: @if(!$recipientName) none @else block @endif;">
+                            <livewire:order-meta-blocks.recipient-phone-livewire
+                                :customer="$customer"
+                                :recipientPhone="$recipientPhone"
+                                :key="'phone-type_' . $recipientPhone"
+                            />
+                        </div>
                     </div>
-                    <div class="col-xl-3 col-md-6" style="pointer-events: @if(!$recipientPhone) none @else block @endif;" >
-
+                    <div class="col-xl-3 col-md-6">
                             <livewire:order-meta-blocks.dropdown-payment-type-livewire
                                 :customer="$customer"
                                 :paymentId="$paymentTypeId"
                                 :key="'dropdown-payment-type_' . $updatingKey"
                             />
-
                         <div class="order-block --customer">
-                     @if(!empty($recipientPhone) and $paymentTypeId != 0 and $paymentTypeId != 1 and $paymentTypeId != 3)
+                     @if($paymentTypeId != 0 and $paymentTypeId != 1 and $paymentTypeId != 3)
                                 <div class="customer-content js-customer-content-1">
                                     <form action="#" autocomplete="off">
                                         <div class="form-group">
@@ -77,8 +77,8 @@
                                 @default
                             @endswitch
                         @endif
-                        <div class="order-block --delivery" style="display: @if($updateT == 0) none @else block @endif;">
-                            @if($this->isServiceSelfPickup() and $recipientName)
+                        <div class="order-block --delivery" style="display: @if(!$paymentTypeId) none @else block @endif;">
+                            @if($this->isServiceSelfPickup() and $updateT != 0)
                                 <div class="delivery-content js-delivery-content-1">
                                     <form action="#" autocomplete="off">
                                         <div class="form-group">
@@ -87,7 +87,7 @@
                                         </div>
                                     </form>
                                 </div>
-                            @elseif($this->isServiceAddressDelivery()  and $recipientName)
+                            @elseif($this->isServiceAddressDelivery())
                                 <div class="delivery-content js-delivery-content-2">
                                     <form action="#">
                                         <div class="form-group">
@@ -99,7 +99,7 @@
                                     </form>
                                 </div>
                                 </span>
-                            @elseif($this->isServiceNovaPoshta()  and $recipientName)
+                            @elseif($this->isServiceNovaPoshta())
                                 <div class="delivery-content js-delivery-content-3">
                                     <form action="#" autocomplete="off">
                                         <div class="form-group">
@@ -110,7 +110,7 @@
                                         </div>
                                     </form>
                                 </div>
-                            @elseif($this->isServiceSat()  and $recipientName)
+                            @elseif($this->isServiceSat())
                                 <div class="delivery-content js-delivery-content-4">
                                     <form action="#" autocomplete="off">
                                         <div class="form-group">
@@ -121,7 +121,7 @@
                                         </div>
                                     </form>
                                 </div>
-                            @elseif($this->isServiceDeliveryAuto()  and $recipientName)
+                            @elseif($this->isServiceDeliveryAuto())
                                 <div class="delivery-content js-delivery-content-5">
                                     <form action="#" autocomplete="off">
                                         <div class="form-group">
@@ -132,7 +132,7 @@
                                         </div>
                                     </form>
                                 </div>
-                            @elseif($this->isServiceExist()  and $recipientName)
+                            @elseif($this->isServiceExist())
                                 <div class="delivery-content js-delivery-content">
                                     <form action="#" autocomplete="off">
                                         <div class="form-group">
@@ -152,8 +152,8 @@
                         <button class="js-add-comment order-form-btn"
                                 type="button"> @lang('custom::site.Comment')</button>
                         <div class="order-block --comment "
-                             @if($this->isHideCommentSection()  and $recipientName) style="display: none" @endif>
-            <textarea class="form-control" style="display: @if($recipientName) block @else none @endif;" wire:model.lazy="comment"
+                             @if($this->isHideCommentSection()) style="display: none" @endif>
+            <textarea class="form-control" wire:model.lazy="comment"
                       placeholder="@lang('custom::site.comment_text')"></textarea>
 
                         </div>
@@ -162,7 +162,7 @@
                 </div>
             </div>
         </div>
-       <div class="col-xl-3 text-end" style="pointer-events: @if(isset($paymentTypeId) and $updateT == 0) none @else block @endif;">
+       <div class="col-xl-3 text-end">
             <button class="button-accent" type="button"
                     wire:click="createOrder">@lang('custom::site.Confirm')</button>
         </div>

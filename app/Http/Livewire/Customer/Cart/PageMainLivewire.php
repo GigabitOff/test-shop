@@ -377,6 +377,8 @@ class PageMainLivewire extends Component
     public function eventCreateOrder($payload)
     {
 
+
+
         if (cart()->totalCartCheckedQuantity() < 1) {
             $this->dispatchBrowserEvent('flashMessage', [
                 'title' => __('custom::site.order'),
@@ -398,89 +400,76 @@ class PageMainLivewire extends Component
         }
 
         try {
-
             DB::beginTransaction();
             $paymentType = PaymentType::find($payload['paymentTypeId']);
 
-            switch ($paymentType["id"]) {
-                case 2:
-                    $recipient = CustomerRecipient::create([
+            $recipientData = [
+                'customer_id' => $this->customer->id,
+                'delivery_address_id' => $payload['deliveryId'],
+            ];
 
-                        'customer_id' => $this->customer->id,
-                        'inn' => $payload['recipientINN'],
-                        'phone' => $payload['phone'],
-                        'fop_title' => $payload['recipientFIO'],
-                        'name' => $payload['recipientName'],
-                        'delivery_address_id' =>  $payload['deliveryId'],
-                    ]);
-                    break;
-                case 1:
-                    $recipient = CustomerRecipient::create([
-                        'customer_id' => $this->customer->id,
-                        'phone' => $payload['phone'],
-                        'name' => $payload['recipientName'],
-                        'delivery_address_id' =>  $payload['deliveryId'],
-                    ]);
-                    break;
-                default:
-                    break;
+            if ($payload['recipientName']) {
+                $recipientData['name'] = $payload['recipientName'];
             }
 
-            $payload['recipientId'] = $recipient->id;
+            if ($payload['phone']) {
+                $recipientData['phone'] = $payload['phone'];
+            }
+
+            if ($paymentType["id"] === 2) {
+                $recipientData['inn'] = $payload['recipientINN'];
+                $recipientData['fop_title'] = $payload['recipientFIO'];
+            }
+
+            $recipient = CustomerRecipient::create($recipientData);
+
             if (!$payload['deliveryId']) {
                 $delivery = new DeliveryAddress();
                 $delivery->fill($payload['deliveryData']);
-//                if ($payload['contractId']
-//                    && $contract = Contract::find($payload['contractId'])) {
-//                    $delivery->owner()->associate($contract);
-//                } else {
+
                 $delivery->owner()->associate($this->customer);
-//                }
+
                 $delivery->save();
+
                 $payload['deliveryId'] = $delivery->id;
             }
 
-            // Выполняем обязательный пересчет цен товаров
+// Выполняем обязательный пересчет цен товаров
             $this->prepareProducts(true, true);
+
             $order = orders()->createOrderFromCart($this->customer, $this->cashbackUsed);
 
             $order->payment_type_id = $payload['paymentTypeId'];
-            //$order->contract_id = $payload['contractId'] ?? null;
             $order->type_payment = $paymentType->code ?? null;
-            $order->recipient_id =  $payload['recipientId'];
+            $order->recipient_id = $recipient->id;
             $order->delivery_address_id = $payload['deliveryId'];
             $order->callback_off = $this->callback_off;
             $order->cashback_used = $this->cashbackUsed;
             $order->comment = $payload['comment'];
             $order->phone = $payload['phone'];
             $order->manager_id = $this->customer->manager_id;
-            $order->status_id = $this->callback_off
-                ? OrderStatusType::STATUS_PROCESSING
-                : OrderStatusType::STATUS_NEW;
-            if ($order->payment_type_id === PaymentType::POSTPAID
-                && $receivable = $this->customer->receivable) {
+            $order->status_id = $this->callback_off ? OrderStatusType::STATUS_PROCESSING : OrderStatusType::STATUS_NEW;
+
+            if ($order->payment_type_id === PaymentType::POSTPAID && $receivable = $this->customer->receivable) {
                 $order->debt_sum = $payload['postpaidSum'];
                 $order->debt_end_at = Carbon::now()->addDays($receivable->otsrochka_days);
             }
+
             $order->save();
-            // Todo: наладить списание кэшбека
-//            if ($this->cashbackUsed) {
-//                cashback()->expenseCashback($this->customer, $this->cashbackUsed);
-//            }
+
+// Todo: наладить списание кэшбека
+//if ($this->cashbackUsed) {
+//    cashback()->expenseCashback($this->customer, $this->cashbackUsed);
+//}
+
             DB::commit();
-//            if (orders()->hasOrderProductAmountVerifiable($order)) {
-//                $this->dispatchBrowserEvent('flashMessage', [
-//                    'title' => __('custom::site.order'),
-//                    'message' => __('custom::site.order_save_amount_verify'),
-//                    'state' => 'success'
-//                ]);
-//            } else {
+
             $this->dispatchBrowserEvent('flashMessage', [
                 'title' => __('custom::site.order'),
                 'message' => __('custom::site.order_confirmed_thanks'),
                 'state' => 'success'
             ]);
-//            }
+
             $this->recalculateCashbackToUse();
             $this->reset(['cashbackUsed', 'cashbackToUse']);
             $this->emit('eventOrderCreateSuccess');

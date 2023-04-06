@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Livewire\Customer\Cart;
-
 use App\Models\Contract;
 use App\Models\DeliveryType;
 use App\Models\PaymentType;
@@ -50,6 +48,7 @@ class MetaBlockLivewire extends Component
         'eventT',
         'eventTest',
     ];
+
 
     /** Event Handlers */
     public function eventT($type)
@@ -139,17 +138,17 @@ class MetaBlockLivewire extends Component
 
     public function eventSetOrderRecipient($id, $name)
     {
-
         $this->recipientName = $name;
         $this->recipientId = $id;
 
     }
     public function eventSetOrderRecipientPhone($id, $name)
     {
-
         $this->recipientPhone = $name;
         $this->recipientId = $id;
-
+/*
+       $this->recipientPhone='';
+       return 0;*/
 
     }
 
@@ -202,6 +201,7 @@ class MetaBlockLivewire extends Component
     public function cleanDelivery()
     {
         $this->deliveryVars = 0;
+        $this->recipientFIO = null;
     }
 
     public function cleanComment()
