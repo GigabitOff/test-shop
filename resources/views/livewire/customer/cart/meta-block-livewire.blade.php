@@ -54,7 +54,6 @@
                           @endif
                         </div>
                     </div>
-                    @if($paymentTypeId != 3)
                     <div class="col-xl-3 col-md-6" style="pointer-events: @if(!$paymentTypeId) none @else block @endif;">
                         @if($updateT == 0 and $this->deliveryVars == 0)
                             <span>
@@ -66,19 +65,48 @@
                         @else
                             @switch($updateT)
                                 @case(1)
-                                @case(2)
                                     @once
                                         <livewire:order-meta-blocks.dropdown-delivery-type-livewire
-                                            :deliveryTypeId="$this->deliveryVars"
+                                            :deliveryTypeId="1"
                                             :key="'dropdown-delivery-type_' . rand()"
                                         />
+                                    @endonce
+                                    @break
+                                @case(2)
+                                    @once
+                                        @if(!$deliveryTypeIdDu)
+                                        <livewire:order-meta-blocks.dropdown-delivery-type-livewire
+                                            :deliveryTypeId="0"
+                                            :key="'dropdown-delivery-type_' . rand()"
+                                        />
+                                        @else
+                                            <livewire:order-meta-blocks.dropdown-delivery-type-livewire
+                                                :deliveryTypeId="$deliveryTypeIdDu"
+                                                :key="'dropdown-delivery-type_' . rand()"
+                                            />
+                                        @endif
+                                    @endonce
+                                    @break
+                                @case(3)
+                                    @once
+                                        @if(!$deliveryTypeIdDu)
+                                            <livewire:order-meta-blocks.dropdown-delivery-type-livewire
+                                                :deliveryTypeId="0"
+                                                :key="'dropdown-delivery-type_' . rand()"
+                                            />
+                                        @else
+                                            <livewire:order-meta-blocks.dropdown-delivery-type-livewire
+                                                :deliveryTypeId="$deliveryTypeIdDu"
+                                                :key="'dropdown-delivery-type_' . rand()"
+                                            />
+                                        @endif
                                     @endonce
                                     @break
                                 @default
                             @endswitch
                         @endif
                         <div class="order-block --delivery" style="display: @if(!$paymentTypeId) none @else block @endif;">
-                            @if($this->isServiceSelfPickup() and $updateT != 0)
+                            @if($this->isServiceSelfPickup() and $updateT != 0  and $deliveryTypeIdDu)
                                 <div class="delivery-content js-delivery-content-1">
                                     <form action="#" autocomplete="off">
                                         <div class="form-group">
@@ -87,7 +115,7 @@
                                         </div>
                                     </form>
                                 </div>
-                            @elseif($this->isServiceAddressDelivery())
+                            @elseif($this->isServiceAddressDelivery() and $deliveryTypeIdDu)
                                 <div class="delivery-content js-delivery-content-2">
                                     <form action="#">
                                         <div class="form-group">
@@ -99,7 +127,7 @@
                                     </form>
                                 </div>
                                 </span>
-                            @elseif($this->isServiceNovaPoshta())
+                            @elseif($this->isServiceNovaPoshta() and $deliveryTypeIdDu)
                                 <div class="delivery-content js-delivery-content-3">
                                     <form action="#" autocomplete="off">
                                         <div class="form-group">
@@ -110,7 +138,7 @@
                                         </div>
                                     </form>
                                 </div>
-                            @elseif($this->isServiceSat())
+                            @elseif($this->isServiceSat() and $deliveryTypeIdDu)
                                 <div class="delivery-content js-delivery-content-4">
                                     <form action="#" autocomplete="off">
                                         <div class="form-group">
@@ -121,7 +149,7 @@
                                         </div>
                                     </form>
                                 </div>
-                            @elseif($this->isServiceDeliveryAuto())
+                            @elseif($this->isServiceDeliveryAuto() and $deliveryTypeIdDu)
                                 <div class="delivery-content js-delivery-content-5">
                                     <form action="#" autocomplete="off">
                                         <div class="form-group">
@@ -132,7 +160,7 @@
                                         </div>
                                     </form>
                                 </div>
-                            @elseif($this->isServiceExist())
+                            @elseif($this->isServiceExist() and $deliveryTypeIdDu)
                                 <div class="delivery-content js-delivery-content">
                                     <form action="#" autocomplete="off">
                                         <div class="form-group">
@@ -158,7 +186,7 @@
 
                         </div>
                     </div>
-                    @endif
+
                 </div>
             </div>
         </div>
@@ -168,7 +196,5 @@
         </div>
     </div>
 </div>
-
-
 
 

@@ -31,7 +31,7 @@ class MetaBlockLivewire extends Component
     public int $updateT = 0;
     public $showModal = false;
     public int $deliveryVars = 0;
-    public int $test = 0;
+    public ?int $deliveryTypeIdDu = 0;
 
 
     protected bool $hideValidationErrors = true;
@@ -45,21 +45,14 @@ class MetaBlockLivewire extends Component
         'eventSetOrderRecipientPhone',
         'eventClearOrderDelivery',
         'eventOrderCreateSuccess',
-        'eventT',
-        'eventTest',
+        'eventPay',
     ];
 
 
     /** Event Handlers */
-    public function eventT($type)
+    public function eventPay($type)
     {
         $this->updateT  = $type;
-    }
-
-    /** Event Handlers */
-    public function eventTest()
-    {
-        $this->test = '';
     }
 
     public function mount(Request $request)
@@ -110,7 +103,7 @@ class MetaBlockLivewire extends Component
     public function eventSetOrderPaymentType($id, $name)
     {
 
-        $this->eventSetOrderDeliveryType($id, $name);
+       // $this->eventSetOrderDeliveryType($id, $name);
         $this->paymentTypeId = $id;
         $this->paymentTypeName = $name;
     }
@@ -127,14 +120,15 @@ class MetaBlockLivewire extends Component
         $this->reset('contractId', 'contractName');
     }
 
+
     public function eventSetOrderDeliveryType($id, $name)
     {
 
-        $this->deliveryVars = $id;
-        $this->deliveryType = DeliveryType::find($id);
+       $this->deliveryType = DeliveryType::find($id);
         $this->deliveryData = [];
         $this->emit('eventReceiveDeliveryDataSaved');
-    }
+       $this->deliveryTypeIdDu = $id;
+   }
 
     public function eventSetOrderRecipient($id, $name)
     {
@@ -146,9 +140,6 @@ class MetaBlockLivewire extends Component
     {
         $this->recipientPhone = $name;
         $this->recipientId = $id;
-/*
-       $this->recipientPhone='';
-       return 0;*/
 
     }
 
@@ -319,11 +310,6 @@ class MetaBlockLivewire extends Component
         return (bool)$this->deliveryType;
     }
 
-    public function isTest($rt)
-    {
-        return  $rt;
-
-    }
 
     public function isServiceSelfPickup(): bool
     {

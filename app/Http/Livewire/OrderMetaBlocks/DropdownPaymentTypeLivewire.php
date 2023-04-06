@@ -42,12 +42,12 @@ class DropdownPaymentTypeLivewire extends Component
         $this->paytype = $this->paymentId;
         $this->paymentName = $this->paymentList[$id] ?? '';
         $this->emit('eventSetOrderPaymentType', $id, $this->paymentName, $this->paytype);
-        $this->refreshT();
+        $this->refreshPay();
     }
 
-    public function refreshT()
+    public function refreshPay()
     {
-        $this->emit('eventT',  $this->paytype);
+        $this->emit('eventPay', $this->paytype);
     }
 
 }
