@@ -192,6 +192,7 @@ $followPrice = formatMoney($price);
 @push('custom-scripts')
     <script>
         var delayedAction = {{$action}};
+        var login = 0;
         let isEmptyEmail = {!! empty(auth()->user()->email) ? 1 : 0 !!};
         Livewire.on('successUnsubscribedPrice', () => {
             $('#m-price-unsubscribe').modal('show');
@@ -199,7 +200,8 @@ $followPrice = formatMoney($price);
         });
         Livewire.on('loginBeforeSubscribeToFollowPrice', () => $('#m-login').modal('show'));
         Livewire.on('showEmailForm', () => $('#m-email').modal('show'));
-        Livewire.on('successToFollowPrice', () => {
+        Livewire.on('successToFollowPrice', (login) => {
+            this.login = login
             delayedAction = {{ProductPriceTracker::ACTION_NOTHING}};
             $('#m-price2').modal('show');
             $('#followPriceLink').remove();
@@ -230,6 +232,7 @@ $followPrice = formatMoney($price);
             delayedAction = {{ProductPriceTracker::ACTION_NOTHING}};
             // just to clean session too
             Livewire.emit('userIsFailedLoggedIn');
+            if (login) location.reload();
         });
         jQuery(document).ready(function ($) {
             if ( delayedAction === {{ProductPriceTracker::ACTION_ADD_TO_CART}}) {

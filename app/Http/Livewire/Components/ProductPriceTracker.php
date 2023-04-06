@@ -22,6 +22,7 @@ class ProductPriceTracker extends Component
 
     public $action;
     public $hash;
+    public $login;
 
     public $listeners = [
         'eventFollowPrice'           => 'followPrice',
@@ -36,11 +37,13 @@ class ProductPriceTracker extends Component
         $this->user = auth()->user();
         $this->action = session('follow_price_action', self::ACTION_NOTHING);
         $this->hash = session('unsubscribe_hash', '');
+        $this->login = 0;
     }
 
     public function userLoggedIn()
     {
         $this->user = auth()->user();
+        $this->login = 1;
         switch ($this->action) {
             case self::ACTION_REGISTER_AND_ADD_TO_CART:
                 $this->addProductToCart();
@@ -100,7 +103,7 @@ class ProductPriceTracker extends Component
             ]
         );
         $this->saveAction(self::ACTION_NOTHING);
-        $this->emit('successToFollowPrice');
+        $this->emit('successToFollowPrice', $this->login);
     }
 
     public function removeTracking()
