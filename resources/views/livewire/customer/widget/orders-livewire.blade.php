@@ -18,7 +18,7 @@
             </div>
           </div>
           <div class="widjet-orders-list__item-bottom">
-            <div class="widjet-orders-list__item-status">{{$order->status->name}}</div>
+            <div class="widjet-orders-list__item-status">{{ isset($order->status->name) ?$order->status->name : ''}}</div>
           </div>
         </li>
         @empty

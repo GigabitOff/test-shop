@@ -30,6 +30,5 @@
 
         </div>
     </div>
-    <a class="button button-primary" href="{{route('customer.orders.create')}}"
-               data-da=".lk-btn-empty, 1199">@lang('custom::site.create_order')</a>
+
 </div>

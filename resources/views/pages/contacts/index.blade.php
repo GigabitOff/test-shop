@@ -21,10 +21,10 @@
                 <div class="container-xl">
                     <div class="row g-5">
                         @foreach ($shops as $item_sh)
+                            @if(count($item_sh->getContucts)>0)
                         <div class="col-12">
                         <h3 class="section-title mb-0">{{ $item_sh->title }}</h3>
                         </div>
-                            @if(count($item_sh->getContucts)>0)
                             @foreach ($item_sh->getContucts as $item)
                             <div class="col-xl-4" data-aos="fade-right" data-aos-delay="200" data-aos-duration="500">
                                 <div class="contacts-item">
@@ -54,7 +54,7 @@
                                                         <div class="swiper-slide">
                                                             <div class="contacts-user-card">
                                                                     <div class="contacts-user-card__box">
-                                                                            <div class="contacts-user-card__avatar"><img src="{{ \Storage::disk('public')->url($item->image) }}" alt="avatar"></div>
+                                                                            <div class="contacts-user-card__avatar"><img src="{{ \Storage::disk('public')->exists($item->image) ? \Storage::disk('public')->url($item->image) : '/assets/img/no-photo.png' }}" alt="avatar"></div>
                                                                             <div class="contacts-user-card__name">{{ $item->name }}</div>
                                                                             <div class="contacts-user-card__position">{{ $item->posada }}</div>
                                                                             <div class="contacts-user-card__line"></div>

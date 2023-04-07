@@ -16,7 +16,8 @@ class IndexTableSectionLivewire extends Component
     use WithPerPage;
 
     public int $status = 0;
-    public string $search = '';
+    public string $search = '',
+        $searchId='';
 
     protected ?User $user;
     protected bool $revalidateTable = false;
@@ -51,9 +52,20 @@ class IndexTableSectionLivewire extends Component
         $this->revalidateTable = true;
     }
 
+    public function updatedSearchId()
+    {
+        $this->revalidateTable = true;
+    }
+
     public function resetSearch()
     {
         $this->reset('search');
+        $this->revalidateTable = true;
+    }
+
+    public function resetSearchId()
+    {
+        $this->reset('searchId');
         $this->revalidateTable = true;
     }
 
@@ -107,6 +119,10 @@ class IndexTableSectionLivewire extends Component
 
         if ($this->status) {
             $query = $query->where('status_id', $this->status);
+        }
+
+        if ($this->searchId != '') {
+            $query = $query->where('id','LIKE', "%$this->searchId%");
         }
 
         if ($value = trim($this->search)) {

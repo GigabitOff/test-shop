@@ -2,6 +2,19 @@
   <div class="lk-page__head">
     <h1 class="lk-page__title">{{__('custom::site.my_orders')}}</h1>
   </div>
+  <div class="lk-page__filters">
+                <div class="--search"><span class="drop-clear @if(isset($filter['id'])) _active @endif" onclick="@this.deleteFilterList('id')"></span>
+                <input class="form-control drop-input" wire:model="searchId" type="text" autocomplete="off" placeholder="@lang('custom::site.By Order No.')">
+                </div>
+                {{--<div class="drop --search"><span class="drop-clear @if(isset($filter['customer'])) _active @endif" onclick="@this.deleteFilterList('customer')"></span>
+                <input class="form-control drop-input" oninput="sellectFilterListOrder('customer',this.value)" type="text" autocomplete="off" placeholder="@lang('custom::site.customer')">
+                </div>--}}
+
+                <div class=" --search">
+                    <span class="drop-clear @if($search != '') _active @endif" onclick="@this.set('search','')"></span>
+                <input class="form-control drop-input" wire:model.debounce.650ms="search" type="text" autocomplete="off" placeholder="@lang('custom::site.search')">
+                </div>
+              </div>
   <div class="lk-page__action">
     <livewire:customer.orders.index-filter-section-livewire />
 
@@ -24,9 +37,9 @@
 
   <div class="lk-page__table-after">
     <div>
-      <div class="drop --search">
+      {{--<div class="drop --search">
         @include('livewire.includes.search-dropdown-live')
-      </div>
+      </div>--}}
     </div>
     <div>
     @include('livewire.includes.per-page-table', ['data_paginate' => $orders])
