@@ -5018,7 +5018,10 @@ input[type=number]:not(.--arrows)::-webkit-outer-spin-button {
 }
 
 .m-contacts__location [class*=ico_] {
+<<<<<<< HEAD
   margin-top: -5px;
+=======
+>>>>>>> ed4f579 (correct fix data)
   color: #FFAE00;
   font-size: 15px;
 }
@@ -14643,7 +14646,10 @@ blockquote.jobs p {
 }
 
 .contacts-item__location [class*=ico_] {
+<<<<<<< HEAD
   margin-top: -3px;
+=======
+>>>>>>> ed4f579 (correct fix data)
   margin-right: 8px;
   color: #FFAE00;
   font-size: 14px;

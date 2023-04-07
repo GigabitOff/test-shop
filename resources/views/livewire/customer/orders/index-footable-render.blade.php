@@ -3,7 +3,7 @@
     <tr>
       <th>@lang('custom::site.date')</th>
       <th>@lang('custom::site.date_shipment')</th>
-      <th data-breakpoints="xs">@lang('custom::site.price')</th>
+      <th data-breakpoints="xs">{{ auth()->user()->hasRole('simple') ? __('custom::site.price') : __('custom::site.rcc_opt')}}</th>
       <th data-breakpoints="xs">@lang('custom::site.delivery_method')</th>
       <th data-breakpoints="xs">@lang('custom::site.order_status')</th>
       {{--<th data-breakpoints="xs sm md">@lang('custom::site.returning')</th>--}}

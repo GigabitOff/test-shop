@@ -25,6 +25,7 @@ class PageContactController extends Controller
         $shops = Shop::where('status',true)
                 ->with('translation')
                 ->with('getContuct')
+                ->orderBy('order','ASC')
                 ->get();
         //logger()->info($shop);
        // exit();
@@ -32,6 +33,7 @@ class PageContactController extends Controller
         $getLocations = Shop::query()
             ->where('coords_latitude','!=','')
             ->where('coords_longitude','!=','')
+            ->orderBy('order', 'ASC')
             ->select('coords_latitude as lat', 'coords_longitude as lng')
             ->toBase()->get();
 

@@ -142,12 +142,20 @@ class Order extends Model
 
     public function isStatusCompleted(): bool
     {
+        if($this->status){
         return $this->status->isCompleted();
+        }else{
+            return false;
+        }
     }
 
     public function isStatusProcessing(): bool
     {
-        return $this->status->isProcessing();
+        if ($this->status) {
+            return $this->status->isProcessing();
+        } else {
+            return false;
+        }
     }
 
     public function isPaid(): bool

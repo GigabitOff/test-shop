@@ -84,13 +84,15 @@ class FormsProductsAskQuestionLivewire extends Component
             $this->popup_id = null;
         } else {
             if($this->product_data){
-                $this->subject = $this->popup->name .' №'. $this->product_data->id;
+                $this->subject = $this->popup->name .' - №'. $this->product_data->id;
             }else{
                 $this->subject = $this->popup->name;
 
             }
             $this->popup_id = $this->popup->id;
         }
+
+      //  dd($this->subject);
 
         if(isset(auth()->user()->id))
         $customer_id = auth()->user()->id;
@@ -149,6 +151,8 @@ class FormsProductsAskQuestionLivewire extends Component
     {
         $managers = null;
         $popup = Popup::find($id);
+        $this->popup = $popup;
+
         if($popup AND isset($popup->contucts)){
             $contucts = $popup->contucts;
             if(count($contucts)>0){

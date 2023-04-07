@@ -19,7 +19,7 @@
     <livewire:customer.orders.index-filter-section-livewire />
 
     <div class="lk-page__action-btns">
-        <a class="button-outline" href="{{route('customer.orders.create')}}">
+        <a class="button-outline" href="{{ auth()->user()->hasRole('simple') ? route('catalog.index') : route('customer.orders.create')}}">
             @lang('custom::site.create_order')</a>
     </div>
   </div>
@@ -29,9 +29,9 @@
              style="display: none" >
             @include('livewire.customer.orders.index-footable-render')
         </div>
-        <table class="ftable" wire:ignore id="footable-holder"
+        <table class="ftable table-w-inner" wire:ignore id="footable-holder"
                data-empty="@lang('custom::site.data_is_absent')"
-               data-show-toggle="true" data-toggle-column="last">
+                data-breakpoints="{ &quot;small&quot;: 768, &quot;medium&quot;: 992, &quot;large&quot;: 1450, &quot;x-large&quot;: 1600 }">
         </table>
     </div>
 
