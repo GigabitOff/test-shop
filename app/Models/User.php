@@ -234,12 +234,14 @@ class User extends Authenticatable
     {
         $query = $this->hasMany(Order::class, 'customer_id');
 
-        return $this->isCustomerLegalAdmin
+        //dd($this->isCustomerLegalAdmin);
+       /* return $this->isCustomerLegalAdmin
             ? $query->whereHas('customer', function($q){
                     $sub = $this->customers()->select('id')->toRawSql();
                     $q->whereInRaw('id', $sub);
                 })
-            : $query;
+            : $query; */
+            return $query;
     }
 
     public function cart()

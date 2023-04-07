@@ -33,6 +33,7 @@ class Document extends Model implements DocumentOwnerContract
     protected $fillable = [
         'id_1c',
         'number',
+        'type',
         'doc_type',
         'date_at',
         'status_id',
@@ -124,6 +125,11 @@ class Document extends Model implements DocumentOwnerContract
     public function scopeOnlyInvoices($query)
     {
         $query->where('type', self::TYPE_INVOICE);
+    }
+
+    public function scopeOnlyScores($query)
+    {
+        $query->where('type', self::TYPE_WAYBILL);
     }
 
     public function scopeOnlyNew($query)

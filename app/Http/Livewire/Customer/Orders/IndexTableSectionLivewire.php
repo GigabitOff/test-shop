@@ -18,6 +18,7 @@ class IndexTableSectionLivewire extends Component
     public int $status = 0;
     public string $search = '',
         $searchId='';
+    public $documents;
 
     protected ?User $user;
     protected bool $revalidateTable = false;
@@ -114,8 +115,9 @@ class IndexTableSectionLivewire extends Component
         // ToDo: сделать через жадную загурзку
         $this->documents = $documents_order->join('documents', 'documents.order_id',
                                '=', 'orders.id')
-                               ->select('orders.id', 'documents.path',
+                               ->select('orders.id', 'documents.path', 'documents.type',
                                'documents.filename')->get();
+
 
         if ($this->status) {
             $query = $query->where('status_id', $this->status);

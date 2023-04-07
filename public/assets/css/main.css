@@ -5018,10 +5018,7 @@ input[type=number]:not(.--arrows)::-webkit-outer-spin-button {
 }
 
 .m-contacts__location [class*=ico_] {
-<<<<<<< HEAD
   margin-top: -5px;
-=======
->>>>>>> ed4f579 (correct fix data)
   color: #FFAE00;
   font-size: 15px;
 }
@@ -14646,10 +14643,7 @@ blockquote.jobs p {
 }
 
 .contacts-item__location [class*=ico_] {
-<<<<<<< HEAD
   margin-top: -3px;
-=======
->>>>>>> ed4f579 (correct fix data)
   margin-right: 8px;
   color: #FFAE00;
   font-size: 14px;
@@ -15686,7 +15680,7 @@ dl.table-total dd.sub {
   display: flex;
   position: relative;
   align-items: center;
-  padding: 0 40px 25px 0;
+  padding: 0 25px 25px 0;
   transition: all 0.25s linear;
 }
 
@@ -15711,7 +15705,7 @@ dl.table-total dd.sub {
   color: #878c98;
   font-style: normal;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 100%;
   letter-spacing: 0.02em;
   transition: all 0.25s linear;
@@ -15727,7 +15721,7 @@ dl.table-total dd.sub {
   color: #878c98;
   font-style: normal;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 100%;
   letter-spacing: 0.02em;
   transition: all 0.25s linear;
