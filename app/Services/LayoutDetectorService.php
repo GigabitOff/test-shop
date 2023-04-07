@@ -58,6 +58,7 @@ class LayoutDetectorService
             self::MODE_4,
             self::MODE_8,
             self::MODE_9,
+            self::MODE_10,
         ])) {
             return 3;
         }
