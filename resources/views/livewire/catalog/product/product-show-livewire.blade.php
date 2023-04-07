@@ -71,7 +71,7 @@
             <div class="product-full__counter">
               <div class="counter">
                 <div class="counter__btn minus"></div>
-                <div class="counter__field"><input class="input-col" type="number" value="{{$data->multiplicity}}" min="{{$data->multiplicity}}" onclick="this.select();" /></div>
+                <div class="counter__field"><input class="input-col" type="number" value="{{$data->multiplicity}}" min="{{$data->multiplicity}}"  step="{{$data->multiplicity}}" onclick="this.select();" /></div>
                 <div class="counter__btn plus"></div>
               </div><span>@lang('custom::site.The multiplicity of the sale of goods') {{$data->multiplicity}}</span>
             </div>

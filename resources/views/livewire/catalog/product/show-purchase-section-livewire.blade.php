@@ -99,6 +99,7 @@ $followPrice = formatMoney($price);
                                        wire:model.defer="quantity"
                                        onchange="@this.set('quantity', this.value)"
                                        min="{{$product->multiplicity}}"
+                                       step="{{$product->multiplicity}}"
                                        @if($product->maxStock)
                                            max="{{$product->maxStock}}"
                                        @endif
