@@ -144,7 +144,7 @@
                     <div class="col-xl-3">
                         <div class="order-block --pay">
                             <h3 class="order-block-title">@lang('custom::site.payment_type')</h3>
-                            <div class="order-block-value">{{$order->paymentType->name}}</div>
+                            <div class="order-block-value">{{isset($order->paymentType->name) ? $order->paymentType->name : ''}}</div>
                         </div>
                     </div>
                     <div class="col-xl-3">

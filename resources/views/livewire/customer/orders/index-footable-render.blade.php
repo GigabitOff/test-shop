@@ -3,14 +3,13 @@
     <tr>
       <th>@lang('custom::site.date')</th>
       <th>@lang('custom::site.date_shipment')</th>
-      <th data-breakpoints="xs">@lang('custom::site.order_sum')
-      / @lang('custom::site.discounts') / @lang('custom::site.total all')</th>
+      <th data-breakpoints="xs">@lang('custom::site.price')</th>
       <th data-breakpoints="xs">@lang('custom::site.delivery_method')</th>
       <th data-breakpoints="xs">@lang('custom::site.order_status')</th>
-      <th data-breakpoints="xs sm md">@lang('custom::site.returning')</th>
+      {{--<th data-breakpoints="xs sm md">@lang('custom::site.returning')</th>--}}
       <th data-breakpoints="xs sm md">@lang('custom::site.invoice')</th>
       <th data-breakpoints="xs sm md">@lang('custom::site.invoice_note')</th>
-      <th data-breakpoints="xs">@lang('custom::site.bonuses')</th>
+      {{--<th data-breakpoints="xs">@lang('custom::site.bonuses')</th>--}}
     </tr>
   </thead>
   <tbody>
@@ -27,19 +26,20 @@
       <td>
         <div class="status --status-{{$order->status ? $order->status->id : ''}}"><span class="circle"></span><span>{{$order->status ? $order->status->name : ''}}</span></div>
       </td>
-      <td>
+      {{--<td>
         <div class="return">
           <div><i class="ico_checkmark"></i></div>
           <div><span>@lang('custom::site.confirmed')</span><span class="small">23 шт / 27 шт</span></div>
         </div>
-      </td>
+      </td>--}}
         @foreach($documents as $document)
          @if($document->id == $order->id && $document->filename)
       <td><a href="/{{$document->path}}" targey="_blank"><img src="/assets/img/pdf.svg" alt="pdf"></a></td>
          @endif
         @endforeach
       @php($bonuses = $order->bonus_earned ? formatMoney($order->bonus_earned) : '')
-      <td><span>{{$bonuses}}</span></td>
+      {{--<td><span>{{$bonuses}}</span></td>--}}
+
     </tr>
   @endforeach
   </tbody>

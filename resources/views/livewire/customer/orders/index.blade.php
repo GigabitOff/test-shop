@@ -1,5 +1,6 @@
 <x-app-layout body-classes="lk-orders" :title="__('custom::site.orders')">
     <main class="page-main lk-orders">
+    
       @include('livewire.customer.widget.lk-head-widget')
       <div class="lk-page --orders">
         <div class="container-xl">
