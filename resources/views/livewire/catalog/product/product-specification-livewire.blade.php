@@ -1,6 +1,6 @@
 @php $attributes = $data->attributeValues->toArray();@endphp
 @if($attributes)
-<div class="product-full-box --specification-single">
+<div class="@if($layout['columns']!=3) product-full-box --specification @else product-full-box --specification-single @endif">
     <div class="product-full-box__head">
         <div class="product-full-box__title" id="specification">@lang('custom::site.Specification')</div>
     </div>
