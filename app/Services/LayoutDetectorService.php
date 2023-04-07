@@ -30,7 +30,7 @@ class LayoutDetectorService
     const MODE_7 = self::ATTRIBUTES_VISIBLE ^ self::VARIATIONS_VISIBLE ^ self::ACCOMPANYING_VISIBLE;
     const MODE_8 = self::ATTRIBUTES_VISIBLE ^ self::DESCRIPTION_VISIBLE;
     const MODE_9 = self::DESCRIPTION_VISIBLE;
-    const MODE_10 = self::VARIATIONS_VISIBLE;
+    const MODE_10 = self::ATTRIBUTES_VISIBLE;
     /**
      * Check blocks visibility and generate an appropriate mode
      *
