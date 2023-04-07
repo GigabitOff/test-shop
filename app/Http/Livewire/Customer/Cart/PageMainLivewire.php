@@ -406,9 +406,6 @@ class PageMainLivewire extends Component
                 'delivery_address_id' => $payload['deliveryId'],
             ];
 
-            if ($payload['recipientName']) {
-                $recipientData['name'] = $payload['recipientName'];
-            }
 
             if ($payload['phone']) {
                 $recipientData['phone'] = $payload['phone'];
