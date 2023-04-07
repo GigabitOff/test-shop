@@ -377,8 +377,6 @@ class PageMainLivewire extends Component
     public function eventCreateOrder($payload)
     {
 
-
-
         if (cart()->totalCartCheckedQuantity() < 1) {
             $this->dispatchBrowserEvent('flashMessage', [
                 'title' => __('custom::site.order'),

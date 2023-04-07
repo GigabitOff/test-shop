@@ -93,8 +93,8 @@
                         class="text-lowercase">{{$text}}</span> )
                 </dt>
                 <dd class="big text-lowercase">{{formatNbsp(formatMoney($order->total))}} @lang('custom::site.uah')</dd>
-                <dt>Дата поставки ??</dt>
-                <dd>23.02.22 ??</dd>
+                <dt>Дата поставки </dt>
+                <dd>23.02.22 </dd>
             </dl>
             <div class="lk-page__table-after-btns" data-da=".lk-page__table-after, 1199, 2">
                 @php($invoice = $order->documentInvoices->first())
@@ -103,10 +103,10 @@
                        href="{{$invoice->fileUrl}}"
                        target="_blank">@lang('custom::site.download_invoice')</a>
                 @endif
-                @if ($order->status->isNew())
+                @if ($order->status AND $order->status->isNew())
                     <a class="button-outline ico_download" wire:click="setEditOrder"
                        href="javascript:void(0);">@lang('custom::site.edit')</a>
-                @elseif ($order->status->isEdited())
+                @elseif ($order->status AND $order->status->isEdited())
                     <a class="button-outline ico_download"
                        href="{{route('customer.orders.edit', ['order'=> $order->id])}}"
                     >@lang('custom::site.edit')</a>

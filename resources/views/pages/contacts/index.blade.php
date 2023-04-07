@@ -23,7 +23,7 @@
                         @foreach ($shops as $item_sh)
                             @if(count($item_sh->getContucts)>0)
                         <div class="col-12">
-                        <h3 class="section-title mb-0">{{ $item_sh->title }}</h3>
+                        <h3 class="section-title mb-0">{{ $item_sh->title }}{{ isset($item_sh->getCity->title) ? ', '.$item_sh->getCity->title : ''}}</h3>
                         </div>
                             @foreach ($item_sh->getContucts as $item)
                             <div class="col-xl-4" data-aos="fade-right" data-aos-delay="200" data-aos-duration="500">
@@ -44,7 +44,7 @@
                                         <div class="modal-header">
                                             <h5 class="modal-title">{{ $item->title }}</h5>
                                             <div class="m-contacts__location"><i class="ico_location"></i>
-                                                <span>{{ $item_sh->title ? $item_sh->title.', ' : '' }}{{ $item_sh->address_lang }}</span>
+                                                <span>{{ $item_sh->title ? $item_sh->title.', ' : '' }}{{ isset($item_sh->getCity->title) ? ''.$item_sh->getCity->title.', ' : ''}}{{ $item_sh->address_lang }}</span>
                                             </div><button class="btn-close" type="button" data-bs-dismiss="modal"></button>
                                         </div>
                                         <div class="modal-body">

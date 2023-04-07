@@ -15,19 +15,12 @@ class RecipientPhoneLivewire extends Component
             return view('livewire.order-meta-blocks.recipient-phone-livewire', [ 'isOpen' => $this->isOpen, ]);
     }
 
-
     public function recipientNaUpdated($value)
     {
         $this->recipientPhone = $value;
         $this->emit('eventSetOrderRecipientPhone', $this->recipientId, $this->recipientPhone);
     }
 
-    public function rec()
-    {
-
-        $this->test = 12345;
-
-    }
 
 
 

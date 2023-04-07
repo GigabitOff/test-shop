@@ -4,6 +4,8 @@ namespace App\Http\Livewire\OrderMetaBlocks;
 
 use App\Http\Livewire\Traits\WithFilterableDropdown;
 use App\Models\City;
+use App\Models\ShopCity;
+use App\Models\ShopCityTranslation;
 use App\Models\Contract;
 use App\Models\DeliveryAddress;
 use App\Models\DeliveryType;
@@ -89,6 +91,7 @@ class AddressDeliveryLivewire extends Component
 
     protected function onUpdatingFilterableCityValue($value)
     {
+
         if ($this->filterableCity['id']) {
             $this->emit('eventClearOrderDelivery');
         }
@@ -96,6 +99,8 @@ class AddressDeliveryLivewire extends Component
 
     protected function onSetFilterableCity($id, $name)
     {
+        //// При выборе города при Доставка по городу
+
         $this->trySendAddress();
     }
 
@@ -226,19 +231,25 @@ class AddressDeliveryLivewire extends Component
         return $saved ?? [];
     }
 
-    protected function setFilterableCityList($value): array
+    protected function setFilterableCityList(): array
     {
-        $cities = $value
-            ? City::query()->SearchByName($value)->limit(10)->get()
-            : City::query()->RegionCapitals()->get();
+        $cities =  ShopCity::query()->RegionCapitals()->get();
+        $citiesT =  ShopCityTranslation::query()->RegionCapitals()->get();
 
-        return $cities->keyBy('id')
-            ->map(function ($c) {
-                return [
-                    'text' => $c->name_uk,
-                    'title' => $c->name_uk . " ({$c->district_uk} {$c->region_uk})",
+        $filteredCities = [];
+
+        foreach ($citiesT as $cityT) {
+            $city = $cities->where('id', $cityT->city_id)->first();
+            if ($city && $cityT->locale === app()->getLocale()) {
+                $filteredCities[] = [
+                    'text' => $cityT->title,
+                    'title' => $city->id,
+                    'locale' => $cityT->locale,
                 ];
-            })->toArray();
+            }
+        }
+
+        return $filteredCities;
     }
 
     protected function isDeliveryNew(): bool

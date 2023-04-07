@@ -7,15 +7,15 @@ jQuery(document).ready(function ($) {
       input.value = '';
     }
   }
-
+  
   $('input[type="number"]').on('input', function() {
     $(this).val($(this).val().replace(/[A-Za-zА-Яа-яЁё]/, ''))
   });
-
+  
   var pattern = /^[a-z0-9_-]+@[a-z0-9-]+\.([a-z]{1,6}\.)?[a-z]{2,6}$/i;
   var email = $('.js-email');
   var emailMessages = email.next('.invalid-feedback');
-
+  
   email.blur(function(){
     if(email.val() != ''){
       if(email.val().search(pattern) == 0){
@@ -29,7 +29,7 @@ jQuery(document).ready(function ($) {
       emailMessages.text('Поле e-mail не должно быть пустым');
     }
   });
-
+  
   email.on('keyup paste', function() {
     if (this.value && /[^_a-zA-Z0-9@\-.]/i.test(this.value)) {
       email.trigger('input');
@@ -40,14 +40,14 @@ jQuery(document).ready(function ($) {
       $(this).removeClass('is-invalid');
     }
   });
-
+  
   // Запрет ввода кириллицы
   $('.js-no-cyrillic').keyup(function () {
     if (!this.value.match(/^[a-zA-Z0-9@]+$/)) {
       this.value = this.value.replace(/[^a-zA-Z0-9@]/g, '');
     }
   });
-
+  
   $('.js-date').datepicker({autoClose: true,});
   $('.js-select').niceSelect();
   $('.js-phone').inputmask({"mask": "+38(999) 999-99-99"});
@@ -62,7 +62,7 @@ jQuery(document).ready(function ($) {
     }
     e.stopPropagation();
   });
-
+  
   $(document).on('click', '.js-hide-drop', function(){
     $(this).closest('.action-group').toggleClass('is-show');
   });
@@ -74,7 +74,7 @@ jQuery(document).ready(function ($) {
     $input.change();
     return false;
   });
-
+  
   $(document).on('click', '.counter .plus', function(event) {
     var $input = $(this).parent().find('input');
     $input.val(parseInt($input.val()) + 1);
@@ -91,7 +91,7 @@ jQuery(document).ready(function ($) {
       }
     }
   });
-
+  
   $(document).on("click", ".drop-menu li", function() {
     if(document.documentElement.clientWidth <= 767){
       var selected_value = $(this).html();
@@ -100,7 +100,7 @@ jQuery(document).ready(function ($) {
       $(this).html(first_li);
     }
   });
-
+  
   $(document).on("mouseup", function(event) {
     var target = event.target;
     var select = $(".drop-menu");
@@ -109,25 +109,25 @@ jQuery(document).ready(function ($) {
     }
   });
   /* -------------------------------- Dropdown -------------------------------- */
-
+  
   $('.drop input').attr('autocomplete', 'off');
-
+  
   // $('.drop input').before('<span class="drop-clear"></span>');
-
+  
   $(document).on('click', '.drop-button', function(){
     $('.drop').removeClass('_active');
     $('.drop-box').hide();
     $(this).closest('.drop').find('.drop-box').show();
     $(this).closest('.drop').addClass('_active');
   });
-
+  
   $(document).on('focus', '.drop input', function(){
     $('.drop').removeClass('_active');
     $('.drop-box').hide();
     $(this).closest('.drop').find('.drop-box').show();
     $(this).closest('.drop').addClass('_active');
   });
-
+  
   $(document).on('input', '.drop input', function(){
     let val = $(this).val();
     if( val.length >= 1 ) {
@@ -138,7 +138,7 @@ jQuery(document).ready(function ($) {
       $(this).closest('.drop').removeClass('_active-close');
     }
   });
-
+  
   $(document).on('click', '.drop-clear', function(){
     $(this).removeClass('_active');
     let placeholder = $(this).closest('.drop').find('.drop-input').attr('placeholder');
@@ -148,7 +148,7 @@ jQuery(document).ready(function ($) {
     $(this).closest('.drop').removeClass('_active-close');
     $(this).closest('.drop').find('.drop-box').hide();
   });
-
+  
   $(document).on('click', '.drop-box .drop-list-item', function(){
     let currentVal = $(this).html();
     let regex      = /<\/?\w+[^>]*\/?>/g;
@@ -162,7 +162,7 @@ jQuery(document).ready(function ($) {
     $('.drop').removeClass('_active');
     $('.drop').removeClass('_active-close');
   });
-
+  
   $(document).on('click', function(e) {
     if (!$(e.target).closest(".drop").length) {
       $('.drop').removeClass('_active _active-close');
@@ -177,7 +177,7 @@ jQuery(document).ready(function ($) {
     $(this).closest('.dropdown').find('.dropdown-toggle>span').text(current);
   });
   $('input.upload-unit__input').bind('change', function() {
-
+  
     let ths           = $(this);
     let size          = parseInt(this.files[0].size / 1024);
     let name          = this.files[0].name;
@@ -185,29 +185,29 @@ jQuery(document).ready(function ($) {
     let sizeBox       = ths.closest('.upload-unit').find('.upload-unit__size');
     let status        = ths.closest('.upload-unit').find('.upload-unit__status');
     let fileExtension = ['jpg', 'jpeg', 'png'];
-
+  
     nameBox.text(name);
     sizeBox.text(size + ' kb. Завантаженно');
     status.children().removeAttr('class');
     status.removeClass('cancel').addClass('success');
     status.children().addClass('ico_file-success');
-
+  
     if(4880 < size){
       sizeBox.text('Імпорт неможливий. Розмір перевищено');
       status.children().removeAttr('class');
       status.removeClass('success').addClass('cancel');
       status.children().addClass('ico_file-cancel');
     }
-
+  
     if ($.inArray(name.split('.').pop().toLowerCase(), fileExtension) == -1) {
       sizeBox.text('Імпорт неможливий. Недійсний формат');
       status.children().removeAttr('class');
       status.removeClass('success').addClass('cancel');
       status.children().addClass('ico_file-cancel');
     }
-
+  
   });
-
+  
   $('.upload-file-block.--full input.upload-file-block__input').bind('change', function() {
     let ths  = $(this);
     let size = parseInt(this.files[0].size / 1024);
@@ -226,7 +226,7 @@ jQuery(document).ready(function ($) {
                 </div>`;
     ths.closest('.upload-file-block').find('.upload-file-block__box').append(unit);
   });
-
+  
   $('.upload-file-block.--small input.upload-file-block__input').bind('change', function() {
     let ths  = $(this);
     let size = parseInt(this.files[0].size / 1024);
@@ -241,14 +241,14 @@ jQuery(document).ready(function ($) {
                 </div>`;
     ths.closest('.upload-file-block').find('.upload-file-block__box').append(unit);
   });
-
+  
   $(document).on('click', '.upload-unit__trash', function(){
     let ths  = $(this);
     ths.closest('.upload-file-block').find('input.upload-file-block__input').val('');
     ths.closest('.upload-unit').remove();
   });
   /* ----------------------------- Таблица Footable ---------------------------- */
-
+  
   $('.js-table').footable({
     "empty": "Таблица пуста",
     "toggleColumn": "last",
@@ -261,41 +261,41 @@ jQuery(document).ready(function ($) {
       "size": 5
     }
   });
-
+  
   $(document).on('click', '.js-page-size .drop-list-item', function (e) {
     var newSize = $(this).attr('data-page-size');
     console.log(newSize);
     FooTable.get('.js-table').pageSize(newSize);
   });
-
+  
   $(document).on('click', '.js-table tbody button.ico_trash', function(){
     $(this).closest('tr').remove()
   });
-
+  
   $(document).on('click', '.button-icon.ico_trash', function(){
     $(this).closest('tr').remove();
   });
-
+  
   $(document).on('click', 'table .js-select-all', function () {
     let $table = $(this).closest('table');
     let $checkboxs = $table.find('tbody td:first-child input[type="checkbox"]');
-
+  
     if ($(this).find('input[type="checkbox"]').prop('checked')) {
       $checkboxs.prop("checked", true);
     } else {
       $checkboxs.prop("checked", false);
     }
   });
-
-
+  
+  
   if(document.querySelector('.js-select-all')) {
     const table = document.querySelector('.js-table')
     const check = document.querySelector('.js-select-all')
-
+  
     if(table.contains(check)) {
         table.addEventListener('change', function (evt) {
           var el = evt.target.closest('.check');
-
+  
           if (el.classList.contains('js-select-all')) {
             return
           } else {
@@ -306,16 +306,16 @@ jQuery(document).ready(function ($) {
   }
   $('.order-block').hide();
   $('.delivery-content').hide();
+  $('.pay-content').hide();
   $('.pay-manager-content').hide();
   $('.customer-content').hide();
   $('.counterparty-content').hide();
-  $('.order-form-values').hide();
-
+  
     $(document).on('click', '.order-select-current', function(){
       $('.order-select').removeClass('is-active');
       $(this).closest('.order-select').addClass('is-active');
     });
-
+  
     $(document).on('click', '.order-select-box li', function(){
       let $currentVal    = $(this).html();
       let $selectBox     = $(this).closest('.order-select');
@@ -323,151 +323,178 @@ jQuery(document).ready(function ($) {
       $selectCurent.html($currentVal);
       $selectBox.removeClass('is-active');
     });
-
+  
     $(document).on('click', function(e) {
       if (!$(e.target).closest(".order-select").length) {
         $('.order-select').removeClass('is-active');
       }
       e.stopPropagation();
     });
-
+  
     $('.js-group-option .group-option-item').hide();
     $('.js-group-option').each(function(){
       var value = $(this).find('input[type="radio"]:checked').val();
       $(".js-"+ value).show();
     });
-
+  
     $(document).on('click', '.js-group-option label.check', function(){
       $(this).closest('.js-group-option').find('.group-option-item').hide();
       let val = $(this).find('input.check__input').val();
       $(this).closest('.js-group-option').find(".js-"+ val).show();
     });
-
-    $(document).on('click', '.order-select-box ul li', function(){
-      $('.order-form-values').show();
+  
+    $(document).on('click', '.js-select-pay .order-select-box li', function(){
+      $('.order-block.--pay').show();
     });
-
-    $(document).on('click', '.js-select-pay .order-select-box ul li', function(){
-      let currentValue = $(this).text();
-      $('.order-block.--pay').show().find('.order-block-value').text(currentValue);
+  
+    $(document).on('click', '.js-pay-1', function(){
+      $('.pay-content').hide();
+      $('.js-pay-content-1').show();
     });
-
+  
+    $(document).on('click', '.js-pay-2', function(){
+      $('.pay-content').hide();
+      $('.js-pay-content-2').show();
+    });
+  
+    $(document).on('click', '.js-pay-3', function(){
+      $('.pay-content').hide();
+      $('.js-pay-content-3').show();
+    });
+  
     $(document).on('click', '.js-select-delivery .order-select-box li', function(){
       $('.order-block.--delivery').show();
     });
-
+  
     $(document).on('click', '.js-delivery-1', function(){
       $('.delivery-content').hide();
       $('.js-delivery-content-1').show();
     });
-
+  
     $(document).on('click', '.js-delivery-2', function(){
       $('.delivery-content').hide();
       $('.js-delivery-content-2').show();
     });
-
+  
     $(document).on('click', '.js-delivery-3', function(){
       $('.delivery-content').hide();
       $('.js-delivery-content-3').show();
     });
-
+  
     $(document).on('click', '.js-delivery-4', function(){
       $('.delivery-content').hide();
       $('.js-delivery-content-4').show();
     });
-
+  
     $(document).on('click', '.js-delivery-5', function(){
       $('.delivery-content').hide();
       $('.js-delivery-content-5').show();
     });
-
+  
     $(document).on('click', '.js-select-customer .order-select-box li', function(){
       $('.order-block.--customer').show();
     });
-
+  
     $(document).on('click', '.js-customer-1', function(){
       $('.customer-content').hide();
       $('.js-customer-content-1').show();
     });
-
+  
     $(document).on('click', '.js-customer-2', function(){
       $('.customer-content').hide();
       $('.js-customer-content-2').show();
     });
-
+  
     $(document).on('click', '.js-customer-3', function(){
       $('.customer-content').hide();
       $('.js-customer-content-3').show();
     });
-
+  
     $(document).on('click', '.js-select-counterparty .order-select-box li', function(){
       $('.order-block.--counterparty').show();
     });
-
+  
     $(document).on('click', '.js-counterparty-1', function(){
       $('.counterparty-content').hide();
       $('.js-counterparty-content-1').show();
     });
-
+  
     $(document).on('click', '.js-counterparty-2', function(){
       $('.counterparty-content').hide();
       $('.js-counterparty-content-2').show();
     });
-
+  
     $(document).on('click', '.js-counterparty-3', function(){
       $('.counterparty-content').hide();
       $('.js-counterparty-content-3').show();
     });
-
+  
     $(document).on('click', '.js-select-client .order-select-box li', function(){
       $('.order-block.--client').show();
     });
-
+  
     $(document).on('click', '.js-client-1', function(){
       $('.customer-content').hide();
       $('.js-customer-content-1').show();
     });
-
+  
     $(document).on('click', '.js-client-2', function(){
       $('.customer-content').hide();
       $('.js-customer-content-2').show();
     });
-
+  
     $(document).on('click', '.js-client-3', function(){
       $('.customer-content').hide();
       $('.js-customer-content-3').show();
     });
-
+  
     $(document).on('click', '.js-add-comment', function(){
       $('.order-form-values').show();
       $('.order-block.--comment').show();
     });
-
+  
     $(document).on('click', '.js-select-pay-manager .order-select-box li', function(){
       $('.order-block.--pay-manager').show();
     });
-
+  
     $(document).on('click', '.js-pay-manager-1', function(){
       $('.pay-manager-content').hide();
       $('.js-pay-manager-content-1').show();
     });
-
+  
     $(document).on('click', '.js-pay-manager-2', function(){
       $('.pay-manager-content').hide();
       $('.js-pay-manager-content-2').show();
+    });
+  
+    $(document).on('click', '.js-add-phone .drop-list-item', function(){
+      $('.add-phone').show();
+    });
+  
+    $(document).on('click', '.js-add-phone .drop-clear', function(){
+      $('.add-phone').hide();
+    });
+  
+    $(document).on('input', '.js-add-phone.drop input', function(){
+      let val = $(this).val();
+      if( val.length >= 1 ) {
+        $('.add-phone').show();
+      } else {
+        $('.add-phone').hide();
+      }
     });
   // Dynamic Adapt v.1
   // HTML data-da="where(uniq class name),when(breakpoint),position(digi)"
   // e.x. data-da=".item,992,2"
   // Andrikanych Yevhen 2020
   // https://www.youtube.com/c/freelancerlifestyle
-
+  
   "use strict";
-
+  
   function DynamicAdapt(type) {
   	this.type = type;
   }
-
+  
   DynamicAdapt.prototype.init = function () {
   	const _this = this;
   	// массив объектов
@@ -475,7 +502,7 @@ jQuery(document).ready(function ($) {
   	this.daClassname = "_dynamic_adapt_";
   	// массив DOM-элементов
   	this.nodes = document.querySelectorAll("[data-da]");
-
+  
   	// наполнение оbjects объктами
   	for (let i = 0; i < this.nodes.length; i++) {
   		const node = this.nodes[i];
@@ -490,9 +517,9 @@ jQuery(document).ready(function ($) {
   		оbject.index = this.indexInParent(оbject.parent, оbject.element);
   		this.оbjects.push(оbject);
   	}
-
+  
   	this.arraySort(this.оbjects);
-
+  
   	// массив уникальных медиа-запросов
   	this.mediaQueries = Array.prototype.map.call(this.оbjects, function (item) {
   		return '(' + this.type + "-width: " + item.breakpoint + "px)," + item.breakpoint;
@@ -500,7 +527,7 @@ jQuery(document).ready(function ($) {
   	this.mediaQueries = Array.prototype.filter.call(this.mediaQueries, function (item, index, self) {
   		return Array.prototype.indexOf.call(self, item) === index;
   	});
-
+  
   	// навешивание слушателя на медиа-запрос
   	// и вызов обработчика при первом запуске
   	for (let i = 0; i < this.mediaQueries.length; i++) {
@@ -508,7 +535,7 @@ jQuery(document).ready(function ($) {
   		const mediaSplit = String.prototype.split.call(media, ',');
   		const matchMedia = window.matchMedia(mediaSplit[0]);
   		const mediaBreakpoint = mediaSplit[1];
-
+  
   		// массив объектов с подходящим брейкпоинтом
   		const оbjectsFilter = Array.prototype.filter.call(this.оbjects, function (item) {
   			return item.breakpoint === mediaBreakpoint;
@@ -519,7 +546,7 @@ jQuery(document).ready(function ($) {
   		this.mediaHandler(matchMedia, оbjectsFilter);
   	}
   };
-
+  
   DynamicAdapt.prototype.mediaHandler = function (matchMedia, оbjects) {
   	if (matchMedia.matches) {
   		for (let i = 0; i < оbjects.length; i++) {
@@ -536,7 +563,7 @@ jQuery(document).ready(function ($) {
   		}
   	}
   };
-
+  
   // Функция перемещения
   DynamicAdapt.prototype.moveTo = function (place, element, destination) {
   	element.classList.add(this.daClassname);
@@ -550,7 +577,7 @@ jQuery(document).ready(function ($) {
   	}
   	destination.children[place].insertAdjacentElement('beforebegin', element);
   }
-
+  
   // Функция возврата
   DynamicAdapt.prototype.moveBack = function (parent, element, index) {
   	element.classList.remove(this.daClassname);
@@ -560,14 +587,14 @@ jQuery(document).ready(function ($) {
   		parent.insertAdjacentElement('beforeend', element);
   	}
   }
-
+  
   // Функция получения индекса внутри родителя
   DynamicAdapt.prototype.indexInParent = function (parent, element) {
   	const array = Array.prototype.slice.call(parent.children);
   	return Array.prototype.indexOf.call(array, element);
   };
-
-  // Функция сортировки массива по breakpoint и place
+  
+  // Функция сортировки массива по breakpoint и place 
   // по возрастанию для this.type = min
   // по убыванию для this.type = max
   DynamicAdapt.prototype.arraySort = function (arr) {
@@ -577,18 +604,18 @@ jQuery(document).ready(function ($) {
   				if (a.place === b.place) {
   					return 0;
   				}
-
+  
   				if (a.place === "first" || b.place === "last") {
   					return -1;
   				}
-
+  
   				if (a.place === "last" || b.place === "first") {
   					return 1;
   				}
-
+  
   				return a.place - b.place;
   			}
-
+  
   			return a.breakpoint - b.breakpoint;
   		});
   	} else {
@@ -597,24 +624,24 @@ jQuery(document).ready(function ($) {
   				if (a.place === b.place) {
   					return 0;
   				}
-
+  
   				if (a.place === "first" || b.place === "last") {
   					return 1;
   				}
-
+  
   				if (a.place === "last" || b.place === "first") {
   					return -1;
   				}
-
+  
   				return b.place - a.place;
   			}
-
+  
   			return b.breakpoint - a.breakpoint;
   		});
   		return;
   	}
   };
-
+  
   const da = new DynamicAdapt("max");
   da.init();
   scrollTo('._scrollto', 120);
@@ -642,7 +669,7 @@ jQuery(document).ready(function ($) {
     $(this).closest('.js-dropdown').find('.dropdown-item').removeClass('active');
     $(this).addClass('active');
   });
-
+  
   $(document).on('input', '.search input', function () {
     let textLenght = $(this).val().length;
     // console.log("🚀 ~ file: main.js ~ line 47 ~ textLenght", textLenght)
@@ -655,28 +682,28 @@ jQuery(document).ready(function ($) {
       $(this).closest('.search').find('.search__icon').addClass('is-show');
     }
   });
-
+  
   $(document).on('click', '.search__clear', function () {
     $(this).removeClass('is-show');
     $(this).closest('.search').removeClass('is-active');
     $(this).closest('.search').find('.search__icon').addClass('is-show');
     $(this).closest('.search').find('input').val('');
     $(this).closest('.search').find('input').focus();
-
+  
     let searchDropdown =  document.querySelector('.search-dropdown');
     searchDropdown.classList.remove('is-active');
   });
-
+  
   if (document.querySelector('.search__input')) {
     const formSearchs = document.querySelectorAll('.search__input');
     let searchDropdown =  document.querySelector('.search-dropdown');
-
+  
     for (const formSearch of formSearchs) {
-
+  
         formSearch.addEventListener('keyup', function() {
             let searchInput =  this;
             searchDropdown.classList.add('is-active');
-
+  
             if(searchInput.value == 0) {
                 searchDropdown.classList.remove('is-active');
                 searchInput.closest('.search').classList.remove('is-active');
@@ -684,18 +711,18 @@ jQuery(document).ready(function ($) {
         });
     }
   }
-
+  
   if(document.querySelector('.search-menu__item')) {
-
+  
     document.addEventListener('mouseover', function (e) {
       if ((e.target.closest('.search-menu__item'))) {
         const menuItemTarget = e.target.closest('.search-menu__item')
-
+  
         if(window.innerWidth > 768) {
           const searchMenusList = document.querySelector('.search-category-list');
           const searchMenuDropdowns = searchMenusList.querySelectorAll('.search-sub-menu');
           const menuItems = document.querySelectorAll('.search-menu__item');
-
+          
           for (const menuItem of menuItems) {
             menuItem.classList.remove('is-active')
           }
@@ -708,20 +735,20 @@ jQuery(document).ready(function ($) {
               searchMenuDropdowns[i].classList.add('is-active');
             }
           }
-
+          
         }
       } else  {return}
     }, false);
-
+  
     const menuItems = document.querySelectorAll('.search-menu__item');
-
+  
     for (let i = 0; i < menuItems.length; i++) {
       const menuItem = menuItems[i];
-
+  
       menuItem.addEventListener('click', function(){
         if(window.innerWidth < 768) {
           const pane = this.querySelector('.search-sub-menu');
-
+  
           if (pane.style.maxHeight) {
               pane.style.maxHeight = null;
               pane.classList.remove('is-active-mobile');
@@ -735,21 +762,21 @@ jQuery(document).ready(function ($) {
       });
     }
   }
-
+  
   $(document).on('click', '.js-menu-btn', function(){
     $('.offcanvas-overlay').addClass('is-show');
     $('.offcanvas-menu').addClass('is-show');
     $('.page-header').addClass('page-header-menu-show');
     $('body').addClass('stop-scroll');
   });
-
+  
   $(document).on('click', '.js-menu-close', function(){
     $('.offcanvas-overlay').removeClass('is-show');
     $('.offcanvas-menu').removeClass('is-show');
     $('.page-header').removeClass('page-header-menu-show');
     $('body').removeClass('stop-scroll');
   });
-
+  
   $(document).mouseup(function (e){
     var div = $(".offcanvas-menu");
     if (!div.is(e.target) && div.has(e.target).length === 0) {
@@ -759,7 +786,7 @@ jQuery(document).ready(function ($) {
       $('body').removeClass('stop-scroll');
     }
   });
-
+  
   $(document).on('click', '.js-add-compare', function(){
     if( !$(this).hasClass('is-active') ){
       $(this).addClass('is-active');
@@ -773,19 +800,19 @@ jQuery(document).ready(function ($) {
       $('.shop-action-item.--compare .shop-action-item__col').text(compareCol);
     }
   });
-
+  
   $(document).on('click', '.js-add-cart', function(){
     $(this).toggleClass('is-active');
     let cartCol = Number($('.shop-action-item.--cart .shop-action-item__col').text());
     cartCol = ++cartCol;
     $('.shop-action-item.--cart .shop-action-item__col').text(cartCol);
   });
-
+  
   $(document).on('click', '.js-show-search', function(){
     $('.search').addClass('is-show');
     document.body.classList.add('search-opened');
   });
-
+  
   $(document).mouseup(function (e){
     var div = $(".search__control");
     if (!div.is(e.target) && div.has(e.target).length === 0 && !e.target.closest('.search-dropdown')) {
@@ -794,7 +821,7 @@ jQuery(document).ready(function ($) {
     }
   });
   /* -------------------------------- Валидация ------------------------------- */
-
+  
   (function () {
     'use strict'
     var forms = document.querySelectorAll('.needs-validation')
@@ -809,7 +836,7 @@ jQuery(document).ready(function ($) {
         }, false)
       })
   })()
-
+  
   /* ------------------------- Показать/Скрыть пароль ------------------------- */
   $(document).on('click', '.show-password', function(){
     let $inputPass = $(this).closest('.form-group').find('input.form-control');
@@ -822,7 +849,7 @@ jQuery(document).ready(function ($) {
     }
     return false;
   });
-
+  
   /* ---------- Форма регистрации показать/скрыть дополнительные поля --------- */
   if( !$('input._hide-checkbox').prop('checked') ){
     $('._hide-box').find('._hide').hide();
@@ -848,7 +875,7 @@ jQuery(document).ready(function ($) {
       $('.login-btns-group.--legal').hide();
     }
   });
-
+  
   /* --------------------- Проверка на совпадение паролей --------------------- */
   $("._pass-2").blur(function() {
     let pass1 = $(this).closest('._pass-form').find("._pass-1").val();
@@ -861,7 +888,7 @@ jQuery(document).ready(function ($) {
       $("._pass-2").removeClass('is-valid');
     }
   });
-
+  
   /* ------------------------ Проверка сложности пароля ----------------------- */
   $("._pass").keyup(function() {
     var pass = $("._pass").val();
@@ -926,37 +953,37 @@ jQuery(document).ready(function ($) {
       $("._password-quality > li.five").removeClass('_active');
     }
   }
-
+  
   /* ------------------ Дополнительные поля при выборе города ----------------- */
   $(document).on('click', '#m-change-city .js-btn-yes', function(){
     $('.js-change-city-btns').slideUp();
     $('.js-change-city-yes').slideDown();
   });
-
+  
   $(document).on('click', '#m-change-city .js-btn-no', function(){
     $('.js-change-city-btns').slideUp();
     $('.js-change-city-no').slideDown();
   });
-
+  
   /* ----------------------------- Загрузка файлов ---------------------------- */
   $('.upload-file input[type="file"]').change(function() {
     if ($(this).val() != '') $(this).closest('.upload-file ').find('.upload-file-text').text('Обрано файлів: ' + $(this)[0].files.length);
     else $(this).closest('.upload-file ').find('.upload-file-text').text('Завантажити резюме');
   });
-
+  
   $('#upload').change(function() {
     $(this).closest('.upload').find('.upload-placeholder').hide();
     $(this).closest('.upload').find('.upload-file-name').show();
     $(this).closest('.upload').find('.upload-file-name > span').text($('#upload')[0].files[0].name);
   });
-
+  
   $(document).on('click', '.upload-file-name .ico_close', function(){
     $(this).closest('.upload').find('#upload').val(null);
     $(this).closest('.upload').find('.upload-placeholder').show();
     $(this).closest('.upload').find('.upload-file-name').hide();
     $(this).closest('.upload').find('.upload-file-name > span').text('');
   });
-
+  
   const contactsSlider = new Swiper('.js-contacts-slider .swiper', {
     slidesPerView: 1,
     spaceBetween: 20,
@@ -996,12 +1023,12 @@ jQuery(document).ready(function ($) {
       },
     },
   });
-
+  
   /* ----------------------------- address-list delete ---------------------------- */
   $(document).on('click', '.address-list button.ico_trash', function(){
     $(this).closest('.address-row').remove()
   });
-
+  
   /* ----------------------------- cookie-btn-drop ---------------------------- */
   $(document).on('click', '.js-cookie-btn-drop', function(){
     $(this).remove();
@@ -1013,7 +1040,7 @@ jQuery(document).ready(function ($) {
     menuCont = document.querySelector('.hero__inner'),
     menuHolder = menuCont.querySelector('.hero-menu-wrap'),
     catalogBtn = document.querySelector('.catalog-full-btn');
-
+  
     catalogBtn.addEventListener('click', function(e){
       e.preventDefault();
       menuHolder.classList.toggle('is-fixed');
@@ -1021,8 +1048,8 @@ jQuery(document).ready(function ($) {
       this.classList.toggle('is-fixed')
       document.body.classList.toggle('stop-scroll')
     });
-
-
+  
+    
     menuCont.addEventListener('click', function(e) {
       if (e.target !== this) {
           return;
@@ -1033,9 +1060,9 @@ jQuery(document).ready(function ($) {
         document.body.classList.remove('stop-scroll');
       }
     });
-
+  
     menuCont.addEventListener('mouseleave', function(){
-
+  
       if(menuHolder.classList.contains('is-fixed')) {
         return
       } else {
@@ -1047,7 +1074,7 @@ jQuery(document).ready(function ($) {
         }
       }
     });
-
+  
     for (let i = 0; i < menuLinks.length; i++) {
       const menuLink = menuLinks[i];
       menuLink.addEventListener('mouseenter', function(){
@@ -1062,7 +1089,7 @@ jQuery(document).ready(function ($) {
       });
     }
   }
-
+  
   const heroSlider = new Swiper('.js-hero-slider .swiper', {
     slidesPerView: 1,
     spaceBetween: 20,
@@ -1175,30 +1202,30 @@ jQuery(document).ready(function ($) {
     $('.change-view-item.--list').addClass('is-active');
     $('.catalog-list').removeClass('--grid').addClass('--list')
   });
-
+  
   $(document).on('click', '.change-view-item.--list', function(){
     $(this).removeClass('is-active');
     $('.change-view-item.--grid').addClass('is-active');
     $('.catalog-list').removeClass('--list').addClass('--grid');
   });
-
+  
   $(document).on('click', '.product-card__sizes ul li', function(){
     $(this).closest('.product-card__sizes').find('li').removeClass('is-active');
     $(this).addClass('is-active');
   });
-
+  
   $(document).on('click', '.product-card__colors li span', function(){
     $(this).closest('.product-card__colors').find('span').removeClass('is-select');
     $(this).addClass('is-select');
   });
-
+  
   $('.tags-list > .tags-list__item').hide();
   $('.tags-list > .tags-list__item').slice(0,8).show();
-
+  
   $('.tags-more').on('click', function(e){
-
+  
     e.preventDefault();
-
+  
     if( $(this).hasClass('is-active') ) {
       $(this).removeClass('is-active');
       $('.tags-list > .tags-list__item').hide();
@@ -1207,10 +1234,10 @@ jQuery(document).ready(function ($) {
       $('.tags-list > .tags-list__item:hidden').fadeIn();
       $('.tags-more').addClass('is-active');
     }
-
+  
   });
-
-
+  
+  
   if(document.querySelector('.copy-text')) {
     let copyLinks  = document.querySelectorAll('.copy-text');
     for (const copyLink of copyLinks) {
@@ -1219,18 +1246,18 @@ jQuery(document).ready(function ($) {
         }
     }
   }
-
-
-
+  
+  
+  
   /* ------------- Показать/Скрыть фильтр на мобильных устройствах ------------ */
   $(document).on('click', '.products-filter-head .button', function(){
     $(this).toggleClass('is-active');
     $('.products-filter').toggleClass('is-show');
   });
-
+  
   /*-------------------------------search------------------------*/
-
-
+  
+  
   $(document).on('input', '.filter-search__input', function () {
     let textLenght = $(this).val().length;
     if (textLenght > 0) {
@@ -1239,16 +1266,16 @@ jQuery(document).ready(function ($) {
       $(this).closest('.search-cont').find('.filter-search__clear').removeClass('is-show');
     }
   });
-
+  
   $(document).on('click', '.filter-search__clear', function () {
     $(this).removeClass('is-show');
     $(this).closest('.search-cont').find('input').val('');
     $(this).closest('.search-cont').find('input').focus();
   });
-
+  
   /* ------------------------------ Ползунок цены ----------------------------- */
   function rargePrice(){
-
+  
       var $range = $(".range-price");
       var $inputFrom = $(".range-price-from");
       var $inputTo = $(".range-price-to");
@@ -1257,7 +1284,7 @@ jQuery(document).ready(function ($) {
       var max = 3000;
       var from = 0;
       var to = 3000;
-
+  
       $range.ionRangeSlider({
       skin: "round",
       type: "double",
@@ -1270,18 +1297,18 @@ jQuery(document).ready(function ($) {
       onStart: updateInputs,
       onChange: updateInputs,
       onFinish: updateInputs
-
+  
     });
-
+  
     instance = $range.data("ionRangeSlider");
-
+  
     function updateInputs (data) {
       from = data.from;
       to = data.to;
       $inputFrom.prop("value", from);
       $inputTo.prop("value", to);
     }
-
+  
     $inputFrom.on("change", function () {
       var val = $(this).prop("value");
       if (val < min) {
@@ -1294,7 +1321,7 @@ jQuery(document).ready(function ($) {
       });
       $(this).prop("value", val);
     });
-
+  
     $inputTo.on("change", function () {
       var val = $(this).prop("value");
       if (val < from) {
@@ -1313,11 +1340,10 @@ jQuery(document).ready(function ($) {
     direction: "horizontal",
     slidesPerView: 3,
     spaceBetween: 10,
-    rewind: true,
-    observeParents: true,
-    observeSlideChildren: true,
-    observer: true,
     speed: 800,
+    watchSlidesVisibility: true,
+    watchSlidesProgress: true,
+    rewind: true,
     navigation: {
       nextEl: '.js-product-thumb .swiper-button-next',
       prevEl: '.js-product-thumb .swiper-button-prev',
@@ -1340,14 +1366,11 @@ jQuery(document).ready(function ($) {
       },
     },
   });
-
+  
   const productFull = new Swiper('.js-product-full .swiper', {
     slidesPerView: 1,
     spaceBetween: 5,
     rewind: true,
-    observeParents: true,
-    observeSlideChildren: true,
-    observer: true,
     speed: 800,
     navigation: {
       nextEl: '.js-product-full .swiper-button-next',
@@ -1357,7 +1380,7 @@ jQuery(document).ready(function ($) {
       swiper: productThumb
     },
   });
-
+  
   const productFullSingle = new Swiper('.js-product-full-single .swiper', {
     slidesPerView: 1,
     spaceBetween: 5,
@@ -1371,7 +1394,7 @@ jQuery(document).ready(function ($) {
       prevEl: '.js-product-full-single .swiper-button-prev',
     }
   });
-
+  
   const relatedProducts = new Swiper('.js-related-products .swiper', {
     slidesPerView: 2,
     spaceBetween: 10,
@@ -1400,7 +1423,7 @@ jQuery(document).ready(function ($) {
       },
     },
   });
-
+  
   const relatedProducts2 = new Swiper('.js-related-products-manager .swiper', {
     slidesPerView: 2,
     spaceBetween: 10,
@@ -1441,7 +1464,7 @@ jQuery(document).ready(function ($) {
       },
     },
   });
-
+  
   $(document).on('click', '.colors li span', function(){
     $(this).closest('.colors').find('span').removeClass('is-active');
     $(this).addClass('is-active');
@@ -1461,8 +1484,8 @@ jQuery(document).ready(function ($) {
       });
     }
   });
-
-
+  
+  
   /* ----------------------- Страница сравнения товаров ----------------------- */
   $('.compare-item__list li').on({
   mouseenter: function() {
@@ -1480,7 +1503,7 @@ jQuery(document).ready(function ($) {
     });
   }
   });
-
+  
   const compareSlider = new Swiper('.js-compare-slider .swiper', {
     loop: false,
     slidesPerView: 1,
@@ -1506,8 +1529,8 @@ jQuery(document).ready(function ($) {
       },
     },
   });
-
-
+  
+  
   $(document).on('click', '.compare-item .btn-delete', function(){
   let ths = $(this).closest('.swiper-slide');
   $(this).closest('.compare-item').fadeOut('300');
@@ -1516,37 +1539,37 @@ jQuery(document).ready(function ($) {
   }
   setTimeout(remove, 400);
   });
-  /* --------------------------- Страница "Контакты" --------------------------
-
-  const mapBox      = document.getElementById("map");
-
-  if(mapBox) {
-    const markerIcon  = '/assets/img/pin.png';
-    const mapZoom     = 12;
-    const centerMap   = new google.maps.LatLng(48.298377962578456, 25.935977095425084);
-    const markersData = [
-                          { lat: 48.298377962578456, lng: 25.935977095425084},
-                        ];
-
-    function initMap() {
-      var mapOptions = {
-        center: centerMap,
-        zoom: mapZoom,
-      };
-      map = new google.maps.Map(mapBox, mapOptions);
-      const markers = markersData.map((location, i) => {
-        return new google.maps.Marker({
-          position: location,
-          map,
-          icon: markerIcon,
-        });
-      });
-    }
-
-    initMap();
-  }
-*/
-
+  /* --------------------------- Страница "Контакты" -------------------------- */
+  
+  // const mapBox      = document.getElementById("map");
+  
+  // if(mapBox) {
+  //   const markerIcon  = '/assets/img/pin.png';
+  //   const mapZoom     = 12;
+  //   const centerMap   = new google.maps.LatLng(48.298377962578456, 25.935977095425084);
+  //   const markersData = [
+  //                         { lat: 48.298377962578456, lng: 25.935977095425084},
+  //                       ];
+  
+  //   function initMap() {
+  //     var mapOptions = {
+  //       center: centerMap,
+  //       zoom: mapZoom,
+  //     };
+  //     map = new google.maps.Map(mapBox, mapOptions);
+  //     const markers = markersData.map((location, i) => {
+  //       return new google.maps.Marker({
+  //         position: location,
+  //         map,
+  //         icon: markerIcon,
+  //       });
+  //     });
+  //   }
+  
+  //   initMap();
+  // }
+  
+  
   const jobsSlider = new Swiper('.js-jobs-slider .swiper', {
     slidesPerView: 1,
     spaceBetween: 20,
@@ -1657,7 +1680,7 @@ jQuery(document).ready(function ($) {
       $input.addClass('is-active');
     }
   });
-
+  
   $(document).on('click', '.js-save-change', function(){
     $('.widjet-user-info__btn button').removeClass('is-active');
     $('.widjet-user-info__input > input').removeClass('is-active');

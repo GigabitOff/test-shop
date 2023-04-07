@@ -3,11 +3,12 @@
 namespace App\Http\Livewire\OrderMetaBlocks;
 
 use App\Http\Livewire\Traits\WithFilterableDropdown;
+use App\Models\City;
 use App\Models\DeliveryAddress;
 use App\Models\Warehouse;
 use Livewire\Component;
 
-use App\Models\City;
+use App\Models\ShopCity;
 use App\Models\Contract;
 use App\Models\DeliveryType;
 use Illuminate\Database\Eloquent\Model;
@@ -64,6 +65,7 @@ class SelfPickupLivewire extends Component
 
     protected function setFilterableCityList($value): array
     {
+
         $cities = $value
             ? City::query()->SearchByName($value)->limit(10)->get()
             : City::query()->RegionCapitals()->get();
@@ -75,6 +77,7 @@ class SelfPickupLivewire extends Component
                     'title' => $c->name_uk . " ({$c->district_uk} {$c->region_uk})",
                 ];
             })->toArray();
+
     }
 
     protected function getFullAddress(): string
@@ -146,9 +149,10 @@ class SelfPickupLivewire extends Component
 
     protected function updateDataFromValues()
     {
+    /////Заглушка = 0
         $this->data = [
             'warehouse_id' => $this->filterableWarehouse['id'],
-            'city_id' => $this->filterableCity['id'],
+            'city_id' => 1,
         ];
     }
 

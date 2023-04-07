@@ -16,7 +16,7 @@
                             <livewire:order-meta-blocks.recipient-phone-livewire
                                 :customer="$customer"
                                 :recipientPhone="$recipientPhone"
-                                :key="'phone-type_' . $recipientPhone"
+                                :key="'$recipientPhone'.$recipientPhone"
                             />
                         </div>
                     </div>
@@ -65,10 +65,17 @@
                             @switch($updateT)
                                 @case(1)
                                     @once
-                                        <livewire:order-meta-blocks.dropdown-delivery-type-livewire
-                                            :deliveryTypeId="1"
-                                            :key="'dropdown-delivery-type_' . rand()"
-                                        />
+                                        @if(!$deliveryTypeIdDu)
+                                            <livewire:order-meta-blocks.dropdown-delivery-type-livewire
+                                                :deliveryTypeId="1"
+                                                :key="'dropdown-delivery-type_' . rand()"
+                                            />
+                                        @else
+                                            <livewire:order-meta-blocks.dropdown-delivery-type-livewire
+                                                :deliveryTypeId="$deliveryTypeIdDu"
+                                                :key="'dropdown-delivery-type_' . rand()"
+                                            />
+                                        @endif
                                     @endonce
                                     @break
                                 @case(2)
@@ -159,7 +166,7 @@
                                         </div>
                                     </form>
                                 </div>
-                            @elseif($this->isServiceExist() and $deliveryTypeIdDu)
+                            @elseif($this->isServiceExist() and $deliveryTypeIdDu and !empty($paymentTypeId) )
                                 <div class="delivery-content js-delivery-content">
                                     <form action="#" autocomplete="off">
                                         <div class="form-group">
@@ -195,5 +202,4 @@
         </div>
     </div>
 </div>
-
 

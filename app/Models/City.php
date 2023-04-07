@@ -37,4 +37,5 @@ class City extends Model
         return $query->whereValid(true)
             ->whereNull('type')->orderBy('name_uk');
     }
+
 }
