@@ -17,6 +17,10 @@ class FormPasswordChange extends Component
         'password' => 'required|confirmed|min:6',
     ];
 
+    protected $messages = [
+        'password.min' => 'Необхідно ввести більш надійний пароль'
+    ];
+
     public function mount(){
         $this->checkAutoShow();
     }
