@@ -40,7 +40,7 @@
                 </ul>
             </div>
             <div class="form-group">
-                <button class="button-accent w-100" type="submit" data-bs-dismiss="modal">
+                <button class="button-accent w-100" type="submit">
                     {{__('custom::site.do_confirm')}}</button>
             </div>
         </form>
