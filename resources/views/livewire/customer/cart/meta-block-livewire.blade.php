@@ -121,7 +121,7 @@
                                         </div>
                                     </form>
                                 </div>
-                            @elseif($this->isServiceAddressDelivery() and !empty($paymentTypeId) )
+                            @elseif($this->isServiceAddressDelivery() and !empty($paymentTypeId) and  !empty($paymentTypeId))
                                 <div class="delivery-content js-delivery-content-2">
                                     <form action="#">
                                         <div class="form-group">

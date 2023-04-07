@@ -1,6 +1,6 @@
 
 <div>
-  @include('livewire.includes.dropdown-server-filterable', [
+{{--  @include('livewire.includes.dropdown-server-filterable', [
 'name' => 'filterableCity',
 'model' => $filterableCity,
 'mode' => $filterableMode,
@@ -9,7 +9,7 @@
 ])
     @error('data.city_id')
     <div class="invalid-feedback" style="display:block;">{{$message}}</div>
-    @enderror
+    @enderror--}}
 <p>
     @include('livewire.includes.dropdown-server-filterable', [
         'name' => 'filterableWarehouse',
