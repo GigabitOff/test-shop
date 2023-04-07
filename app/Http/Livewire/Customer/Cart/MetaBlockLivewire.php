@@ -143,7 +143,6 @@ class MetaBlockLivewire extends Component
 
     }
 
-
     public function eventSetOrderDeliveryData($payload)
     {
         $this->deliveryData = $payload;
@@ -181,7 +180,6 @@ class MetaBlockLivewire extends Component
                 'postpaidSum' => $this->postpaidSum,
                 'phone' => $this->recipientPhone
             ]);
-
 
             $this->cleanDelivery();
             $this->cleanComment();
@@ -271,7 +269,6 @@ class MetaBlockLivewire extends Component
 
         }
 
-
         $this->deliveryType = DeliveryType::where('id_1c', DeliveryType::DEFAULT)->first();
         $this->counterpartyId = $this->customer->counterparty_id;
 
@@ -309,7 +306,6 @@ class MetaBlockLivewire extends Component
     {
         return (bool)$this->deliveryType;
     }
-
 
     public function isServiceSelfPickup(): bool
     {

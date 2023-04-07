@@ -1,11 +1,6 @@
-
-    <div class="input-group">
-        <input id="lf-phone-raw" class="js-phone form-control" type="text"
-               wire:model.lazy="recipientPhone"
-               placeholder="@lang('custom::site.phone')">
-    </div>
-
-
+<input id="lf-phone-raw" class="js-phone form-control" type="text"
+       wire:model.lazy="recipientPhone"
+       placeholder="@lang('custom::site.phone')">
 <script>
     const phoneInput = document.querySelector('#lf-phone-raw');
     const clearButton = document.querySelector('#clear-phone');

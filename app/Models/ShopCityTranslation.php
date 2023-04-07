@@ -4,29 +4,35 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Astrotomic\Translatable\Translatable;
+use Illuminate\Support\Facades\DB;
+
 
 class ShopCityTranslation extends Model
 {
-    use HasFactory;
-
-    protected $fillable = [
-        'city_id',
-        'locale',
-        'title',
-        'img',
-        'description',
-        'body',
-        'link',
-        'h1',
-        'seo_url',
-        'seo_h1',
-        'seo_h2',
-        'seo_h3',
-        'meta_title',
-        'meta_keywords',
-        'meta_description',
-        'seo_canonical',
-    ];
 
     public $timestamps = false;
+
+    protected $table = 'shop_city_translations';
+
+    public function scopeSearchByName($query, $value)
+    {
+        return $query->whereValid(true)
+            ->where(function ($q) use ($value) {
+                $q->where('name_uk', 'like', "{$value}%");
+                $q->orWhere('name_uk', 'like', "м.{$value}%");
+            });
+    }
+
+    public function scopeRegionCapitals($query)
+    {
+
+        $query->get();
+    }
+
+
+
+
+
 }
+

@@ -1,6 +1,6 @@
 
 <div>
-    @include('livewire.includes.dropdown-server-filterable', [
+  @include('livewire.includes.dropdown-server-filterable', [
 'name' => 'filterableCity',
 'model' => $filterableCity,
 'mode' => $filterableMode,
