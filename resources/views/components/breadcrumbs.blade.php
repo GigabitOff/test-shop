@@ -6,7 +6,11 @@
     <div class="container-xl">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('main')}}">@lang('custom::site.main')</a></li>
-            @foreach($list as $item)
+            @foreach($list as $key =>$item)
+            @php
+                if($key<3)
+                $link = $item['url'];
+            @endphp
                 <li class="breadcrumb-item">
                     <a href="{{ $item['url'] }}">{{$item['name']}}</a></li>
             @endforeach

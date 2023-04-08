@@ -36,13 +36,14 @@
          @if($document->id == $order->id && $document->filename)
       <td>
             @if($document->type == App\Models\Document::TYPE_INVOICE AND $order->counterparty)
-        <span>
-
-        {{ $order->counterparty->name}}
-        </span>
+            <div class="d-flex flex-column">
+                {{ $order->counterparty->name}}
+                <a class="download__bill" href="/{{$document->path}}">@lang('custom::site.download_waybill')</a></div>
+        @else
+         <a href="/{{$document->path}}" targey="_blank"><img src="/assets/img/pdf.svg" alt="pdf"></a>
         @endif
 
-        <a href="/{{$document->path}}" targey="_blank"><img src="/assets/img/pdf.svg" alt="pdf"></a></td>
+       </td>
          @endif
         @endforeach
       @php($bonuses = $order->bonus_earned ? formatMoney($order->bonus_earned) : '')
