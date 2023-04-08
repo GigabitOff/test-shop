@@ -12,7 +12,7 @@
                 $link = $item['url'];
             @endphp
                 <li class="breadcrumb-item">
-                    <a href="{{ $item['url'] }}">{{$item['name']}}</a></li>
+                    <a href="{{ $link }}">{{$item['name']}}</a></li>
             @endforeach
             <li class="breadcrumb-item active" aria-current="page">{{$currentName}}</li>
         </ol>
