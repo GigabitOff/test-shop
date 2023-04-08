@@ -93,8 +93,8 @@
                         class="text-lowercase">{{$text}}</span> )
                 </dt>
                 <dd class="big text-lowercase">{{formatNbsp(formatMoney($order->total))}} @lang('custom::site.uah')</dd>
-                <dt>Дата поставки </dt>
-                <dd>23.02.22 </dd>
+               {{-- <dt>Дата поставки </dt>
+                <dd>23.02.22 </dd>--}}
             </dl>
             <div class="lk-page__table-after-btns" data-da=".lk-page__table-after, 1199, 2">
 
