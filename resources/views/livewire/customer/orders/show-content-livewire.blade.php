@@ -15,11 +15,18 @@
         <div class="lk-page__order-info">
             <div class="order-info-item">
                 <div class="order-info-item__label">
-                    @lang('custom::site.date_order') /
-                    @lang('custom::site.order_status')
+                    @lang('custom::site.date_order')
                 </div>
                 <div class="order-info-item__value">
-                    {{formatDate($order->created_at)}} /
+                    {{formatDate($order->created_at)}}
+
+                </div>
+            </div>
+            <div class="order-info-item">
+                <div class="order-info-item__label">
+                    @lang('custom::site.status')
+                </div>
+                <div class="order-info-item__value">
                     {{$order->status->title ?? ''}}
                 </div>
             </div>

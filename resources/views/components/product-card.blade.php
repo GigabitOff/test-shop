@@ -23,6 +23,7 @@
             </span>
             <a class="product-card__link" href="{{route('products.show', $product->slug)}}">
                 <img src="{{$product->mainImageUrl}}" alt="{{$product->name}}"/>
+                <div class="product-card__link-hover"><img src="{{ \Storage::disk('public')->url($product->mainImageSecond->url ?? '') }}" alt="{{ $product->name }}"></div>
             </a>
         </div>
         <div class="product-card__info">
