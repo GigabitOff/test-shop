@@ -1,4 +1,4 @@
-<div class="product-card {{$cardClasses ?? ''}}"  style="height: 425px;">
+<div class="product-card {{$cardClasses ?? ''}}">
     <div class="product-card__box {{$product->availabilityCss}}">
         <div class="product-card__media">
             <div class="product-card__badges">
@@ -145,5 +145,11 @@
 <style>
     .product-card__box:hover {
         height: 100%;
+    }
+    .product-card {
+        height: 425px;
+    }
+    .product-full-box__body .product-card{
+        height: auto;
     }
 </style>
