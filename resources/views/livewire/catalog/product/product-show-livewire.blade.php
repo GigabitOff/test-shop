@@ -177,8 +177,8 @@
                 $(this).val(minimum);
 
             } else if (count % minimum) { // РЅРµ РєСЂР°С‚РЅРѕ
-                var qauntity = Math.floor(count / minimum);
-                $(this).val(minimum * qauntity);
+                var qauntity = Math.ceil(count / minimum);
+                //$(this).val(minimum * qauntity);
             }
             //console.log('change number ' + minimum * qauntity);
         });
