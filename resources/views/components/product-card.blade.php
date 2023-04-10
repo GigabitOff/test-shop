@@ -163,4 +163,7 @@
     .product-card__brand {
         min-height: 16px;
     }
+    .product-card.--small .product-card__bottom {
+        min-height: unset;
+    }
 </style>
