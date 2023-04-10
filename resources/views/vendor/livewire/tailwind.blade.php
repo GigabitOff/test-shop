@@ -15,7 +15,7 @@
                 @endif
                 @if (is_array($element))
                     @foreach ($element as $page => $url)
-                    @if($page<= $paginator->currentPage()+2 AND $page>= $paginator->currentPage() OR $page == $paginator->lastPage())
+                    @if($page<= $paginator->currentPage()+2 AND $page>= $paginator->currentPage() OR $page == $paginator->lastPage() OR $paginator->currentPage() == $paginator->lastPage() AND  $page>= $paginator->currentPage()-2 OR $paginator->currentPage() == $paginator->lastPage()-1 AND  $page> $paginator->currentPage())
                     @if($page == $paginator->lastPage())
                     <li><span>...</span></li>
                     @endif

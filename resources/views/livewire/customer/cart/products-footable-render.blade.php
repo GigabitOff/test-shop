@@ -121,12 +121,12 @@
                 <div class="counter">
                     <div class="counter__btn minus"></div>
                     <div class="counter__field">
-                        <input type="number" value="{{$cartProduct->cartQuantity}}" min="0"
+                        <input type="number" value="{{$cartProduct->cartQuantity}}" min="0" @if(!$cartProduct->on_backorder) data-max="{{ $cartProduct->stock }}" @endif
                                onchange="document.cartProduct.changeQuantity(this, '{{$cartProduct->cartUuid}}')"/>
                     </div>
 
 
-                    <div class="counter__btn plus @if($cartProduct->stock < $cartProduct->cartQuantity AND $cartProduct->on_backorder) is-disable @endif"></div>
+                    <div class="counter__btn plus @if($cartProduct->stock < $cartProduct->cartQuantity AND !$cartProduct->on_backorder) is-disable @endif"></div>
 
                 </div>
                 @if($cartProduct->stock < $cartProduct->cartQuantity AND !$cartProduct->on_backorder)
