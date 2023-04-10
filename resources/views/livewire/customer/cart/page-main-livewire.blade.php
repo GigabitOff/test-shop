@@ -169,16 +169,16 @@
             var max = $input.attr('data-max');
             var value = $input.val();
 
-        setTimeout(() => {
+       // setTimeout(() => {
 
-            if ($(input).val() > max) {
-                $input.val(max);
-                value = max;
+        //    if ($(input).val() > max) {
+       //         $input.val(max);
+        //        value = max;
 
-            }
+        //    }
 
             @this.changeProductQuantity(productId, value,max);
-       }, 700);
+      // }, 700);
 
 
 
