@@ -471,6 +471,7 @@ return [
     'review' => 'Переглянути',
     'comparisons' => 'Порівняння',
     'favorites' => 'Лист очікування',
+    'waiting' => 'Лист очікування',
     'to_favorites' => 'В очікуване',
     'favorite_actions' => [
         'add' => 'Додано до листа очікування',

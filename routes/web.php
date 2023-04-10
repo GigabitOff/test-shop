@@ -138,6 +138,7 @@ Route::group(['prefix' => 'customer'], function () {
         Route::get('/dashboard', [CustomerController::class, 'dashboard'])->name('customer.dashboard');
         Route::get('/cart', [ClientCartController::class, 'cart'])->name('customer.cart');
         Route::get('/favorites', [CustomerController::class, 'favorites'])->name('customer.favorites');
+        Route::get('/waiting', [CustomerController::class, 'waiting'])->name('customer.waiting');
         Route::get('/comparisons', [CustomerController::class, 'comparisons'])->name('customer.comparisons');
         Route::get('/debts', [CustomerController::class, 'debts'])->name('customer.debts');
         Route::get('/discounts', [CustomerController::class, 'discounts'])->name('customer.discounts');
@@ -257,6 +258,6 @@ Route::get('/test-import', function(){
 Route::resource('/brands', BrandsController::class)
     ->only(['index', 'show'])
     ->names('brands');
-    
+
 Route::get('/{id}', [PageController::class, 'show'])->name('pages.show');
 
