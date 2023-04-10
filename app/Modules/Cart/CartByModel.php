@@ -95,7 +95,6 @@ class CartByModel implements CartContract
 
     public function checkedProducts()
     {
-
         return $this->products()->filter->cartChecked;
     }
 
@@ -118,7 +117,6 @@ class CartByModel implements CartContract
     {
         return $this->checkedProducts()->every(fn($p) => isset($p->weight) && $p->weight > 0);
     }
-
     public function totalCartCheckedQuantityVolume()
     {
         return $this->checkedProducts()->every(fn($p) => isset($p->weight) && $p->weight > 0);
@@ -130,12 +128,10 @@ class CartByModel implements CartContract
         // Return the count of unique products
         return $checkedProducts->count();
     }
-
     public function totalCartCheckedCost()
     {
         return $this->checkedProducts()->map->cartCost->sum();
     }
-
     public function checkProduct($product_id, $checked, $uniq = null): CartContract
     {
         $res = DB::table('cart_product')

@@ -65,7 +65,7 @@
         <ul class="table-total --row">
             <li class="table-total__item">
                 @lang('custom::site.total')
-                ({{ cart()->totalCartCheckedQuantityCount() }}
+                ({{ cart()->totalCartCheckedQuantityCount()}}
                 @lang('custom::site.products') )
                 <span class="table-total__value">
                     <?php
