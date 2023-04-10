@@ -106,7 +106,7 @@
                 @endif
                 <span class="big">  {!! formatNbsp(formatMoney($product->{$productPriceField}) . ' ₴') !!}</span>
             </div>
-            <div class="product-card__sub-price">4000.00 ₴</div>
+            <div class="product-card__sub-price"></div>
             <div class="product-card__grid">
                 <div class="product-card__counter">
                     <div class="counter">
@@ -156,6 +156,9 @@
     }
     .product-card {
         height: 425px;
+    }
+    .product-full-box__body .product-card {
+        height: 320px;
     }
     .product-card__brand {
         min-height: 16px;
