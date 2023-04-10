@@ -48,15 +48,16 @@ class PageMainLivewire extends Component
     protected ?Collection $products = null;
     protected string $paginationTheme = 'paginator-buttons-cart';
 
+
     protected $listeners = [
         'eventCreateOrder',
         'eventSetOrderPaymentType',
         'eventSetOrderCounterparty',
         'eventSetOrderContract',
         'eventCheckAllChanged',
+        'eventTest',
         'eventRefreshPage'
     ];
-
 
     public function boot()
     {
@@ -67,8 +68,6 @@ class PageMainLivewire extends Component
 
     }
 
-
-
     public function mount()
     {
         $this->invalidateNonValidPersonalOffers();
@@ -77,9 +76,10 @@ class PageMainLivewire extends Component
     }
 
     public function render()
-    {
-        $products = $this->prepareProducts();
 
+    {
+
+        $products = $this->prepareProducts();
         $checkedCount = $products->filter->cartChecked->count();
         $checkAll = $checkedCount && ($checkedCount === $products->count());
         $countChangedPrice = $products->filter->countChangedPrice->count();
@@ -107,7 +107,6 @@ class PageMainLivewire extends Component
         }
 
         $paginate = $this->makeAttributePaginator($products, 'cartPerPageD', $this->perPageD);
-
 
         $table = view('livewire.customer.cart.products-footable-render', [
             'products' => $paginate,
@@ -378,6 +377,7 @@ class PageMainLivewire extends Component
         $this->recalculateCashbackToUse();
     }
 
+
     public function eventCreateOrder($payload)
     {
 
@@ -471,23 +471,26 @@ class PageMainLivewire extends Component
 //            }
             DB::commit();
 //            if (orders()->hasOrderProductAmountVerifiable($order)) {
-//                $this->dispatchBrowserEvent('flashMessage', [
-//                    'title' => __('custom::site.order'),
-//                    'message' => __('custom::site.order_save_amount_verify'),
-//                    'state' => 'success'
-//                ]);
+                $this->dispatchBrowserEvent('flashMessage', [
+                   'title' => __('custom::site.order'),
+                    'message' => __('custom::site.order_save_amount_verify'),
+                    'state' => 'success'
+                ]);
 //            } else {
             $this->dispatchBrowserEvent('flashMessage', [
                 'title' => __('custom::site.order'),
                 'message' => __('custom::site.order_confirmed_thanks'),
                 'state' => 'success'
             ]);
+
 //            }
             $this->recalculateCashbackToUse();
             $this->reset(['cashbackUsed', 'cashbackToUse']);
             $this->emit('eventOrderCreateSuccess');
             $this->revalidateTable = true;
             $this->prepareProducts(false, true);
+            $this->emit('eventRefreshPage');
+            $this->updateCartDeletedata();
         } catch (\Exception $e) {
             DB::rollBack();
             logger(__METHOD__ . $e->getMessage());
@@ -497,6 +500,20 @@ class PageMainLivewire extends Component
                 'state' => 'danger'
             ]);
         }
+
+    }
+
+    public function updateCartDeletedata()
+    {
+        $ids = cart()->checkedProductIds()->all(); // получаем массив идентификаторов из коллекции
+
+        DB::table('cart_product')
+            ->whereIn('product_id', $ids)
+            ->update(['checked' => 0]);
+
+        DB::table('cart_product')
+            ->whereIn('product_id', $ids)
+            ->delete();
     }
 
     public function eventRefreshPage()

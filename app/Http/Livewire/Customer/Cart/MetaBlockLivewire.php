@@ -6,6 +6,8 @@ use App\Models\PaymentType;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Livewire\Component;
+use App\Models\Product;
+use Illuminate\Support\Facades\DB;
 
 class MetaBlockLivewire extends Component
 {
@@ -32,7 +34,7 @@ class MetaBlockLivewire extends Component
     public $showModal = false;
     public int $deliveryVars = 0;
     public ?int $deliveryTypeIdDu = 0;
-    public ?string $test = '';
+
 
 
 
@@ -50,8 +52,6 @@ class MetaBlockLivewire extends Component
         'eventPay',
     ];
 
-
-
     /** Event Handlers */
     public function eventPay($type)
     {
@@ -61,6 +61,7 @@ class MetaBlockLivewire extends Component
     public function mount(Request $request)
     {
         $this->customer = auth()->user();
+
         $this->initValues();
 
     }
@@ -71,7 +72,6 @@ class MetaBlockLivewire extends Component
     {
         $this->updateCount = $paytype;
     }
-
 
     public function render()
     {
@@ -123,19 +123,19 @@ class MetaBlockLivewire extends Component
         $this->reset('contractId', 'contractName');
     }
 
-
     public function eventSetOrderDeliveryType($id, $name)
     {
 
        $this->deliveryType = DeliveryType::find($id);
-        $this->deliveryData = [];
-        $this->emit('eventReceiveDeliveryDataSaved');
+       $this->deliveryData = [];
+       $this->emit('eventReceiveDeliveryDataSaved');
        $this->deliveryTypeIdDu = $id;
+
    }
 
     public function eventSetOrderRecipient($id, $name)
     {
-        $this->test = $id;
+
         $this->recipientName = $name;
         $this->recipientId = $id;
 
@@ -165,14 +165,10 @@ class MetaBlockLivewire extends Component
 
     public function createOrder()
     {
-
         $this->hideValidationErrors = true;
         $this->deliveryValid = collect($this->deliveryData)->filter()->join('');
-       // $this->validate();
 
-        //$recipientPhone = session()->get('recipient_phone');
-
-        $this->emitUp('eventCreateOrder', [
+      $this->emitUp('eventCreateOrder', [
                 'paymentTypeId' => $this->paymentTypeId,
                 //'contractId' => $this->contractId,
                 'recipientId' => $this->recipientId,
