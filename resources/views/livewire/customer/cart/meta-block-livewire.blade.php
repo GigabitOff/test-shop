@@ -11,14 +11,12 @@
                         @error('recipientName')
                         <div class="invalid-feedback" style="display:block;">{{$message}}</div>
                         @enderror
-                        &nbsp;
-                        <div style="display: @if(!$recipientName) none @else block @endif;">
-                            <livewire:order-meta-blocks.recipient-phone-livewire
-                                :customer="$customer"
-                                :recipientPhone="$recipientPhone"
-                                :key="'$recipientPhone'.$recipientPhone"
-                            />
-                        </div>
+                            <div style="display: @if(!$recipientName) none @else block @endif;">
+                                &nbsp;<livewire:order-meta-blocks.recipient-phone-livewire
+                                    :customer="$customer"
+                                {{--    :key="'$recipientPhone' . $updatingKey "--}}
+                                />
+                            </div>
                     </div>
                     <div class="col-xl-3 col-md-6">
                             <livewire:order-meta-blocks.dropdown-payment-type-livewire
@@ -121,7 +119,7 @@
                                         </div>
                                     </form>
                                 </div>
-                            @elseif($this->isServiceAddressDelivery())
+                            @elseif($this->isServiceAddressDelivery() and !empty($paymentTypeId) and  !empty($paymentTypeId))
                                 <div class="delivery-content js-delivery-content-2">
                                     <form action="#">
                                         <div class="form-group">
@@ -202,4 +200,5 @@
         </div>
     </div>
 </div>
+
 
