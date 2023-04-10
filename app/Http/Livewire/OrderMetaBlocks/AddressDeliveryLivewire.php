@@ -82,7 +82,7 @@ class AddressDeliveryLivewire extends Component
             $this->reset('data');
         }
 
-        $this->trySendAddress();
+       $this->trySendAddress();
     }
 
     protected function onResetFilterableSaved()
@@ -153,10 +153,8 @@ class AddressDeliveryLivewire extends Component
     /** Service Functions */
     protected function trySendAddress()
     {
-
         if ($this->isDeliveryNew()) {
             $this->updateDataFromValues();
-
             try {
                 $this->validate();
             } catch (\Exception $e) {
@@ -164,8 +162,6 @@ class AddressDeliveryLivewire extends Component
                 throw $e;
             }
         }
-
-
         $this->emit('eventSetOrderDeliveryData', $this->data);
     }
 

@@ -1,4 +1,3 @@
-{{--
 
 <input id="lf-phone-raw" class="js-phone form-control" type="text"
        wire:model.lazy="recipientPhone"
@@ -13,7 +12,7 @@
     });
 
 </script>
---}}
+
 
 
 

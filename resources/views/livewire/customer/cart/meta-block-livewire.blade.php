@@ -12,11 +12,11 @@
                         <div class="invalid-feedback" style="display:block;">{{$message}}</div>
                         @enderror
                             <div style="display: @if(!$recipientName) none @else block @endif;">
-                                &nbsp;<livewire:order-meta-blocks.recipient-phone-livewire
+                              &nbsp;<livewire:order-meta-blocks.recipient-phone-livewire
                                     :customer="$customer"
-                                {{--    :key="'$recipientPhone' . $updatingKey "--}}
-                                />
-                            </div>
+                            :key="'$recipientPhone' . $updatingKey "
+                               />
+                           </div>
                     </div>
                     <div class="col-xl-3 col-md-6">
                             <livewire:order-meta-blocks.dropdown-payment-type-livewire
@@ -51,7 +51,8 @@
                           @endif
                         </div>
                     </div>
-                    <div class="col-xl-3 col-md-6" style="pointer-events: @if(!$paymentTypeId) none @else block @endif;">
+                 <div class="col-xl-3 col-md-6" style="pointer-events: @if(!$paymentTypeId) none @else block @endif;">
+
                         @if($updateT == 0 and $this->deliveryVars == 0)
                             <span>
                                  <livewire:order-meta-blocks.dropdown-delivery-type-livewire
@@ -110,7 +111,7 @@
                             @endswitch
                         @endif
                         <div class="order-block --delivery" >
-                            @if($this->isServiceSelfPickup() and  $paymentTypeId == 1 or $this->isServiceSelfPickup() and  $paymentTypeId == 2 and !empty($deliveryTypeIdDu) or $this->isServiceSelfPickup() and  $paymentTypeId == 3 and !empty($deliveryTypeIdDu))
+                     @if($this->isServiceSelfPickup() and  $paymentTypeId == 1 or $this->isServiceSelfPickup() and  $paymentTypeId == 2 and !empty($deliveryTypeIdDu) or $this->isServiceSelfPickup() and  $paymentTypeId == 3 and !empty($deliveryTypeIdDu))
                                 <div class="delivery-content js-delivery-content-1">
                                     <form action="#" autocomplete="off">
                                         <div class="form-group">
@@ -119,7 +120,8 @@
                                         </div>
                                     </form>
                                 </div>
-                            @elseif($this->isServiceAddressDelivery() and !empty($paymentTypeId) and  !empty($paymentTypeId))
+                       @elseif($this->isServiceAddressDelivery() and !empty($paymentTypeId) and  !empty($paymentTypeId))
+
                                 <div class="delivery-content js-delivery-content-2">
                                     <form action="#">
                                         <div class="form-group">

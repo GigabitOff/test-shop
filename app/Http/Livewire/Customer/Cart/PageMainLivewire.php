@@ -406,7 +406,7 @@ class PageMainLivewire extends Component
                     ->value('id');
                 $payload['deliveryId'] = $last_delivery_address_id;
             }
-
+/*
             /*    if (!$payload['deliveryId']) {*/
             $delivery = new DeliveryAddress();
             $delivery->fill($payload['deliveryData']);

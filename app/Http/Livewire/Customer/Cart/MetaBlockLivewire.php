@@ -166,9 +166,9 @@ class MetaBlockLivewire extends Component
     public function createOrder()
     {
 
-        $this->hideValidationErrors = false;
+        $this->hideValidationErrors = true;
         $this->deliveryValid = collect($this->deliveryData)->filter()->join('');
-            //$this->validate();
+       // $this->validate();
 
         //$recipientPhone = session()->get('recipient_phone');
 
@@ -188,7 +188,6 @@ class MetaBlockLivewire extends Component
 
             $this->cleanDelivery();
             $this->cleanComment();
-
 
     }
 
