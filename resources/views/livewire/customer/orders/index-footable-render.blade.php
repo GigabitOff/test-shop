@@ -4,8 +4,8 @@
       <th>@lang('custom::site.date')</th>
       <th>@lang('custom::site.date_shipment')</th>
       <th data-breakpoints="xs">{{ auth()->user()->hasRole('simple') ? __('custom::site.price') : __('custom::site.rcc_opt')}}</th>
-      <th data-breakpoints="xs">@lang('custom::site.delivery_method')</th>
-      <th data-breakpoints="xs">@lang('custom::site.order_status')</th>
+      <th data-breakpoints="xs">@lang('custom::site.delivery')</th>
+      <th data-breakpoints="xs">@lang('custom::site.status')</th>
       {{--<th data-breakpoints="xs sm md">@lang('custom::site.returning')</th>--}}
       <th data-breakpoints="xs sm md">@lang('custom::site.invoice')</th>
       <th data-breakpoints="xs sm md">@lang('custom::site.invoice_note')</th>
@@ -34,7 +34,16 @@
       </td>--}}
         @foreach($documents as $document)
          @if($document->id == $order->id && $document->filename)
-      <td><a href="/{{$document->path}}" targey="_blank"><img src="/assets/img/pdf.svg" alt="pdf"></a></td>
+      <td>
+            @if($document->type == App\Models\Document::TYPE_INVOICE AND $order->counterparty)
+            <div class="d-flex flex-column">
+                {{ $order->counterparty->name}}
+                <a class="download__bill" href="/{{$document->path}}">@lang('custom::site.download_waybill')</a></div>
+        @else
+         <a href="/{{$document->path}}" targey="_blank"><img src="/assets/img/pdf.svg" alt="pdf"></a>
+        @endif
+
+       </td>
          @endif
         @endforeach
       @php($bonuses = $order->bonus_earned ? formatMoney($order->bonus_earned) : '')

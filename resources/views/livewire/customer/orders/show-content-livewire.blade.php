@@ -15,22 +15,29 @@
         <div class="lk-page__order-info">
             <div class="order-info-item">
                 <div class="order-info-item__label">
-                    @lang('custom::site.date_order') /
-                    @lang('custom::site.order_status')
+                    @lang('custom::site.date_order')
                 </div>
                 <div class="order-info-item__value">
-                    {{formatDate($order->registry_date)}} /
+                    {{formatDate($order->created_at)}}
+
+                </div>
+            </div>
+            <div class="order-info-item">
+                <div class="order-info-item__label">
+                    @lang('custom::site.status')
+                </div>
+                <div class="order-info-item__value">
                     {{$order->status->title ?? ''}}
                 </div>
             </div>
             <div class="order-info-item">
                 <div class="order-info-item__label">
-                    @lang('custom::site.delivery') /
-                    @lang('custom::site.status')
+                    @lang('custom::site.delivery') {{--/
+                    @lang('custom::site.status')--}}
                 </div>
                 <div class="order-info-item__value">
-                    {{$order->deliveryAddress->deliveryType->name ?? ''}} /
-                    {{'undefined'}}
+                    {{$order->deliveryAddress->deliveryType->name ?? ''}}{{-- /
+                    {{'undefined'}}--}}
                 </div>
             </div>
             <div class="order-info-item">
@@ -93,15 +100,22 @@
                         class="text-lowercase">{{$text}}</span> )
                 </dt>
                 <dd class="big text-lowercase">{{formatNbsp(formatMoney($order->total))}} @lang('custom::site.uah')</dd>
-                <dt>Дата поставки </dt>
-                <dd>23.02.22 </dd>
+               {{-- <dt>Дата поставки </dt>
+                <dd>23.02.22 </dd>--}}
             </dl>
             <div class="lk-page__table-after-btns" data-da=".lk-page__table-after, 1199, 2">
+
                 @php($invoice = $order->documentInvoices->first())
                 @if($invoice && $invoice->path)
                     <a class="button-outline ico_download"
                        href="{{$invoice->fileUrl}}"
                        target="_blank">@lang('custom::site.download_invoice')</a>
+                @endif
+                @php($waybill = $order->documentWaybill())
+                @if($waybill && $waybill->path)
+                    <a class="button-outline ico_download"
+                       href="{{$waybill->fileUrl}}"
+                       target="_blank">@lang('custom::site.download_waybill')</a>
                 @endif
                 @if ($order->status AND $order->status->isNew())
                     <a class="button-outline ico_download" wire:click="setEditOrder"

@@ -10,13 +10,13 @@
                     </span>
                 @endif
             </li>
-            @foreach ($elements as $element)
+            @foreach ($elements as $key=>$element)
                 @if (is_string($element))
                     <li><span>...</span></li>
                 @endif
-
                 @if (is_array($element))
                     @foreach ($element as $page => $url)
+                    @if($page<= $paginator->currentPage()+2 AND $page>= $paginator->currentPage() OR $page == $paginator->lastPage())
                         @if ($page == $paginator->currentPage())
                                 <li class="page-item active" wire:key="paginator-{{ $paginator->getPageName() }}-{{ $this->numberOfPaginatorsRendered[$paginator->getPageName()] }}-page{{ $page }}">
                                     <span class="page-link" href="#">{{ $page }}</span>
@@ -27,6 +27,7 @@
                                         {{ $page }}
                                     </span>
                                 </li>
+                        @endif
                         @endif
                     @endforeach
                 @endif

@@ -124,8 +124,14 @@
                         <input type="number" value="{{$cartProduct->cartQuantity}}" min="0"
                                onchange="document.cartProduct.changeQuantity(this, '{{$cartProduct->cartUuid}}')"/>
                     </div>
-                    <div class="counter__btn plus"></div>
+
+
+                    <div class="counter__btn plus @if($cartProduct->stock < $cartProduct->cartQuantity AND $cartProduct->on_backorder) is-disable @endif"></div>
+
                 </div>
+                @if($cartProduct->stock < $cartProduct->cartQuantity AND $cartProduct->on_backorder)
+                <div class="counter-message">@lang('custom.site.Quantity is limited')</div>
+                @endif
             </td>
             <td>
                 <span class="big">{!! formatNbsp(formatMoney(($cartProduct->$productPriceField - $cashbackUsed) * $cartProduct->cartQuantity) .  ' ₴') !!}</span>

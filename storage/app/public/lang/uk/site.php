@@ -809,4 +809,6 @@ return [
     'text_message' => 'Текст повідомлення',
     'By Order No.' => 'За номером замовлення',
     'rcc_opt' => 'РРЦ\ОПТ',
+    'download_waybill' => 'Завантажити накладну',
+    'Quantity is limited' => 'Кількість обмежена',
 ];
