@@ -42,6 +42,7 @@
         <div class="form-group">
             <input class="form-control" type="text"
                    wire:model.lazy="house"
+                   placeholder="@lang('custom::site.house')">
             @error('data.dom')
             <div class="invalid-feedback" style="display:block;">{{$message}}</div>
             @enderror
