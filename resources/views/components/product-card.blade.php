@@ -86,9 +86,9 @@
                         <?php $user = $user ?? auth()->user(); ?>
                         @if (is_object($user) && $user->is_founder != 0)
                             @if ($product->price_sale_show == 0 and $product->price_wholesale != 0)
-                                <span style="color: #6c757d;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </span>
+                                <span>{!! formatNbsp(formatMoney($product->{$productPriceField}) . ' ₴') !!}</span>
                                 <div class="product-card__sub-price">
-                                    <span>{!! formatNbsp(formatMoney($product->{$productPriceField}) . ' ₴') !!}</span>
+                                    <span style="color: #6c757d;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </span>
                                 </div>
                             @else
                                 <del> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </del>
@@ -97,12 +97,11 @@
                         @else
                             @if (!is_object($user) and $product->price_sale_show != 0 and $product->price_sale != 0)
                                 <del> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </del>
-                            @else
-                                <span class="big">  {!! formatNbsp(formatMoney($product->{$productPriceField}) . ' ₴') !!}</span>
                             @endif
                             @if (is_object($user) and $product->price_sale_show != 0)
                                     <del> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </del>
                             @endif
+                            <span class="big">  {!! formatNbsp(formatMoney($product->{$productPriceField}) . ' ₴') !!}</span
                          @endif
                     </span>
                 @elseif($product->price_wholesale == 0 and $product->price_sale_show == 0 )
