@@ -25,24 +25,26 @@
         <div class="js-group-option group-option"><label>@lang('custom::site.delivery_type')</label>
             <div class="form-group">
                 <div class="form-check"><label
-                        class="form-check-label"><input
-                            class="form-check-input"
+                        class="check d-flex"><input
+                            class="check__input"
                             type="radio"
                             wire:model="deliveryTarget"
                             value="address"
                             @if($this->isDeliverySaved()) disabled @endif
-                            name="delivery--type-delivery"
-                        ><span>@lang('custom::site.delivery_by_courier')</span></label>
+                            name="delivery--type-delivery">
+                        <span class="check__box"></span>
+                        <span class="check__txt">@lang('custom::site.delivery_by_courier')</span></label>
                 </div>
                 <div class="form-check"><label
-                        class="form-check-label"><input
-                            class="form-check-input"
+                        class="check d-flex"><input
+                            class="check__input"
                             type="radio"
                             wire:model="deliveryTarget"
                             value="department"
                             @if($this->isDeliverySaved()) disabled @endif
-                            name="delivery--type-delivery"
-                        ><span>@lang('custom::site.delivery_in_department')</span></label>
+                            name="delivery--type-delivery">
+                        <span class="check__box"></span>
+                        <span class="check__txt">@lang('custom::site.delivery_in_department')</span></label>
                 </div>
             </div>
             @if($this->isDeliveryNewToAddress())
