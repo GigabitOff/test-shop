@@ -106,7 +106,7 @@
                          @endif
                     </span>
                 @elseif($product->price_wholesale == 0 and $product->price_sale_show == 0 )
-                    <span style="color: grey; font-size: 17px;"></span>
+                    <span class="big">  {!! formatNbsp(formatMoney($product->{$productPriceField}) . ' ₴') !!}</span>
                 @endif
             </div>
             <div class="product-card__grid">
