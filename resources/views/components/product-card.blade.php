@@ -81,24 +81,27 @@
           {{--  Block for determining the type and type of prices in accordance with the type of user.--}}
             @php($productPriceField = App\Models\Product::getPriceFieldWithParams(null, $product->price_sale,  $product->price_wholesale , $product->price_sale_show))
             <div class="product-card__price" style="display: block;">
-                <span class="big">  {!! formatNbsp(formatMoney($product->{$productPriceField}) . ' ₴') !!}</span>
                 @if ($product->price_sale_show != 0 and $product->price_wholesale == 0 or $product->price_sale_show == 0 and $product->price_wholesale != 0 or $product->price_sale_show != 0 and $product->price_wholesale != 0)
-                    <span style="display: block; margin-top: 5px;">
+                    <span>
                         <?php $user = $user ?? auth()->user(); ?>
                         @if (is_object($user) && $user->is_founder != 0)
                             @if ($product->price_sale_show == 0 and $product->price_wholesale != 0)
                                 <span style="color: #6c757d;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </span>
+                                <div class="product-card__sub-price">
+                                    <span>{!! formatNbsp(formatMoney($product->{$productPriceField}) . ' ₴') !!}</span>
+                                </div>
                             @else
-                                <s style="text-decoration: line-through; color: #6c757d; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </s>
+                                <del> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </del>
+                                <span class="big">  {!! formatNbsp(formatMoney($product->{$productPriceField}) . ' ₴') !!}</span>
                             @endif
                         @else
                             @if (!is_object($user) and $product->price_sale_show != 0 and $product->price_sale != 0)
-                                <s style="text-decoration: line-through; color: #6c757d; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </s>
+                                <del> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </del>
                             @else
-                                 <s style="text-decoration: line-through; color: #6c757d; font-size: 17px;"></s>
+                                <span class="big">  {!! formatNbsp(formatMoney($product->{$productPriceField}) . ' ₴') !!}</span>
                             @endif
                             @if (is_object($user) and $product->price_sale_show != 0)
-                                    <s style="text-decoration: line-through; color: #6c757d; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </s>
+                                    <del> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </del>
                             @endif
                          @endif
                     </span>
@@ -106,7 +109,6 @@
                     <span style="color: grey; font-size: 17px;"></span>
                 @endif
             </div>
-            <div class="product-card__sub-price"></div>
             <div class="product-card__grid">
                 <div class="product-card__counter">
                     <div class="counter">
@@ -155,10 +157,10 @@
         height: 100%;
     }
     .product-card {
-        height: 446px;
+        height: 425px;
     }
     .product-full-box__body .product-card {
-        height: 347px;
+        height: 327px;
     }
     .product-card__brand {
         min-height: 16px;
@@ -166,11 +168,7 @@
     .product-card.--small .product-card__bottom {
         min-height: unset;
     }
-    .product-card .product-card__price span:not(.big) {
-        font-size: 17px;
-    }
-
-    .product-card.--small .product-card__price span:not(.big) {
-        font-size: 14px;
+    .product-card__sub-price {
+        justify-content: center;
     }
 </style>
