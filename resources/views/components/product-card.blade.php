@@ -80,13 +80,14 @@
             </div>
           {{--  Block for determining the type and type of prices in accordance with the type of user.--}}
             @php($productPriceField = App\Models\Product::getPriceFieldWithParams(null, $product->price_sale,  $product->price_wholesale , $product->price_sale_show))
-            <div class="product-card__price">
+            <div class="product-card__price" style="display: block;">
+                <span class="big">  {!! formatNbsp(formatMoney($product->{$productPriceField}) . ' ₴') !!}</span>
                 @if ($product->price_sale_show != 0 and $product->price_wholesale == 0 or $product->price_sale_show == 0 and $product->price_wholesale != 0 or $product->price_sale_show != 0 and $product->price_wholesale != 0)
-                    <span>
+                    <span style="display: block; margin-top: 5px;">
                         <?php $user = $user ?? auth()->user(); ?>
                         @if (is_object($user) && $user->is_founder != 0)
                             @if ($product->price_sale_show == 0 and $product->price_wholesale != 0)
-                                <span style="color: #6c757d; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </span>
+                                <span style="color: #6c757d;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </span>
                             @else
                                 <s style="text-decoration: line-through; color: #6c757d; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </s>
                             @endif
@@ -104,7 +105,6 @@
                 @elseif($product->price_wholesale == 0 and $product->price_sale_show == 0 )
                     <span style="color: grey; font-size: 17px;"></span>
                 @endif
-                <span class="big">  {!! formatNbsp(formatMoney($product->{$productPriceField}) . ' ₴') !!}</span>
             </div>
             <div class="product-card__sub-price"></div>
             <div class="product-card__grid">
@@ -155,15 +155,22 @@
         height: 100%;
     }
     .product-card {
-        height: 425px;
+        height: 446px;
     }
     .product-full-box__body .product-card {
-        height: 320px;
+        height: 347px;
     }
     .product-card__brand {
         min-height: 16px;
     }
     .product-card.--small .product-card__bottom {
         min-height: unset;
+    }
+    .product-card .product-card__price span:not(.big) {
+        font-size: 17px;
+    }
+
+    .product-card.--small .product-card__price span:not(.big) {
+        font-size: 14px;
     }
 </style>
