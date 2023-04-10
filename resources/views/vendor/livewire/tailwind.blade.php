@@ -17,7 +17,7 @@
                 @php($L=0)
 
                     @foreach ($element as $page => $url)
-                    @if($page<= $paginator->currentPage()+2 AND $page>= $paginator->currentPage() OR $page == $paginator->lastPage() OR $paginator->currentPage() == $paginator->lastPage() AND  $page>= $paginator->currentPage()-2 OR $paginator->currentPage() == $paginator->lastPage()-1 AND  $page>= $paginator->currentPage()-1)
+                    @if($page<= $paginator->currentPage()+2 AND $page>= $paginator->currentPage() OR $page == $paginator->lastPage() OR $paginator->currentPage() == $paginator->lastPage() AND  $page>= $paginator->currentPage()-3 OR $paginator->currentPage() == $paginator->lastPage()-1 AND  $page>= $paginator->currentPage()-2)
                     @if($page == $paginator->lastPage())
                     <li><span>...</span></li>
                     @endif
@@ -25,7 +25,7 @@
                                 <li class="page-item active" wire:key="paginator-{{ $paginator->getPageName() }}-{{ $this->numberOfPaginatorsRendered[$paginator->getPageName()] }}-page{{ $page }}">
                                     <span class="page-link" href="#">{{ $page }}</span>
                                 </li>
-                        @elseif($L<2 OR $page == $paginator->lastPage())
+                        @elseif($L<=3 OR $page == $paginator->lastPage())
                                 <li class="page-item" wire:key="paginator-{{ $paginator->getPageName() }}-{{ $this->numberOfPaginatorsRendered[$paginator->getPageName()] }}-page{{ $page }}">
                                     <span class="page-link" onclick="@this.gotoPage({{ $page }}, '{{ $paginator->getPageName() }}')">
                                         {{ $page }}
