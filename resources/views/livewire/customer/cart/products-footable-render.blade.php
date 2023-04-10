@@ -126,10 +126,10 @@
                     </div>
 
 
-                    <div class="counter__btn plus @if($cartProduct->stock < $cartProduct->cartQuantity AND !$cartProduct->on_backorder) is-disable @endif"></div>
+                    <div class="counter__btn plus @if($cartProduct->stock < $cartProduct->cartQuantity AND !$cartProduct->on_backorder) {{--is-disable --}}@endif"></div>
 
                 </div>
-                @if($cartProduct->stock < $cartProduct->cartQuantity AND !$cartProduct->on_backorder)
+                @if($cartProduct->stock <= $cartProduct->cartQuantity AND !$cartProduct->on_backorder)
                 <div class="counter-message">@lang('custom::site.Quantity is limited')</div>
                 @endif
             </td>
