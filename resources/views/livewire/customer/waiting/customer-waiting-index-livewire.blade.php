@@ -43,7 +43,7 @@
                     <div class="d-flex align-items-center">
                         <label class="check">
                             <input class="check__input" type="checkbox"
-                            @if(isset($selectedData[$product->id])) checked="checked" @endif onclick="@this.selectDataItem('{{ $product->id }}')">
+                            @if(isset($selectedData[$product->id])) checked="checked" @endif onclick="@this.selectDataItem({{ $product->id }})">
                             <span class="check__box"></span><span class="check__txt"></span></label>
                         <div class="table-product-card">
                             <div class="table-product-card__img">
@@ -164,8 +164,8 @@
 
             <dl class="table-total">
                     <dt>@lang('custom::site.total_sum') ( {{ $this->price_count}} @lang('custom::site.products') )</dt>
-                    <dd class="big">{{ formatNbsp(formatMoney($this->price_sum))}} @lang('custom::site.UAH')</dd>
-                    <dd>{{ formatNbsp(formatMoney($this->price_sum_count))}} @lang('custom::site.UAH')</dd>
+                    <dd class="big">{!! formatNbsp(formatMoney($this->price_sum))!!} @lang('custom::site.UAH')</dd>
+                    <dd>{!! formatNbsp(formatMoney($this->price_sum_count))!!} @lang('custom::site.UAH')</dd>
             </dl>
             <div class="lk-page__table-after-btns"><a class="button-accent" href="#!">@lang('custom::site.add to busket')</a></div>
             @endif

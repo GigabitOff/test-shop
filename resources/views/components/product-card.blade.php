@@ -150,6 +150,6 @@
         height: 425px;
     }
     .product-full-box__body .product-card{
-        height: auto;
+        height: 298px;
     }
 </style>
