@@ -1,4 +1,4 @@
-<div class="product-card {{$cardClasses ?? ''}}">
+<div class="product-card {{$cardClasses ?? ''}}  @if(!isset($product->mainImageSecond->url)) product-card--single @endif">
     <div class="product-card__box {{$product->availabilityCss}}">
         <div class="product-card__media">
             <div class="product-card__badges">
