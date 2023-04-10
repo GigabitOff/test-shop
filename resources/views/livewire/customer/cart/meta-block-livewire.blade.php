@@ -11,7 +11,12 @@
                         @error('recipientName')
                         <div class="invalid-feedback" style="display:block;">{{$message}}</div>
                         @enderror
-
+                            <div style="display: @if(!$recipientName) none @else block @endif;">
+                                &nbsp;<livewire:order-meta-blocks.recipient-phone-livewire
+                                    :customer="$customer"
+                                {{--    :key="'$recipientPhone' . $updatingKey "--}}
+                                />
+                            </div>
                     </div>
                     <div class="col-xl-3 col-md-6">
                             <livewire:order-meta-blocks.dropdown-payment-type-livewire
