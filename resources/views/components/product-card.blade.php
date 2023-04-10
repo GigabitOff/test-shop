@@ -134,7 +134,7 @@
                     @else
                         @auth()
                             <a class="button-outline button-small"
-                               onclick="Livewire.emit('eventAddFavouriteItem', {'product_id' : {{$product->id}}, 'show_notification':1})"
+                               onclick="Livewire.emit('eventDeferredsGoodsCatalog',{{$product->id}},1)"
                                href="javascript:void(0);">
                                 @lang('custom::site.add to waiting list')
                             </a>
@@ -166,6 +166,9 @@
     }
     .product-card.--small .product-card__bottom {
         min-height: unset;
+    }
+    div.product-card:not(.--small) div.product-card__brand{
+        display:none
     }
     .product-card__sub-price {
         justify-content: center;

@@ -26,7 +26,8 @@
                                         <div class="instructions__img">
                                             <img src="/assets/img/instructions.svg" alt="instructions">
                                         </div>
-                                        {{$instruction->file_name}}
+
+                                        {{isset($instruction->file_description) ? $instruction->file_description : $instruction->file_name}}
                                     </a>
                                 </li>
                             @endforeach
