@@ -47,30 +47,35 @@
         </div>
         <div class="lk-page__action-btns">
             <div class="button-info-group" data-da=".da, 1359">
+                            @php($manager = $order->manager)
+                @if($manager)
                 <div class="button-info">
                     <button class="button-info__button ico_user" type="button"></button>
                     <div class="button-info__dropdown">
                         <div class="button-info__title">@lang('custom::site.personal_manager')</div>
                         <div class="button-info__content">
-                            @php($manager = $order->manager)
                             <span>{{$manager->name ?? ''}}</span>
                             <a href="mailto:{{$manager->email ?? ''}}">{{$manager->email ?? ''}}</a>
                             <a href="tel:{{$manager->phone ?? ''}}">{{formatPhoneNumber($manager->phone ?? '')}}</a>
                         </div>
                     </div>
                 </div>
+                @endif
+                            @php($driver = $order->driver)
+
+                @if($driver)
                 <div class="button-info">
                     <button class="button-info__button ico_driver" type="button"></button>
                     <div class="button-info__dropdown">
                         <div class="button-info__title">@lang('custom::site.company_driver')</div>
                         <div class="button-info__content">
-                            @php($driver = $order->driver)
                             <span>{{$driver->name ?? ''}}</span>
                             <a href="mailto:{{$driver->email ?? ''}}">{{$driver->email ?? ''}}</a>
                             <a href="tel:{{$driver->phone ?? ''}}">{{formatPhoneNumber($driver->phone ?? '')}}</a>
                         </div>
                     </div>
                 </div>
+                @endif
 
                 <button class="button-circle ico_print"
                         onclick="Livewire.emit('eventShowPrintOrder', {'orderId': {{$order->id}}})"
@@ -118,10 +123,10 @@
                        target="_blank">@lang('custom::site.download_waybill')</a>
                 @endif
                 @if ($order->status AND $order->status->isNew())
-                    <a class="button-outline ico_download" wire:click="setEditOrder"
+                    <a class="button-outline" wire:click="setEditOrder"
                        href="javascript:void(0);">@lang('custom::site.edit')</a>
                 @elseif ($order->status AND $order->status->isEdited())
-                    <a class="button-outline ico_download"
+                    <a class="button-outline "
                        href="{{route('customer.orders.edit', ['order'=> $order->id])}}"
                     >@lang('custom::site.edit')</a>
                 @endif

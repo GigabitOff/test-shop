@@ -165,7 +165,7 @@ class CartByModel implements CartContract
             ->where('user_id', $user->id)
             ->first();
         if ($deferredProduct) {
-            $quantity += $deferredProduct->quantity;
+            //$quantity += $deferredProduct->quantity;
             DB::table('product_deferreds')
                 ->where('product_id', $product_id)
                 ->where('user_id', $user->id)
