@@ -174,6 +174,7 @@
             if ($(input).val() > max) {
                 $input.val(max);
                 value = max;
+                alert(value);
             }
 
             @this.changeProductQuantity(productId, value);
