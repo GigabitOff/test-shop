@@ -30,12 +30,11 @@
                             </div>
                             <div class="hero-banner__more"><a class="button" href="{{$banner->url}}">@lang('custom::site.Read more')</a></div>
                         </div>
-                        @if($banner->image)
 
-                            <div class="hero-banner__img" style="background-image: url({{\Storage::disk('public')->url($banner->image)}})"></div>
-                        @else
-                            <div class="hero-banner__img" style="background-image: url(/assets/img/bg_hero-banner.jpg)"></div>
-                        @endif
+                            <div class="hero-banner__img" style="background-image: url({{\Storage::disk('public')->exists($banner->image_bg) ? \Storage::disk('public')->url($banner->image_bg) : ''}})">
+                                <div class="hero-banner__img-inner"><img src="{{ \Storage::disk('public')->url($banner->image)}}" alt="banner-inner"></div>
+                            </div> {{-- /assets/img/bg_hero-banner.jpg --}}
+
                     </div>
                 </div>
             @endforeach

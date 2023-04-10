@@ -187,6 +187,8 @@ return [
             '1' => 'Підтверджений',
         ],
         'Registration' => 'Реєстрація',
+        'Responsible person' => 'Відповідальна особа',
+
     ],
     'counterparty' => [
         'okpo' => 'ЄДРПОУ/ІПН',
@@ -439,6 +441,7 @@ return [
     'Add_contuct-category' => 'Дотати категорію контакти',
     'Phones' => 'Перелік телефонів',
     'Phone' => 'Телефон',
+    'Number phone' => 'Номер телефон',
     'Emails' => 'Перелік Emails',
     'Add' => 'Додати',
     'Delete' => 'Видалити',
@@ -1240,5 +1243,22 @@ return [
     'Select filial' => 'Вибрати філіал',
     'Max 3 address' => 'у Footer можна додати не більше трьох адрес',
     'Name filial' => 'Назва філіалу',
+    'Description of markdown' => 'Опис уцінки',
+    'No parent category' => 'Немає батьківської категорії',
+
+    'Delivery man' => 'Доставщик',
+    'The contact person' => 'Контактна особа',
+    'Delivery address' => 'Адрес доставки',
+    'Delivery date' => 'Дата доставки',
+    'Departure date' => 'Дата відправки',
+    'By Order No.' => 'За № замовлення',
+    'tovars' => 'товарів',
+    'from' => 'від',
+    'date and time' => 'Дата і час',
+    'Client' => 'Клієнт',
+    'new_message_to_manager' => 'Нове повідомлення менеджеру',
+    'message' => 'Повідомлення',
+    '' => '',
+    '' => '',
 
 ];

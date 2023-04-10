@@ -78,6 +78,11 @@ class Order extends Model
         return $this->belongsTo(PaymentType::class);
     }
 
+    public function documentWaybill()
+    {
+        return $this->hasMany(Document::class)->where('type', Document::TYPE_WAYBILL)->first();
+    }
+
     public function recipient()
     {
         return $this->belongsTo(CustomerRecipient::class, 'recipient_id', 'id');

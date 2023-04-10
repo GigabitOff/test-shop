@@ -36,6 +36,12 @@ class CustomerController extends Controller
         return view('livewire.customer.favorites');
     }
 
+    public function waiting()
+    {
+        Gate::any(['asCustomerRegistered']) ?: abort(403);
+        return view('customer.waiting.index');
+    }
+
     public function debts()
     {
         Gate::any(['asCustomerRegistered']) ?: abort(403);

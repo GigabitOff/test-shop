@@ -116,7 +116,8 @@ class UnauthorizedController extends Controller
         if ($search){
             $query->searchByName($search);
         } else {
-            $query->regionCapitals();
+            //Было  $query->;
+           $query->searchByName($search); // Сделал.
         }
 
         return $this->success(CityResource::collection($query->get()));

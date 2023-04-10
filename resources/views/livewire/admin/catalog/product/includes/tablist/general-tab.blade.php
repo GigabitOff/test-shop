@@ -296,7 +296,7 @@
 
     <div class="form-group" style="max-height: 90px">
             <textarea class="form-control" name="desc"
-            placeholder="Описание уценки" wire:model.lazy="data.{{ session('lang')}}.markdown_description">
+            placeholder="@lang('custom::admin.Description of markdown')" wire:model.lazy="data.{{ session('lang')}}.markdown_description">
             </textarea>
     </div>
         @endif

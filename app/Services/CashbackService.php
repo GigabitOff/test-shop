@@ -24,6 +24,8 @@ class CashbackService
                 ->select([DB::raw('SUM(cashback) as total_cashback')])
                 ->first();
 
+                if($sums->total_cashback === null)
+            $sums->total_cashback = 0;
             return $sums->total_cashback;
         }
 

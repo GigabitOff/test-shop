@@ -1,8 +1,8 @@
-<div>
+<div  class="footable-paging-external footable-paging-right">
     @if ($paginator->hasPages())
         @php(isset($this->numberOfPaginatorsRendered[$paginator->getPageName()]) ? $this->numberOfPaginatorsRendered[$paginator->getPageName()]++ : $this->numberOfPaginatorsRendered[$paginator->getPageName()] = 1)
 
-        <nav class="footable-pagination-wrapper">
+        <div class="footable-pagination-wrapper">
             <ul class="pagination">
                 {{-- Previous Page Link --}}
                 @if ($paginator->onFirstPage())
@@ -37,7 +37,7 @@
                                     <span class="footable-page-link">{{ $page }}</span>
                                 </li>
                             @else
-                                <li class="footable-page visible"
+                               <li class="footable-page visible"
                                     wire:key="paginator-{{ $paginator->getPageName() }}-{{ $this->numberOfPaginatorsRendered[$paginator->getPageName()] }}-page-{{ $page }}">
                                     <a class="footable-page-link" href="javascript:void(0);"
                                        wire:click="gotoPage({{ $page }}, '{{ $paginator->getPageName() }}')">{{ $page }}</a>
@@ -61,6 +61,7 @@
                     </li>
                 @endif
             </ul>
-        </nav>
+            <div class="divider"></div><span class="label label-default">{{ $paginator->currentPage() }} / {{ is_array($element) ? count($element) : '' }}</span>
+        </div>
     @endif
 </div>

@@ -13,7 +13,8 @@
                             <i class="ico_trash"></i></button>
                         <a class="product-card__link" href="{{route('products.show', ['product' => $product->id])}}">
                             <img src="{{fallbackProductImageUrl($product->imageFullUrl)}}"
-                                 alt="{{$product->name}}"/></a>
+                                 alt="{{$product->name}}"/>
+                            </a>
                     </div>
                     <div class="product-card__info">
                         <h4 class="product-card__title">

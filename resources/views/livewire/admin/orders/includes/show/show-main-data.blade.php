@@ -10,16 +10,16 @@
                         <div class="info-item__data"><a href="#">{{ $dataPage->id }}</a></div>
                       </div>
                       <div class="info-item">
-                        <div class="info-item__label">Дата и время</div>
+                        <div class="info-item__label">@lang('custom::admin.date and time')</div>
                         <div class="info-item__data">{{ formatDate($dataPage->created_at,'d.m.Y H:i') }}</div> {{-- date_registration --}}
                       </div>
                       <div class="info-item">
-                        <div class="info-item__label">Клиент</div>
+                        <div class="info-item__label">@lang('custom::admin.Client')</div>
                         <div class="info-item__data">{{ $dataPage->fio }}</div>
                       </div>
                       @if($dataPage->phone)
                       <div class="info-item">
-                        <div class="info-item__label">Номер телефону</div>
+                        <div class="info-item__label">@lang('custom::admin.Number phone')</div>
                         <div class="info-item__data">{{ $dataPage->phone }}</div>
                       </div>
                       @endif
@@ -29,7 +29,7 @@
                       </div>--}}
                       @if($dataPage->manager)
                       <div class="info-item">
-                        <div class="info-item__label">Менеджер</div>
+                        <div class="info-item__label">@lang('custom::admin.Manager')</div>
                         <div class="info-item__data">{{ $dataPage->manager->name }}</div>
                       </div>
                       @endif

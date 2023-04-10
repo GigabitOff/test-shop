@@ -8,8 +8,9 @@ class RecipientPhoneLivewire extends Component
     public ? int $recipientId = null;
     protected bool $isOpen = false;
     public $recipientPhone;
-    public ? int $test = 0;
     protected $listeners = ['recipientNaUpdated'];
+    public ? int $test = null;
+
     public function render()
     {
             return view('livewire.order-meta-blocks.recipient-phone-livewire', [ 'isOpen' => $this->isOpen, ]);
@@ -19,13 +20,13 @@ class RecipientPhoneLivewire extends Component
     {
         $this->recipientPhone = $value;
         $this->emit('eventSetOrderRecipientPhone', $this->recipientId, $this->recipientPhone);
+
     }
 
-
-
-
-
-
+    public function cssNaUpdate($value)
+    {
+        return $value;
+    }
 
 
 }

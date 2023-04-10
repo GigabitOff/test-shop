@@ -43,6 +43,7 @@
 
 
     </div>
+
     <div class="tab-pane fade @if(isset($collapse_show)  AND $collapse_show === 'base-attribute')show active @endif" @if(isset($collapse_show)  AND $collapse_show != 'base-attribute') style="display: none" @endif id="base-attribute" role="tabpanel" >
         @if(isset($item_id))
         <div wire:ignore wire:key="basic1">
@@ -74,7 +75,7 @@
 
     </div>
 
-    
+
 </div>
 
 

@@ -34,7 +34,7 @@ return [
     'Filters by brands' => 'Фильтр по брендам',
     'Found by request' =>'Знайдено по запиту',
     'Product catalog' => 'Каталог продукцiї',
-    'Related products' => 'Сопутні товари',
+    'Related products' => 'Супутні товари',
     'kg' => 'кг',
     'k.m.' => 'к.м.',
     'Quantity, items' => 'Кількість /шт',
@@ -471,6 +471,7 @@ return [
     'review' => 'Переглянути',
     'comparisons' => 'Порівняння',
     'favorites' => 'Лист очікування',
+    'waiting' => 'Лист очікування',
     'to_favorites' => 'В очікуване',
     'favorite_actions' => [
         'add' => 'Додано до листа очікування',
@@ -809,4 +810,6 @@ return [
     'text_message' => 'Текст повідомлення',
     'By Order No.' => 'За номером замовлення',
     'rcc_opt' => 'РРЦ\ОПТ',
+    'download_waybill' => 'Завантажити накладну',
+    'Quantity is limited' => 'Кількість обмежена',
 ];

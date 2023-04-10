@@ -207,6 +207,12 @@ class Product extends Model implements ImagesOwnerContract
             ->where('main', true);
     }
 
+    public function mainImageSecond(): HasOne
+    {
+        return $this->hasOne(ProductImage::class)
+            ->where('main', false);
+    }
+
     public function getStorageUri(): string
     {
         return "product/{$this->id}/gallery";

@@ -32,6 +32,8 @@ class MetaBlockLivewire extends Component
     public $showModal = false;
     public int $deliveryVars = 0;
     public ?int $deliveryTypeIdDu = 0;
+    public ?string $test = '';
+
 
 
     protected bool $hideValidationErrors = true;
@@ -47,6 +49,7 @@ class MetaBlockLivewire extends Component
         'eventOrderCreateSuccess',
         'eventPay',
     ];
+
 
 
     /** Event Handlers */
@@ -132,13 +135,14 @@ class MetaBlockLivewire extends Component
 
     public function eventSetOrderRecipient($id, $name)
     {
+        $this->test = $id;
         $this->recipientName = $name;
         $this->recipientId = $id;
 
     }
     public function eventSetOrderRecipientPhone($id, $name)
     {
-        $this->recipientPhone = $name;
+        $this->recipientPhone =  $name;
         $this->recipientId = $id;
 
     }
@@ -162,11 +166,13 @@ class MetaBlockLivewire extends Component
     public function createOrder()
     {
 
-            $this->hideValidationErrors = false;
+        $this->hideValidationErrors = true;
+        $this->deliveryValid = collect($this->deliveryData)->filter()->join('');
+       // $this->validate();
 
-            $this->deliveryValid = collect($this->deliveryData)->filter()->join('');
-            //$this->validate();
-            $this->emitUp('eventCreateOrder', [
+        //$recipientPhone = session()->get('recipient_phone');
+
+        $this->emitUp('eventCreateOrder', [
                 'paymentTypeId' => $this->paymentTypeId,
                 //'contractId' => $this->contractId,
                 'recipientId' => $this->recipientId,
@@ -174,18 +180,16 @@ class MetaBlockLivewire extends Component
                 'recipientINN' => $this->recipientINN,
                 'recipientFIO' => $this->recipientFIO,
                 'deliveryType' => $this->deliveryType,
-                'deliveryId' => $this->deliveryData['delivery_id'] ?? null,
                 'deliveryData' => $this->deliveryData,
                 'comment' => $this->comment,
                 'postpaidSum' => $this->postpaidSum,
-                'phone' => $this->recipientPhone
+                'phone' =>  $this->recipientPhone
             ]);
 
             $this->cleanDelivery();
             $this->cleanComment();
 
     }
-
 
     public function cleanDelivery()
     {

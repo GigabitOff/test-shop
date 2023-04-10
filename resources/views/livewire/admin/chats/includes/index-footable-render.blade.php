@@ -22,7 +22,7 @@
                     @endif
                 </span></td>
                   <td> <span class="message-theme">{{ $chat->subject }}</span></td>
-                  <td><a class="message @if($chat->latestMessageShow()->first()->owner_id != auth()->guard('admin')->user()->id AND $chat->closed==0 )--new @endif @if($chat->closed==1) --closed @endif" href="{{route('admin.chats.show', ['chat' => $chat->id])}}">@if($chat->latestMessageShow()->first()->owner_id != auth()->guard('admin')->user()->id AND $chat->closed==0 )<span>Нове повідомлення</span>@endif<p>
+                  <td><a class="message @if($chat->latestMessageShow()->first()->owner_id != auth()->guard('admin')->user()->id AND $chat->closed==0 )--new @endif @if($chat->closed==1) --closed @endif" href="{{route('admin.chats.show', ['chat' => $chat->id])}}">@if($chat->latestMessageShow()->first()->owner_id != auth()->guard('admin')->user()->id AND $chat->closed==0 )<span>@lang('custom::admin.new_message')</span>@endif<p>
 
 
                       {!! $chat->lastMessage !!}</p>

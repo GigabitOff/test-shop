@@ -109,16 +109,30 @@ class Category extends Model implements ImagesOwnerContract
     public function selfFirstCategory()
     {
         $res = $this->hasOne(Category::class, 'id', 'parent_id');
-        if($res->first()->parent_id != 0)
-        $res = $res->first()->selfCategory;
+       // if($res->first()->parent_id != 0)
+       // $res = $res->first()->selfCategory;
 
         //dd($res);
 
-        if ($res->first()->parent_id != 0)
-        $res = $res->first()->selfCategory;
+        //if ($res->first()->parent_id != 0)
+        //$res = $res->first()->selfCategory;
 
         return $res;
 
+    }
+
+    public function selfFirstCategories()
+    {
+        $res = $this->hasMany(Category::class, 'parent_id', 'id');
+        // if($res->first()->parent_id != 0)
+        // $res = $res->first()->selfCategory;
+
+        //dd($res);
+
+        //if ($res->first()->parent_id != 0)
+        //$res = $res->first()->selfCategory;
+
+        return $res;
     }
 
     public function analogProducts()

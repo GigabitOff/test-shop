@@ -23,6 +23,9 @@
             </span>
             <a class="product-card__link" href="{{route('products.show', $product->slug)}}">
                 <img src="{{$product->mainImageUrl}}" alt="{{$product->name}}"/>
+                @if(isset($product->mainImageSecond->url))
+                <div class="product-card__link-hover"><img src="{{ \Storage::disk('public')->url($product->mainImageSecond->url ?? '') }}" alt="{{ $product->name }}"></div>
+                @endif
             </a>
         </div>
         <div class="product-card__info">
@@ -50,6 +53,11 @@
                     {{$product->name}}
                 </a>
             </h4>
+            <div class="product-card__brand">
+                @if($product->brand)
+                    {{$product->brand->title}}
+                @endif
+            </div>
             <div class="product-card__sizes">
                 <ul>
                     @foreach($product->cardAttrVariations as $variation)
@@ -72,13 +80,14 @@
             </div>
           {{--  Block for determining the type and type of prices in accordance with the type of user.--}}
             @php($productPriceField = App\Models\Product::getPriceFieldWithParams(null, $product->price_sale,  $product->price_wholesale , $product->price_sale_show))
-            <div class="product-card__price">
+            <div class="product-card__price" style="display: block;">
+                <span class="big">  {!! formatNbsp(formatMoney($product->{$productPriceField}) . ' ₴') !!}</span>
                 @if ($product->price_sale_show != 0 and $product->price_wholesale == 0 or $product->price_sale_show == 0 and $product->price_wholesale != 0 or $product->price_sale_show != 0 and $product->price_wholesale != 0)
-                    <span>
+                    <span style="display: block; margin-top: 5px;">
                         <?php $user = $user ?? auth()->user(); ?>
                         @if (is_object($user) && $user->is_founder != 0)
                             @if ($product->price_sale_show == 0 and $product->price_wholesale != 0)
-                                <span style="color: #6c757d; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </span>
+                                <span style="color: #6c757d;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </span>
                             @else
                                 <s style="text-decoration: line-through; color: #6c757d; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </s>
                             @endif
@@ -96,8 +105,8 @@
                 @elseif($product->price_wholesale == 0 and $product->price_sale_show == 0 )
                     <span style="color: grey; font-size: 17px;"></span>
                 @endif
-                <span class="big">  {!! formatNbsp(formatMoney($product->{$productPriceField}) . ' ₴') !!}</span>
             </div>
+            <div class="product-card__sub-price"></div>
             <div class="product-card__grid">
                 <div class="product-card__counter">
                     <div class="counter">
@@ -140,3 +149,28 @@
         </div>
     </div>
 </div>
+
+<style>
+    .product-card__box:hover {
+        height: 100%;
+    }
+    .product-card {
+        height: 446px;
+    }
+    .product-full-box__body .product-card {
+        height: 347px;
+    }
+    .product-card__brand {
+        min-height: 16px;
+    }
+    .product-card.--small .product-card__bottom {
+        min-height: unset;
+    }
+    .product-card .product-card__price span:not(.big) {
+        font-size: 17px;
+    }
+
+    .product-card.--small .product-card__price span:not(.big) {
+        font-size: 14px;
+    }
+</style>

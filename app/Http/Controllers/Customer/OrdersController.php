@@ -16,13 +16,22 @@ class OrdersController extends Controller
 
     public function show(Order $order)
     {
+
         Gate::any(['asCustomerRegistered']) ?: abort(403);
+        if(auth()->user()->id != $order->customer_id)
+        abort(404);
+
+        //if()
         return view('livewire.customer.orders.show', ['order' => $order]);
     }
 
     public function edit(Order $order)
     {
         Gate::any(['asCustomerRegistered']) ?: abort(403);
+
+        if (auth()->user()->id != $order->customer_id)
+        abort(404);
+
         if ($edited = $order->editedCopy) {
             return view('livewire.customer.orders.edit', ['order' => $edited]);
         }

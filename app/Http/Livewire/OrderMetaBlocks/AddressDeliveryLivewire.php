@@ -62,7 +62,7 @@ class AddressDeliveryLivewire extends Component
     {
         $this->updatedFilterable($field, $value);
 
-        if (in_array($field, ['addressFull','street', 'house','korpus','office', 'departureAt'])) {
+        if (in_array($field, ['addressFull','street', 'house', 'korpus','office', 'departureAt'])) {
             $this->addressFull = sprintf('%s %s/%s, %s',
                 $this->street,
                 $this->house,
@@ -75,13 +75,14 @@ class AddressDeliveryLivewire extends Component
 
     protected function onSetFilterableSaved($id, $value)
     {
+
         if ($this->isDeliverySaved()) {
             $this->updateDataFromSaved($id);
         } else {
             $this->reset('data');
         }
 
-        $this->trySendAddress();
+       $this->trySendAddress();
     }
 
     protected function onResetFilterableSaved()
@@ -120,7 +121,7 @@ class AddressDeliveryLivewire extends Component
     {
         return [
             'data.address_full' => __('custom::site.address'),
-            'data.street_name' => __('custom::site.street'),
+           'data.street_name' => __('custom::site.street'),
             'data.dom' => __('custom::site.house'),
             'data.korpus' => __('custom::site.house_item'),
             'data.office' => __('custom::site.office_flat'),
@@ -154,7 +155,6 @@ class AddressDeliveryLivewire extends Component
     {
         if ($this->isDeliveryNew()) {
             $this->updateDataFromValues();
-
             try {
                 $this->validate();
             } catch (\Exception $e) {
@@ -162,7 +162,6 @@ class AddressDeliveryLivewire extends Component
                 throw $e;
             }
         }
-
         $this->emit('eventSetOrderDeliveryData', $this->data);
     }
 
@@ -183,10 +182,12 @@ class AddressDeliveryLivewire extends Component
                 $this->filterableSaved['value'] = $value;
             }
         }
+
     }
 
     protected function updateDataFromSaved($id)
     {
+
         if ($address = DeliveryAddress::find($id)) {
             $this->data = [
                 'delivery_id' => $id,
@@ -230,6 +231,21 @@ class AddressDeliveryLivewire extends Component
 
         return $saved ?? [];
     }
+
+    /*protected function setFilterableCityList($value): array
+    {
+        $cities = $value
+            ? City::query()->SearchByName($value)->get()
+            : City::query()->RegionCapitals()->get();
+
+        return $cities->keyBy('id')
+            ->map(function ($c) {
+                return [
+                    'text' => $c->name_uk,
+                    'title' => $c->name_uk . " ({$c->district_uk} {$c->region_uk})",
+                ];
+            })->toArray();
+    }*/
 
     protected function setFilterableCityList(): array
     {

@@ -34,7 +34,6 @@
                 data-breakpoints="{ &quot;small&quot;: 768, &quot;medium&quot;: 992, &quot;large&quot;: 1450, &quot;x-large&quot;: 1600 }">
         </table>
 
-        
     </div>
 
   <div class="lk-page__table-after">

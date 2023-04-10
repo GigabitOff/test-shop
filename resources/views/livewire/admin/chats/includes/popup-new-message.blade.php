@@ -1,6 +1,6 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title">@lang('custom::site.new_message_to_manager'):
+        <h5 class="modal-title">@lang('custom::admin.new_message_to_manager'):
     </div>
     <div class="modal-body" data-focusable="message">
         <form wire:submit.prevent="submitPopup">
@@ -43,7 +43,7 @@
                 <div class="form-control-wrap">
                     <textarea class="form-control @error('newText') is-invalid @enderror" type="text"
                               wire:model.defer="newText"
-                              placeholder="@lang('custom::site.message')" name="message" required></textarea><span></span>
+                              placeholder="@lang('custom::admin.message')" name="message" required></textarea><span></span>
                 </div>
                 @error('newText')
                 <div class="is-invalid">{{$message}}</div>
@@ -51,7 +51,7 @@
             </div>
             <div class="form-group">
                 <button class="button w-100" type="submit">
-                    @lang('custom::site.save')
+                    @lang('custom::admin.Send')
                 </button>
             </div>
 

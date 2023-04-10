@@ -16,9 +16,10 @@ use Illuminate\Support\Facades\Auth;
 class BaseSiteComponentLivewire extends Component
 {
     public $dataItem, $item_id,
-        $perPage,
+        //$perPage,
         $dataItemCount = 0,
         $data,
+        $select_array,
         $popupData,
         $popup_id,
         $search = '',
@@ -26,15 +27,17 @@ class BaseSiteComponentLivewire extends Component
         $item_lang,
         $subject = 'Повідомлення з попап',
         $search_product,
+        $selectedData = [],
+        $all_data,
         $redirect;
 
-    protected $paginationTheme = 'bootstrap_site';
+   // protected $paginationTheme = 'bootstrap_site';
 
 
     public function boot()
     {
 
-        $this->perPage = (session()->has('perPage') ? session('perPage') : 20);
+        //$this->perPage = (session()->has('perPage') ? session('perPage') : 20);
 
     }
 
@@ -62,7 +65,7 @@ class BaseSiteComponentLivewire extends Component
     {
 
         session()->put('perPage', $index);
-        $this->perPage = $index;
+        //$this->perPage = $index;
         $this->resetPage();
         //$this->resetData();
     }
@@ -150,6 +153,45 @@ class BaseSiteComponentLivewire extends Component
 
         $this->resetValidation();
         $this->dispatchBrowserEvent('reset_departmentId_toDefault');
+    }
+
+    public function selectDataItem($id, $all = null)
+    {
+        if ($all) {
+            if (!isset($this->selectedData['all'])) {
+
+                $this->selectedData['all'] = true;
+
+                foreach ($this->all_data as $key => $value) {
+                    if (!isset($value['deleted_at']))
+                    $this->selectedData[$value['id']] = $value['id'];
+                }
+            } else {
+
+                $this->reset(['selectedData']);
+            }
+        } else {
+
+            if (!isset($this->selectedData[$id])) {
+                $this->selectedData[$id] = $id;
+            } else {
+
+                unset($this->selectedData[$id]);
+                unset($this->selectedData['all']);
+            }
+
+        }
+    }
+
+    public function destroyAllData()
+    {
+        if (isset($this->selectedData) and count($this->selectedData) > 0) {
+            foreach ($this->selectedData as $key => $value) {
+                $this->destroyData($key);
+                unset($this->selectedData[$key]);
+            }
+        }
+        $this->resetPage();
     }
 
 }

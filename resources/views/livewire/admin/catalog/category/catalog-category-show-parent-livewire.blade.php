@@ -29,7 +29,7 @@
                     <div class="custome-table__cell-group">
                         <div class="custome-table__cell">
                             <span class="mobile-title">@lang('custom::admin.Parent category')</span>
-                            <span class="value">{{  $item->selfCategory !== null ? $item->selfCategory->name : 'Немає батьківської категорії' }}</span></div>
+                            <span class="value">{{  $item->selfCategory !== null ? $item->selfCategory->name : __('No parent category') }}</span></div>
                             <div class="custome-table__cell">
                                 <span class="mobile-title">@lang('custom::admin.Order')</span>
                                 <input class="form-control" type="number" value="{{ $item->sort_order }}"  onchange="changeOrderCustom({{$item->id}},this.value, {{$item->parent_id}}, this)" onclick="this.select();">
