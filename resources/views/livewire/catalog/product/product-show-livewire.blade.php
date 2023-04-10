@@ -178,12 +178,12 @@
 
             } else if (count % minimum) { // РЅРµ РєСЂР°С‚РЅРѕ
                 var qauntity = Math.ceil(count / minimum);
-                //$(this).val(minimum * qauntity);
+                $(this).val(minimum * qauntity);
             }
             //console.log('change number ' + minimum * qauntity);
         });
         $('body').on('click', '.product-full__counter .minus', function (event) {
-            //console.log('minus number');
+            console.log('minus number2');
             var $input = $(this).parent().find('input');
             var minimum = parseInt($input.attr("min") ? $input.attr("min") : 1);
             var count = parseInt($input.val()) - minimum;
@@ -193,7 +193,7 @@
             return false;
         });
         $('body').on('click', '.product-full__counter .plus', function (event) {
-            //console.log('plus number');
+            console.log('plus number2');
             var $input = $(this).parent().find('input');
             var minimum = parseInt($input.attr("min") ? $input.attr("min") : 1);
             $input.val(parseInt($input.val()) + minimum);

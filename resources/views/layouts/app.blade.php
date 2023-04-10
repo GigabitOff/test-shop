@@ -16,7 +16,7 @@
     <link rel="shortcut icon" href="/assets/img/favicon.ico" type="image/x-icon">
 
     @yield('canonical')
-
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <!-- Styles -->
     <link rel="stylesheet" href="/assets/css/libs.min.css?ver={{config('app.release_no')}}">
     <link rel="stylesheet" href="/assets/css/main.css?ver={{config('app.release_no')}}">
@@ -30,6 +30,7 @@
 </head>
 
 <body class="{{$bodyClasses}}">
+@livewireScripts
 
 <div class="page-wrapper">
 
@@ -61,7 +62,7 @@
     <script src="/assets/js/main.js?ver={{config('app.release_no')}}"></script>
     <script src="/assets/js/footableEx.js?ver={{config('app.release_no')}}"></script>
     <script src="/assets/js/custom.js?ver={{config('app.release_no')}}"></script>
-    @livewireScripts
+    
     <script>
         Livewire.onPageExpired((response, message) => {
             confirm(__('custom::site.page_has_expired')) && window.location.reload()
