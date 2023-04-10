@@ -166,17 +166,17 @@
 
     document.cartProduct = {
         changeQuantity: function (input, productId) {
-            const $input = $(input);
-            const max = $input.attr('data-max');
-            const value = $input.val();
+            var $input = $(input);
+            var max = $input.attr('data-max');
+            var value = $input.val();
 
-            if (max !== undefined && value > max) {
+
+            if ($(input).val() > max) {
                 $input.val(max);
                 value = max;
             }
 
-            @this.
-            changeProductQuantity(productId, value);
+            @this.changeProductQuantity(productId, value);
         },
         remove: function (productId) {
             @this.
