@@ -172,6 +172,7 @@
 
             if (max !== undefined && value > max) {
                 $input.val(max);
+                value = max;
             }
 
             @this.
