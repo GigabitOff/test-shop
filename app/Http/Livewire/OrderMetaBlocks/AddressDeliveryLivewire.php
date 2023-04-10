@@ -62,10 +62,10 @@ class AddressDeliveryLivewire extends Component
     {
         $this->updatedFilterable($field, $value);
 
-        if (in_array($field, ['addressFull','street', 'korpus','office', 'departureAt'])) {
+        if (in_array($field, ['addressFull','street', 'house', 'korpus','office', 'departureAt'])) {
             $this->addressFull = sprintf('%s %s/%s, %s',
                 $this->street,
-              //  $this->house,
+                $this->house,
                 $this->korpus,
                 $this->office
             );
