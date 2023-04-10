@@ -53,6 +53,11 @@
                     {{$product->name}}
                 </a>
             </h4>
+            <div class="product-card__brand">
+                @if($product->brand)
+                    {{$product->brand->title}}
+                @endif
+            </div>
             <div class="product-card__sizes">
                 <ul>
                     @foreach($product->cardAttrVariations as $variation)
@@ -101,6 +106,7 @@
                 @endif
                 <span class="big">  {!! formatNbsp(formatMoney($product->{$productPriceField}) . ' ₴') !!}</span>
             </div>
+            <div class="product-card__sub-price">4000.00 ₴</div>
             <div class="product-card__grid">
                 <div class="product-card__counter">
                     <div class="counter">
@@ -151,7 +157,7 @@
     .product-card {
         height: 425px;
     }
-    .product-full-box__body .product-card{
-        height: 298px;
+    .product-card__brand {
+        min-height: 16px;
     }
 </style>
