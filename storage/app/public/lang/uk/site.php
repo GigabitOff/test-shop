@@ -34,7 +34,7 @@ return [
     'Filters by brands' => 'Фильтр по брендам',
     'Found by request' =>'Знайдено по запиту',
     'Product catalog' => 'Каталог продукцiї',
-    'Related products' => 'Сопутні товари',
+    'Related products' => 'Супутні товари',
     'kg' => 'кг',
     'k.m.' => 'к.м.',
     'Quantity, items' => 'Кількість /шт',
