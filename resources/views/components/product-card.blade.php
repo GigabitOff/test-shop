@@ -170,5 +170,6 @@
     }
     .product-card__sub-price {
         justify-content: center;
+        font-weight: 400;
     }
 </style>
