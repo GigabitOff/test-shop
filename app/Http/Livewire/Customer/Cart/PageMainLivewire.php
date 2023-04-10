@@ -312,8 +312,12 @@ class PageMainLivewire extends Component
         $this->recalculateCashbackToUse();
     }
 
-    public function changeProductQuantity($uuid, $quantity)
+    public function changeProductQuantity($uuid, $quantity,$max)
     {
+
+        if($max !== null AND $quantity > $max)
+        $quantity = $max;
+
         if ($product = cart()->getProductByUuid($uuid)) {
             $offer = $product->getPersonalOffer();
             if ($offer && $quantity > $offer->pivot->quantity) {

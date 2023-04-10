@@ -164,20 +164,28 @@
         document.FooTableEx.redraw('#footable-content');
     });
 
-    document.cartProduct = {
-        changeQuantity: function (input, productId) {
-            var $input = $(input);
+    function changeQuantity(input, productId) {
+        var $input = $(input);
             var max = $input.attr('data-max');
             var value = $input.val();
 
+        setTimeout(() => {
 
             if ($(input).val() > max) {
                 $input.val(max);
                 value = max;
-                alert(value);
+
             }
 
-            @this.changeProductQuantity(productId, value);
+            @this.changeProductQuantity(productId, value,max);
+       }, 700);
+
+
+
+    }
+    document.cartProduct = {
+        changeQuantity: function (input, productId) {
+
         },
         remove: function (productId) {
             @this.
