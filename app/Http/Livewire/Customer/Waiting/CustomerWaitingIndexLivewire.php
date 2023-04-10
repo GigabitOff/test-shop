@@ -45,16 +45,15 @@ class CustomerWaitingIndexLivewire extends BaseSiteComponentLivewire
             ->get()->map->checked->count();
 
             $data = $this->deferredsProducts();
+        $this->price_sum_count = 0;
+        $this->price_sum = 0;
+        $this->price_count = 0;
+
         if(count($this->selectedData)>1)
         {
             $this->checkSelectedPrice();
             //dd($this->selectedData);
-        }else{
-            $this->price_sum_count=0;
-            $this->price_sum=0;
-            $this->price_count = 0;
         }
-
         return view('livewire.customer.waiting.customer-waiting-index-livewire',
                         ['deferredsProducts' => $data, 'checkAll'=> $checkAll]);
 
