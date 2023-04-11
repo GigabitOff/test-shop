@@ -24,3 +24,11 @@
   </a>
 
 </div>
+
+@push('custom-scripts')
+    <script>
+        $('body').on('click', '.shop-action-item.--cart', function (event) {
+            document.cookie = "cart=0;path=/";
+        })
+    </script>
+@endpush

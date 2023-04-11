@@ -167,7 +167,7 @@
     .product-card.--small .product-card__bottom {
         min-height: unset;
     }
-    div.product-card:not(.--small) div.product-card__brand{
+    div.product-card:not(.--small) div.product-card__brand {
         display:none
     }
     div.product-card.--small span.product-card__brand{

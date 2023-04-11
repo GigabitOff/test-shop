@@ -170,3 +170,28 @@
 .swiper-slide .product-card__intro {
     display: none;
 }
+
+.product-card__box:hover {
+    height: 100%;
+}
+.product-card {
+    height: 425px;
+}
+.product-full-box__body .product-card {
+    height: 327px;
+}
+.product-card__brand {
+    min-height: 16px;
+}
+.product-card.--small .product-card__bottom {
+    min-height: unset;
+}
+div.product-card:not(.--small) div.product-card__brand{
+    display:none
+}
+.product-card__sub-price {
+    justify-content: center;
+    font-weight: 400;
+}
+
+

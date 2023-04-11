@@ -37,9 +37,17 @@
  @guest()
 
  href="#" data-bs-toggle="modal" data-bs-target="#m-login"
-                   data-bs-dismiss="modal" 
+                   data-bs-dismiss="modal"
  @endguest >
 
   <div class="shop-action-item__icon ico_compare"></div>
   <div class="shop-action-item__col">{{$count}}</div>
 </a></div>
+
+@push('custom-scripts')
+    <script>
+        $('body').on('click', '.shop-action-item.--compare', function (event) {
+            document.cookie = "comparisons=0;path=/";
+        })
+    </script>
+@endpush

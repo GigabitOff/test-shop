@@ -238,7 +238,7 @@ $followPrice = formatMoney($price);
             Livewire.emit('userIsFailedLoggedIn');
             if (login) {
                 location.reload();
-                document.cookie = "login=1;path=/";
+                document.cookie = "login=; Max-Age=0; path=/";
             }
         });
         jQuery(document).ready(function ($) {
