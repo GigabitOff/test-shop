@@ -75,5 +75,35 @@
         $('.js-phone').val('');
 
     });
+    jQuery(document).ready(function ($) {
+        $('body').on('change', '.product-full__counter input.input-col', function (event) {
+            var minimum = parseInt($(this).attr("min") ? $(this).attr("min") : 1);
+            var count = parseInt($(this).val());
+            if (count < minimum) {
+                $(this).val(minimum);
+
+            } else if (count % minimum) { // РЅРµ РєСЂР°С‚РЅРѕ
+                var qauntity = Math.ceil(count / minimum);
+                $(this).val(minimum * qauntity);
+            }
+            //console.log('change number ' + minimum * qauntity);
+        });
+        $('body').on('click', '.product-full__counter .minus', function (event) {
+            var $input = $(this).parent().find('input');
+            var minimum = parseInt($input.attr("min") ? $input.attr("min") : 1);
+            var count = parseInt($input.val()) - minimum;
+            count = count < minimum ? minimum : count;
+            $input.val(count);
+            $input.change();
+            return false;
+        });
+        $('body').on('click', '.product-full__counter .plus', function (event) {
+            var $input = $(this).parent().find('input');
+            var minimum = parseInt($input.attr("min") ? $input.attr("min") : 1);
+            $input.val(parseInt($input.val()) + minimum);
+            $input.change();
+            return false;
+        });
+    });
     </script>
 </div>

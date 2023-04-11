@@ -144,13 +144,13 @@
                 </td>
                 <td class="w-1 text-xl-end">
                     <button class="button-accent button-xsmall nowrap" type="button"
-                            onclick="Livewire.emit('eventAddBusket', {{$product->id}},
+                            onclick="@this.addBusket({{$product->id}},
                         {{$product->quantity}})">@lang('custom::site.add to busket')
                     </button>
                 </td>
                 <td class="text-end footable-last-visible">
                     <button class="button-delete ico_trash"
-                            onclick="Livewire.emit('eventDeleteGoods',
+                            onclick="@this.deleteDeferredsGoods(
                         {{$product->id}})" type="button">
                     </button>
                 </td>
@@ -160,14 +160,14 @@
     </table>
     <div class="lk-page__table-after">
         <div>
-            @if($this->price_sum_count>0)
+            @if($this->price_count>0)
 
             <dl class="table-total">
                     <dt>@lang('custom::site.total_sum') ( {{ $this->price_count}} @lang('custom::site.products') )</dt>
                     <dd class="big">{!! formatNbsp(formatMoney($this->price_sum))!!} @lang('custom::site.UAH')</dd>
                     <dd>{!! formatNbsp(formatMoney($this->price_sum_count))!!} @lang('custom::site.UAH')</dd>
             </dl>
-            <div class="lk-page__table-after-btns"><a class="button-accent" href="#!">@lang('custom::site.add to busket')</a></div>
+            <div class="lk-page__table-after-btns"><a class="button-accent" href="#!" onclick="@this.addSelectedBusket();">@lang('custom::site.add to busket')</a></div>
             @endif
         </div>
         <div>

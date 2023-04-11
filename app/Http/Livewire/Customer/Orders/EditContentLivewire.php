@@ -348,15 +348,15 @@ class EditContentLivewire extends Component
                 $p->orderCost = $p->orderPrice * $p->orderQuantity;
                 $p->orderWeight = $p->weight * $p->orderQuantity;
                 $p->orderVolume = $p->volume * $p->orderQuantity;
-                $p->orderOfferId1c = $this->getPersonalOfferId1c($p->pivot);
+               // $p->orderOfferId1c = $this->getPersonalOfferId1c($p->pivot);
             });
     }
 
     protected function getOfferProductAvailableQuantity($product)
     {
         if ($this->isProductBelongValidOffer($product->pivot)) {
-            $offerId1c = $this->getPersonalOfferId1c($product->pivot);
-            $offer = $product->personalOffers()->where('id_1c', $offerId1c)->first();
+            //$offerId1c = $this->getPersonalOfferId1c($product->pivot);
+            $offer = $product->personalOffers()->first();//->where('id_1c', $offerId1c)
         }
 
         return !empty($offer)

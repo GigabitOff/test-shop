@@ -29,8 +29,8 @@ class CustomerWaitingIndexLivewire extends BaseSiteComponentLivewire
             $price_count = 0;
 
     protected $listeners = ['eventDeferredsGoods' => 'setDeferredsGoods',
-                            'eventDeleteGoods' => 'deleteDeferredsGoods',
-                            'eventAddBusket' => 'addBusket',
+                            //'eventDeleteGoodsFromWaiting' => 'deleteDeferredsGoods',
+                            //'eventAddBusketFromWaiting' => 'addBusket',
                             'eventChangeQuantity' => 'changeQuantity',
                             'eventCheckAllChangedCheckbox' => 'checkAllChangedCheckbox',
                             ];
@@ -49,10 +49,10 @@ class CustomerWaitingIndexLivewire extends BaseSiteComponentLivewire
         $this->price_sum = 0;
         $this->price_count = 0;
 
-        if(count($this->selectedData)>1)
+       // dd($this->selectedData);
+        if (count($this->selectedData)>1)
         {
             $this->checkSelectedPrice();
-            //dd($this->selectedData);
         }
         return view('livewire.customer.waiting.customer-waiting-index-livewire',
                         ['deferredsProducts' => $data, 'checkAll'=> $checkAll]);
@@ -96,7 +96,7 @@ class CustomerWaitingIndexLivewire extends BaseSiteComponentLivewire
     protected function removeCartProducts($cartUuid){
 
         cart()->removeProducts($cartUuid);
-        $this->emit('eventCartChanged');
+        //$this->emit('eventCartChanged');
         $this->revalidateTable = true;
     }
 
@@ -218,13 +218,19 @@ class CustomerWaitingIndexLivewire extends BaseSiteComponentLivewire
 
     /** Remove from deferreds products and add to the busket  */
 
-    public function addBusket($product_id, $quantity){
+    public function addBusket($product_id, $quantity,$showMessage=null){
+
+        //dd($quantity);
+
+       // dd(auth()->user()->cart->addProduct($product_id, $quantity));
 
         cart()->addProduct($product_id, $quantity);
-        $this->emit('eventCartChanged');
+        //$this->emit('eventCartChanged');
         $this->revalidateTable = true;
 
         $this->deleteDeferredsGoods($product_id);
+        if($showMessage === null)
+            $this->showNotificationPopup();
     }
 
     public function checkAllChangedCheckbox(bool $checked){
@@ -233,21 +239,50 @@ class CustomerWaitingIndexLivewire extends BaseSiteComponentLivewire
                 ->update(['checked' => $checked]);
     }
 
+    public function addSelectedBusket(){
+        foreach ($this->all_data as $key => $product) {
+            if (isset($this->selectedData[$product['id']])) {
+                $this->addBusket($product['id'], $product['quantity'],'hide');
+            }
+        }
+
+        $this->showNotificationPopup();
+    }
     public function checkSelectedPrice(){
 
 
             foreach ($this->all_data as $key => $product) {
-                if(isset($this->selectedData[$product->id]))
+                if(isset($this->selectedData[$product['id']]))
                 {
                 $productPriceField= Product::getPriceFieldWithParams(null, $product->price_sale,  $product->price_wholesale, $product->price_sale_show);
 
                     $this->price_sum_count += $product->$productPriceField * $product->quantity;
+                //dd($this->price_sum_count);
                     $this->price_sum += $product->$productPriceField;
                     $this->price_count += $product->quantity;
                 }
                 # code...
             }
 
+
+    }
+
+    protected function showNotificationPopup()
+    {
+        $type = 'add';
+
+        $messages = [
+            'add' => __('custom::site.cart_actions.add'),
+            'remove' => __('custom::site.cart_actions.remove'),
+            'clear' => __('custom::site.cart_actions.clear'),
+        ];
+
+        if ($message = data_get($messages, $type)) {
+            $this->emit('eventShowDialogMessage', [
+                'title' => __('custom::site.cart'),
+                'message' => $message,
+            ]);
+        }
     }
 
 
