@@ -152,7 +152,8 @@ $followPrice = formatMoney($price);
                 @endif
             </div>
         </div>
-        <div class="product-full__info-dependence" data-da=".--info-dependence, 1023">
+        @if(count($selectorAttributes))
+            <div class="product-full__info-dependence" data-da=".--info-dependence, 1023">
             @foreach($selectorAttributes as $selectorAttribute)
                 <div class="info-dependence__row">
                     <div class="info-dependence__label">{{$selectorAttribute['title']}}</div>
@@ -178,6 +179,7 @@ $followPrice = formatMoney($price);
                 </div>
             @endforeach
         </div>
+        @endif
     </div>
 
     <div wire:ignore>
