@@ -5,11 +5,10 @@
                 <div class="product-full-box__head">
                     <div class="product-full-box__title">@lang('custom::site.Technical description')</div>
                 </div>
+                <div class="product-full-box__body --overflow">
+                    {!! $data->technical_description !!}
+                </div>
             </div>
-        </div>
-        <div class="product-full-box__body --overflow">
-            {!! $data->technical_description !!}
-        </div>
         @if($data->instructions->isNotEmpty())
             <div class="description-cont__right">
                 <div class="px-md-4">
@@ -36,6 +35,7 @@
                 </div>
             </div>
         @endif
+        </div>
     </div>
 @endif
 
