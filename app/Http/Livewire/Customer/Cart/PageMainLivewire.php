@@ -401,7 +401,8 @@ class PageMainLivewire extends Component
             $this->recalculateCashbackToUse();
             return;
         }
-
+        try {
+            DB::beginTransaction();
             $paymentType = PaymentType::find($payload['paymentTypeId']);
 
         if (empty($payload['deliveryId'])) {
@@ -423,6 +424,7 @@ class PageMainLivewire extends Component
         $delivery->save();
         //$payload['deliveryId'] = $delivery->id;
         // }
+
         $recipientData = [
             'customer_id' => $this->customer->id,
             'delivery_address_id' => $delivery->id,
@@ -441,10 +443,10 @@ class PageMainLivewire extends Component
         }
 
         $recipient = CustomerRecipient::create($recipientData);
+
         $payload['recipientId'] = $recipient->id;
 
-        try {
-            DB::beginTransaction();
+
         // Выполняем обязательный пересчет цен товаров
         $this->prepareProducts(true, true);
         $order = orders()->createOrderFromCart($this->customer, $this->cashbackUsed);
@@ -503,7 +505,6 @@ class PageMainLivewire extends Component
                 'state' => 'danger'
             ]);
         }
-
     }
 
     public function updateCartDeletedata()

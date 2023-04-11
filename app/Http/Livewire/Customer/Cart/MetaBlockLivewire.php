@@ -169,7 +169,7 @@ class MetaBlockLivewire extends Component
 
         $this->hideValidationErrors = true;
         $this->deliveryValid = collect($this->deliveryData)->filter()->join('');
-        $this->validate();
+        //$this->validate();
         $this->emitUp('eventCreateOrder', [
             'paymentTypeId' => $this->paymentTypeId,
             //'contractId' => $this->contractId,
