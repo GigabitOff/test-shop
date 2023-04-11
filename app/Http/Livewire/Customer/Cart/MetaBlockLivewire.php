@@ -34,9 +34,7 @@ class MetaBlockLivewire extends Component
     public $showModal = false;
     public int $deliveryVars = 0;
     public ?int $deliveryTypeIdDu = 0;
-    public int $recipientIdTu = 0;
-
-
+    public ?int $recipientIdTu = 0;
 
 
     protected bool $hideValidationErrors = true;
