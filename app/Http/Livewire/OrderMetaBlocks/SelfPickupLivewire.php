@@ -35,7 +35,7 @@ class SelfPickupLivewire extends Component
     public function mount()
     {
         $this->initFilterable();
-        $this->initSavedAddresses();
+       // $this->initSavedAddresses();
     }
 
     public function render()
@@ -91,8 +91,6 @@ class SelfPickupLivewire extends Component
         );
     }
 
-/*    /////////////////*/
-
     public function updated($field, $value)
     {
         $this->updatedFilterable($field, $value);
@@ -100,7 +98,7 @@ class SelfPickupLivewire extends Component
 
     public function messages()
     {
-        return [
+       return [
             'data.city_id.required' => __('custom::site.choice_value_from_list'),
             'data.warehouse_id.required' => __('custom::site.choice_value_from_list'),
         ];

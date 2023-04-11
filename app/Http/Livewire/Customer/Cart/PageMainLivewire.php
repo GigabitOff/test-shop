@@ -381,6 +381,7 @@ class PageMainLivewire extends Component
     public function eventCreateOrder($payload)
     {
 
+
         if (cart()->totalCartCheckedQuantity() < 1) {
             $this->dispatchBrowserEvent('flashMessage', [
                 'title' => __('custom::site.order'),
@@ -400,89 +401,91 @@ class PageMainLivewire extends Component
             $this->recalculateCashbackToUse();
             return;
         }
-        try {
-            DB::beginTransaction();
+
             $paymentType = PaymentType::find($payload['paymentTypeId']);
 
-            if (empty($payload['deliveryId'])) {
-                $last_delivery_address_id = DB::table('delivery_addresses')
-                    ->orderBy('id', 'desc')
-                    ->value('id');
-                $payload['deliveryId'] = $last_delivery_address_id;
-            }
-/*
-            /*    if (!$payload['deliveryId']) {*/
-            $delivery = new DeliveryAddress();
-            $delivery->fill($payload['deliveryData']);
-            //                if ($payload['contractId']
+        if (empty($payload['deliveryId'])) {
+            $last_delivery_address_id = DB::table('delivery_addresses')
+                ->orderBy('id', 'desc')
+                ->value('id');
+            $payload['deliveryId'] = $last_delivery_address_id;
+        }
+        /*
+                    /*    if (!$payload['deliveryId']) {*/
+        $delivery = new DeliveryAddress();
+        $delivery->fill($payload['deliveryData']);
+        //                if ($payload['contractId']
 //                    && $contract = Contract::find($payload['contractId'])) {
 //                    $delivery->owner()->associate($contract);
 //                } else {
-            //  $delivery->owner()->associate($this->customer);
+        //  $delivery->owner()->associate($this->customer);
 //                }
-            $delivery->save();
-            //$payload['deliveryId'] = $delivery->id;
-            // }
-            $recipientData = [
-                'customer_id' => $this->customer->id,
-                'delivery_address_id' => $delivery->id,
-            ];
-            if (isset($payload['phone'])) {
-                $recipientData['phone'] = $payload['phone'];
-            }
-            if (isset($payload['recipientName'])) {
-                $recipientData['name'] = $payload['recipientName'];
-            }
-            if (isset($payload['recipientINN'])) {
-                $recipientData['inn'] = $payload['recipientINN'];
-            }
-            if (isset($payload['recipientFIO'])) {
-                $recipientData['fop_title'] = $payload['recipientFIO'];
-            }
-            CustomerRecipient::create($recipientData);
+        $delivery->save();
+        //$payload['deliveryId'] = $delivery->id;
+        // }
+        $recipientData = [
+            'customer_id' => $this->customer->id,
+            'delivery_address_id' => $delivery->id,
+        ];
+        if (isset($payload['phone'])) {
+            $recipientData['phone'] = $payload['phone'];
+        }
+        if (isset($payload['recipientName'])) {
+            $recipientData['name'] = $payload['recipientName'];
+        }
+        if (isset($payload['recipientINN'])) {
+            $recipientData['inn'] = $payload['recipientINN'];
+        }
+        if (isset($payload['recipientFIO'])) {
+            $recipientData['fop_title'] = $payload['recipientFIO'];
+        }
 
-            // Выполняем обязательный пересчет цен товаров
-            $this->prepareProducts(true, true);
-            $order = orders()->createOrderFromCart($this->customer, $this->cashbackUsed);
+        CustomerRecipient::create($recipientData);
 
-            $order->payment_type_id = $payload['paymentTypeId'];
-            //$order->contract_id = $payload['contractId'] ?? null;
-            $order->type_payment = $paymentType->code ?? null;
-            $order->recipient_id = $payload['recipientId'];
-            $order->delivery_address_id = $delivery->id;
-            $order->callback_off = $this->callback_off;
-            $order->cashback_used = $this->cashbackUsed;
-            $order->comment = $payload['comment'];
-            $order->phone = $payload['phone'];
-            $order->manager_id = $this->customer->manager_id;
-            $order->status_id = $this->callback_off
-                ? OrderStatusType::STATUS_PROCESSING
-                : OrderStatusType::STATUS_NEW;
-            if ($order->payment_type_id === PaymentType::POSTPAID
-                && $receivable = $this->customer->receivable) {
-                $order->debt_sum = $payload['postpaidSum'];
-                $order->debt_end_at = Carbon::now()->addDays($receivable->otsrochka_days);
-            }
 
-            $order->save();
-            // Todo: наладить списание кэшбека
+        // Выполняем обязательный пересчет цен товаров
+        $this->prepareProducts(true, true);
+        $order = orders()->createOrderFromCart($this->customer, $this->cashbackUsed);
+        $recipientID =  $payload['recipientId'];
+        $order->payment_type_id = $payload['paymentTypeId'];
+        //$order->contract_id = $payload['contractId'] ?? null;
+        $order->type_payment = $paymentType->code ?? null;
+        $order->delivery_address_id = $delivery->id;
+        $order->recipient_id = $recipientID;
+        $order->callback_off = $this->callback_off;
+        $order->cashback_used = $this->cashbackUsed;
+        $order->comment = $payload['comment'];
+        $order->phone = $payload['phone'];
+        $order->manager_id = $this->customer->manager_id;
+        $order->status_id = $this->callback_off
+            ? OrderStatusType::STATUS_PROCESSING
+            : OrderStatusType::STATUS_NEW;
+        if ($order->payment_type_id === PaymentType::POSTPAID
+            && $receivable = $this->customer->receivable) {
+            $order->debt_sum = $payload['postpaidSum'];
+            $order->debt_end_at = Carbon::now()->addDays($receivable->otsrochka_days);
+        }
+        $order->save();
+        try {
+
+            DB::beginTransaction();
+/*        // Todo: наладить списание кэшбека
 //            if ($this->cashbackUsed) {
 //                cashback()->expenseCashback($this->customer, $this->cashbackUsed);
-//            }
-            DB::commit();
+//            }*/
+        DB::commit();
 //            if (orders()->hasOrderProductAmountVerifiable($order)) {
-                $this->dispatchBrowserEvent('flashMessage', [
-                   'title' => __('custom::site.order'),
-                    'message' => __('custom::site.order_save_amount_verify'),
-                    'state' => 'success'
-                ]);
+        $this->dispatchBrowserEvent('flashMessage', [
+            'title' => __('custom::site.order'),
+            'message' => __('custom::site.order_save_amount_verify'),
+            'state' => 'success'
+        ]);
 //            } else {
-            $this->dispatchBrowserEvent('flashMessage', [
-                'title' => __('custom::site.order'),
-                'message' => __('custom::site.order_confirmed_thanks'),
-                'state' => 'success'
-            ]);
-
+        $this->dispatchBrowserEvent('flashMessage', [
+            'title' => __('custom::site.order'),
+            'message' => __('custom::site.order_confirmed_thanks'),
+            'state' => 'success'
+        ]);
 //            }
             $this->recalculateCashbackToUse();
             $this->reset(['cashbackUsed', 'cashbackToUse']);

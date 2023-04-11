@@ -34,6 +34,7 @@ class MetaBlockLivewire extends Component
     public $showModal = false;
     public int $deliveryVars = 0;
     public ?int $deliveryTypeIdDu = 0;
+    public int $recipientIdTu = 0;
 
 
 
@@ -139,6 +140,7 @@ class MetaBlockLivewire extends Component
         $this->recipientName = $name;
         $this->recipientId = $id;
 
+
     }
     public function eventSetOrderRecipientPhone($id, $name)
     {
@@ -165,13 +167,16 @@ class MetaBlockLivewire extends Component
 
     public function createOrder()
     {
+
         $this->hideValidationErrors = true;
         $this->deliveryValid = collect($this->deliveryData)->filter()->join('');
+        $this->validate();
+
 
       $this->emitUp('eventCreateOrder', [
                 'paymentTypeId' => $this->paymentTypeId,
                 //'contractId' => $this->contractId,
-                'recipientId' => $this->recipientId,
+                'recipientId' => !empty($this->recipientId) ? $this->recipientId : $this->recipientId,
                 'recipientName' => $this->recipientName,
                 'recipientINN' => $this->recipientINN,
                 'recipientFIO' => $this->recipientFIO,
@@ -179,8 +184,9 @@ class MetaBlockLivewire extends Component
                 'deliveryData' => $this->deliveryData,
                 'comment' => $this->comment,
                 'postpaidSum' => $this->postpaidSum,
-                'phone' =>  $this->recipientPhone
-            ]);
+                'phone' => !empty($this->recipientPhone) ? $this->recipientPhone : '',
+
+        ]);
 
             $this->cleanDelivery();
             $this->cleanComment();
