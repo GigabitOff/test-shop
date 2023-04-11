@@ -139,6 +139,7 @@ class MetaBlockLivewire extends Component
 
         $this->recipientName = $name;
         $this->recipientId = $id;
+        $this->recipientIdTu = $id;
 
 
     }
@@ -176,7 +177,7 @@ class MetaBlockLivewire extends Component
       $this->emitUp('eventCreateOrder', [
                 'paymentTypeId' => $this->paymentTypeId,
                 //'contractId' => $this->contractId,
-                'recipientId' => !empty($this->recipientId) ? $this->recipientId : $this->recipientId,
+                'recipientId' => !empty($this->recipientId) ? $this->recipientId : $this->recipientIdTu,
                 'recipientName' => $this->recipientName,
                 'recipientINN' => $this->recipientINN,
                 'recipientFIO' => $this->recipientFIO,
