@@ -175,7 +175,7 @@ class MetaBlockLivewire extends Component
       $this->emitUp('eventCreateOrder', [
                 'paymentTypeId' => $this->paymentTypeId,
                 //'contractId' => $this->contractId,
-                'recipientId' => !empty($this->recipientId) ? $this->recipientId : $this->recipientIdTu,
+                'recipientId' => $this->recipientIdTu ?? $this->recipientId,
                 'recipientName' => $this->recipientName,
                 'recipientINN' => $this->recipientINN,
                 'recipientFIO' => $this->recipientFIO,
