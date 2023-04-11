@@ -35,7 +35,11 @@ class MainController extends Controller
 
         session()->forget('password_hash_web');
 
-        return redirect()->route('main');
+        if (request()->is('customer/*')) {
+            return redirect()->route('main');
+        } else {
+            return redirect(url()->previous());
+        }
     }
 
     public function setLocale($locale)

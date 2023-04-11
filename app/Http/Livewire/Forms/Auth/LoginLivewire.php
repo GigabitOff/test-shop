@@ -113,10 +113,16 @@ class LoginLivewire extends Component
     {
         if ($user = User::find((int)$id)) {
             auth()->login($user);
-            if(!isset($_COOKIE['login']) || $_COOKIE['login'] == 1) {
-                $this->redirect(url()->previous());
-            } else {
+            if(isset($_COOKIE['cart'])) {
+                setcookie('cart', "", time(), "/");
+                $this->redirectRoute('customer.cart');
+            } elseif(isset($_COOKIE['comparisons'])) {
+                setcookie('comparisons', "", time(), "/");
+                $this->redirectRoute('customer.comparisons');
+            } elseif(isset($_COOKIE['login'])) {
                 $this->emit('userIsSuccessfullyLoggedIn');
+            } else {
+                $this->redirect(url()->previous());
             }
         }
     }
