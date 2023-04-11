@@ -18,9 +18,15 @@ class RecipientPhoneLivewire extends Component
 
     public function recipientNaUpdated($value)
     {
+
         $this->recipientPhone = $value;
         $this->emit('eventSetOrderRecipientPhone', $this->recipientId, $this->recipientPhone);
 
+    }
+
+    public function eventTestTu()
+    {
+        $this->emit('eventRefreshPage');
     }
 
     public function cssNaUpdate($value)

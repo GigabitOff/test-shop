@@ -15,9 +15,21 @@
                             <div style="display: @if(!$recipientName) none @else block @endif;">
                               &nbsp;<livewire:order-meta-blocks.recipient-phone-livewire
                                     :customer="$customer"
-                            :key="'$recipientPhone' . $updatingKey "
-                               />
-                           </div>
+                                />
+                            <script>
+                                    var inputElement = document.getElementById('lf-phone-raw');
+                                    var unmaskedValue = $(inputElement).inputmask('unmaskedvalue');
+                                    $(inputElement).inputmask({
+                                        mask: '+38(999)999-99-99',
+                                        placeholder: '+38(___)___-__-__',
+                                        onincomplete: function () {
+                                            inputElement.value = '';
+                                        },
+                                        clearIncomplete: true
+                                    });
+                                    inputElement.value = '';
+                                </script>
+                            </div>
                     </div>
                     <div class="col-xl-3 col-md-6">
                             <livewire:order-meta-blocks.dropdown-payment-type-livewire
