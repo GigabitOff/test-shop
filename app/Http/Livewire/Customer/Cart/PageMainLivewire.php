@@ -442,7 +442,8 @@ class PageMainLivewire extends Component
 
         CustomerRecipient::create($recipientData);
 
-
+        try {
+            DB::beginTransaction();
         // Выполняем обязательный пересчет цен товаров
         $this->prepareProducts(true, true);
         $order = orders()->createOrderFromCart($this->customer, $this->cashbackUsed);
@@ -466,9 +467,7 @@ class PageMainLivewire extends Component
             $order->debt_end_at = Carbon::now()->addDays($receivable->otsrochka_days);
         }
         $order->save();
-        try {
 
-            DB::beginTransaction();
 /*        // Todo: наладить списание кэшбека
 //            if ($this->cashbackUsed) {
 //                cashback()->expenseCashback($this->customer, $this->cashbackUsed);
