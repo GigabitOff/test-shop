@@ -440,7 +440,8 @@ class PageMainLivewire extends Component
             $recipientData['fop_title'] = $payload['recipientFIO'];
         }
 
-        CustomerRecipient::create($recipientData);
+        $recipient = CustomerRecipient::create($recipientData);
+        $payload['recipientId'] = $recipient->id;
 
         try {
             DB::beginTransaction();
