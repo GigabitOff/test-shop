@@ -48,7 +48,6 @@
         </div>
     </div>
     </div>
-    <h5>@lang('custom::site.deferred_goods')</h5>
     @livewire('customer.cart.deferreds-goods',['cashbackUsed' => $cashbackUsed])
     <div class="lk-page__table-after">
         <div class="ms-0">
