@@ -67,7 +67,7 @@ $followPrice = formatMoney($price);
                                 @if ($product->price_sale_show == 0 and $product->price_wholesale != 0)
                                     <s style="text-decoration: none; color: #9FA4B0; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </s>
                                 @else
-                                    <s style="text-decoration: none; color: #9FA4B0; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </s>
+                                    <s style="text-decoration: line-through; color: #6c757d; font-size: 17px;"> {!! formatNbsp(formatMoney($product->price_rrc) . ' ₴') !!} </s>
                                 @endif
                             @else
                                 @if (!is_object($user) and $product->price_sale_show != 0 and $product->price_sale != 0)
