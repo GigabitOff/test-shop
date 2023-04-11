@@ -170,6 +170,9 @@
     div.product-card:not(.--small) div.product-card__brand{
         display:none
     }
+    div.product-card.--small span.product-card__brand{
+        display:none
+    }
     .product-card__sub-price {
         justify-content: center;
         font-weight: 400;
