@@ -492,7 +492,7 @@ class PageMainLivewire extends Component
             $this->revalidateTable = true;
             $this->prepareProducts(false, true);
             $this->emit('eventRefreshPage');
-            $this->updateCartDeletedata();
+           // $this->updateCartDeletedata();
         } catch (\Exception $e) {
             DB::rollBack();
             logger(__METHOD__ . $e->getMessage());

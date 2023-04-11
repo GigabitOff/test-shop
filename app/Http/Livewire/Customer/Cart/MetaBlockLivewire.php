@@ -170,21 +170,18 @@ class MetaBlockLivewire extends Component
         $this->hideValidationErrors = true;
         $this->deliveryValid = collect($this->deliveryData)->filter()->join('');
         $this->validate();
-
-
-      $this->emitUp('eventCreateOrder', [
-                'paymentTypeId' => $this->paymentTypeId,
-                //'contractId' => $this->contractId,
-                'recipientId' => $this->recipientIdTu ?? $this->recipientId,
-                'recipientName' => $this->recipientName,
-                'recipientINN' => $this->recipientINN,
-                'recipientFIO' => $this->recipientFIO,
-                'deliveryType' => $this->deliveryType,
-                'deliveryData' => $this->deliveryData,
-                'comment' => $this->comment,
-                'postpaidSum' => $this->postpaidSum,
-                'phone' => !empty($this->recipientPhone) ? $this->recipientPhone : '',
-
+        $this->emitUp('eventCreateOrder', [
+            'paymentTypeId' => $this->paymentTypeId,
+            //'contractId' => $this->contractId,
+            'recipientId' => !empty($this->recipientIdTu) ? $this->recipientIdTu : $this->recipientId,
+            'recipientName' => $this->recipientName,
+            'recipientINN' => $this->recipientINN,
+            'recipientFIO' => $this->recipientFIO,
+            'deliveryType' => $this->deliveryType,
+            'deliveryData' => $this->deliveryData,
+            'comment' => $this->comment,
+            'postpaidSum' => $this->postpaidSum,
+            'phone' => !empty($this->recipientPhone) ? $this->recipientPhone : '',
         ]);
 
             $this->cleanDelivery();
