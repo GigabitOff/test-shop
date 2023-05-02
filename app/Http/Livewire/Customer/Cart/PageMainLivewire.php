@@ -141,7 +141,6 @@ class PageMainLivewire extends Component
 
         $currentPage = Paginator::resolveCurrentPage($pageName);
 
-        // Сheck for going beyond the pagination so as not to get to an empty page
         $lastPage = max((int)ceil($data->count() / $perPageD), 1);
 
         if ($currentPage > $lastPage) {
@@ -159,7 +158,6 @@ class PageMainLivewire extends Component
         $this->revalidateTable = true;
     }
 
-    /** Return total sum by fields */
 
     protected function totalSumBySpecialPriceField($products, $field)
     {
@@ -181,7 +179,7 @@ class PageMainLivewire extends Component
                 });
         }
 
-        // отключаем товары, которые не являются Персональным предложением, для выбранного КА
+
         if ($this->counterparty) {
             $this->products
                 ->filter->cartChecked
@@ -275,7 +273,6 @@ class PageMainLivewire extends Component
         });
     }
 
-    /** Return an integer with 2 decimal places */
 
     protected function roundedPrice($price)
     {
@@ -352,7 +349,6 @@ class PageMainLivewire extends Component
         $this->cashbackUsed = $this->cashbackToUse;
     }
 
-    /** События */
 
     public function eventCheckAllChanged(bool $checked)
     {
@@ -411,19 +407,12 @@ class PageMainLivewire extends Component
                 ->value('id');
             $payload['deliveryId'] = $last_delivery_address_id;
         }
-        /*
-                    /*    if (!$payload['deliveryId']) {*/
+
         $delivery = new DeliveryAddress();
         $delivery->fill($payload['deliveryData']);
-        //                if ($payload['contractId']
-//                    && $contract = Contract::find($payload['contractId'])) {
-//                    $delivery->owner()->associate($contract);
-//                } else {
-        //  $delivery->owner()->associate($this->customer);
-//                }
+
         $delivery->save();
-        //$payload['deliveryId'] = $delivery->id;
-        // }
+     
 
         $recipientData = [
             'customer_id' => $this->customer->id,
@@ -446,13 +435,10 @@ class PageMainLivewire extends Component
 
         $payload['recipientId'] = $recipient->id;
 
-
-        // Выполняем обязательный пересчет цен товаров
         $this->prepareProducts(true, true);
         $order = orders()->createOrderFromCart($this->customer, $this->cashbackUsed);
         $recipientID =  $payload['recipientId'];
         $order->payment_type_id = $payload['paymentTypeId'];
-        //$order->contract_id = $payload['contractId'] ?? null;
         $order->type_payment = $paymentType->code ?? null;
         $order->delivery_address_id = $delivery->id;
         $order->recipient_id = $recipientID;
@@ -470,32 +456,26 @@ class PageMainLivewire extends Component
             $order->debt_end_at = Carbon::now()->addDays($receivable->otsrochka_days);
         }
         $order->save();
-
-/*        // Todo: наладить списание кэшбека
-//            if ($this->cashbackUsed) {
-//                cashback()->expenseCashback($this->customer, $this->cashbackUsed);
-//            }*/
         DB::commit();
-//            if (orders()->hasOrderProductAmountVerifiable($order)) {
         $this->dispatchBrowserEvent('flashMessage', [
             'title' => __('custom::site.order'),
             'message' => __('custom::site.order_save_amount_verify'),
             'state' => 'success'
         ]);
-//            } else {
+
         $this->dispatchBrowserEvent('flashMessage', [
             'title' => __('custom::site.order'),
             'message' => __('custom::site.order_confirmed_thanks'),
             'state' => 'success'
         ]);
-//            }
+
             $this->recalculateCashbackToUse();
             $this->reset(['cashbackUsed', 'cashbackToUse']);
             $this->emit('eventOrderCreateSuccess');
             $this->revalidateTable = true;
             $this->prepareProducts(false, true);
             $this->emit('eventRefreshPage');
-            $this->updateCartDeletedata();
+   
         } catch (\Exception $e) {
             DB::rollBack();
             logger(__METHOD__ . $e->getMessage());
@@ -509,7 +489,7 @@ class PageMainLivewire extends Component
 
     public function updateCartDeletedata()
     {
-        $ids = cart()->checkedProductIds()->all(); // получаем массив идентификаторов из коллекции
+        $ids = cart()->checkedProductIds()->all();
 
         DB::table('cart_product')
             ->whereIn('product_id', $ids)
@@ -525,7 +505,6 @@ class PageMainLivewire extends Component
         $this->dispatchBrowserEvent('updateFooData');
     }
 
-    /** Service Functions */
     protected function recalculateCashbackToUse()
     {
         $maxCashback = (int)$this->calculateCashbackMaxToUse();
@@ -560,11 +539,6 @@ class PageMainLivewire extends Component
         return $status ?? false;
     }
 
-    /**
-     * Поиск устаревших и не валидных персональных предложений
-     * Восстановление товара персонального предложения как обычного
-     * @return void
-     */
     protected function invalidateNonValidPersonalOffers()
     {
         $cartInvalidated = false;

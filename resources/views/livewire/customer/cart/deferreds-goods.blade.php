@@ -165,6 +165,5 @@
             @this.changeQuantity(productId, value);
             }
         }
-        //# sourceURL=customer.documents.index-page-main-livewire.js
     </script>
 @endpush

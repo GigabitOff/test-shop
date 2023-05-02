@@ -39,14 +39,15 @@
             <div class="invalid-feedback" style="display:block;">{{$message}}</div>
             @enderror
         </div>
-        <div class="form-group">
-            <input class="form-control" type="text"
-                   wire:model.lazy="house"
-                   placeholder="@lang('custom::site.house')">
+    <div class="form-group">
+        <input class="form-control" type="text" wire:model.lazy="house" placeholder="@lang('custom::site.house')">
+{{--        @if($flagDataCreateOrder)--}}
             @error('data.dom')
-            <div class="invalid-feedback" style="display:block;">{{$message}}</div>
+            <div class="invalid-feedback" style="display:block;">{{ $message }}</div>
             @enderror
-        </div>
+      {{--  @endif--}}
+    </div>
+
         <div class="form-group">
             <input class="form-control" type="text"
                    wire:model.lazy="korpus"

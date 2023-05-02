@@ -167,20 +167,7 @@
         var $input = $(input);
             var max = $input.attr('data-max');
             var value = $input.val();
-
-       // setTimeout(() => {
-
-        //    if ($(input).val() > max) {
-       //         $input.val(max);
-        //        value = max;
-
-        //    }
-
             @this.changeProductQuantity(productId, value,max);
-      // }, 700);
-
-
-
     }
     document.cartProduct = {
         changeQuantity: function (input, productId) {

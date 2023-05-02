@@ -35,6 +35,7 @@ class MetaBlockLivewire extends Component
     public int $deliveryVars = 0;
     public ?int $deliveryTypeIdDu = 0;
     public ?int $recipientIdTu = 0;
+    public string $re = '';
 
 
     protected bool $hideValidationErrors = true;
@@ -49,7 +50,9 @@ class MetaBlockLivewire extends Component
         'eventClearOrderDelivery',
         'eventOrderCreateSuccess',
         'eventPay',
+        'eventTestTest',
     ];
+
 
     /** Event Handlers */
     public function eventPay($type)
@@ -70,6 +73,13 @@ class MetaBlockLivewire extends Component
     public function refreshComponent($paytype)
     {
         $this->updateCount = $paytype;
+    }
+
+    public function eventTestTest()
+    {
+
+        return $this->re = '123456789';
+
     }
 
     public function render()
@@ -105,7 +115,6 @@ class MetaBlockLivewire extends Component
     public function eventSetOrderPaymentType($id, $name)
     {
 
-       // $this->eventSetOrderDeliveryType($id, $name);
         $this->paymentTypeId = $id;
         $this->paymentTypeName = $name;
     }
@@ -169,10 +178,9 @@ class MetaBlockLivewire extends Component
 
         $this->hideValidationErrors = true;
         $this->deliveryValid = collect($this->deliveryData)->filter()->join('');
-        //$this->validate();
+        $this->validate();
         $this->emitUp('eventCreateOrder', [
             'paymentTypeId' => $this->paymentTypeId,
-            //'contractId' => $this->contractId,
             'recipientId' => !empty($this->recipientIdTu) ? $this->recipientIdTu : $this->recipientId,
             'recipientName' => $this->recipientName,
             'recipientINN' => $this->recipientINN,
@@ -186,6 +194,7 @@ class MetaBlockLivewire extends Component
 
             $this->cleanDelivery();
             $this->cleanComment();
+
 
     }
 
@@ -216,10 +225,6 @@ class MetaBlockLivewire extends Component
             'paymentTypeId' => 'required',
             'deliveryValid' => 'required',
         ];
-
-//        if ($this->customer->isCustomerLegal) {
-//            $rules['contractId'] = 'required';
-//        }
 
         if ($this->customer->isCustomerSimple && $this->isPaymentTypeInvoice()) {
             $rules['recipientNa'] = 'required';

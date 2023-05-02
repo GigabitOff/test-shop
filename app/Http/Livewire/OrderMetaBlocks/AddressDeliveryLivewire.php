@@ -33,6 +33,10 @@ class AddressDeliveryLivewire extends Component
     public ?string $house = null;
     public ?string $korpus = null;
     public ?string $office = null;
+    public string $re = '12345';
+
+    public ?bool $flagDataCreateOrder = false;
+
 
     protected $listeners = [
         'eventSetOrderContract',
@@ -45,8 +49,10 @@ class AddressDeliveryLivewire extends Component
         'data.dom' => 'required',
     ];
 
+
     public function mount()
     {
+        //no
         $this->initFilterable();
         $this->initSavedAddresses();
     }
@@ -60,6 +66,7 @@ class AddressDeliveryLivewire extends Component
 
     public function updated($field, $value)
     {
+
         $this->updatedFilterable($field, $value);
 
         if (in_array($field, ['addressFull','street', 'house', 'korpus','office', 'departureAt'])) {
@@ -75,7 +82,7 @@ class AddressDeliveryLivewire extends Component
 
     protected function onSetFilterableSaved($id, $value)
     {
-
+     //no
         if ($this->isDeliverySaved()) {
             $this->updateDataFromSaved($id);
         } else {
@@ -87,12 +94,13 @@ class AddressDeliveryLivewire extends Component
 
     protected function onResetFilterableSaved()
     {
+       //no
         $this->emit('eventClearOrderDelivery');
     }
 
     protected function onUpdatingFilterableCityValue($value)
     {
-
+       //no
         if ($this->filterableCity['id']) {
             $this->emit('eventClearOrderDelivery');
         }
@@ -107,18 +115,20 @@ class AddressDeliveryLivewire extends Component
 
     protected function onResetFilterableCity()
     {
+
         $this->trySendAddress();
     }
 
     public function messages(): array
     {
         return [
-            'data.city_id.required' => __('custom::site.choice_value_from_list'),
+           'data.city_id.required' => __('custom::site.choice_value_from_list'),
         ];
     }
 
     public function validationAttributes(): array
     {
+       //no
         return [
             'data.address_full' => __('custom::site.address'),
            'data.street_name' => __('custom::site.street'),
@@ -131,6 +141,7 @@ class AddressDeliveryLivewire extends Component
     /** Event Handlers */
     public function eventSetOrderContract($id, $name)
     {
+       //no
         if ($contract = Contract::find((int)$id)) {
             $this->addressOwner = $contract;
             $this->reset('deliveryAddressId');
@@ -145,6 +156,7 @@ class AddressDeliveryLivewire extends Component
 
     public function eventReceiveDeliveryDataSaved()
     {
+       //no
         if ($this->isDeliverySaved()) {
             $this->emit('eventSetOrderDeliveryData', $this->data);
         }
@@ -153,20 +165,23 @@ class AddressDeliveryLivewire extends Component
     /** Service Functions */
     protected function trySendAddress()
     {
+        //no
         if ($this->isDeliveryNew()) {
             $this->updateDataFromValues();
             try {
-                $this->validate();
+               // $this->validate();
             } catch (\Exception $e) {
                 $this->emit('eventClearOrderDelivery');
                 throw $e;
             }
         }
+
         $this->emit('eventSetOrderDeliveryData', $this->data);
     }
 
     protected function initSavedAddresses()
     {
+       //no
         $savedId = 0;
         if ($this->deliveryAddressId) {
             $savedId = $this->deliveryAddressId;
@@ -187,7 +202,7 @@ class AddressDeliveryLivewire extends Component
 
     protected function updateDataFromSaved($id)
     {
-
+        //no
         if ($address = DeliveryAddress::find($id)) {
             $this->data = [
                 'delivery_id' => $id,
@@ -205,6 +220,7 @@ class AddressDeliveryLivewire extends Component
 
     protected function updateDataFromValues()
     {
+    //no
         $this->data = [
             'city_id' => $this->filterableCity['id'],
             'city_name' => $this->filterableCity['value'],
@@ -219,6 +235,7 @@ class AddressDeliveryLivewire extends Component
 
     protected function setFilterableSavedList(): array
     {
+      //no
         if ($this->deliveryType && $this->addressOwner) {
             $saved = $this->addressOwner->deliveryAddresses()
                 ->where('delivery_type_id', $this->deliveryType->id)
